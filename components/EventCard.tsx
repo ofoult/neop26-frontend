@@ -89,7 +89,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
           </div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, gap: 12 }}>
             <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,.82)', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="pin" size={14} /> {ev.city} · {fmtDate(ev.date)}
+              <Icon name="pin" size={14} /> {[ev.city, ev.country].filter(Boolean).join(', ')} · {fmtDate(ev.date)}
             </div>
             <div
               style={{

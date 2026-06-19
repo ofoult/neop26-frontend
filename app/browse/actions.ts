@@ -12,6 +12,10 @@ import type { CategoryId, NeopEvent } from '@/lib/types';
 export async function loadMoreEvents(
   cat: CategoryId | null,
   page: number,
+  query?: string,
+  where?: string,
+  dateFrom?: string,
+  dateTo?: string,
 ): Promise<{ events: NeopEvent[]; total: number; page: number }> {
   const catObj = cat ? categoryById(cat) : undefined;
   // Safeguard: an unmapped category (no Gigsberg type) must never fall through
@@ -20,6 +24,10 @@ export async function loadMoreEvents(
     return { events: [], total: 0, page };
   }
   const result = await fetchEvents({
+    q: query?.trim() || undefined,
+    where: where?.trim() || undefined,
+    dateFrom: dateFrom || undefined,
+    dateTo: dateTo || undefined,
     typeId: catObj?.typeId ?? undefined,
     page,
     perPage: BROWSE_PER_PAGE,

@@ -67,7 +67,7 @@ export function Nav() {
           ))}
         </nav>
         <Link
-          href="/browse"
+          href="/browse?focus=1"
           className="focus-ring"
           style={{
             marginLeft: 'auto',

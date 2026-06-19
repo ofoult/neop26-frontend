@@ -48,6 +48,14 @@ export interface Category {
   typeId: number | null;
 }
 
+export interface LocationSuggestion {
+  type: 'city' | 'country';
+  value: string;
+  /** For cities: the country it belongs to. */
+  country?: string | null;
+  count: number;
+}
+
 export interface NeopEvent {
   id: string;
   title: string;

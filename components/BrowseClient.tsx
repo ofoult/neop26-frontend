@@ -21,10 +21,20 @@ export function BrowseClient({
   events,
   total,
   activeCat,
+  query,
+  where,
+  dateFrom,
+  dateTo,
+  autoFocus,
 }: {
   events: NeopEvent[];
   total: number;
   activeCat: CategoryId | null;
+  query?: string;
+  where?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  autoFocus?: boolean;
 }) {
   const [sort, setSort] = useState<SortKey>('trending');
   const catObj = activeCat ? categoryById(activeCat) : undefined;
@@ -53,7 +63,7 @@ export function BrowseClient({
     setLoading(true);
     try {
       const next = page + 1;
-      const res = await loadMoreEvents(activeCat, next);
+      const res = await loadMoreEvents(activeCat, next, query, where, dateFrom, dateTo);
       setItems((prev) => {
         const seen = new Set(prev.map((e) => e.id));
         return [...prev, ...res.events.filter((e) => !seen.has(e.id))];
@@ -66,7 +76,7 @@ export function BrowseClient({
       loadingRef.current = false;
       setLoading(false);
     }
-  }, [activeCat, page, done, errored]);
+  }, [activeCat, page, done, errored, query, where, dateFrom, dateTo]);
 
   // Observe the sentinel; fetch the next page when it nears the viewport.
   useEffect(() => {
@@ -101,10 +111,17 @@ export function BrowseClient({
           <Link href="/" style={{ color: 'var(--dim)' }}>
             Home
           </Link>{' '}
-          / Browse{catObj ? ` / ${catObj.label}` : ''}
+          / Browse{query || where ? ' / Search' : catObj ? ` / ${catObj.label}` : ''}
         </div>
         <h1 className="serif" style={{ fontSize: 'clamp(36px,5vw,58px)', margin: 0, lineHeight: 1 }}>
-          {catObj ? (
+          {query || where ? (
+            <>
+              Results for{' '}
+              <span className="ital" style={{ color: 'var(--dim)' }}>
+                “{[query, where && `in ${where}`].filter(Boolean).join(' ')}”
+              </span>
+            </>
+          ) : catObj ? (
             catObj.label
           ) : (
             <>
@@ -118,7 +135,14 @@ export function BrowseClient({
       </div>
 
       <div style={{ marginBottom: 22 }}>
-        <SearchBar compact />
+        <SearchBar
+          compact
+          defaultQuery={query ?? ''}
+          defaultWhere={where ?? ''}
+          defaultFrom={dateFrom ?? ''}
+          defaultTo={dateTo ?? ''}
+          autoFocus={autoFocus}
+        />
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}>
@@ -166,7 +190,9 @@ export function BrowseClient({
       </div>
       {sorted.length === 0 ? (
         <div style={{ color: 'var(--dim)', fontSize: 16, padding: '40px 0' }}>
-          No events found in this category.
+          {query || where
+            ? `No events match “${[query, where && `in ${where}`].filter(Boolean).join(' ')}”.`
+            : 'No events found in this category.'}
         </div>
       ) : (
         <>

@@ -98,6 +98,14 @@ export function adaptDetail(item: ApiEventDetail): NeopEvent {
 // ---------- fetchers ----------
 
 export interface EventQuery {
+  /** Free-text search (full-text + typo-tolerant fallback, server-side). */
+  q?: string;
+  /** Location term, merged into the full-text search server-side. */
+  where?: string;
+  /** Inclusive event_date lower bound, YYYY-MM-DD. */
+  dateFrom?: string;
+  /** Inclusive event_date upper bound, YYYY-MM-DD. */
+  dateTo?: string;
   city?: string;
   country?: string;
   typeId?: number | null;
@@ -124,6 +132,10 @@ export interface EventsResult {
 
 export async function fetchEvents(q: EventQuery = {}): Promise<EventsResult> {
   const url = buildUrl('/events', {
+    q: q.q,
+    where: q.where,
+    date_from: q.dateFrom,
+    date_to: q.dateTo,
     city: q.city,
     country: q.country,
     type_id: q.typeId ?? undefined,
