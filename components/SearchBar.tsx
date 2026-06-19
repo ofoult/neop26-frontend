@@ -105,6 +105,17 @@ export function SearchBar({
         pad={fieldPad}
         flex={1}
       />
+      <Divider />
+      <DateRangeField
+        from={from}
+        to={to}
+        onChange={(f, t) => {
+          setFrom(f);
+          setTo(t);
+        }}
+        pad={fieldPad}
+        flex={1}
+      />
       <Btn type="submit" icon="search" style={{ flexShrink: 0 }}>
         Search
       </Btn>
@@ -295,6 +306,171 @@ function SearchField({
             </li>
           ))}
         </ul>
+      )}
+    </div>
+  );
+}
+
+// Formats a YYYY-MM-DD date as "Jun 20" without timezone drift.
+function fmtDay(d: string): string {
+  const [y, m, day] = d.split('-').map(Number);
+  if (!y || !m || !day) return d;
+  return new Date(y, m - 1, day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function rangeLabel(from: string, to: string): string {
+  if (from && to) return `${fmtDay(from)} – ${fmtDay(to)}`;
+  if (from) return `From ${fmtDay(from)}`;
+  if (to) return `Until ${fmtDay(to)}`;
+  return 'Any dates';
+}
+
+/** "When" field: a popover with start/end date inputs (dates only, no time). */
+function DateRangeField({
+  from,
+  to,
+  onChange,
+  pad,
+  flex,
+}: {
+  from: string;
+  to: string;
+  onChange: (from: string, to: string) => void;
+  pad: string;
+  flex: number;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Close when clicking outside the field/popover.
+  useEffect(() => {
+    if (!open) return;
+    const onDocDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', onDocDown);
+    return () => document.removeEventListener('mousedown', onDocDown);
+  }, [open]);
+
+  const hasValue = Boolean(from || to);
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '9px 11px',
+    borderRadius: 9,
+    border: '1px solid var(--border)',
+    background: 'var(--surface-2)',
+    color: 'var(--text)',
+    fontSize: 14,
+    colorScheme: 'dark', // dark native calendar popup
+  };
+  const dateLabel: React.CSSProperties = {
+    display: 'block',
+    fontSize: 11,
+    color: 'var(--faint)',
+    fontWeight: 600,
+    textTransform: 'uppercase',
+    letterSpacing: '0.06em',
+    marginBottom: 5,
+  };
+
+  return (
+    <div ref={ref} style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 11, padding: pad, flex, minWidth: 0 }}>
+      <Icon name="cal" size={18} style={{ color: 'var(--faint)', flexShrink: 0 }} />
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        style={{ textAlign: 'left', background: 'transparent', border: 'none', padding: 0, minWidth: 0, flex: 1, cursor: 'pointer' }}
+      >
+        <span style={{ display: 'block', fontSize: 11, color: 'var(--faint)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          When
+        </span>
+        <span
+          style={{
+            display: 'block',
+            fontSize: 15,
+            color: hasValue ? 'var(--text)' : 'var(--dim)',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {rangeLabel(from, to)}
+        </span>
+      </button>
+
+      {open && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 16px)',
+            right: 0,
+            width: 320,
+            padding: 16,
+            background: '#12121b',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid var(--border-2)',
+            borderRadius: 16,
+            boxShadow: '0 24px 60px -20px rgba(0,0,0,.7)',
+            zIndex: 60,
+          }}
+        >
+          <div style={{ display: 'flex', gap: 12 }}>
+            <label style={{ flex: 1 }}>
+              <span style={dateLabel}>Start</span>
+              <input
+                type="date"
+                value={from}
+                max={to || undefined}
+                onChange={(e) => onChange(e.target.value, to)}
+                style={inputStyle}
+              />
+            </label>
+            <label style={{ flex: 1 }}>
+              <span style={dateLabel}>End</span>
+              <input
+                type="date"
+                value={to}
+                min={from || undefined}
+                onChange={(e) => onChange(from, e.target.value)}
+                style={inputStyle}
+              />
+            </label>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 14 }}>
+            <button
+              type="button"
+              onClick={() => onChange('', '')}
+              disabled={!hasValue}
+              style={{
+                fontSize: 13.5,
+                fontWeight: 600,
+                color: hasValue ? 'var(--dim)' : 'var(--faint)',
+                background: 'transparent',
+                border: 'none',
+                cursor: hasValue ? 'pointer' : 'default',
+                padding: '6px 4px',
+              }}
+            >
+              Clear
+            </button>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              style={{
+                fontSize: 13.5,
+                fontWeight: 600,
+                color: 'var(--text)',
+                background: 'var(--surface-2)',
+                border: '1px solid var(--border)',
+                borderRadius: 999,
+                cursor: 'pointer',
+                padding: '8px 18px',
+              }}
+            >
+              Done
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

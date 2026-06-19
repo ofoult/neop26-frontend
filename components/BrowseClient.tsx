@@ -17,6 +17,19 @@ const SORTS: [SortKey, string][] = [
   ['date', 'Date'],
 ];
 
+// Human label for a YYYY-MM-DD date range, e.g. "Jun 20 – Jun 28".
+function formatWhenLabel(from?: string, to?: string): string {
+  const fmt = (d: string) => {
+    const [y, m, day] = d.split('-').map(Number);
+    if (!y || !m || !day) return d;
+    return new Date(y, m - 1, day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+  if (from && to) return `${fmt(from)} – ${fmt(to)}`;
+  if (from) return `from ${fmt(from)}`;
+  if (to) return `until ${fmt(to)}`;
+  return '';
+}
+
 export function BrowseClient({
   events,
   total,
@@ -104,6 +117,15 @@ export function BrowseClient({
     return list;
   }, [items, sort]);
 
+  const searching = Boolean(query || where || dateFrom || dateTo);
+  const searchLabel = [
+    query,
+    where && `in ${where}`,
+    formatWhenLabel(dateFrom, dateTo),
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '32px 28px 0' }}>
       <div style={{ marginBottom: 28 }}>
@@ -111,14 +133,14 @@ export function BrowseClient({
           <Link href="/" style={{ color: 'var(--dim)' }}>
             Home
           </Link>{' '}
-          / Browse{query || where ? ' / Search' : catObj ? ` / ${catObj.label}` : ''}
+          / Browse{searching ? ' / Search' : catObj ? ` / ${catObj.label}` : ''}
         </div>
         <h1 className="serif" style={{ fontSize: 'clamp(36px,5vw,58px)', margin: 0, lineHeight: 1 }}>
-          {query || where ? (
+          {searching ? (
             <>
               Results for{' '}
               <span className="ital" style={{ color: 'var(--dim)' }}>
-                “{[query, where && `in ${where}`].filter(Boolean).join(' ')}”
+                “{searchLabel}”
               </span>
             </>
           ) : catObj ? (
@@ -190,9 +212,7 @@ export function BrowseClient({
       </div>
       {sorted.length === 0 ? (
         <div style={{ color: 'var(--dim)', fontSize: 16, padding: '40px 0' }}>
-          {query || where
-            ? `No events match “${[query, where && `in ${where}`].filter(Boolean).join(' ')}”.`
-            : 'No events found in this category.'}
+          {searching ? `No events match “${searchLabel}”.` : 'No events found in this category.'}
         </div>
       ) : (
         <>
