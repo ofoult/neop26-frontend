@@ -14,6 +14,9 @@ import { Img } from './Img';
 export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide?: boolean }) {
   const [h, setH] = useState(false);
   const cat = categoryById(ev.category);
+  // Cap the entrance stagger so infinitely-scrolled cards (high i) don't sit
+  // invisible for seconds — that delay would leave a tall blank gap at the bottom.
+  const animationDelay = `${Math.min(i, 11) * 60}ms`;
 
   return (
     <Link
@@ -21,7 +24,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
       className="focus-ring up"
-      style={{ textAlign: 'left', display: 'block', width: '100%', animationDelay: `${i * 60}ms` }}
+      style={{ textAlign: 'left', display: 'block', width: '100%', animationDelay }}
     >
       <div
         style={{

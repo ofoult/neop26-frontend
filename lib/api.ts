@@ -12,6 +12,9 @@ export const API_BASE = (
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3001'
 ).replace(/\/$/, '');
 
+/** Page size used by the browse grid (initial SSR load + infinite scroll). */
+export const BROWSE_PER_PAGE = 48;
+
 // ---------- adapter helpers ----------
 
 function toNumber(v: number | string | null | undefined): number | null {

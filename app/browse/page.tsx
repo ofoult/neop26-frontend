@@ -1,5 +1,5 @@
 import { BrowseClient } from '@/components/BrowseClient';
-import { fetchEvents } from '@/lib/api';
+import { BROWSE_PER_PAGE, fetchEvents } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
 import type { CategoryId } from '@/lib/types';
 
@@ -17,9 +17,9 @@ export default async function BrowsePage({
   // the returned page (the result count reflects the real catalogue total).
   const result = await fetchEvents({
     typeId: cat?.typeId ?? undefined,
-    perPage: 48,
+    perPage: BROWSE_PER_PAGE,
     revalidate,
-  }).catch(() => ({ events: [], total: 0, page: 1, perPage: 48 }));
+  }).catch(() => ({ events: [], total: 0, page: 1, perPage: BROWSE_PER_PAGE }));
 
   return <BrowseClient events={result.events} total={result.total} activeCat={activeCat} />;
 }
