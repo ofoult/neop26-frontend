@@ -38,8 +38,19 @@ export function SearchBar({
   const [to, setTo] = useState(defaultTo);
   const whatRef = useRef<HTMLInputElement>(null);
 
+  // One-shot focus when arriving from the nav search (?focus=1). Focus without
+  // scrolling, then strip the param so it can't linger and keep re-grabbing
+  // focus on later re-renders. Reads window.location to avoid useSearchParams,
+  // which would de-opt the static homepage that also renders this bar.
   useEffect(() => {
-    if (autoFocus) whatRef.current?.focus();
+    if (!autoFocus) return;
+    whatRef.current?.focus({ preventScroll: true });
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('focus')) {
+      url.searchParams.delete('focus');
+      router.replace(`${url.pathname}${url.search}`, { scroll: false });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoFocus]);
 
   function submit(nextWhere = where) {
