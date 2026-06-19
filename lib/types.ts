@@ -38,13 +38,7 @@ export interface ApiEventsResponse {
 
 // ===== neop domain model (what the UI renders) =====
 
-export type CategoryId =
-  | 'music'
-  | 'festivals'
-  | 'sports'
-  | 'arts'
-  | 'comedy'
-  | 'conferences';
+export type CategoryId = 'music' | 'festivals' | 'sports' | 'arts' | 'comedy';
 
 export interface Category {
   id: CategoryId;

@@ -53,7 +53,6 @@ function buildBlurb(e: {
     sports: `${e.artist} live at ${where} — witness it from the stands.`,
     arts: `${e.artist} comes to ${where} in a performance to remember.`,
     comedy: `${e.artist} headlines ${where} for a night of stand-up.`,
-    conferences: `${e.artist} convenes at ${where}.`,
   };
   return `${intros[e.category]} Tickets are fully transferable and backed by neop's 100% buyer guarantee — if anything goes wrong, you're covered.`;
 }
