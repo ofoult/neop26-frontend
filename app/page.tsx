@@ -41,7 +41,6 @@ export default async function HomePage() {
   const priced = events.filter((e) => e.hot);
   const rest = events.filter((e) => !e.hot);
   const trending = [...priced, ...rest].slice(0, 5);
-  const feat = trending[0];
   // Weekend strip: events not already shown in the trending grid.
   const trendingIds = new Set(trending.map((e) => e.id));
   const weekend = events.filter((e) => !trendingIds.has(e.id)).slice(0, 6);
@@ -49,7 +48,7 @@ export default async function HomePage() {
 
   return (
     <div>
-      <Hero feat={feat} />
+      <Hero events={trending} />
       <CityMarquee />
 
       {/* categories */}

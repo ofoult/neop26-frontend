@@ -127,6 +127,11 @@ img {
   animation: neopUp 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
+/* Hero background crossfade when the featured event rotates. */
+.hero-fade {
+  animation: neopFade 0.8s ease both;
+}
+
 /* image fallback gradient */
 .imgwrap {
   position: relative;
