@@ -64,6 +64,19 @@ export function currencyFor(country: string | null | undefined): string {
   return '$';
 }
 
+// Listings carry an ISO currency code (e.g. "USD", "EUR"), unlike the event
+// feed. Map common codes to a display symbol, falling back to the code itself.
+const SYMBOL_BY_CODE: Record<string, string> = {
+  USD: '$', CAD: '$', AUD: '$', NZD: '$',
+  EUR: '€', GBP: '£', JPY: '¥', ILS: '₪',
+  CHF: 'CHF ', SEK: 'kr ', NOK: 'kr ', DKK: 'kr ', PLN: 'zł ', CZK: 'Kč ',
+};
+
+export function currencySymbol(code: string | null | undefined, fallback = '$'): string {
+  if (!code) return fallback;
+  return SYMBOL_BY_CODE[code.toUpperCase()] ?? `${code} `;
+}
+
 /** Formats a price with its currency symbol, or a graceful fallback when unknown. */
 export function fmtPrice(currency: string, price: number | null): string {
   if (price == null) return 'Price on request';

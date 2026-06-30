@@ -36,6 +36,29 @@ export interface ApiEventsResponse {
   items: ApiEventListItem[];
 }
 
+/** One ticket category with aggregated pricing, from `GET /events/:id/listings`. */
+export interface ApiListingCategory {
+  id: string;
+  name: string;
+  fromPrice: number;
+  maxPrice: number;
+  currency: string | null;
+  available: number;
+  /** Max seats buyable in one order (the checkoutUrl listing's quantity). */
+  maxQuantity: number;
+  /** Split rule of the checkout listing: "any" | "none" | "pairs" | "dont_leave_one" | … */
+  splitType: string | null;
+  listings: number;
+  ticketTypes: string[];
+  checkoutUrl: string | null;
+}
+
+export interface ApiEventListings {
+  eventId: number;
+  total: number;
+  categories: ApiListingCategory[];
+}
+
 // ===== neop domain model (what the UI renders) =====
 
 export type CategoryId = 'music' | 'festivals' | 'sports' | 'arts' | 'comedy';

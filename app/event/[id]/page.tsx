@@ -5,7 +5,7 @@ import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { SecHead } from '@/components/SecHead';
 import { TicketPicker } from '@/components/TicketPicker';
-import { fetchEvent, fetchEvents } from '@/lib/api';
+import { fetchEvent, fetchEventListings, fetchEvents } from '@/lib/api';
 import { CATEGORIES, categoryById } from '@/lib/categories';
 import { fmtDateLong, fmtTime } from '@/lib/format';
 
@@ -17,7 +17,10 @@ export default async function EventPage({ params }: { params: { id: string } }) 
 
   const cat = categoryById(ev.category);
   const typeId = CATEGORIES.find((c) => c.id === ev.category)?.typeId ?? undefined;
-  const moreRes = await fetchEvents({ typeId, perPage: 8, revalidate }).catch(() => null);
+  const [moreRes, categories] = await Promise.all([
+    fetchEvents({ typeId, perPage: 8, revalidate }).catch(() => null),
+    fetchEventListings(params.id, revalidate),
+  ]);
   const more = (moreRes?.events ?? []).filter((e) => e.id !== ev.id).slice(0, 3);
 
   return (
@@ -193,7 +196,7 @@ export default async function EventPage({ params }: { params: { id: string } }) 
         </div>
 
         {/* right — ticket picker (sticky) */}
-        <TicketPicker ev={ev} />
+        <TicketPicker ev={ev} categories={categories} />
       </div>
 
       {/* more like this */}

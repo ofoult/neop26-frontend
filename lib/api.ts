@@ -2,8 +2,10 @@ import { categoryFromType } from './categories';
 import { currencyFor } from './format';
 import type {
   ApiEventDetail,
+  ApiEventListings,
   ApiEventListItem,
   ApiEventsResponse,
+  ApiListingCategory,
   CategoryId,
   NeopEvent,
 } from './types';
@@ -160,4 +162,19 @@ export async function fetchEvent(id: string, revalidate = 60): Promise<NeopEvent
   if (!res.ok) throw new Error(`Failed to load event ${id} (${res.status})`);
   const data = (await res.json()) as ApiEventDetail;
   return adaptDetail(data);
+}
+
+/**
+ * Live ticket prices grouped by category for an event. Returns [] on any
+ * failure so the detail page can gracefully fall back to its other pricing.
+ */
+export async function fetchEventListings(id: string, revalidate = 120): Promise<ApiListingCategory[]> {
+  try {
+    const res = await fetch(buildUrl(`/events/${id}/listings`, {}), { next: { revalidate } });
+    if (!res.ok) return [];
+    const data = (await res.json()) as ApiEventListings;
+    return data.categories ?? [];
+  } catch {
+    return [];
+  }
 }
