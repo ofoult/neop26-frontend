@@ -78,7 +78,7 @@ export function TicketPicker({ ev, categories }: { ev: NeopEvent; categories?: A
         </p>
       </div>
       <div style={{ padding: '20px 22px 22px' }}>
-        <Btn full size="lg" iconR="arrow" href={ev.url}>
+        <Btn full size="lg" iconR="arrow" href={ev.url} newTab>
           Get tickets
         </Btn>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 14, fontSize: 13, color: 'var(--faint)' }}>
@@ -281,7 +281,7 @@ function RealTickets({ ev, categories }: { ev: NeopEvent; categories: ApiListing
                 {subtotal}
               </span>
             </div>
-            <Btn full size="lg" iconR="arrow" href={href}>
+            <Btn full size="lg" iconR="arrow" href={href} newTab>
               Get {qty} {qty === 1 ? 'ticket' : 'tickets'}
             </Btn>
           </>

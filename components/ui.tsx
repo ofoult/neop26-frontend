@@ -46,6 +46,8 @@ interface BtnProps {
   iconR?: IconName;
   style?: CSSProperties;
   type?: 'button' | 'submit';
+  /** Open the href in a new tab (for external links like checkout). */
+  newTab?: boolean;
 }
 
 export function Btn({
@@ -59,6 +61,7 @@ export function Btn({
   iconR,
   style,
   type = 'button',
+  newTab,
 }: BtnProps) {
   const [h, setH] = useState(false);
   const sizes: Record<BtnSize, { p: string; f: number }> = {
@@ -106,6 +109,8 @@ export function Btn({
       <Link
         href={href}
         className="focus-ring"
+        target={newTab ? '_blank' : undefined}
+        rel={newTab ? 'noopener noreferrer' : undefined}
         onMouseEnter={() => setH(true)}
         onMouseLeave={() => setH(false)}
         style={styleAll}
