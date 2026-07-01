@@ -182,6 +182,8 @@ function RealTickets({ ev, categories }: { ev: NeopEvent; categories: ApiListing
           // Once a category is active, only its stepper is shown.
           const showStepper = activeId === null || isActive;
           const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
+          // Most seats buyable in one order (the largest valid count for the rule).
+          const maxSel = counts.length ? counts[counts.length - 1] : 0;
           const rowQty = isActive ? qty : 0;
           const canInc = counts.length > 0 && (!isActive || counts.indexOf(qty) < counts.length - 1);
           const canDec = isActive; // removing steps down or deselects
@@ -220,8 +222,13 @@ function RealTickets({ ev, categories }: { ev: NeopEvent; categories: ApiListing
                   {desc}
                   {hint && <span style={{ color: 'var(--faint)' }}> · {hint}</span>}
                 </span>
-                <span style={{ fontSize: 12.5, fontWeight: 600, color: avail.hot ? 'var(--accent-2)' : 'var(--faint)' }}>
-                  {cat.available} available
+                <span style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                  <span style={{ fontSize: 12.5, fontWeight: 600, color: avail.hot ? 'var(--accent-2)' : 'var(--faint)' }}>
+                    {cat.available} available
+                  </span>
+                  <span style={{ display: 'block', fontSize: 11.5, color: 'var(--faint)', marginTop: 2 }}>
+                    max {maxSel} / order
+                  </span>
                 </span>
               </div>
               {showStepper && (
