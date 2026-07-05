@@ -52,15 +52,29 @@ export function TicketPicker({
   ev,
   categories,
   onHoverCategory,
+  highlightedCategory,
+  seatSelection,
 }: {
   ev: NeopEvent;
   categories?: ApiListingCategory[];
   /** Fired with the hovered category's name (or null on leave) — drives the seating-plan highlight. */
   onHoverCategory?: (name: string | null) => void;
+  /** Name of the category whose seat is currently hovered on the seating plan — effects the matching row. */
+  highlightedCategory?: string | null;
+  /** Owned by the parent so a seat click on the seating plan can drive it too. */
+  seatSelection: SeatSelection;
 }) {
   // Real per-category pricing from the Gigsberg listing search.
   if (categories && categories.length > 0) {
-    return <RealTickets ev={ev} categories={categories} onHoverCategory={onHoverCategory} />;
+    return (
+      <RealTickets
+        ev={ev}
+        categories={categories}
+        onHoverCategory={onHoverCategory}
+        highlightedCategory={highlightedCategory}
+        seatSelection={seatSelection}
+      />
+    );
   }
 
   // No per-category listings: check out via the event's general Gigsberg URL.
@@ -113,7 +127,7 @@ function availabilityLabel(available: number): { text: string; hot: boolean } {
  *   pairs          → even counts 2, 4 … ≤ Q
  *   dont_leave_one → 1 … Q, except Q−1 (can't leave a single seat behind)
  */
-function validSeatCounts(splitType: string | null, max: number): number[] {
+export function validSeatCounts(splitType: string | null, max: number): number[] {
   const q = Math.max(0, Math.floor(max || 0));
   if (q < 1) return [];
   switch (splitType) {
@@ -146,27 +160,25 @@ function splitHint(splitType: string | null): string {
   }
 }
 
-/** Real ticket categories backed by live Gigsberg listings. */
-function RealTickets({
-  ev,
-  categories,
-  onHoverCategory,
-}: {
-  ev: NeopEvent;
-  categories: ApiListingCategory[];
-  onHoverCategory?: (name: string | null) => void;
-}) {
-  // Only one category can hold seats at a time. `activeId` is that category (or
-  // null when nothing is selected yet); `qty` is its chosen seat count.
+export interface SeatSelection {
+  /** The one category currently holding seats, or null when none is selected. */
+  activeId: string | null;
+  qty: number;
+  /** Steps up to the next valid seat count, starting the category if none is active yet. */
+  inc: (cat: ApiListingCategory) => void;
+  /** Steps down; going below the smallest valid count deselects the category. */
+  dec: (cat: ApiListingCategory) => void;
+}
+
+/**
+ * Owns the "one active category, N seats" selection state. Lifted out of
+ * RealTickets so a sibling component (the seating-plan SVG) can also drive it
+ * — e.g. clicking an available seat adds it the same way the "+" button does.
+ */
+export function useSeatSelection(): SeatSelection {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [qty, setQty] = useState(0);
 
-  const active = activeId ? categories.find((c) => c.id === activeId) ?? null : null;
-  const activeSymbol = currencySymbol(active?.currency ?? null, ev.currency);
-  const subtotal = active ? Math.round(active.fromPrice * qty * 100) / 100 : 0;
-  const href = active?.checkoutUrl ? checkoutHref(active.checkoutUrl, qty) : ev.url ?? '/browse';
-
-  // Step up to the next valid seat count (starting a category if none active).
   function inc(cat: ApiListingCategory) {
     const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
     if (counts.length === 0) return;
@@ -178,7 +190,6 @@ function RealTickets({
     const i = counts.indexOf(qty);
     if (i >= 0 && i < counts.length - 1) setQty(counts[i + 1]);
   }
-  // Step down; going below the smallest valid count deselects the category.
   function dec(cat: ApiListingCategory) {
     if (activeId !== cat.id) return;
     const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
@@ -191,18 +202,44 @@ function RealTickets({
     }
   }
 
+  return { activeId, qty, inc, dec };
+}
+
+/** Real ticket categories backed by live Gigsberg listings. */
+function RealTickets({
+  ev,
+  categories,
+  onHoverCategory,
+  highlightedCategory,
+  seatSelection,
+}: {
+  ev: NeopEvent;
+  categories: ApiListingCategory[];
+  onHoverCategory?: (name: string | null) => void;
+  highlightedCategory?: string | null;
+  seatSelection: SeatSelection;
+}) {
+  const { activeId, qty, inc, dec } = seatSelection;
+  const active = activeId ? categories.find((c) => c.id === activeId) ?? null : null;
+  const activeSymbol = currencySymbol(active?.currency ?? null, ev.currency);
+  const subtotal = active ? Math.round(active.fromPrice * qty * 100) / 100 : 0;
+  const href = active?.checkoutUrl ? checkoutHref(active.checkoutUrl, qty) : ev.url ?? '/browse';
+
   return (
     <Panel>
       <div style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {categories.map((cat) => {
           const isActive = activeId === cat.id;
-          // Once a category is active, only its stepper is shown.
-          const showStepper = activeId === null || isActive;
+          const isOtherActive = activeId !== null && !isActive;
+          const isHighlighted = !isActive && !!highlightedCategory && cat.name.trim().toLowerCase() === highlightedCategory.trim().toLowerCase();
           const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
           // Most seats buyable in one order (the largest valid count for the rule).
           const maxSel = counts.length ? counts[counts.length - 1] : 0;
           const rowQty = isActive ? qty : 0;
-          const canInc = counts.length > 0 && (!isActive || counts.indexOf(qty) < counts.length - 1);
+          // Every row's stepper always renders (fixed row height, no layout
+          // jump when a category is picked) — only its buttons disable while
+          // another category holds the active selection.
+          const canInc = !isOtherActive && counts.length > 0 && (!isActive || counts.indexOf(qty) < counts.length - 1);
           const canDec = isActive; // removing steps down or deselects
           const sym = currencySymbol(cat.currency, ev.currency);
           const avail = availabilityLabel(cat.available);
@@ -217,8 +254,8 @@ function RealTickets({
               style={{
                 padding: '16px 18px',
                 borderRadius: 16,
-                border: isActive ? '1.5px solid var(--accent)' : '1px solid var(--border)',
-                background: isActive ? 'var(--surface-2)' : 'transparent',
+                border: isActive || isHighlighted ? '1.5px solid var(--accent)' : '1px solid var(--border)',
+                background: isActive || isHighlighted ? 'var(--surface-2)' : 'transparent',
                 transition: 'all .2s',
               }}
             >
@@ -250,29 +287,27 @@ function RealTickets({
                   </span>
                 </span>
               </div>
-              {showStepper && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 14, marginTop: 12 }}>
-                  <button
-                    onClick={() => dec(cat)}
-                    disabled={!canDec}
-                    className="focus-ring"
-                    style={{ ...qtyBtn, opacity: canDec ? 1 : 0.4 }}
-                    aria-label={`Remove seat from ${cat.name}`}
-                  >
-                    <Icon name="minus" size={16} />
-                  </button>
-                  <span style={{ fontSize: 18, fontWeight: 700, minWidth: 20, textAlign: 'center' }}>{rowQty}</span>
-                  <button
-                    onClick={() => inc(cat)}
-                    disabled={!canInc}
-                    className="focus-ring"
-                    style={{ ...qtyBtn, opacity: canInc ? 1 : 0.4 }}
-                    aria-label={`Add seat to ${cat.name}`}
-                  >
-                    <Icon name="plus" size={16} />
-                  </button>
-                </div>
-              )}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 14, marginTop: 12 }}>
+                <button
+                  onClick={() => dec(cat)}
+                  disabled={!canDec}
+                  className="focus-ring"
+                  style={{ ...qtyBtn, opacity: canDec ? 1 : 0.4 }}
+                  aria-label={`Remove seat from ${cat.name}`}
+                >
+                  <Icon name="minus" size={16} />
+                </button>
+                <span style={{ fontSize: 18, fontWeight: 700, minWidth: 20, textAlign: 'center' }}>{rowQty}</span>
+                <button
+                  onClick={() => inc(cat)}
+                  disabled={!canInc}
+                  className="focus-ring"
+                  style={{ ...qtyBtn, opacity: canInc ? 1 : 0.4 }}
+                  aria-label={`Add seat to ${cat.name}`}
+                >
+                  <Icon name="plus" size={16} />
+                </button>
+              </div>
             </div>
           );
         })}

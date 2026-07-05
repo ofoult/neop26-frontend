@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, type MouseEvent } from 'react';
+import { useEffect, useMemo, useState, type MouseEvent } from 'react';
 import { currencySymbol } from '@/lib/format';
 import type { ApiListingCategory, ApiSeatingPlanCategory } from '@/lib/types';
 
@@ -40,11 +40,32 @@ function directChildOf(el: Element, ancestor: Element): Element | null {
   return node;
 }
 
-/** Builds the `<style>` block that highlights one category's seats. */
-function buildHighlightCss(category: ApiSeatingPlanCategory | undefined): string {
-  if (!category) return '';
-  const scope = `#${CSS.escape(scopeId(category.name))}`;
-  const selectors = category.blocks.flatMap((block) =>
+/**
+ * Resolves the category + block name the given event target sits inside, using
+ * the same scope+direct-child logic as everywhere else in this file. Shared
+ * between hover and click handling.
+ */
+function resolveBlockAtTarget(
+  target: Element,
+  scopeSelectorList: string,
+  categoryByScopeId: Map<string, ApiSeatingPlanCategory>,
+): { category: ApiSeatingPlanCategory; block: string } | null {
+  if (!scopeSelectorList) return null;
+  const scopeEl = target.closest(scopeSelectorList);
+  const category = scopeEl ? categoryByScopeId.get(scopeEl.id) : undefined;
+  // The block element is whichever direct child of the scope group `target`
+  // sits under — its label's "<name>_text" suffix is stripped so hovering
+  // either the seat shape or its text both resolve to the same block name.
+  const blockEl = scopeEl ? directChildOf(target, scopeEl) : null;
+  const dataName = blockEl?.getAttribute('data-name')?.replace(/_text$/, '') ?? null;
+  const block = category && dataName ? category.blocks.find((b) => blockDataNameCandidates(b).includes(dataName)) : undefined;
+  return category && block ? { category, block } : null;
+}
+
+/** Builds the `<style>` block that fills the given category's blocks. */
+function buildHighlightCss(categoryName: string, blocks: string[]): string {
+  const scope = `#${CSS.escape(scopeId(categoryName))}`;
+  const selectors = blocks.flatMap((block) =>
     blockDataNameCandidates(block).map((c) => `${scope} [data-name="${CSS.escape(c)}"]`),
   );
   if (selectors.length === 0) return '';
@@ -67,6 +88,8 @@ export function SeatingPlanSvg({
   pricingCategories,
   fallbackCurrency,
   hoveredCategoryName,
+  onHoverSeatCategory,
+  onSeatClick,
   alt,
 }: {
   svgMarkup: string;
@@ -76,15 +99,29 @@ export function SeatingPlanSvg({
   pricingCategories: ApiListingCategory[];
   fallbackCurrency: string;
   hoveredCategoryName: string | null;
+  /** Fired with the hovered seat's category name (or null on leave) — drives the matching price row's effect. */
+  onHoverSeatCategory?: (name: string | null) => void;
+  /** Fired with a clicked, priced seat's category name — lets a click add it to the bucket. */
+  onSeatClick?: (categoryName: string) => void;
   alt: string;
 }) {
   const [hover, setHover] = useState<HoverInfo | null>(null);
 
-  const highlightCss = useMemo(() => {
+  useEffect(() => {
+    onHoverSeatCategory?.(hover?.category ?? null);
+  }, [hover?.category, onHoverSeatCategory]);
+
+  const categoryHighlightCss = useMemo(() => {
     if (!hoveredCategoryName) return '';
     const match = categories.find((c) => c.name.trim().toLowerCase() === hoveredCategoryName.trim().toLowerCase());
-    return buildHighlightCss(match);
+    return match ? buildHighlightCss(match.name, match.blocks) : '';
   }, [categories, hoveredCategoryName]);
+
+  // The single seat currently under the cursor (see handleMouseMove) — filled
+  // in addition to, and independently of, the category-wide highlight above.
+  const seatHighlightCss = useMemo(() => {
+    return hover ? buildHighlightCss(hover.category, [hover.block]) : '';
+  }, [hover]);
 
   // Maps each category's top-level SVG group id back to the category, so a
   // hovered block's ancestor group tells us which category it belongs to.
@@ -104,35 +141,39 @@ export function SeatingPlanSvg({
   );
 
   function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
-    if (!scopeSelectorList) return;
-    const target = e.target as Element;
-    const scopeEl = target.closest(scopeSelectorList);
-    const category = scopeEl ? categoryByScopeId.get(scopeEl.id) : undefined;
-    // The block element is whichever direct child of the scope group `target`
-    // sits under — its label's "<name>_text" suffix is stripped so hovering
-    // either the seat shape or its text both resolve to the same block name.
-    const blockEl = scopeEl ? directChildOf(target, scopeEl) : null;
-    const dataName = blockEl?.getAttribute('data-name')?.replace(/_text$/, '') ?? null;
-    const block = category && dataName ? category.blocks.find((b) => blockDataNameCandidates(b).includes(dataName)) : undefined;
-    if (!category || !block) {
+    const resolved = resolveBlockAtTarget(e.target as Element, scopeSelectorList, categoryByScopeId);
+    if (!resolved) {
       setHover((prev) => (prev ? null : prev));
       return;
     }
     // Only show a tooltip when we actually have price info for this block's category.
-    const pricing = pricingCategories.find((c) => c.name.trim().toLowerCase() === category.name.trim().toLowerCase());
+    const pricing = pricingCategories.find(
+      (c) => c.name.trim().toLowerCase() === resolved.category.name.trim().toLowerCase(),
+    );
     if (!pricing) {
       setHover((prev) => (prev ? null : prev));
       return;
     }
     setHover({
-      block,
-      category: category.name,
+      block: resolved.block,
+      category: resolved.category.name,
       fromPrice: pricing.fromPrice,
       maxPrice: pricing.maxPrice,
       currency: pricing.currency,
       x: e.clientX,
       y: e.clientY,
     });
+  }
+
+  function handleClick(e: MouseEvent<HTMLDivElement>) {
+    if (!onSeatClick) return;
+    const resolved = resolveBlockAtTarget(e.target as Element, scopeSelectorList, categoryByScopeId);
+    if (!resolved) return;
+    // Only "available" (priced) seats are clickable — matches the tooltip condition.
+    const hasPricing = pricingCategories.some(
+      (c) => c.name.trim().toLowerCase() === resolved.category.name.trim().toLowerCase(),
+    );
+    if (hasPricing) onSeatClick(resolved.category.name);
   }
 
   const sym = hover ? currencySymbol(hover.currency, fallbackCurrency) : '';
@@ -145,9 +186,11 @@ export function SeatingPlanSvg({
       aria-label={alt}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setHover(null)}
-      style={{ position: 'relative' }}
+      onClick={handleClick}
+      style={{ position: 'relative', cursor: hover ? 'pointer' : undefined }}
     >
-      <style>{highlightCss}</style>
+      <style>{categoryHighlightCss}</style>
+      <style>{seatHighlightCss}</style>
       {/* Gigsberg's own SVG, sanitized server-side and inlined so individual
           blocks can be targeted by the CSS/hover logic above. */}
       <div dangerouslySetInnerHTML={{ __html: svgMarkup }} />
