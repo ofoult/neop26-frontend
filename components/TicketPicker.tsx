@@ -48,10 +48,19 @@ function Panel({ children }: { children: ReactNode }) {
   );
 }
 
-export function TicketPicker({ ev, categories }: { ev: NeopEvent; categories?: ApiListingCategory[] }) {
+export function TicketPicker({
+  ev,
+  categories,
+  onHoverCategory,
+}: {
+  ev: NeopEvent;
+  categories?: ApiListingCategory[];
+  /** Fired with the hovered category's name (or null on leave) — drives the seating-plan highlight. */
+  onHoverCategory?: (name: string | null) => void;
+}) {
   // Real per-category pricing from the Gigsberg listing search.
   if (categories && categories.length > 0) {
-    return <RealTickets ev={ev} categories={categories} />;
+    return <RealTickets ev={ev} categories={categories} onHoverCategory={onHoverCategory} />;
   }
 
   // No per-category listings: check out via the event's general Gigsberg URL.
@@ -138,7 +147,15 @@ function splitHint(splitType: string | null): string {
 }
 
 /** Real ticket categories backed by live Gigsberg listings. */
-function RealTickets({ ev, categories }: { ev: NeopEvent; categories: ApiListingCategory[] }) {
+function RealTickets({
+  ev,
+  categories,
+  onHoverCategory,
+}: {
+  ev: NeopEvent;
+  categories: ApiListingCategory[];
+  onHoverCategory?: (name: string | null) => void;
+}) {
   // Only one category can hold seats at a time. `activeId` is that category (or
   // null when nothing is selected yet); `qty` is its chosen seat count.
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -195,6 +212,8 @@ function RealTickets({ ev, categories }: { ev: NeopEvent; categories: ApiListing
           return (
             <div
               key={cat.id}
+              onMouseEnter={() => onHoverCategory?.(cat.name)}
+              onMouseLeave={() => onHoverCategory?.(null)}
               style={{
                 padding: '16px 18px',
                 borderRadius: 16,

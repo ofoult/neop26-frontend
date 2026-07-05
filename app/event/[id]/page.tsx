@@ -4,8 +4,8 @@ import { EventCard } from '@/components/EventCard';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { SecHead } from '@/components/SecHead';
-import { TicketPicker } from '@/components/TicketPicker';
-import { fetchEvent, fetchEventListings, fetchEvents } from '@/lib/api';
+import { TicketsAndSeatingPlan } from '@/components/TicketsAndSeatingPlan';
+import { fetchEvent, fetchEventListings, fetchEvents, fetchEventSeatingPlan, fetchSeatingPlanSvgMarkup } from '@/lib/api';
 import { CATEGORIES, categoryById } from '@/lib/categories';
 import { fmtDateLong, fmtTime } from '@/lib/format';
 
@@ -17,10 +17,12 @@ export default async function EventPage({ params }: { params: { id: string } }) 
 
   const cat = categoryById(ev.category);
   const typeId = CATEGORIES.find((c) => c.id === ev.category)?.typeId ?? undefined;
-  const [moreRes, categories] = await Promise.all([
+  const [moreRes, categories, seatingPlan] = await Promise.all([
     fetchEvents({ typeId, perPage: 8, revalidate }).catch(() => null),
     fetchEventListings(params.id, revalidate),
+    fetchEventSeatingPlan(params.id),
   ]);
+  const svgMarkup = seatingPlan ? await fetchSeatingPlanSvgMarkup(seatingPlan.svgUrl) : null;
   const more = (moreRes?.events ?? []).filter((e) => e.id !== ev.id).slice(0, 3);
 
   return (
@@ -117,30 +119,11 @@ export default async function EventPage({ params }: { params: { id: string } }) 
       </div>
 
       {/* body */}
-      <div
-        style={{
-          maxWidth: 'var(--maxw)',
-          margin: '0 auto',
-          padding: '40px 28px 0',
-          display: 'grid',
-          gridTemplateColumns: '1fr 400px',
-          gap: 48,
-          alignItems: 'start',
-        }}
-      >
-        {/* left */}
-        <div>
-          <h2 className="serif" style={{ fontSize: 32, margin: '0 0 16px' }}>
-            About this event
-          </h2>
-          <p style={{ fontSize: 17.5, lineHeight: 1.7, color: 'var(--dim)', margin: 0, maxWidth: 620 }}>{ev.blurb}</p>
-          <p style={{ fontSize: 17.5, lineHeight: 1.7, color: 'var(--dim)', marginTop: 16, maxWidth: 620 }}>
-            Doors open one hour before showtime. Tickets are mobile and fully transferable, and every order is backed by
-            neop&apos;s buyer guarantee — if anything goes wrong, you&apos;re covered.
-          </p>
-
+      <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '40px 28px 0' }}>
+        {/* lineup / venue */}
+        <div style={{ maxWidth: 760 }}>
           {ev.lineup.length > 0 && (
-            <div style={{ marginTop: 44 }}>
+            <div>
               <h3 className="serif" style={{ fontSize: 26, margin: '0 0 18px' }}>
                 Lineup
               </h3>
@@ -165,7 +148,7 @@ export default async function EventPage({ params }: { params: { id: string } }) 
           )}
 
           {/* venue */}
-          <div style={{ marginTop: 44 }}>
+          <div style={{ marginTop: ev.lineup.length > 0 ? 44 : 0 }}>
             <h3 className="serif" style={{ fontSize: 26, margin: '0 0 18px' }}>
               Venue
             </h3>
@@ -195,8 +178,10 @@ export default async function EventPage({ params }: { params: { id: string } }) 
           </div>
         </div>
 
-        {/* right — ticket picker (sticky) */}
-        <TicketPicker ev={ev} categories={categories} />
+        {/* tickets (left) + seating plan (right) */}
+        <div style={{ marginTop: 56 }}>
+          <TicketsAndSeatingPlan ev={ev} categories={categories} seatingPlan={seatingPlan} svgMarkup={svgMarkup} />
+        </div>
       </div>
 
       {/* more like this */}

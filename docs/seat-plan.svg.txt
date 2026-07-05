@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_Шар_2" data-name="Шар 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 686 652">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #999;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        font-size: 20px;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        fill: #fff;
+        font-family: Poppins-Light, Poppins;
+        font-weight: 300;
+      }
+
+      .cls-3 {
+        font-size: 16px;
+      }
+
+      .cls-5 {
+        fill: #464646;
+      }
+
+      .cls-4 {
+        font-size: 14px;
+      }
+    </style>
+  </defs>
+  <g id="Tribuna_C">
+    <g id="_1" data-name="1">
+      <path id="_1-2" data-name="1" class="cls-1" d="M246.93,522.83l-10.71-27.37c-14.64-2.8-28.27-8.44-40.32-16.31l-26.57,21.12c21.75,16.09,47.59,26.96,75.68,30.74l1.91-8.18Z"/>
+      <g id="_1_text" data-name="1_text">
+        <text class="cls-3" transform="translate(207.29 510.47)"><tspan x="0" y="0">1</tspan></text>
+      </g>
+    </g>
+    <g id="_2" data-name="2">
+      <path id="_2-2" data-name="2" class="cls-1" d="M257.61,497.5c-1.58,0-3.16-.04-4.73-.11l-7.87,33.62c7.25.97,14.64,1.49,22.15,1.49h39.33v-35h-48.89Z"/>
+      <g id="_2_text" data-name="2_text">
+        <text class="cls-3" transform="translate(272.29 520.47)"><tspan x="0" y="0">2</tspan></text>
+      </g>
+    </g>
+    <g id="_3" data-name="3">
+      <rect id="_3-2" data-name="3" class="cls-1" x="306.5" y="497.5" width="83" height="35"/>
+      <g id="_3_text" data-name="3_text">
+        <text class="cls-3" transform="translate(343.29 520.47)"><tspan x="0" y="0">3</tspan></text>
+      </g>
+    </g>
+    <g id="_4" data-name="4">
+      <path id="_4-2" data-name="4" class="cls-1" d="M474.4,495.75c-4.78,1.14-9.77,1.75-14.9,1.75h-70v35h84.05l.85-36.75Z"/>
+      <g id="_4_text" data-name="4_text">
+        <text class="cls-3" transform="translate(422.29 520.47)"><tspan x="0" y="0">4</tspan></text>
+      </g>
+    </g>
+    <g id="_5" data-name="5">
+      <path id="_5-2" data-name="5" class="cls-1" d="M517.5,478.5c-13,7-25.81,12.54-41.02,16.72l5.87,34.41,52.23-20.22-17.08-30.91Z"/>
+      <g id="_5_text" data-name="5_text">
+        <text class="cls-3" transform="translate(497.29 508.47)"><tspan x="0" y="0">5</tspan></text>
+      </g>
+    </g>
+    <g id="_6" data-name="6">
+      <path id="_6-2" data-name="6" class="cls-1" d="M141.4,474.11l-32.15,14.86c11.35,15.81,25.12,29.75,40.76,41.3l29.75-22.88c-14.44-9.07-27.39-20.31-38.36-33.28Z"/>
+      <g id="_6_text" data-name="6_text">
+        <text class="cls-3" transform="translate(137.29 505.47)"><tspan x="0" y="0">6</tspan></text>
+      </g>
+    </g>
+    <g id="_7" data-name="7">
+      <path id="_7-2" data-name="7" class="cls-1" d="M192.38,514.57l-30.17,23.98c16.82,10.47,35.43,18.32,55.27,22.99l11.19-33.58c-12.74-3.05-24.9-7.57-36.3-13.39Z"/>
+      <g id="_7_text" data-name="7_text">
+        <text class="cls-3" transform="translate(193.29 543.47)"><tspan x="0" y="0">7</tspan></text>
+      </g>
+    </g>
+    <g id="_8" data-name="8">
+      <path id="_8-2" data-name="8" class="cls-1" d="M267.17,532.5c-7.93,0-15.73-.56-23.36-1.65l-9.89,33.78c8.58,1.22,17.35,1.87,26.27,1.87h53.31v-34h-46.33Z"/>
+      <g id="_8_text" data-name="8_text">
+        <text class="cls-3" transform="translate(270.29 555.47)"><tspan x="0" y="0">8</tspan></text>
+      </g>
+    </g>
+    <g id="_9" data-name="9">
+      <rect id="_9-2" data-name="9" class="cls-1" x="313.5" y="532.5" width="83" height="34"/>
+      <g id="_9_text" data-name="9_text">
+        <text class="cls-3" transform="translate(349.29 555.47)"><tspan x="0" y="0">9</tspan></text>
+      </g>
+    </g>
+    <g id="_10" data-name="10">
+      <polygon id="_10-2" data-name="10" class="cls-1" points="473.55 532.5 396.5 532.5 396.5 566.5 472.77 566.5 473.55 532.5"/>
+      <g id="_10_text" data-name="10_text">
+        <text class="cls-3" transform="translate(424.29 555.47)"><tspan x="0" y="0">10</tspan></text>
+      </g>
+    </g>
+    <g id="_11" data-name="11">
+      <polygon id="_11-2" data-name="11" class="cls-1" points="534.58 509.41 482.34 529.62 488.27 564.37 551.23 541.08 534.58 509.41"/>
+      <g id="_11_text" data-name="11_text">
+        <text class="cls-3" transform="translate(509.29 541.47)"><tspan x="0" y="0">11</tspan></text>
+      </g>
+    </g>
+    <g id="_12" data-name="12">
+      <path id="_12-2" data-name="12" class="cls-1" d="M109.24,488.96l-33.25,15.36c13.17,21.66,30.16,40.74,50.01,56.33l29.04-26.81c-17.74-12.21-33.25-27.41-45.8-44.89Z"/>
+      <g id="_12_text" data-name="12_text">
+        <text class="cls-3" transform="translate(105.29 527.47)"><tspan x="0" y="0">12</tspan></text>
+      </g>
+    </g>
+    <g id="_13" data-name="13">
+      <path id="_13-2" data-name="13" class="cls-1" d="M224.93,563.14c-15.19-2.92-29.73-7.7-43.36-14.08l-38.99,23.39c20.96,13.42,44.46,23.22,69.62,28.52l12.73-37.83Z"/>
+      <g id="_13_text" data-name="13_text">
+        <text class="cls-3" transform="translate(182.29 578.47)"><tspan x="0" y="0">13</tspan></text>
+      </g>
+    </g>
+    <g id="_14" data-name="14">
+      <path id="_14-2" data-name="14" class="cls-1" d="M260.19,566.5c-7,0-13.91-.4-20.71-1.16l-10.17,38.5c8.67,1.09,17.5,1.67,26.47,1.67h61.72v-39h-57.31Z"/>
+      <g id="_14_text" data-name="14_text">
+        <text class="cls-3" transform="translate(268.29 590.47)"><tspan x="0" y="0">14</tspan></text>
+      </g>
+    </g>
+    <g id="_15" data-name="15">
+      <rect id="_15-2" data-name="15" class="cls-1" x="317.5" y="566.5" width="75" height="39"/>
+      <g id="_15_text" data-name="15_text">
+        <text class="cls-3" transform="translate(345.29 590.47)"><tspan x="0" y="0">15</tspan></text>
+      </g>
+    </g>
+    <g id="_16" data-name="16">
+      <polygon id="_16-2" data-name="16" class="cls-1" points="472.77 566.5 399.5 566.5 399.5 605.5 471.86 605.5 472.77 566.5"/>
+      <g id="_16_text" data-name="16_text">
+        <text class="cls-3" transform="translate(427.29 590.47)"><tspan x="0" y="0">16</tspan></text>
+      </g>
+    </g>
+    <g id="_17" data-name="17">
+      <polygon id="_17-2" data-name="17" class="cls-1" points="551.23 541.08 488.27 564.37 494.32 599.83 565.69 568.6 551.23 541.08"/>
+      <g id="_17_text" data-name="17_text">
+        <text class="cls-3" transform="translate(518.29 573.47)"><tspan x="0" y="0">17</tspan></text>
+      </g>
+    </g>
+    <g id="_18" data-name="18">
+      <path id="_18-2" data-name="18" class="cls-1" d="M75.99,504.33l-31,14.32,55.51,70.26,27.33-26.83c-20.64-15.85-38.27-35.43-51.84-57.76Z"/>
+      <g id="_18_text" data-name="18_text">
+        <text class="cls-3" transform="translate(79.57 551.57)"><tspan x="0" y="0">18</tspan></text>
+      </g>
+    </g>
+    <g id="_19" data-name="19">
+      <path id="_19-2" data-name="19" class="cls-1" d="M212.2,600.97c-21.13-4.45-41.09-12.09-59.36-22.37l-34.6,29.28,83.46,24.31,10.5-31.22Z"/>
+      <g id="_19_text" data-name="19_text">
+        <text class="cls-3" transform="translate(162.57 611.57)"><tspan x="0" y="0">19</tspan></text>
+      </g>
+    </g>
+    <g id="_20" data-name="20">
+      <path id="_20-2" data-name="20" class="cls-1" d="M317.5,605.5h-61.72c-1.41,0-2.81-.03-4.21-.05l-33.86,45.71c4.2.23,8.43.35,12.68.35h91.09v-46h-4Z"/>
+      <g id="_20_text" data-name="20_text">
+        <text class="cls-3" transform="translate(271.57 634.57)"><tspan x="0" y="0">20</tspan></text>
+      </g>
+    </g>
+    <g id="_21" data-name="21">
+      <rect id="_21-2" data-name="21" class="cls-1" x="321.5" y="605.5" width="68" height="46"/>
+      <g id="_21_text" data-name="21_text">
+        <text class="cls-3" transform="translate(348.57 634.57)"><tspan x="0" y="0">21</tspan></text>
+      </g>
+    </g>
+    <g id="_22" data-name="22">
+      <path id="_22-2" data-name="22" class="cls-1" d="M400.5,605.5v46h55.09c5.12,0,10.19-.19,15.22-.52l1.05-45.48h-71.36Z"/>
+      <g id="_22_text" data-name="22_text">
+        <text class="cls-3" transform="translate(423.57 634.57)"><tspan x="0" y="0">22</tspan></text>
+      </g>
+    </g>
+    <g id="_23" data-name="23">
+      <path id="_23-2" data-name="23" class="cls-1" d="M587.43,609.95l-15.08-28.68-75.7,32.2,5.68,33.27c31.13-6.43,59.96-19.15,85.1-36.79Z"/>
+      <g id="_23_text" data-name="23_text">
+        <text class="cls-3" transform="translate(531.57 619.57)"><tspan x="0" y="0">23</tspan></text>
+      </g>
+    </g>
+  </g>
+  <g id="Ospiti">
+    <path id="_0Ospiti" data-name="0Ospiti" class="cls-1" d="M543.58,465.56c-1.18,2.63-2.89,5.75-5.08,7.94-2.64,2.64-5.55,4.99-7.71,6.63l56.88,100.53c8.14-6.22,24.51-19.41,38.84-35.16,13.82-15.2,26.93-35.74,32.36-44.61l-115.28-35.33Z"/>
+    <g id="_0Ospiti_text" data-name="0Ospiti_text">
+      <text class="cls-3" transform="translate(570.42 517.78)"><tspan x="0" y="0">Ospiti</tspan></text>
+    </g>
+  </g>
+  <g id="Tribuna_B">
+    <g id="_1-3" data-name="1">
+      <rect id="_1-4" data-name="1" class="cls-1" x="116.5" y="60" width="28" height="38.5"/>
+      <g id="_1_text-2" data-name="1_text">
+        <text class="cls-3" transform="translate(128.14 83.71)"><tspan x="0" y="0">1</tspan></text>
+      </g>
+    </g>
+    <g id="_7-3" data-name="7">
+      <rect id="_7-4" data-name="7" class="cls-1" x="83.5" y="60" width="33" height="38.5"/>
+      <g id="_7_text-2" data-name="7_text">
+        <text class="cls-3" transform="translate(95.14 83.71)"><tspan x="0" y="0">7</tspan></text>
+      </g>
+    </g>
+    <g id="_8-3" data-name="8">
+      <rect id="_8-4" data-name="8" class="cls-1" x="83.5" y="98.5" width="33" height="80"/>
+      <g id="_8_text-2" data-name="8_text">
+        <text class="cls-3" transform="translate(95.14 144.71)"><tspan x="0" y="0">8</tspan></text>
+      </g>
+    </g>
+    <g id="_9-3" data-name="9">
+      <rect id="_9-4" data-name="9" class="cls-1" x="83.5" y="178.5" width="33" height="77"/>
+      <g id="_9_text-2" data-name="9_text">
+        <text class="cls-3" transform="translate(95.14 221.71)"><tspan x="0" y="0">9</tspan></text>
+      </g>
+    </g>
+    <g id="_10-3" data-name="10">
+      <rect id="_10-4" data-name="10" class="cls-1" x="83.5" y="255.5" width="33" height="84"/>
+      <g id="_10_text-2" data-name="10_text">
+        <text class="cls-3" transform="translate(93.14 302.71)"><tspan x="0" y="0">10</tspan></text>
+      </g>
+    </g>
+    <g id="_11-3" data-name="11">
+      <rect id="_11-4" data-name="11" class="cls-1" x="83.5" y="339.5" width="33" height="80"/>
+      <g id="_11_text-2" data-name="11_text">
+        <text class="cls-3" transform="translate(95.14 385.71)"><tspan x="0" y="0">11</tspan></text>
+      </g>
+    </g>
+    <g id="_12-3" data-name="12">
+      <polygon id="_12-4" data-name="12" class="cls-1" points="83.5 477.07 116.5 456.3 116.5 419.5 83.5 419.5 83.5 477.07"/>
+      <g id="_12_text-2" data-name="12_text">
+        <text class="cls-3" transform="translate(93.14 446.71)"><tspan x="0" y="0">12</tspan></text>
+      </g>
+    </g>
+    <g id="_2-3" data-name="2">
+      <rect id="_2-4" data-name="2" class="cls-1" x="116.5" y="98.5" width="28" height="88"/>
+      <g id="_2_text-2" data-name="2_text">
+        <text class="cls-3" transform="translate(126.14 148.71)"><tspan x="0" y="0">2</tspan></text>
+      </g>
+    </g>
+    <g id="_3-3" data-name="3">
+      <rect id="_3-4" data-name="3" class="cls-1" x="116.5" y="186.5" width="28" height="86"/>
+      <g id="_3_text-2" data-name="3_text">
+        <text class="cls-3" transform="translate(126.14 234.71)"><tspan x="0" y="0">3</tspan></text>
+      </g>
+    </g>
+    <g id="_4-3" data-name="4">
+      <rect id="_4-4" data-name="4" class="cls-1" x="116.5" y="272.5" width="28" height="86"/>
+      <g id="_4_text-2" data-name="4_text">
+        <text class="cls-3" transform="translate(126.14 320.71)"><tspan x="0" y="0">4</tspan></text>
+      </g>
+    </g>
+    <g id="_5-3" data-name="5">
+      <path id="_5-4" data-name="5" class="cls-1" d="M116.5,437.5h29v-36.86c-.66-4.86-1-9.81-1-14.84v-27.29h-28v79Z"/>
+      <g id="_5_text-2" data-name="5_text">
+        <text class="cls-3" transform="translate(126.14 403.71)"><tspan x="0" y="0">5</tspan></text>
+      </g>
+    </g>
+    <g id="_6-3" data-name="6">
+      <polygon id="_6-4" data-name="6" class="cls-1" points="116.5 456.3 116.5 485.61 145.5 472.4 145.5 437.5 116.5 437.5 116.5 456.3"/>
+      <g id="_6_text-2" data-name="6_text">
+        <text class="cls-3" transform="translate(126.14 464.71)"><tspan x="0" y="0">6</tspan></text>
+      </g>
+    </g>
+    <g id="_13-3" data-name="13">
+      <rect id="_13-4" data-name="13" class="cls-1" x="54.5" y="98" width="29" height="77.5"/>
+      <g id="_13_text-2" data-name="13_text">
+        <text class="cls-3" transform="translate(62.24 143.93)"><tspan x="0" y="0">13</tspan></text>
+      </g>
+    </g>
+    <g id="_14-3" data-name="14">
+      <rect id="_14-4" data-name="14" class="cls-1" x="54.5" y="175.5" width="29" height="75"/>
+      <g id="_14_text-2" data-name="14_text">
+        <text class="cls-3" transform="translate(62.24 218.93)"><tspan x="0" y="0">14</tspan></text>
+      </g>
+    </g>
+    <g id="_15-3" data-name="15">
+      <rect id="_15-4" data-name="15" class="cls-1" x="54.5" y="250.5" width="29" height="75"/>
+      <g id="_15_text-2" data-name="15_text">
+        <text class="cls-3" transform="translate(62.24 293.93)"><tspan x="0" y="0">15</tspan></text>
+      </g>
+    </g>
+    <g id="_16-3" data-name="16">
+      <rect id="_16-4" data-name="16" class="cls-1" x="54.5" y="325.5" width="29" height="77"/>
+      <g id="_16_text-2" data-name="16_text">
+        <text class="cls-3" transform="translate(62.24 371.93)"><tspan x="0" y="0">16</tspan></text>
+      </g>
+    </g>
+    <g id="_17-3" data-name="17">
+      <polygon id="_17-4" data-name="17" class="cls-1" points="54.5 475.32 83.5 461.15 83.5 402.5 54.5 402.5 54.5 475.32"/>
+      <g id="_17_text-2" data-name="17_text">
+        <text class="cls-3" transform="translate(62.24 439.93)"><tspan x="0" y="0">17</tspan></text>
+      </g>
+    </g>
+    <g id="_18-3" data-name="18">
+      <polygon id="_18-4" data-name="18" class="cls-1" points="54.5 100 21.69 100 12.75 171.5 54.5 171.5 54.5 100"/>
+      <g id="_18_text-2" data-name="18_text">
+        <text class="cls-3" transform="translate(27.16 144.97)"><tspan x="0" y="0">18</tspan></text>
+      </g>
+    </g>
+    <g id="_19-3" data-name="19">
+      <polygon id="_19-4" data-name="19" class="cls-1" points="54.5 171.5 12.75 171.5 4 241.5 54.5 241.5 54.5 171.5"/>
+      <g id="_19_text-2" data-name="19_text">
+        <text class="cls-3" transform="translate(23.16 212.97)"><tspan x="0" y="0">19</tspan></text>
+      </g>
+    </g>
+    <g id="_20-3" data-name="20">
+      <polygon id="_20-4" data-name="20" class="cls-1" points="4 241.5 .5 269.5 .5 313.5 54.5 313.5 54.5 241.5 4 241.5"/>
+      <g id="_20_text-2" data-name="20_text">
+        <text class="cls-3" transform="translate(17.16 282.97)"><tspan x="0" y="0">20</tspan></text>
+      </g>
+    </g>
+    <g id="_21-3" data-name="21">
+      <polygon id="_21-4" data-name="21" class="cls-1" points=".5 355.48 7.4 394.5 54.5 394.5 54.5 313.5 .5 313.5 .5 355.48"/>
+      <g id="_21_text-2" data-name="21_text">
+        <text class="cls-3" transform="translate(21.16 357.97)"><tspan x="0" y="0">21</tspan></text>
+      </g>
+    </g>
+    <g id="_22-3" data-name="22">
+      <polygon id="_22-4" data-name="22" class="cls-1" points="22.23 478.45 54.5 461.47 54.5 394.5 7.4 394.5 22.23 478.45"/>
+      <g id="_22_text-2" data-name="22_text">
+        <text class="cls-3" transform="translate(23.16 434.97)"><tspan x="0" y="0">22</tspan></text>
+      </g>
+    </g>
+  </g>
+  <g id="Tribuna_A">
+    <g id="_6-5" data-name="6">
+      <rect id="_6-6" data-name="6" class="cls-1" x="523.5" y="54" width="31" height="40.5"/>
+      <g id="_6_text-3" data-name="6_text">
+        <text class="cls-3" transform="translate(532.46 79.82)"><tspan x="0" y="0">6</tspan></text>
+      </g>
+    </g>
+    <g id="_5-5" data-name="5">
+      <rect id="_5-6" data-name="5" class="cls-1" x="523.5" y="94.5" width="31" height="82.5"/>
+      <g id="_5_text-3" data-name="5_text">
+        <text class="cls-3" transform="translate(532.46 141.82)"><tspan x="0" y="0">5</tspan></text>
+      </g>
+    </g>
+    <g id="_4-5" data-name="4">
+      <rect id="_4-6" data-name="4" class="cls-1" x="523.5" y="177" width="31" height="71"/>
+      <g id="_4_text-3" data-name="4_text">
+        <text class="cls-3" transform="translate(532.46 218.82)"><tspan x="0" y="0">4</tspan></text>
+      </g>
+    </g>
+    <g id="_3-5" data-name="3">
+      <rect id="_3-6" data-name="3" class="cls-1" x="523.5" y="248" width="31" height="83"/>
+      <g id="_3_text-3" data-name="3_text">
+        <text class="cls-3" transform="translate(532.46 297.82)"><tspan x="0" y="0">3</tspan></text>
+      </g>
+    </g>
+    <g id="_2-5" data-name="2">
+      <polygon id="_2-6" data-name="2" class="cls-1" points="523.5 407.69 554.5 409.17 554.5 331 523.5 331 523.5 407.69"/>
+      <g id="_2_text-3" data-name="2_text">
+        <text class="cls-3" transform="translate(532.46 372.82)"><tspan x="0" y="0">2</tspan></text>
+      </g>
+    </g>
+    <g id="_1-5" data-name="1">
+      <polygon id="_1-6" data-name="1" class="cls-1" points="554.5 409.17 523.5 407.69 523.5 429.24 551.43 442 554.5 410.5 554.5 409.17"/>
+      <g id="_1_text-3" data-name="1_text">
+        <text class="cls-3" transform="translate(534.46 427.82)"><tspan x="0" y="0">1</tspan></text>
+      </g>
+    </g>
+    <g id="_7-5" data-name="7">
+      <polygon id="_7-6" data-name="7" class="cls-1" points="554.5 409.17 554.5 410.5 551.43 442 587.97 458.69 594.42 411.07 554.5 409.17"/>
+      <g id="_7_text-3" data-name="7_text">
+        <text class="cls-3" transform="translate(567.46 435.82)"><tspan x="0" y="0">7</tspan></text>
+      </g>
+    </g>
+    <g id="_11-5" data-name="11">
+      <polygon id="_11-6" data-name="11" class="cls-1" points="594.37 411.44 587.97 458.69 629.69 477.75 637.1 411.09 594.37 411.44"/>
+
+      <g id="_11_text-3" data-name="11_text">
+        <text class="cls-3" transform="translate(606.46 445.82)"><tspan x="0" y="0">11</tspan></text>
+      </g>
+    </g>
+    <g id="_15-5" data-name="15">
+      <path id="_15-6" data-name="15" class="cls-1" d="M637.1,411.09l-7.41,66.66,43,19.64c8.29-23.73,12.81-49.24,12.81-75.8v-10.9l-48.4.4Z"/>
+      <g id="_15_text-3" data-name="15_text">
+        <text class="cls-3" transform="translate(648.46 454.82)"><tspan x="0" y="0">15</tspan></text>
+      </g>
+    </g>
+    <g id="_8-5" data-name="8">
+      <polygon id="_8-6" data-name="8" class="cls-1" points="554.5 409.17 594.42 411.07 594.5 410.5 594.5 324.5 554.5 324.5 554.5 409.17"/>
+      <g id="_8_text-3" data-name="8_text">
+        <text class="cls-3" transform="translate(568.46 370.82)"><tspan x="0" y="0">8</tspan></text>
+      </g>
+    </g>
+    <g id="_12-5" data-name="12">
+      <rect id="_12-6" data-name="12" class="cls-1" x="594.5" y="310.5" width="35.5" height="77"/>
+      <g id="_12_text-3" data-name="12_text">
+        <text class="cls-3" transform="translate(604.46 353.82)"><tspan x="0" y="0">12</tspan></text>
+      </g>
+    </g>
+    <g id="_16-5" data-name="16">
+      <rect id="_16-6" data-name="16" class="cls-1" x="630" y="309.5" width="52" height="77"/>
+      <g id="_16_text-3" data-name="16_text">
+        <text class="cls-3" transform="translate(648.46 353.82)"><tspan x="0" y="0">16</tspan></text>
+      </g>
+    </g>
+    <g id="_0VIP1" data-name="0VIP1">
+      <rect id="_0VIP1-2" data-name="0VIP1" class="cls-1" x="554.5" y="244.5" width="40" height="80"/>
+      <g id="_0VIP1_text" data-name="0VIP1_text">
+        <text class="cls-3" transform="translate(560.84 282.82)"><tspan x="0" y="0">VIP</tspan><tspan x="9.28" y="19.2">1</tspan></text>
+      </g>
+    </g>
+    <g id="_0VIP2" data-name="0VIP2">
+      <rect id="_0VIP2-2" data-name="0VIP2" class="cls-1" x="594.5" y="235.5" width="35.5" height="75"/>
+      <g id="_0VIP2_text" data-name="0VIP2_text">
+        <text class="cls-3" transform="translate(599.84 269.82)"><tspan x="0" y="0">VIP</tspan><tspan x="7.04" y="19.2">2</tspan></text>
+      </g>
+    </g>
+    <g id="_9-5" data-name="9">
+      <rect id="_9-6" data-name="9" class="cls-1" x="554.5" y="94.5" width="40" height="80"/>
+      <g id="_9_text-3" data-name="9_text">
+        <text class="cls-3" transform="translate(567.46 139.82)"><tspan x="0" y="0">9</tspan></text>
+      </g>
+    </g>
+    <g id="_13-5" data-name="13">
+      <rect id="_13-6" data-name="13" class="cls-1" x="594.5" y="94.5" width="35.5" height="75"/>
+      <g id="_13_text-3" data-name="13_text">
+        <text class="cls-3" transform="translate(605.46 136.82)"><tspan x="0" y="0">13</tspan></text>
+      </g>
+    </g>
+    <g id="_18-5" data-name="18">
+      <rect id="_18-6" data-name="18" class="cls-1" x="630" y="94.5" width="42" height="68"/>
+      <g id="_18_text-3" data-name="18_text">
+        <text class="cls-3" transform="translate(643.46 132.82)"><tspan x="0" y="0">18</tspan></text>
+      </g>
+    </g>
+    <g id="_10-5" data-name="10">
+      <rect id="_10-6" data-name="10" class="cls-1" x="554.5" y="57" width="40" height="37.5"/>
+      <g id="_10_text-3" data-name="10_text">
+        <text class="cls-3" transform="translate(565.46 81.82)"><tspan x="0" y="0">10</tspan></text>
+      </g>
+    </g>
+    <g id="_14-5" data-name="14">
+      <rect id="_14-6" data-name="14" class="cls-1" x="594.5" y="60" width="35.5" height="34.5"/>
+      <g id="_14_text-3" data-name="14_text">
+        <text class="cls-3" transform="translate(603.46 83.82)"><tspan x="0" y="0">14</tspan></text>
+      </g>
+    </g>
+    <g id="_19-5" data-name="19">
+      <rect id="_19-6" data-name="19" class="cls-1" x="630" y="62" width="42" height="32.5"/>
+      <g id="_19_text-3" data-name="19_text">
+        <text class="cls-3" transform="translate(643.46 85.82)"><tspan x="0" y="0">19</tspan></text>
+      </g>
+    </g>
+    <g id="_0Elite" data-name="0Elite">
+      <rect id="_0Elite-2" data-name="0Elite" class="cls-1" x="554.5" y="174.5" width="40" height="70"/>
+      <g id="_0Elite_text" data-name="0Elite_text">
+        <text class="cls-3" transform="translate(558.62 216.03)"><tspan x="0" y="0">Elite</tspan></text>
+      </g>
+    </g>
+    <g id="_0Autorita" data-name="0Autorita">
+      <rect id="_0Autorita-2" data-name="0Autorita" class="cls-1" x="594.5" y="169.5" width="35.5" height="66"/>
+      <g id="_0Autorita_text" data-name="0Autorita_text">
+        <text class="cls-4" transform="translate(615.69 229.66) rotate(-90)"><tspan x="0" y="0">Autorita</tspan></text>
+      </g>
+    </g>
+    <g id="_0Stampa" data-name="0Stampa">
+      <rect id="_0Stampa-2" data-name="0Stampa" class="cls-1" x="630" y="239.5" width="55.5" height="70"/>
+      <g id="_0Stampa_text" data-name="0Stampa_text">
+        <text class="cls-4" transform="translate(660.4 302.54) rotate(-90)"><tspan x="0" y="0">Stampa</tspan></text>
+      </g>
+    </g>
+  </g>
+  <g id="Stage">
+    <rect id="_0Stage" data-name="0Stage" class="cls-5" x="209" width="262" height="77"/>
+    <g id="_0Stage_text" data-name="0Stage_text">
+      <text class="cls-2" transform="translate(306.89 40.94)"><tspan x="0" y="0">Stage</tspan></text>
+    </g>
+  </g>
+  <g id="Platea">
+    <path id="_0Platea" data-name="0Platea" class="cls-1" d="M494,149.09v142.91H179v-143.92l57.35-50.08h83.15v16.5l18,12,17-12v-16.5h83.07l56.43,51.09ZM318.5,302.5h-110v45h110v-45ZM318.5,355.5h-110v45h110v-45ZM296.5,408.5h-95v46h95v-46ZM362.5,347.5h110v-45h-110v45ZM362.5,400.5h110v-45h-110v45ZM384.5,454.5h95v-46h-95v46Z"/>
+    <text id="_0Platea_text" data-name="0Platea_text" class="cls-2" transform="translate(301.38 215.16)"><tspan x="0" y="0">Platea</tspan></text>
+  </g>
+</svg>

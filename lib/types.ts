@@ -59,6 +59,21 @@ export interface ApiEventListings {
   categories: ApiListingCategory[];
 }
 
+/** Seating plan (venue map) category/block legend entry, from `GET /events/:id/seating-plan`. */
+export interface ApiSeatingPlanCategory {
+  id: number;
+  name: string;
+  blocks: string[];
+  color: string | null;
+}
+
+export interface ApiEventSeatingPlan {
+  eventId: number;
+  name: string;
+  svgUrl: string;
+  categories: ApiSeatingPlanCategory[];
+}
+
 // ===== neop domain model (what the UI renders) =====
 
 export type CategoryId = 'music' | 'festivals' | 'sports' | 'arts' | 'comedy';

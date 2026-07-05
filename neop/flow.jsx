@@ -60,9 +60,6 @@ function EventDetail({ id }) {
         <div>
           <h2 className="serif" style={{ fontSize:32, margin:"0 0 16px" }}>About this event</h2>
           <p style={{ fontSize:17.5, lineHeight:1.7, color:"var(--dim)", margin:0, maxWidth:620 }}>{ev.blurb}</p>
-          <p style={{ fontSize:17.5, lineHeight:1.7, color:"var(--dim)", marginTop:16, maxWidth:620 }}>
-            Doors open one hour before showtime. This is an all-ages event. Tickets are fully transferable and backed by neop's buyer guarantee — if anything goes wrong, you're covered.
-          </p>
 
           {ev.lineup && ev.lineup.length > 0 && (
             <div style={{ marginTop:44 }}>

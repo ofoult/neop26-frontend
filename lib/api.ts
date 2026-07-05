@@ -4,6 +4,7 @@ import type {
   ApiEventDetail,
   ApiEventListings,
   ApiEventListItem,
+  ApiEventSeatingPlan,
   ApiEventsResponse,
   ApiListingCategory,
   CategoryId,
@@ -56,7 +57,7 @@ function buildBlurb(e: {
     arts: `${e.artist} comes to ${where} in a performance to remember.`,
     comedy: `${e.artist} headlines ${where} for a night of stand-up.`,
   };
-  return `${intros[e.category]} Tickets are fully transferable and backed by neop's 100% buyer guarantee — if anything goes wrong, you're covered.`;
+  return intros[e.category];
 }
 
 // ---------- adapters ----------
@@ -176,5 +177,51 @@ export async function fetchEventListings(id: string, revalidate = 120): Promise<
     return data.categories ?? [];
   } catch {
     return [];
+  }
+}
+
+/**
+ * Seating plan (venue map SVG) for an event. Returns null on any failure or
+ * when Gigsberg has no seating plan for it, so the detail page can just skip
+ * the section.
+ */
+export async function fetchEventSeatingPlan(id: string, revalidate = 3600): Promise<ApiEventSeatingPlan | null> {
+  try {
+    const res = await fetch(buildUrl(`/events/${id}/seating-plan`, {}), { next: { revalidate } });
+    if (!res.ok) return null;
+    return (await res.json()) as ApiEventSeatingPlan;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Strips content that has no business being in a third-party SVG we're about
+ * to inline via dangerouslySetInnerHTML: the XML prologue/doctype (invalid as
+ * HTML, and would render as stray text) plus any <script> tags and inline
+ * event-handler attributes (defense in depth against a compromised/malicious
+ * asset host, even though the SVG comes from Gigsberg's own CDN).
+ */
+function sanitizeSvgMarkup(svg: string): string {
+  return svg
+    .replace(/<\?xml[\s\S]*?\?>/gi, '')
+    .replace(/<!DOCTYPE[\s\S]*?>/gi, '')
+    .replace(/<script[\s\S]*?<\/script\s*>/gi, '')
+    .replace(/\son\w+\s*=\s*(".*?"|'.*?'|[^\s>]+)/gi, '');
+}
+
+/**
+ * Fetches the raw seating-plan SVG markup so it can be inlined into the page
+ * (rather than loaded as an opaque <img>), letting the UI target individual
+ * block elements by id/data-name — needed to highlight a category's seats on
+ * hover. Returns null on any failure.
+ */
+export async function fetchSeatingPlanSvgMarkup(url: string, revalidate = 3600): Promise<string | null> {
+  try {
+    const res = await fetch(url, { next: { revalidate } });
+    if (!res.ok) return null;
+    return sanitizeSvgMarkup(await res.text());
+  } catch {
+    return null;
   }
 }
