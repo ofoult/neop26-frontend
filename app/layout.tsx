@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Instrument_Serif, Schibsted_Grotesk } from 'next/font/google';
 import './globals.css';
 import { Chrome } from '@/components/Chrome';
+import { Analytics } from '@vercel/analytics/next';
 
 const sans = Schibsted_Grotesk({
   subsets: ['latin'],
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div id="root" style={{ minHeight: '100vh' }}>
           <Chrome>{children}</Chrome>
         </div>
+        <Analytics />
       </body>
     </html>
   );
