@@ -9,6 +9,21 @@ function normalizeBlockName(block: string): string {
   return block.trim().replace(/\s+/g, '');
 }
 
+/**
+ * Escapes a string for use in a CSS selector — a hand-rolled equivalent of
+ * the browser-only `CSS.escape`, needed because this component's CSS is built
+ * during render (not inside an effect) and Next.js also renders it once on
+ * the server, where `CSS` doesn't exist. Using the real `CSS.escape` there
+ * would throw, and worse, produce different escaped text server vs. client,
+ * tripping a hydration mismatch even where it doesn't throw.
+ */
+function cssEscape(value: string): string {
+  const escaped = value.replace(/[^a-zA-Z0-9_-]/g, (ch) => `\\${ch.charCodeAt(0).toString(16)} `);
+  // A leading digit (or "-" + digit) isn't valid at the start of a bare
+  // identifier and needs the same hex-escape treatment.
+  return escaped.replace(/^(-?)([0-9])/, (_m, dash: string, digit: string) => `${dash}\\${digit.charCodeAt(0).toString(16)} `);
+}
+
 /** The category's own top-level SVG group id (its name with spaces -> underscores). */
 function scopeId(categoryName: string): string {
   return categoryName.trim().replace(/\s+/g, '_');
@@ -62,15 +77,33 @@ function resolveBlockAtTarget(
   return category && block ? { category, block } : null;
 }
 
-/** Builds the `<style>` block that fills the given category's blocks. */
-function buildHighlightCss(categoryName: string, blocks: string[]): string {
-  const scope = `#${CSS.escape(scopeId(categoryName))}`;
+/** Builds the `<style>` block that fills the given category's blocks with `color`. */
+function buildFillCss(categoryName: string, blocks: string[], color: string): string {
+  const scope = `#${cssEscape(scopeId(categoryName))}`;
   const selectors = blocks.flatMap((block) =>
-    blockDataNameCandidates(block).map((c) => `${scope} [data-name="${CSS.escape(c)}"]`),
+    blockDataNameCandidates(block).map((c) => `${scope} [data-name="${cssEscape(c)}"]`),
   );
   if (selectors.length === 0) return '';
-  return `${selectors.join(',\n')} { fill: var(--accent) !important; transition: fill .15s; }`;
+  return `${selectors.join(',\n')} { fill: ${color} !important; transition: fill .15s; }`;
 }
+
+/**
+ * Distinct base colors for sellable categories, assigned by position so each
+ * category keeps the same color across renders. Kept light/muted (not the
+ * vivid --accent-2 used on hover) so the at-rest map reads as a subtle
+ * per-category tint rather than a flashy, saturated block of color — the
+ * hover state is what should pop.
+ */
+const CATEGORY_PALETTE = [
+  '#c4b5fd', // light violet
+  '#86efac', // light green
+  '#fcd34d', // light amber
+  '#7dd3fc', // light sky blue
+  '#fca5a5', // light red
+  '#5eead4', // light teal
+  '#fde047', // light yellow
+  '#f9a8d4', // light pink
+];
 
 interface HoverInfo {
   block: string;
@@ -111,16 +144,37 @@ export function SeatingPlanSvg({
     onHoverSeatCategory?.(hover?.category ?? null);
   }, [hover?.category, onHoverSeatCategory]);
 
+// Categories that currently have live, available pricing — these are the
+  // ones a customer can actually buy, so their seats get a persistent base
+  // color (distinct per category) rather than staying the SVG's default gray.
+  const sellableCategories = useMemo(
+    () =>
+      categories.filter((c) =>
+        pricingCategories.some(
+          (p) => p.available > 0 && p.name.trim().toLowerCase() === c.name.trim().toLowerCase(),
+        ),
+      ),
+    [categories, pricingCategories],
+  );
+
+  const baseCategoryCss = useMemo(
+    () =>
+      sellableCategories
+        .map((c, i) => buildFillCss(c.name, c.blocks, CATEGORY_PALETTE[i % CATEGORY_PALETTE.length]))
+        .join('\n'),
+    [sellableCategories],
+  );
+
   const categoryHighlightCss = useMemo(() => {
     if (!hoveredCategoryName) return '';
     const match = categories.find((c) => c.name.trim().toLowerCase() === hoveredCategoryName.trim().toLowerCase());
-    return match ? buildHighlightCss(match.name, match.blocks) : '';
+    return match ? buildFillCss(match.name, match.blocks, 'var(--accent-2)') : '';
   }, [categories, hoveredCategoryName]);
 
   // The single seat currently under the cursor (see handleMouseMove) — filled
   // in addition to, and independently of, the category-wide highlight above.
   const seatHighlightCss = useMemo(() => {
-    return hover ? buildHighlightCss(hover.category, [hover.block]) : '';
+    return hover ? buildFillCss(hover.category, [hover.block], 'var(--accent-2)') : '';
   }, [hover]);
 
   // Maps each category's top-level SVG group id back to the category, so a
@@ -136,7 +190,7 @@ export function SeatingPlanSvg({
   }, [categories]);
 
   const scopeSelectorList = useMemo(
-    () => [...categoryByScopeId.keys()].map((id) => `#${CSS.escape(id)}`).join(','),
+    () => [...categoryByScopeId.keys()].map((id) => `#${cssEscape(id)}`).join(','),
     [categoryByScopeId],
   );
 
@@ -189,8 +243,13 @@ export function SeatingPlanSvg({
       onClick={handleClick}
       style={{ position: 'relative', cursor: hover ? 'pointer' : undefined }}
     >
-      <style>{categoryHighlightCss}</style>
-      <style>{seatHighlightCss}</style>
+      {/* dangerouslySetInnerHTML, not a JSX text child: <style> is a raw-text
+          HTML element, so React's default child-escaping (quotes -> &quot;)
+          would corrupt the CSS and — since browsers don't decode entities
+          inside <style> — also trip a hydration mismatch. */}
+      <style dangerouslySetInnerHTML={{ __html: baseCategoryCss }} />
+      <style dangerouslySetInnerHTML={{ __html: categoryHighlightCss }} />
+      <style dangerouslySetInnerHTML={{ __html: seatHighlightCss }} />
       {/* Gigsberg's own SVG, sanitized server-side and inlined so individual
           blocks can be targeted by the CSS/hover logic above. */}
       <div dangerouslySetInnerHTML={{ __html: svgMarkup }} />

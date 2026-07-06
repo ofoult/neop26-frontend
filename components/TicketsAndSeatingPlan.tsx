@@ -51,7 +51,7 @@ export function TicketsAndSeatingPlan({
       />
 
       {hasSeatingPlan && (
-        <div>
+        <div style={{ position: 'sticky', top: 104 }}>
           <h3 className="serif" style={{ fontSize: 26, margin: '0 0 18px' }}>
             Seating plan
           </h3>

@@ -120,8 +120,11 @@ export default async function EventPage({ params }: { params: { id: string } }) 
 
       {/* body */}
       <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '40px 28px 0' }}>
+        {/* tickets (left) + seating plan (right) */}
+        <TicketsAndSeatingPlan ev={ev} categories={categories} seatingPlan={seatingPlan} svgMarkup={svgMarkup} />
+
         {/* lineup / venue */}
-        <div style={{ maxWidth: 760 }}>
+        <div style={{ maxWidth: 760, marginTop: 56 }}>
           {ev.lineup.length > 0 && (
             <div>
               <h3 className="serif" style={{ fontSize: 26, margin: '0 0 18px' }}>
@@ -176,11 +179,6 @@ export default async function EventPage({ params }: { params: { id: string } }) 
               </div>
             </div>
           </div>
-        </div>
-
-        {/* tickets (left) + seating plan (right) */}
-        <div style={{ marginTop: 56 }}>
-          <TicketsAndSeatingPlan ev={ev} categories={categories} seatingPlan={seatingPlan} svgMarkup={svgMarkup} />
         </div>
       </div>
 
