@@ -37,18 +37,9 @@ export function Nav() {
         transition: 'all .3s',
       }}
     >
-      <div
-        style={{
-          maxWidth: 'var(--maxw)',
-          margin: '0 auto',
-          padding: '16px 28px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 24,
-        }}
-      >
+      <div className="nav-inner">
         <Logo href="/" />
-        <nav style={{ display: 'flex', gap: 4, marginLeft: 8 }}>
+        <nav className="nav-links">
           {LINKS.map(([label, href]) => (
             <Link
               key={label}
@@ -66,31 +57,13 @@ export function Nav() {
             </Link>
           ))}
         </nav>
-        <Link
-          href="/browse?focus=1"
-          className="focus-ring"
-          style={{
-            marginLeft: 'auto',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            padding: '10px 18px',
-            borderRadius: 999,
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            color: 'var(--faint)',
-            fontSize: 14,
-            minWidth: 230,
-            justifyContent: 'flex-start',
-          }}
-        >
-          <Icon name="search" size={17} /> Search events, artists, cities…
+        <Link href="/browse?focus=1" className="nav-search focus-ring" aria-label="Search events, artists, cities">
+          <Icon name="search" size={17} />
+          <span className="nav-search-label">Search events, artists, cities…</span>
         </Link>
-        <button
-          className="focus-ring"
-          style={{ display: 'flex', alignItems: 'center', gap: 7, color: 'var(--dim)', fontSize: 14.5, fontWeight: 500 }}
-        >
-          <Icon name="globe" size={18} /> EN · USD
+        <button className="nav-lang focus-ring" aria-label="Language and currency">
+          <Icon name="globe" size={18} />
+          <span className="nav-lang-label">EN · USD</span>
         </button>
         <Btn size="sm" variant="soft" icon="user">
           Sign in
