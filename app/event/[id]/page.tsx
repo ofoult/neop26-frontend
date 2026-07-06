@@ -1,29 +1,28 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { EventCard } from '@/components/EventCard';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { SecHead } from '@/components/SecHead';
+import { Skeleton } from '@/components/Skeleton';
 import { TicketsAndSeatingPlan } from '@/components/TicketsAndSeatingPlan';
 import { fetchEvent, fetchEventListings, fetchEvents, fetchEventSeatingPlan, fetchSeatingPlanSvgMarkup } from '@/lib/api';
 import { CATEGORIES, categoryById } from '@/lib/categories';
 import { fmtDateLong, fmtTime } from '@/lib/format';
+import type { NeopEvent } from '@/lib/types';
 
 export const revalidate = 120;
 
 export default async function EventPage({ params }: { params: { id: string } }) {
+  // Only the core event record gates the first paint — everything else
+  // (ticket categories, the seating-plan SVG, "more like this") streams in
+  // afterward via its own Suspense boundary, so a slow Gigsberg listing/SVG
+  // fetch no longer blocks the hero from appearing.
   const ev = await fetchEvent(params.id, revalidate).catch(() => null);
   if (!ev) notFound();
 
   const cat = categoryById(ev.category);
-  const typeId = CATEGORIES.find((c) => c.id === ev.category)?.typeId ?? undefined;
-  const [moreRes, categories, seatingPlan] = await Promise.all([
-    fetchEvents({ typeId, perPage: 8, revalidate }).catch(() => null),
-    fetchEventListings(params.id, revalidate),
-    fetchEventSeatingPlan(params.id),
-  ]);
-  const svgMarkup = seatingPlan ? await fetchSeatingPlanSvgMarkup(seatingPlan.svgUrl) : null;
-  const more = (moreRes?.events ?? []).filter((e) => e.id !== ev.id).slice(0, 3);
 
   return (
     <div>
@@ -121,7 +120,9 @@ export default async function EventPage({ params }: { params: { id: string } }) 
       {/* body */}
       <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '40px 28px 0' }}>
         {/* tickets (left) + seating plan (right) */}
-        <TicketsAndSeatingPlan ev={ev} categories={categories} seatingPlan={seatingPlan} svgMarkup={svgMarkup} />
+        <Suspense fallback={<TicketsAndSeatingPlanSkeleton />}>
+          <TicketsAndSeatingPlanData ev={ev} eventId={params.id} />
+        </Suspense>
 
         {/* lineup / venue */}
         <div style={{ maxWidth: 760, marginTop: 56 }}>
@@ -183,16 +184,74 @@ export default async function EventPage({ params }: { params: { id: string } }) 
       </div>
 
       {/* more like this */}
-      {more.length > 0 && (
-        <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
-          <SecHead kicker="Keep exploring" title="More like this" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
-            {more.map((e, i) => (
-              <EventCard key={e.id} ev={e} i={i} />
-            ))}
-          </div>
-        </section>
-      )}
+      <Suspense fallback={<MoreLikeThisSkeleton />}>
+        <MoreLikeThis ev={ev} />
+      </Suspense>
     </div>
+  );
+}
+
+/** Fetches + renders the ticket picker and seating plan; streamed in via Suspense above. */
+async function TicketsAndSeatingPlanData({ ev, eventId }: { ev: NeopEvent; eventId: string }) {
+  const [categories, seatingPlan] = await Promise.all([
+    fetchEventListings(eventId, revalidate),
+    fetchEventSeatingPlan(eventId),
+  ]);
+  const svgMarkup = seatingPlan ? await fetchSeatingPlanSvgMarkup(seatingPlan.svgUrl) : null;
+  return <TicketsAndSeatingPlan ev={ev} categories={categories} seatingPlan={seatingPlan} svgMarkup={svgMarkup} />;
+}
+
+/** Roughly matches TicketsAndSeatingPlan's 400px + 1fr layout to minimize shift when it swaps in. */
+function TicketsAndSeatingPlanSkeleton() {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '400px 1fr', gap: 48, alignItems: 'start' }}>
+      <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)', padding: 22 }}>
+        <Skeleton style={{ height: 13, width: 110, marginBottom: 18 }} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {[0, 1, 2].map((i) => (
+            <div key={i} style={{ borderRadius: 16, border: '1px solid var(--border)', padding: '16px 18px' }}>
+              <Skeleton style={{ height: 16, width: '55%', marginBottom: 10 }} />
+              <Skeleton style={{ height: 12, width: '35%' }} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <Skeleton style={{ height: 26, width: 170, marginBottom: 18 }} />
+        <Skeleton style={{ height: 520, borderRadius: 18 }} />
+      </div>
+    </div>
+  );
+}
+
+/** Fetches + renders the "more like this" strip; streamed in via Suspense above. */
+async function MoreLikeThis({ ev }: { ev: NeopEvent }) {
+  const typeId = CATEGORIES.find((c) => c.id === ev.category)?.typeId ?? undefined;
+  const moreRes = await fetchEvents({ typeId, perPage: 8, revalidate }).catch(() => null);
+  const more = (moreRes?.events ?? []).filter((e) => e.id !== ev.id).slice(0, 3);
+  if (more.length === 0) return null;
+
+  return (
+    <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
+      <SecHead kicker="Keep exploring" title="More like this" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+        {more.map((e, i) => (
+          <EventCard key={e.id} ev={e} i={i} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function MoreLikeThisSkeleton() {
+  return (
+    <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
+      <SecHead kicker="Keep exploring" title="More like this" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+        {[0, 1, 2].map((i) => (
+          <Skeleton key={i} style={{ aspectRatio: '4/5', borderRadius: 18 }} />
+        ))}
+      </div>
+    </section>
   );
 }
