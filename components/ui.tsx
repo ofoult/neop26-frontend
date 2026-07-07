@@ -110,7 +110,8 @@ export function Btn({
         href={href}
         className="focus-ring"
         target={newTab ? '_blank' : undefined}
-        rel={newTab ? 'noopener noreferrer' : undefined}
+        // Gigsberg needs the referer to attribute checkout traffic back to neop; keep noopener for tabnabbing protection.
+        rel={newTab ? 'noopener' : undefined}
         onMouseEnter={() => setH(true)}
         onMouseLeave={() => setH(false)}
         style={styleAll}

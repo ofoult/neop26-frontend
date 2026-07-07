@@ -38,6 +38,15 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
   fetches), prefer streaming the slow parts in via React `Suspense` with a skeleton fallback
   rather than blocking the whole page behind one `await`.
 
+## External links
+
+- `Btn`'s `newTab` prop (`components/ui.tsx`) is used for links that leave the site — currently
+  only the checkout buttons in `components/TicketPicker.tsx`, which link out to Gigsberg.
+- These links use `rel="noopener"` but deliberately **omit `noreferrer`**: Gigsberg relies on the
+  `Referer` header to attribute checkout traffic back to neop. `noopener` alone is enough to
+  block the tabnabbing vector (new tab can't reach `window.opener`); don't add `noreferrer` back
+  without checking with Gigsberg first.
+
 ## Environment variables
 
 - `NEXT_PUBLIC_API_BASE_URL` — base URL of the neop-backend API (see `.env.local`)
