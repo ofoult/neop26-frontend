@@ -204,8 +204,8 @@ async function TicketsAndSeatingPlanData({ ev, eventId }: { ev: NeopEvent; event
 /** Roughly matches TicketsAndSeatingPlan's 400px + 1fr layout to minimize shift when it swaps in. */
 function TicketsAndSeatingPlanSkeleton() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '400px 1fr', gap: 48, alignItems: 'start' }}>
-      <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)', padding: 22 }}>
+    <div className="tickets-plan-grid has-plan">
+      <div className="tickets-plan-tickets" style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)', padding: 22 }}>
         <Skeleton style={{ height: 13, width: 110, marginBottom: 18 }} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {[0, 1, 2].map((i) => (
@@ -216,7 +216,7 @@ function TicketsAndSeatingPlanSkeleton() {
           ))}
         </div>
       </div>
-      <div>
+      <div className="tickets-plan-seatmap">
         <Skeleton style={{ height: 26, width: 170, marginBottom: 18 }} />
         <Skeleton style={{ height: 520, borderRadius: 18 }} />
       </div>

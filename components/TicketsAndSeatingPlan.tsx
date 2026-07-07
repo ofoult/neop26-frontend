@@ -34,24 +34,19 @@ export function TicketsAndSeatingPlan({
   }
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: hasSeatingPlan ? '400px 1fr' : '400px',
-        gap: 48,
-        alignItems: 'start',
-      }}
-    >
-      <TicketPicker
-        ev={ev}
-        categories={categories}
-        onHoverCategory={setHoveredCategory}
-        highlightedCategory={hoveredSeatCategory}
-        seatSelection={seatSelection}
-      />
+    <div className={`tickets-plan-grid ${hasSeatingPlan ? 'has-plan' : 'no-plan'}`}>
+      <div className="tickets-plan-tickets">
+        <TicketPicker
+          ev={ev}
+          categories={categories}
+          onHoverCategory={setHoveredCategory}
+          highlightedCategory={hoveredSeatCategory}
+          seatSelection={seatSelection}
+        />
+      </div>
 
       {hasSeatingPlan && (
-        <div style={{ position: 'sticky', top: 104 }}>
+        <div className="tickets-plan-seatmap" style={{ position: 'sticky', top: 104 }}>
           <h3 className="serif" style={{ fontSize: 26, margin: '0 0 18px' }}>
             Seating plan
           </h3>
