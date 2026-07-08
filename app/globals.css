@@ -16,8 +16,8 @@
   /* --font-sans / --font-serif are injected by next/font in layout.tsx */
   --sans: var(--font-sans), system-ui, sans-serif;
   --serif: var(--font-serif), Georgia, serif;
-  --accent: #7c3aed;
-  --accent-2: #ec4899;
+  --accent: #dd2a33e3;
+  --accent-2: #c7ca16;
   --accent-ink: #ffffff;
   --grad: linear-gradient(115deg, var(--accent), var(--accent-2));
   --r: 16px;
@@ -176,26 +176,11 @@ img {
   margin-left: 8px;
 }
 
-.nav-search {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 18px;
-  border-radius: 999px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--faint);
-  font-size: 14px;
-  min-width: 230px;
-  justify-content: flex-start;
-  flex-shrink: 0;
-}
-
 .nav-lang {
   display: flex;
   align-items: center;
   gap: 7px;
+  margin-left: auto;
   color: var(--dim);
   font-size: 14.5px;
   font-weight: 500;
@@ -208,15 +193,6 @@ img {
     gap: 10px;
   }
   .nav-links {
-    display: none;
-  }
-  .nav-search {
-    min-width: 0;
-    padding: 10px;
-    justify-content: center;
-  }
-  .nav-search-label,
-  .nav-lang-label {
     display: none;
   }
 }

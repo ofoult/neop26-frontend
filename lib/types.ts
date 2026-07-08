@@ -84,6 +84,7 @@ export interface Category {
   emoji: string;
   /** Gigsberg type_id this category maps to (null when no backend type exists). */
   typeId: number | null;
+  color: string; /** allow color tuning for categories , not gigsberg related */
 }
 
 export interface LocationSuggestion {

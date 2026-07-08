@@ -26,7 +26,7 @@ export function Logo({ size = 24, href = '/' }: { size?: number; href?: string }
       >
         <span style={{ width: size * 0.3, height: size * 0.3, borderRadius: '50%', background: '#fff' }} />
       </span>
-      <span style={{ fontSize: size, fontWeight: 800, letterSpacing: '-0.04em' }}>neop</span>
+      <span style={{ fontSize: size, fontWeight: 800, letterSpacing: '-0.04em' }}>NEOP</span>
     </Link>
   );
 }

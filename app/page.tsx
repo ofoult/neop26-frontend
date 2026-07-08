@@ -3,9 +3,7 @@ import { EventCard } from '@/components/EventCard';
 import { Hero } from '@/components/Hero';
 import { Icon, type IconName } from '@/components/Icon';
 import { SecHead } from '@/components/SecHead';
-import { CatPill } from '@/components/ui';
 import { fetchEvents } from '@/lib/api';
-import { CATEGORIES } from '@/lib/categories';
 import type { NeopEvent } from '@/lib/types';
 
 export const revalidate = 120;
@@ -50,15 +48,6 @@ export default async function HomePage() {
     <div>
       <Hero events={trending} />
       <CityMarquee />
-
-      {/* categories */}
-      <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '48px 28px 0' }}>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          {CATEGORIES.map((c) => (
-            <CatPill key={c.id} cat={c} href={`/browse?cat=${c.id}`} />
-          ))}
-        </div>
-      </section>
 
       {/* trending */}
       <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '56px 28px 0' }}>
