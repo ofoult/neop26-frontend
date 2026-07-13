@@ -16,8 +16,8 @@
   /* --font-sans / --font-serif are injected by next/font in layout.tsx */
   --sans: var(--font-sans), system-ui, sans-serif;
   --serif: var(--font-serif), Georgia, serif;
-  --accent: #dd2a33e3;
-  --accent-2: #c7ca16;
+  --accent: #ec24bae3;
+  --accent-2: #24e2f0;
   --accent-ink: #ffffff;
   --grad: linear-gradient(115deg, var(--accent), var(--accent-2));
   --r: 16px;
@@ -180,7 +180,6 @@ img {
   display: flex;
   align-items: center;
   gap: 7px;
-  margin-left: auto;
   color: var(--dim);
   font-size: 14.5px;
   font-weight: 500;
@@ -241,7 +240,19 @@ img {
 
 .skeleton {
   border-radius: 10px;
-  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 37%, var(--surface) 63%);
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    var(--surface-2) 37%,
+    var(--surface) 63%
+  );
   background-size: 400% 100%;
   animation: skeletonShimmer 1.4s ease infinite;
+}
+
+.category-pill:hover {
+  box-shadow:
+    0 0 30px var(--cat-color),
+    0 0 60px var(--cat-color);
+  transform: translateY(-2px);
 }

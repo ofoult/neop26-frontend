@@ -5,8 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { loadMoreEvents } from '@/app/browse/actions';
 import { EventCard } from '@/components/EventCard';
 import { SearchBar } from '@/components/SearchBar';
-import { CatPill } from '@/components/ui';
-import { CATEGORIES, categoryById } from '@/lib/categories';
+import { categoryById } from '@/lib/categories';
 import { parseDate } from '@/lib/format';
 import type { CategoryId, NeopEvent } from '@/lib/types';
 
@@ -127,19 +126,30 @@ export function BrowseClient({
     .join(' ');
 
   return (
-    <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '32px 28px 0' }}>
+    <div
+      style={{
+        maxWidth: "var(--maxw)",
+        margin: "0 auto",
+        padding: "32px 28px 0",
+      }}
+    >
       <div style={{ marginBottom: 28 }}>
-        <div style={{ fontSize: 13.5, color: 'var(--faint)', marginBottom: 10 }}>
-          <Link href="/" style={{ color: 'var(--dim)' }}>
+        <div
+          style={{ fontSize: 13.5, color: "var(--faint)", marginBottom: 10 }}
+        >
+          <Link href="/" style={{ color: "var(--dim)" }}>
             Home
-          </Link>{' '}
-          / Browse{searching ? ' / Search' : catObj ? ` / ${catObj.label}` : ''}
+          </Link>{" "}
+          / Browse{searching ? " / Search" : catObj ? ` / ${catObj.label}` : ""}
         </div>
-        <h1 className="serif" style={{ fontSize: 'clamp(36px,5vw,58px)', margin: 0, lineHeight: 1 }}>
+        <h1
+          className="serif"
+          style={{ fontSize: "clamp(36px,5vw,58px)", margin: 0, lineHeight: 1 }}
+        >
           {searching ? (
             <>
-              Results for{' '}
-              <span className="ital" style={{ color: 'var(--dim)' }}>
+              Results for{" "}
+              <span className="ital" style={{ color: "var(--dim)" }}>
                 “{searchLabel}”
               </span>
             </>
@@ -147,8 +157,8 @@ export function BrowseClient({
             catObj.label
           ) : (
             <>
-              Discover events{' '}
-              <span className="ital" style={{ color: 'var(--dim)' }}>
+              Discover events{" "}
+              <span className="ital" style={{ color: "var(--dim)" }}>
                 worldwide
               </span>
             </>
@@ -159,27 +169,29 @@ export function BrowseClient({
       <div style={{ marginBottom: 22 }}>
         <SearchBar
           compact
-          defaultQuery={query ?? ''}
-          defaultWhere={where ?? ''}
-          defaultFrom={dateFrom ?? ''}
-          defaultTo={dateTo ?? ''}
+          defaultQuery={query ?? ""}
+          defaultWhere={where ?? ""}
+          defaultFrom={dateFrom ?? ""}
+          defaultTo={dateTo ?? ""}
           autoFocus={autoFocus}
         />
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}>
-        <CatPill cat={{ label: 'All', emoji: '✺' }} active={!activeCat} href="/browse" />
-        {CATEGORIES.map((c) => (
-          <CatPill key={c.id} cat={c} active={activeCat === c.id} href={`/browse?cat=${c.id}`} />
-        ))}
-        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 13.5, color: 'var(--faint)' }}>Sort</span>
+      <div
+        style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <span
+            style={{ fontSize: 18, color: "var(--faint)", paddingLeft: 10 }}
+          >
+            Sort
+          </span>
           <div
             style={{
-              display: 'flex',
+              display: "flex",
               gap: 4,
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
               borderRadius: 999,
               padding: 4,
             }}
@@ -190,13 +202,13 @@ export function BrowseClient({
                 onClick={() => setSort(k)}
                 className="focus-ring"
                 style={{
-                  padding: '7px 14px',
+                  padding: "7px 14px",
                   borderRadius: 999,
-                  fontSize: 13.5,
+                  fontSize: 16,
                   fontWeight: 600,
-                  background: sort === k ? 'var(--text)' : 'transparent',
-                  color: sort === k ? '#0a0a0f' : 'var(--dim)',
-                  transition: 'all .2s',
+                  background: sort === k ? "var(--text)" : "transparent",
+                  color: sort === k ? "#0a0a0f" : "var(--dim)",
+                  transition: "all .2s",
                 }}
               >
                 {l}
@@ -206,28 +218,43 @@ export function BrowseClient({
         </div>
       </div>
 
-      <div style={{ fontSize: 14, color: 'var(--dim)', marginBottom: 18 }}>
+      <div style={{ fontSize: 14, color: "var(--dim)", marginBottom: 18 }}>
         {total.toLocaleString()} events
-        {sorted.length < total ? ` · showing ${sorted.length}` : ''}
+        {sorted.length < total ? ` · showing ${sorted.length}` : ""}
       </div>
       {sorted.length === 0 ? (
-        <div style={{ color: 'var(--dim)', fontSize: 16, padding: '40px 0' }}>
-          {searching ? `No events match “${searchLabel}”.` : 'No events found in this category.'}
+        <div style={{ color: "var(--dim)", fontSize: 16, padding: "40px 0" }}>
+          {searching
+            ? `No events match “${searchLabel}”.`
+            : "No events found in this category."}
         </div>
       ) : (
         <>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3,1fr)",
+              gap: 18,
+            }}
+          >
             {sorted.map((e, i) => (
-              <EventCard key={e.id} ev={e} i={i} />
+              <EventCard key={e.id} ev={e} i={i} wide />
             ))}
           </div>
 
           {/* Sentinel: when it scrolls near the viewport, the next page loads. */}
           {!done && <div ref={sentinelRef} aria-hidden style={{ height: 1 }} />}
 
-          <div style={{ textAlign: 'center', padding: '32px 0 48px', color: 'var(--dim)', fontSize: 14 }}>
+          <div
+            style={{
+              textAlign: "center",
+              padding: "32px 0 48px",
+              color: "var(--dim)",
+              fontSize: 14,
+            }}
+          >
             {loading ? (
-              'Loading more events…'
+              "Loading more events…"
             ) : errored ? (
               <button
                 onClick={() => {
@@ -236,19 +263,19 @@ export function BrowseClient({
                 }}
                 className="focus-ring"
                 style={{
-                  padding: '10px 20px',
+                  padding: "10px 20px",
                   borderRadius: 999,
                   fontSize: 14,
                   fontWeight: 600,
-                  background: 'var(--surface)',
-                  border: '1px solid var(--border)',
-                  color: 'var(--text)',
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
+                  color: "var(--text)",
                 }}
               >
                 Couldn’t load more — retry
               </button>
             ) : done ? (
-              'You’ve reached the end.'
+              "You’ve reached the end."
             ) : null}
           </div>
         </>

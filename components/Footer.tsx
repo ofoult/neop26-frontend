@@ -2,9 +2,8 @@ import { Icon } from './Icon';
 import { Logo } from './ui';
 
 const COLS: [string, string[]][] = [
-  ['Discover', ['Concerts', 'Festivals', 'Sports', 'Theater', 'Comedy']],
-  ['Company', ['About neop', 'Careers', 'Press', 'Partners']],
-  ['Support', ['Help center', 'Buyer guarantee', 'Refunds', 'Contact']],
+  ['Learn More', ['About us', 'Sitemap', 'Partners']],
+  ['Support', ['Help', 'FAQ', 'Contact Us']],
 ];
 
 export function Footer() {
