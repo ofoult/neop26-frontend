@@ -157,6 +157,12 @@ export async function fetchEvents(q: EventQuery = {}): Promise<EventsResult> {
   };
 }
 
+// used inside the BestSaleMarquee but currently not working because of client issue ,uncomment if we end up fixing the client issue and still need this function or delete it if we don't need it anymore .
+// export async function fetchTrendingEvents(revalidate = 120): Promise<NeopEvent[]> {
+//   const res = await fetchEvents({ perPage: 50, revalidate });
+//   return res.events.filter((event) => event.hot).slice(0, 12);
+// }
+
 export async function fetchEvent(id: string, revalidate = 60): Promise<NeopEvent | null> {
   const res = await fetch(buildUrl(`/events/${id}`, {}), { next: { revalidate } });
   if (res.status === 404) return null;

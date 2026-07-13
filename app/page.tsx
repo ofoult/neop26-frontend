@@ -1,11 +1,8 @@
-import { CityMarquee } from '@/components/CityMarquee';
 import { EventCard } from '@/components/EventCard';
 import { Hero } from '@/components/Hero';
 import { Icon, type IconName } from '@/components/Icon';
 import { SecHead } from '@/components/SecHead';
-import { CatPill } from '@/components/ui';
 import { fetchEvents } from '@/lib/api';
-import { CATEGORIES } from '@/lib/categories';
 import type { NeopEvent } from '@/lib/types';
 
 export const revalidate = 120;
@@ -40,46 +37,46 @@ export default async function HomePage() {
   // Priced inventory surfaces as "trending"; pad with the rest to fill the grid.
   const priced = events.filter((e) => e.hot);
   const rest = events.filter((e) => !e.hot);
-  const trending = [...priced, ...rest].slice(0, 5);
+  const heroEvents = [...priced, ...rest].slice(0, 5);
+  const trending = [...priced, ...rest].slice(0, 3);
   // Weekend strip: events not already shown in the trending grid.
   const trendingIds = new Set(trending.map((e) => e.id));
-  const weekend = events.filter((e) => !trendingIds.has(e.id)).slice(0, 6);
+  const weekend = events.filter((e) => !trendingIds.has(e.id)).slice(0, 3);
   const fests = (festPool?.events ?? []).slice(0, 3);
 
   return (
     <div>
-      <Hero events={trending} />
-      <CityMarquee />
-
-      {/* categories */}
-      <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '48px 28px 0' }}>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          {CATEGORIES.map((c) => (
-            <CatPill key={c.id} cat={c} href={`/browse?cat=${c.id}`} />
-          ))}
-        </div>
-      </section>
+      <Hero events={heroEvents} />
 
       {/* trending */}
-      <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '56px 28px 0' }}>
+      <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
         <SecHead kicker="Selling fast" title="Trending right now" action="See all" actionHref="/browse" />
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: 18 }}>
-          <div style={{ gridRow: 'span 2' }}>
-            <EventCard ev={trending[0]} i={0} wide />
-          </div>
-          {trending.slice(1, 5).map((e, i) => (
-            <EventCard key={e.id} ev={e} i={i + 1} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+          {trending.map((e, i) => (
+            <EventCard key={e.id} ev={e} i={i + 1} wide />
           ))}
         </div>
       </section>
 
       {/* this weekend */}
       {weekend.length > 0 && (
-        <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
+        <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
           <SecHead kicker="Don't miss out" title="On this weekend" action="Browse dates" actionHref="/browse" />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
             {weekend.map((e, i) => (
-              <EventCard key={e.id} ev={e} i={i} />
+              <EventCard key={e.id} ev={e} i={i} wide />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* festivals spotlight */}
+      {fests.length > 0 && (
+        <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
+          <SecHead kicker="Season highlights" title="Festivals worth the flight" action="All festivals" actionHref="/browse?cat=festivals" />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+            {fests.map((e, i) => (
+              <EventCard key={e.id} ev={e} i={i} wide />
             ))}
           </div>
         </section>
@@ -88,7 +85,7 @@ export default async function HomePage() {
       {/* guarantee band */}
       <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
         <div style={{ borderRadius: 24, overflow: 'hidden', position: 'relative', border: '1px solid var(--border)' }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'var(--grad)', opacity: 0.16 }} />
+          <div style={{ position: 'absolute', inset: 0, background:"linear-gradient(rgba(7,7,11,0.82), rgba(7,7,11,0.32)), var(--grad)" }} />
           <div
             style={{
               position: 'relative',
@@ -122,18 +119,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* festivals spotlight */}
-      {fests.length > 0 && (
-        <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
-          <SecHead kicker="Season highlights" title="Festivals worth the flight" action="All festivals" actionHref="/browse?cat=festivals" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
-            {fests.map((e, i) => (
-              <EventCard key={e.id} ev={e} i={i} wide />
-            ))}
-          </div>
-        </section>
-      )}
     </div>
   );
 }

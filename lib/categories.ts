@@ -5,11 +5,11 @@ import type { Category, CategoryId } from './types';
 // Only categories with a Gigsberg type are listed (Conferences has no
 // equivalent and was removed).
 export const CATEGORIES: Category[] = [
-  { id: 'music', label: 'Music', emoji: '♪', typeId: 2 },
-  { id: 'festivals', label: 'Festivals', emoji: '✦', typeId: 4 },
-  { id: 'sports', label: 'Sports', emoji: '◆', typeId: 1 },
-  { id: 'arts', label: 'Theater & Arts', emoji: '❖', typeId: 5 },
-  { id: 'comedy', label: 'Comedy', emoji: '☺', typeId: 3 },
+  { id: 'music', label: 'Music', emoji: '♪', typeId: 2 , color: '#ad3561' },
+  { id: 'festivals', label: 'Festivals', emoji: '✦', typeId: 4 , color: '#623ac0' },
+  { id: 'sports', label: 'Sports', emoji: '◆', typeId: 1 , color: '#3264b4' },
+  { id: 'arts', label: 'Theater & Arts', emoji: '❖', typeId: 5 , color:'#c4833a' },
+  { id: 'comedy', label: 'Comedy', emoji: '☺', typeId: 3 , color: '#29af5a' },
 ];
 
 const BY_ID = new Map<CategoryId, Category>(CATEGORIES.map((c) => [c.id, c]));
