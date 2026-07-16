@@ -260,7 +260,8 @@ function RealTickets({
           // Most seats buyable in one order (the largest valid count for the rule).
           const maxSel = counts.length ? counts[counts.length - 1] : 0;
           const sym = currencySymbol(cat.currency, ev.currency);
-          const avail = availabilityLabel(cat.available);
+          // Never advertise more than a single order could actually take.
+          const avail = availabilityLabel(Math.min(cat.available, maxSel));
           const hasRange = cat.maxPrice > cat.fromPrice;
           const hint = splitHint(cat.splitType);
           const desc = cat.ticketTypes.length > 0 ? cat.ticketTypes.join(' · ') : `${cat.listings} listing${cat.listings === 1 ? '' : 's'}`;
@@ -298,7 +299,7 @@ function RealTickets({
                 </span>
                 <span style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                   <span style={{ fontSize: 12.5, fontWeight: 600, color: avail.hot ? 'var(--accent-2)' : 'var(--faint)' }}>
-                    {cat.available} available
+                    {avail.text}
                   </span>
                   <span style={{ display: 'block', fontSize: 11.5, color: 'var(--faint)', marginTop: 2 }}>
                     max {maxSel} / order
@@ -333,6 +334,8 @@ function RealTickets({
           const counts = validSeatCounts(active.splitType, active.maxQuantity);
           const atMin = counts.indexOf(qty) <= 0;
           const atMax = counts.indexOf(qty) >= counts.length - 1;
+          // Never advertise more than a single order could actually take.
+          const activeAvail = availabilityLabel(Math.min(active.available, counts.length ? counts[counts.length - 1] : 0));
           return (
             <>
               <div style={{ padding: '22px 22px 0' }}>
@@ -340,9 +343,7 @@ function RealTickets({
                 <div style={{ fontSize: 14.5, color: 'var(--dim)', marginTop: 4 }}>
                   {activeSymbol}
                   {active.fromPrice} / ticket
-                  {availabilityLabel(active.available).hot && (
-                    <span style={{ color: 'var(--accent-2)', fontWeight: 600 }}> · Only {active.available} left</span>
-                  )}
+                  {activeAvail.hot && <span style={{ color: 'var(--accent-2)', fontWeight: 600 }}> · {activeAvail.text}</span>}
                 </div>
               </div>
 
