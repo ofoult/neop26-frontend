@@ -18,6 +18,34 @@ export function fmtDateLong(s: string): string {
   return `${DAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 }
 
+/**
+ * Coarse "how far out" bucket for a "pastille" badge next to an event's name —
+ * Today / Tomorrow / This week / … / a bare year once it's more than a year out.
+ * Compares calendar days (local time), not exact timestamps.
+ */
+export function relativeDayLabel(s: string, now: Date = new Date()): string {
+  const startOfDay = (x: Date) => new Date(x.getFullYear(), x.getMonth(), x.getDate());
+  const today = startOfDay(now);
+  const target = startOfDay(parseDate(s));
+  const diffDays = Math.round((target.getTime() - today.getTime()) / 86_400_000);
+
+  if (diffDays === 0) return 'Today';
+  if (diffDays === 1) return 'Tomorrow';
+  if (diffDays > 1 && diffDays <= 7) return 'This week';
+  if (diffDays > 7 && diffDays <= 14) return 'Next week';
+
+  if (target.getFullYear() === today.getFullYear() && target.getMonth() === today.getMonth()) {
+    return 'This month';
+  }
+  const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+  if (target.getFullYear() === nextMonth.getFullYear() && target.getMonth() === nextMonth.getMonth()) {
+    return 'Next month';
+  }
+  if (target.getFullYear() === today.getFullYear()) return 'This year';
+  if (target.getFullYear() === today.getFullYear() + 1) return 'Next year';
+  return String(target.getFullYear());
+}
+
 export function fmtTime(s: string): string {
   const d = parseDate(s);
   let h = d.getHours();
