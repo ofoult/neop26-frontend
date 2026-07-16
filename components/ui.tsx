@@ -5,28 +5,16 @@ import { useState, type CSSProperties, type ReactNode } from 'react';
 import { Icon, type IconName } from './Icon';
 
 // ---------- wordmark ----------
+// Source asset is app/icon.png (48x48, favicon convention) cropped to its
+// content bounding box (46x20, ~2.3:1) so it reads clearly at logo sizes.
+const LOGO_ASPECT = 46 / 20;
+
 export function Logo({ size = 24, href = '/' }: { size?: number; href?: string }) {
+  const height = size * 1.1;
   return (
-    <Link
-      href={href}
-      className="focus-ring"
-      style={{ display: 'flex', alignItems: 'center', gap: 9, padding: 0 }}
-      aria-label="neop home"
-    >
-      <span
-        style={{
-          width: size * 0.78,
-          height: size * 0.78,
-          borderRadius: 7,
-          background: 'var(--grad)',
-          display: 'grid',
-          placeItems: 'center',
-          boxShadow: '0 4px 18px -6px var(--accent)',
-        }}
-      >
-        <span style={{ width: size * 0.3, height: size * 0.3, borderRadius: '50%', background: '#fff' }} />
-      </span>
-      <span style={{ fontSize: size, fontWeight: 800, letterSpacing: '-0.04em' }}>neop</span>
+    <Link href={href} className="focus-ring" style={{ display: 'flex', alignItems: 'center', padding: 0 }} aria-label="neop home">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/logo.png" alt="neop" style={{ height, width: height * LOGO_ASPECT, objectFit: 'contain' }} />
     </Link>
   );
 }
