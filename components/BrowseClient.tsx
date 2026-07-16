@@ -219,7 +219,7 @@ export function BrowseClient({
       </div>
 
       <div style={{ fontSize: 14, color: "var(--dim)", marginBottom: 18 }}>
-        {total.toLocaleString()} events
+        {total.toLocaleString()} artists
         {sorted.length < total ? ` · showing ${sorted.length}` : ""}
       </div>
       {sorted.length === 0 ? (

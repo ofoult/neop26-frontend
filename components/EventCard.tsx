@@ -18,9 +18,14 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
   // invisible for seconds — that delay would leave a tall blank gap at the bottom.
   const animationDelay = `${Math.min(i, 11) * 60}ms`;
 
+  // Events with a known performer route to that artist's event list; the rare
+  // event with neither performer1_id nor performer2_id falls back to going
+  // straight to its own detail page.
+  const href = ev.performerId ? `/performer/${ev.performerId}` : `/event/${ev.id}`;
+
   return (
     <Link
-      href={`/event/${ev.id}`}
+      href={href}
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
       className="focus-ring up"
@@ -90,6 +95,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, gap: 12 }}>
             <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,.82)', display: 'flex', alignItems: 'center', gap: 6 }}>
               <Icon name="pin" size={14} /> {[ev.city, ev.country].filter(Boolean).join(', ')} · {fmtDate(ev.date)}
+              {ev.performerEventCount > 1 && ` · ${ev.performerEventCount} events for this artist`}
             </div>
             <div
               style={{

@@ -14,6 +14,10 @@ export interface ApiEventListItem {
   venue: string | null;
   performer1: string | null;
   performer2: string | null;
+  performer1_id: string | null;
+  performer2_id: string | null;
+  /** How many (filtered) events feature this performer — listings return one row per performer. */
+  performer_event_count?: number;
   min_price: number | string | null;
   url: string | null;
   image: string | null;
@@ -74,6 +78,23 @@ export interface ApiEventSeatingPlan {
   categories: ApiSeatingPlanCategory[];
 }
 
+/** One row from `GET /performers/:id` — a minimal projection for the listing. */
+export interface ApiPerformerEventItem {
+  id: string;
+  name: string | null;
+  event_date: string | null;
+  event_time: string | null;
+  timezone: string | null;
+  city: string | null;
+  country: string | null;
+  venue: string | null;
+}
+
+export interface ApiPerformerResponse {
+  performer: { id: number; name: string | null; image: string | null };
+  events: ApiPerformerEventItem[];
+}
+
 // ===== neop domain model (what the UI renders) =====
 
 export type CategoryId = 'music' | 'festivals' | 'sports' | 'arts' | 'comedy';
@@ -115,4 +136,8 @@ export interface NeopEvent {
   lineup: string[];
   /** Original Gigsberg purchase URL (carries the neop affiliate tag). */
   url: string | null;
+  /** How many other upcoming events feature this performer. */
+  performerEventCount: number;
+  /** performer1_id, falling back to performer2_id; null when the event has neither. */
+  performerId: string | null;
 }

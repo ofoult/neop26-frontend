@@ -7,6 +7,7 @@ import type {
   ApiEventSeatingPlan,
   ApiEventsResponse,
   ApiListingCategory,
+  ApiPerformerResponse,
   CategoryId,
   NeopEvent,
 } from './types';
@@ -31,7 +32,7 @@ function toNumber(v: number | string | null | undefined): number | null {
  * Concatenating (rather than relying on the ISO `Z`) keeps the displayed time
  * equal to the event's local listed time, consistent across list and detail.
  */
-function combineDateTime(date: string | null, time: string | null): string {
+export function combineDateTime(date: string | null, time: string | null): string {
   const day = (date ?? '').split('T')[0] || '1970-01-01';
   const t = time && /^\d{2}:\d{2}/.test(time) ? time : '19:00:00';
   return `${day}T${t}`;
@@ -89,6 +90,8 @@ export function adaptListItem(item: ApiEventListItem): NeopEvent {
     blurb: buildBlurb({ artist, venue, city, country, category, genre }),
     lineup: buildLineup(item.performer1, item.performer2),
     url: item.url,
+    performerEventCount: item.performer_event_count ?? 1,
+    performerId: item.performer1_id ?? item.performer2_id ?? null,
   };
 }
 
@@ -169,6 +172,14 @@ export async function fetchEvent(id: string, revalidate = 60): Promise<NeopEvent
   if (!res.ok) throw new Error(`Failed to load event ${id} (${res.status})`);
   const data = (await res.json()) as ApiEventDetail;
   return adaptDetail(data);
+}
+
+/** All upcoming events for one performer (matches performer1_id or performer2_id). */
+export async function fetchPerformerEvents(id: string, revalidate = 120): Promise<ApiPerformerResponse | null> {
+  const res = await fetch(buildUrl(`/performers/${id}`, {}), { next: { revalidate } });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load performer ${id} (${res.status})`);
+  return (await res.json()) as ApiPerformerResponse;
 }
 
 /**
