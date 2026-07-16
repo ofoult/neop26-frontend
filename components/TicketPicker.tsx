@@ -3,6 +3,7 @@
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { currencySymbol } from '@/lib/format';
 import type { ApiListingCategory, NeopEvent } from '@/lib/types';
+import { Drawer } from './Drawer';
 import { Icon } from './Icon';
 import { Btn } from './ui';
 
@@ -54,6 +55,9 @@ export function TicketPicker({
   onHoverCategory,
   highlightedCategory,
   seatSelection,
+  drawerOpen,
+  onOpenDrawer,
+  onCloseDrawer,
 }: {
   ev: NeopEvent;
   categories?: ApiListingCategory[];
@@ -63,6 +67,10 @@ export function TicketPicker({
   highlightedCategory?: string | null;
   /** Owned by the parent so a seat click on the seating plan can drive it too. */
   seatSelection: SeatSelection;
+  /** Whether the "select tickets" drawer for `seatSelection.activeId` is open. */
+  drawerOpen: boolean;
+  onOpenDrawer: () => void;
+  onCloseDrawer: () => void;
 }) {
   // Real per-category pricing from the Gigsberg listing search.
   if (categories && categories.length > 0) {
@@ -73,6 +81,9 @@ export function TicketPicker({
         onHoverCategory={onHoverCategory}
         highlightedCategory={highlightedCategory}
         seatSelection={seatSelection}
+        drawerOpen={drawerOpen}
+        onOpenDrawer={onOpenDrawer}
+        onCloseDrawer={onCloseDrawer}
       />
     );
   }
@@ -212,12 +223,18 @@ function RealTickets({
   onHoverCategory,
   highlightedCategory,
   seatSelection,
+  drawerOpen,
+  onOpenDrawer,
+  onCloseDrawer,
 }: {
   ev: NeopEvent;
   categories: ApiListingCategory[];
   onHoverCategory?: (name: string | null) => void;
   highlightedCategory?: string | null;
   seatSelection: SeatSelection;
+  drawerOpen: boolean;
+  onOpenDrawer: () => void;
+  onCloseDrawer: () => void;
 }) {
   const { activeId, qty, inc, dec } = seatSelection;
   const active = activeId ? categories.find((c) => c.id === activeId) ?? null : null;
@@ -225,22 +242,23 @@ function RealTickets({
   const subtotal = active ? Math.round(active.fromPrice * qty * 100) / 100 : 0;
   const href = active?.checkoutUrl ? checkoutHref(active.checkoutUrl, qty) : ev.url ?? '/browse';
 
+  function handleBuy(cat: ApiListingCategory) {
+    // Only one category can hold a selection at a time: picking a fresh one
+    // starts it at the smallest valid seat count; re-opening the category
+    // that's already active resumes wherever it was left.
+    if (activeId !== cat.id) inc(cat);
+    onOpenDrawer();
+  }
+
   return (
     <Panel>
       <div style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {categories.map((cat) => {
           const isActive = activeId === cat.id;
-          const isOtherActive = activeId !== null && !isActive;
           const isHighlighted = !isActive && !!highlightedCategory && cat.name.trim().toLowerCase() === highlightedCategory.trim().toLowerCase();
           const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
           // Most seats buyable in one order (the largest valid count for the rule).
           const maxSel = counts.length ? counts[counts.length - 1] : 0;
-          const rowQty = isActive ? qty : 0;
-          // Every row's stepper always renders (fixed row height, no layout
-          // jump when a category is picked) — only its buttons disable while
-          // another category holds the active selection.
-          const canInc = !isOtherActive && counts.length > 0 && (!isActive || counts.indexOf(qty) < counts.length - 1);
-          const canDec = isActive; // removing steps down or deselects
           const sym = currencySymbol(cat.currency, ev.currency);
           const avail = availabilityLabel(cat.available);
           const hasRange = cat.maxPrice > cat.fromPrice;
@@ -287,67 +305,94 @@ function RealTickets({
                   </span>
                 </span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 14, marginTop: 12 }}>
-                <button
-                  onClick={() => dec(cat)}
-                  disabled={!canDec}
-                  className="focus-ring"
-                  style={{ ...qtyBtn, opacity: canDec ? 1 : 0.4 }}
-                  aria-label={`Remove seat from ${cat.name}`}
-                >
-                  <Icon name="minus" size={16} />
-                </button>
-                <span style={{ fontSize: 18, fontWeight: 700, minWidth: 20, textAlign: 'center' }}>{rowQty}</span>
-                <button
-                  onClick={() => inc(cat)}
-                  disabled={!canInc}
-                  className="focus-ring"
-                  style={{ ...qtyBtn, opacity: canInc ? 1 : 0.4 }}
-                  aria-label={`Add seat to ${cat.name}`}
-                >
-                  <Icon name="plus" size={16} />
-                </button>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, gap: 12 }}>
+                {isActive && qty > 0 ? (
+                  <span style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--accent-2)' }}>
+                    {qty} {qty === 1 ? 'ticket' : 'tickets'} selected
+                  </span>
+                ) : (
+                  <span />
+                )}
+                <Btn size="sm" variant={isActive && qty > 0 ? 'soft' : 'solid'} onClick={() => handleBuy(cat)}>
+                  {isActive && qty > 0 ? 'Edit' : 'Buy'}
+                </Btn>
               </div>
             </div>
           );
         })}
       </div>
 
-      <div style={{ padding: '20px 22px 22px' }}>
-        {active ? (
-          <>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'baseline',
-                padding: '16px 0',
-                borderTop: '1px solid var(--border)',
-                marginBottom: 4,
-              }}
-            >
-              <span style={{ fontSize: 14.5, color: 'var(--dim)' }}>
-                {active.name} · {qty} × {activeSymbol}
-                {active.fromPrice}
-              </span>
-              <span style={{ fontSize: 24, fontWeight: 800, letterSpacing: '-0.02em' }}>
-                {activeSymbol}
-                {subtotal}
-              </span>
-            </div>
-            <Btn full size="lg" iconR="arrow" href={href} newTab>
-              Get {qty} {qty === 1 ? 'ticket' : 'tickets'}
-            </Btn>
-          </>
-        ) : (
-          <p style={{ fontSize: 14, color: 'var(--faint)', textAlign: 'center', padding: '12px 0 2px', margin: 0 }}>
-            Add seats to a category to continue.
-          </p>
-        )}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 14, fontSize: 13, color: 'var(--faint)' }}>
+      <div style={{ padding: '4px 22px 22px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, fontSize: 13, color: 'var(--faint)' }}>
           <Icon name="lock" size={14} /> Protected by neop&apos;s 100% guarantee
         </div>
       </div>
+
+      <Drawer open={drawerOpen} onClose={onCloseDrawer} title="Select tickets">
+        {active && (() => {
+          const counts = validSeatCounts(active.splitType, active.maxQuantity);
+          const atMin = counts.indexOf(qty) <= 0;
+          const atMax = counts.indexOf(qty) >= counts.length - 1;
+          return (
+            <>
+              <div style={{ padding: '22px 22px 0' }}>
+                <div style={{ fontSize: 20, fontWeight: 700 }}>{active.name}</div>
+                <div style={{ fontSize: 14.5, color: 'var(--dim)', marginTop: 4 }}>
+                  {activeSymbol}
+                  {active.fromPrice} / ticket
+                  {availabilityLabel(active.available).hot && (
+                    <span style={{ color: 'var(--accent-2)', fontWeight: 600 }}> · Only {active.available} left</span>
+                  )}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 22, padding: '32px 22px' }}>
+                <button
+                  onClick={() => dec(active)}
+                  disabled={atMin}
+                  className="focus-ring"
+                  style={{ ...qtyBtn, opacity: atMin ? 0.4 : 1 }}
+                  aria-label={`Remove seat from ${active.name}`}
+                >
+                  <Icon name="minus" size={16} />
+                </button>
+                <span style={{ fontSize: 32, fontWeight: 800, minWidth: 40, textAlign: 'center' }}>{qty}</span>
+                <button
+                  onClick={() => inc(active)}
+                  disabled={atMax}
+                  className="focus-ring"
+                  style={{ ...qtyBtn, opacity: atMax ? 0.4 : 1 }}
+                  aria-label={`Add seat to ${active.name}`}
+                >
+                  <Icon name="plus" size={16} />
+                </button>
+              </div>
+              {splitHint(active.splitType) && (
+                <p style={{ textAlign: 'center', fontSize: 13, color: 'var(--faint)', margin: '0 0 8px' }}>{splitHint(active.splitType)}</p>
+              )}
+
+              <div style={{ marginTop: 'auto', padding: '20px 22px 28px', borderTop: '1px solid var(--border)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 16 }}>
+                  <span style={{ fontSize: 14.5, color: 'var(--dim)' }}>
+                    {qty} × {activeSymbol}
+                    {active.fromPrice}
+                  </span>
+                  <span style={{ fontSize: 24, fontWeight: 800, letterSpacing: '-0.02em' }}>
+                    {activeSymbol}
+                    {subtotal}
+                  </span>
+                </div>
+                <Btn full size="lg" iconR="arrow" href={href} newTab>
+                  Get {qty} {qty === 1 ? 'ticket' : 'tickets'}
+                </Btn>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 14, fontSize: 13, color: 'var(--faint)' }}>
+                  <Icon name="lock" size={14} /> Protected by neop&apos;s 100% guarantee
+                </div>
+              </div>
+            </>
+          );
+        })()}
+      </Drawer>
     </Panel>
   );
 }
