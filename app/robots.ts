@@ -15,14 +15,14 @@ function chunkCount(total: number): number {
 // Next.js sitemap, so this recomputes the same chunk count from the same
 // counts endpoint to stay in sync automatically as the catalogue grows.
 async function sitemapUrls(): Promise<string[]> {
-  let counts = { events: 0, performers: 0 };
+  let counts = { events: 0, performers: 0, venues: 0 };
   try {
     const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate } });
-    if (res.ok) counts = (await res.json()) as { events: number; performers: number };
+    if (res.ok) counts = (await res.json()) as { events: number; performers: number; venues: number };
   } catch {
     // Backend unreachable — fall back to just the static-page sitemap chunk.
   }
-  const total = 1 + chunkCount(counts.performers) + chunkCount(counts.events);
+  const total = 1 + chunkCount(counts.performers) + chunkCount(counts.venues) + chunkCount(counts.events);
   return Array.from({ length: total }, (_, id) => `${SITE_URL}/sitemap/${id}.xml`);
 }
 

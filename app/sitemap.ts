@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { API_BASE } from '@/lib/api';
 import { CATEGORIES } from '@/lib/categories';
-import { eventHref, performerHref } from '@/lib/slug';
+import { eventHref, performerHref, venueHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
 
 export const revalidate = 3600;
@@ -14,6 +14,7 @@ const CHUNK_SIZE = 45_000;
 interface Counts {
   events: number;
   performers: number;
+  venues: number;
 }
 
 interface SitemapEventRow {
@@ -31,16 +32,21 @@ interface SitemapPerformerRow {
   name: string | null;
 }
 
+interface SitemapVenueRow {
+  id: number;
+  name: string | null;
+}
+
 async function getCounts(): Promise<Counts> {
   try {
     const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate } });
-    if (!res.ok) return { events: 0, performers: 0 };
+    if (!res.ok) return { events: 0, performers: 0, venues: 0 };
     return (await res.json()) as Counts;
   } catch {
     // Backend unreachable (e.g. a sleeping free-tier instance during a
     // build) — degrade to the static-only sitemap rather than failing the
     // whole build/request.
-    return { events: 0, performers: 0 };
+    return { events: 0, performers: 0, venues: 0 };
   }
 }
 
@@ -50,22 +56,25 @@ function chunkCount(total: number): number {
 }
 
 // Multi-file sitemap: id 0 is static/category pages, the next `performerChunks`
-// ids are performer chunks, and the remaining ids are event chunks. Next.js
-// serves each id at /sitemap/<id>.xml; robots.ts lists them all explicitly
-// (see app/robots.ts) since there's no single combined index route here.
+// ids are performer chunks, the next `venueChunks` ids are venue chunks, and
+// the remaining ids are event chunks. Next.js serves each id at
+// /sitemap/<id>.xml; robots.ts lists them all explicitly (see app/robots.ts)
+// since there's no single combined index route here.
 export async function generateSitemaps() {
-  const { events, performers } = await getCounts();
-  const total = 1 + chunkCount(performers) + chunkCount(events);
+  const { events, performers, venues } = await getCounts();
+  const total = 1 + chunkCount(performers) + chunkCount(venues) + chunkCount(events);
   return Array.from({ length: total }, (_, id) => ({ id }));
 }
 
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
-  const { events, performers } = await getCounts();
+  const { events, performers, venues } = await getCounts();
   const performerChunks = chunkCount(performers);
+  const venueChunks = chunkCount(venues);
 
   if (id === 0) return staticEntries();
   if (id <= performerChunks) return performerEntries(id - 1);
-  return eventEntries(id - 1 - performerChunks);
+  if (id <= performerChunks + venueChunks) return venueEntries(id - 1 - performerChunks);
+  return eventEntries(id - 1 - performerChunks - venueChunks);
 }
 
 function staticEntries(): MetadataRoute.Sitemap {
@@ -92,6 +101,22 @@ async function performerEntries(chunkIndex: number): Promise<MetadataRoute.Sitem
     const { items } = (await res.json()) as { items: SitemapPerformerRow[] };
     return items.map((p) => ({
       url: `${SITE_URL}${performerHref(p.id, p.name)}`,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+async function venueEntries(chunkIndex: number): Promise<MetadataRoute.Sitemap> {
+  const offset = chunkIndex * CHUNK_SIZE;
+  try {
+    const res = await fetch(`${API_BASE}/sitemap/venues?offset=${offset}&limit=${CHUNK_SIZE}`, {
+      next: { revalidate },
+    });
+    if (!res.ok) return [];
+    const { items } = (await res.json()) as { items: SitemapVenueRow[] };
+    return items.map((v) => ({
+      url: `${SITE_URL}${venueHref(v.id, v.name)}`,
     }));
   } catch {
     return [];
