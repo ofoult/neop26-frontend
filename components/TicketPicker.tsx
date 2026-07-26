@@ -34,7 +34,7 @@ function checkoutHref(url: string, qty: number): string {
 }
 
 /** Shared sticky card chrome + "Select tickets" header. */
-function Panel({ children }: { children: ReactNode }) {
+export function Panel({ children }: { children: ReactNode }) {
   return (
     <aside style={{ position: 'sticky', top: 104 }}>
       <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)', overflow: 'hidden' }}>
@@ -58,6 +58,7 @@ export function TicketPicker({
   drawerOpen,
   onOpenDrawer,
   onCloseDrawer,
+  visibleCategoryIds,
 }: {
   ev: NeopEvent;
   categories?: ApiListingCategory[];
@@ -71,6 +72,8 @@ export function TicketPicker({
   drawerOpen: boolean;
   onOpenDrawer: () => void;
   onCloseDrawer: () => void;
+  /** When set, only categories whose id is in this set are shown in the list (the rest of `categories` — active selection, checkout — is unaffected). `null`/`undefined` means show all. */
+  visibleCategoryIds?: Set<string> | null;
 }) {
   // Real per-category pricing from the Gigsberg listing search.
   if (categories && categories.length > 0) {
@@ -84,6 +87,7 @@ export function TicketPicker({
         drawerOpen={drawerOpen}
         onOpenDrawer={onOpenDrawer}
         onCloseDrawer={onCloseDrawer}
+        visibleCategoryIds={visibleCategoryIds}
       />
     );
   }
@@ -226,6 +230,7 @@ function RealTickets({
   drawerOpen,
   onOpenDrawer,
   onCloseDrawer,
+  visibleCategoryIds,
 }: {
   ev: NeopEvent;
   categories: ApiListingCategory[];
@@ -235,12 +240,21 @@ function RealTickets({
   drawerOpen: boolean;
   onOpenDrawer: () => void;
   onCloseDrawer: () => void;
+  visibleCategoryIds?: Set<string> | null;
 }) {
   const { activeId, qty, inc, dec } = seatSelection;
+  // Mirrors `highlightedCategory` (which comes from hovering a seat on the
+  // plan) so hovering the row itself picks up the exact same highlight style.
+  const [hoveredRow, setHoveredRow] = useState<string | null>(null);
+  // `active`/checkout always resolve against the full `categories` list — only
+  // which rows are *displayed* is narrowed by the filters, so a seat clicked
+  // on the plan (or an already-open drawer) still works even if its category
+  // is currently filtered out of the list below.
   const active = activeId ? categories.find((c) => c.id === activeId) ?? null : null;
   const activeSymbol = currencySymbol(active?.currency ?? null, ev.currency);
   const subtotal = active ? Math.round(active.fromPrice * qty * 100) / 100 : 0;
   const href = active?.checkoutUrl ? checkoutHref(active.checkoutUrl, qty) : ev.url ?? '/browse';
+  const rows = visibleCategoryIds ? categories.filter((c) => visibleCategoryIds.has(c.id)) : categories;
 
   function handleBuy(cat: ApiListingCategory) {
     // Only one category can hold a selection at a time: picking a fresh one
@@ -253,9 +267,17 @@ function RealTickets({
   return (
     <Panel>
       <div style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {categories.map((cat) => {
+        {rows.length === 0 && (
+          <p style={{ fontSize: 14.5, color: 'var(--dim)', lineHeight: 1.6, margin: '4px 6px 8px' }}>
+            No tickets match the selected filters.
+          </p>
+        )}
+        {rows.map((cat) => {
           const isActive = activeId === cat.id;
-          const isHighlighted = !isActive && !!highlightedCategory && cat.name.trim().toLowerCase() === highlightedCategory.trim().toLowerCase();
+          const isHighlighted =
+            !isActive &&
+            ((!!highlightedCategory && cat.name.trim().toLowerCase() === highlightedCategory.trim().toLowerCase()) ||
+              hoveredRow === cat.name);
           const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
           // Most seats buyable in one order (the largest valid count for the rule).
           const maxSel = counts.length ? counts[counts.length - 1] : 0;
@@ -268,13 +290,19 @@ function RealTickets({
           return (
             <div
               key={cat.id}
-              onMouseEnter={() => onHoverCategory?.(cat.name)}
-              onMouseLeave={() => onHoverCategory?.(null)}
+              onMouseEnter={() => {
+                setHoveredRow(cat.name);
+                onHoverCategory?.(cat.name);
+              }}
+              onMouseLeave={() => {
+                setHoveredRow(null);
+                onHoverCategory?.(null);
+              }}
               style={{
                 padding: '16px 18px',
                 borderRadius: 16,
                 border: isActive || isHighlighted ? '1.5px solid var(--accent)' : '1px solid var(--border)',
-                background: isActive || isHighlighted ? 'var(--surface-2)' : 'transparent',
+                background: isActive ? 'var(--surface-2)' : isHighlighted ? 'rgb(2, 45, 95)' : 'transparent',
                 transition: 'all .2s',
               }}
             >

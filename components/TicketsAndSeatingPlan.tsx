@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { ApiEventSeatingPlan, ApiListingCategory, NeopEvent } from '@/lib/types';
 import { SeatingPlanSvg } from './SeatingPlanSvg';
+import { emptyTicketFilterState, filterCategoryIds, hasActiveTicketFilters, TicketFilters, type TicketFilterState } from './TicketFilters';
 import { TicketPicker, useSeatSelection } from './TicketPicker';
 
 export function TicketsAndSeatingPlan({
@@ -30,6 +31,16 @@ export function TicketsAndSeatingPlan({
   // button click does.
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  // Quantity / category / ticket-type filters shown above the seating plan.
+  // Owned here (not TicketPicker) since they narrow which rows it displays
+  // while the seat click / active-selection logic above still needs the full,
+  // unfiltered `categories` list to keep working.
+  const [filters, setFilters] = useState<TicketFilterState>(emptyTicketFilterState);
+  const visibleCategoryIds = useMemo(
+    () => (categories && hasActiveTicketFilters(filters) ? filterCategoryIds(categories, filters) : null),
+    [categories, filters],
+  );
+
   function handleSeatClick(categoryName: string) {
     const cat = categories?.find((c) => c.name.trim().toLowerCase() === categoryName.trim().toLowerCase());
     if (!cat) return;
@@ -52,11 +63,15 @@ export function TicketsAndSeatingPlan({
           drawerOpen={drawerOpen}
           onOpenDrawer={() => setDrawerOpen(true)}
           onCloseDrawer={() => setDrawerOpen(false)}
+          visibleCategoryIds={visibleCategoryIds}
         />
       </div>
 
       {hasSeatingPlan && (
         <div className="tickets-plan-seatmap" style={{ position: 'sticky', top: 104 }}>
+          {categories && categories.length > 0 && (
+            <TicketFilters categories={categories} filters={filters} onChange={setFilters} />
+          )}
           <h3 className="serif" style={{ fontSize: 26, margin: '0 0 18px' }}>
             Seating plan
           </h3>

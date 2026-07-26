@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
+import { CountryFlag } from '@/components/Flag';
 import { EventCard } from '@/components/EventCard';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
@@ -9,6 +10,7 @@ import { Skeleton } from '@/components/Skeleton';
 import { TicketsAndSeatingPlan } from '@/components/TicketsAndSeatingPlan';
 import { fetchEvent, fetchEventListings, fetchEvents, fetchEventSeatingPlan, fetchSeatingPlanSvgMarkup } from '@/lib/api';
 import { CATEGORIES, categoryById } from '@/lib/categories';
+import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime } from '@/lib/format';
 import type { NeopEvent } from '@/lib/types';
 
@@ -23,12 +25,13 @@ export default async function EventPage({ params }: { params: { id: string } }) 
   if (!ev) notFound();
 
   const cat = categoryById(ev.category);
+  const countryCode = countryCodeFor(ev.country);
 
   return (
     <div>
       {/* hero */}
       <div style={{ position: 'relative', marginTop: '-88px' }}>
-        <div style={{ position: 'absolute', inset: 0 }}>
+        <div style={{ position: 'absolute', inset: 0, height: 'clamp(340px,46vh,460px)' }}>
           <Img src={ev.image} alt={ev.title} style={{ width: '100%', height: '100%' }} />
           <div
             style={{
@@ -38,9 +41,9 @@ export default async function EventPage({ params }: { params: { id: string } }) 
             }}
           />
         </div>
-        <div style={{ position: 'relative', maxWidth: 'var(--maxw)', margin: '0 auto', padding: '128px 28px 40px' }}>
+        <div style={{ position: 'relative', maxWidth: 'var(--maxw)', margin: '0 auto', padding: '112px 28px 40px' }}>
           <Link
-            href={`/browse?cat=${ev.category}`}
+            href={ev.performerId ? `/performer/${ev.performerId}` : `/browse?cat=${ev.category}`}
             className="focus-ring"
             style={{
               display: 'inline-flex',
@@ -53,7 +56,7 @@ export default async function EventPage({ params }: { params: { id: string } }) 
               border: '1px solid rgba(255,255,255,.2)',
               fontSize: 14,
               fontWeight: 600,
-              marginBottom: 'min(28vh,260px)',
+              marginBottom: 28,
             }}
           >
             <Icon name="arrowL" size={16} /> Back
@@ -113,6 +116,12 @@ export default async function EventPage({ params }: { params: { id: string } }) 
             <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
               <Icon name="pin" size={19} /> {ev.venue}, {ev.city}
             </span>
+            {ev.country && (
+              <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+                {countryCode && <CountryFlag code={countryCode} width={19} />}
+                {ev.country}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -123,64 +132,6 @@ export default async function EventPage({ params }: { params: { id: string } }) 
         <Suspense fallback={<TicketsAndSeatingPlanSkeleton />}>
           <TicketsAndSeatingPlanData ev={ev} eventId={params.id} />
         </Suspense>
-
-        {/* lineup / venue */}
-        <div style={{ maxWidth: 760, marginTop: 56 }}>
-          {ev.lineup.length > 0 && (
-            <div>
-              <h3 className="serif" style={{ fontSize: 26, margin: '0 0 18px' }}>
-                Lineup
-              </h3>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                {ev.lineup.map((a, i) => (
-                  <span
-                    key={a}
-                    style={{
-                      padding: '11px 18px',
-                      borderRadius: 12,
-                      background: 'var(--surface)',
-                      border: '1px solid var(--border)',
-                      fontSize: 15.5,
-                      fontWeight: i === 0 ? 700 : 500,
-                    }}
-                  >
-                    {a}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* venue */}
-          <div style={{ marginTop: ev.lineup.length > 0 ? 44 : 0 }}>
-            <h3 className="serif" style={{ fontSize: 26, margin: '0 0 18px' }}>
-              Venue
-            </h3>
-            <div style={{ borderRadius: 18, overflow: 'hidden', border: '1px solid var(--border)' }}>
-              <div style={{ position: 'relative', height: 200 }} className="imgwrap">
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    opacity: 0.5,
-                    background: 'repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0 12px, transparent 12px 24px)',
-                  }}
-                />
-                <div style={{ position: 'absolute', left: 24, bottom: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--grad)', display: 'grid', placeItems: 'center' }}>
-                    <Icon name="pin" size={22} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 18, fontWeight: 700 }}>{ev.venue}</div>
-                    <div style={{ fontSize: 14, color: 'var(--dim)' }}>
-                      {ev.city}, {ev.country}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* more like this */}

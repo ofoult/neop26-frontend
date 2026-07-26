@@ -81,7 +81,17 @@ function resolveBlockAtTarget(
 function buildFillCss(categoryName: string, blocks: string[], color: string): string {
   const scope = `#${cssEscape(scopeId(categoryName))}`;
   const selectors = blocks.flatMap((block) =>
-    blockDataNameCandidates(block).map((c) => `${scope} [data-name="${cssEscape(c)}"]`),
+    blockDataNameCandidates(block).flatMap((c) => {
+      // Usually the block's own element is the shape and this alone is enough.
+      // But some blocks (e.g. general-admission zones) wrap separately-classed
+      // children (a <rect> + <path>, each with their own `fill` declared in the
+      // SVG's embedded stylesheet) — a directly-declared fill on a child always
+      // wins over one merely inherited from this ancestor, `!important` or not.
+      // The extra descendant selector targets those children directly so this
+      // rule wins on specificity instead of relying on inheritance.
+      const own = `${scope} [data-name="${cssEscape(c)}"]`;
+      return [own, `${own} *`];
+    }),
   );
   if (selectors.length === 0) return '';
   return `${selectors.join(',\n')} { fill: ${color} !important; transition: fill .15s; }`;
@@ -168,13 +178,13 @@ export function SeatingPlanSvg({
   const categoryHighlightCss = useMemo(() => {
     if (!hoveredCategoryName) return '';
     const match = categories.find((c) => c.name.trim().toLowerCase() === hoveredCategoryName.trim().toLowerCase());
-    return match ? buildFillCss(match.name, match.blocks, 'var(--accent-2)') : '';
+    return match ? buildFillCss(match.name, match.blocks, 'rgb(2, 45, 95)') : '';
   }, [categories, hoveredCategoryName]);
 
   // The single seat currently under the cursor (see handleMouseMove) — filled
   // in addition to, and independently of, the category-wide highlight above.
   const seatHighlightCss = useMemo(() => {
-    return hover ? buildFillCss(hover.category, [hover.block], 'var(--accent-2)') : '';
+    return hover ? buildFillCss(hover.category, [hover.block], 'rgba(2, 45, 95, 0.8)') : '';
   }, [hover]);
 
   // Maps each category's top-level SVG group id back to the category, so a
