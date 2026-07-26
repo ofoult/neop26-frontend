@@ -37,11 +37,19 @@ interface SitemapVenueRow {
   name: string | null;
 }
 
+/** Coerces a possibly-missing/non-numeric count (e.g. a field a not-yet-deployed
+ * backend doesn't return yet) to a safe integer, so it can never poison the
+ * chunk-count math downstream with NaN. */
+function safeCount(n: unknown): number {
+  return Number.isFinite(n) ? (n as number) : 0;
+}
+
 async function getCounts(): Promise<Counts> {
   try {
     const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate } });
     if (!res.ok) return { events: 0, performers: 0, venues: 0 };
-    return (await res.json()) as Counts;
+    const raw = (await res.json()) as Partial<Counts>;
+    return { events: safeCount(raw.events), performers: safeCount(raw.performers), venues: safeCount(raw.venues) };
   } catch {
     // Backend unreachable (e.g. a sleeping free-tier instance during a
     // build) — degrade to the static-only sitemap rather than failing the

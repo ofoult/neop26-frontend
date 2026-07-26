@@ -10,6 +10,13 @@ function chunkCount(total: number): number {
   return Math.max(1, Math.ceil(total / CHUNK_SIZE));
 }
 
+/** Coerces a possibly-missing/non-numeric count (e.g. a field a not-yet-deployed
+ * backend doesn't return yet) to a safe integer, so it can never poison the
+ * chunk-count math downstream with NaN. */
+function safeCount(n: unknown): number {
+  return Number.isFinite(n) ? (n as number) : 0;
+}
+
 // Every generated sitemap chunk (see app/sitemap.ts) needs to be listed
 // explicitly — there's no single combined index route for a multi-file
 // Next.js sitemap, so this recomputes the same chunk count from the same
@@ -18,7 +25,10 @@ async function sitemapUrls(): Promise<string[]> {
   let counts = { events: 0, performers: 0, venues: 0 };
   try {
     const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate } });
-    if (res.ok) counts = (await res.json()) as { events: number; performers: number; venues: number };
+    if (res.ok) {
+      const raw = (await res.json()) as Partial<typeof counts>;
+      counts = { events: safeCount(raw.events), performers: safeCount(raw.performers), venues: safeCount(raw.venues) };
+    }
   } catch {
     // Backend unreachable — fall back to just the static-page sitemap chunk.
   }
