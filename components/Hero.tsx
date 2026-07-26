@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { fmtDate } from '@/lib/format';
+import { eventHref } from '@/lib/slug';
 import type { NeopEvent } from '@/lib/types';
 import { Icon } from './Icon';
 import { Img } from './Img';
@@ -116,7 +117,7 @@ export function Hero({ events }: { events: NeopEvent[] }) {
             {feat.blurb}
           </p>
           <div className="up" style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap', animationDelay: '140ms' }}>
-            <Btn size="lg" iconR="arrow" href={`/event/${feat.id}`}>
+            <Btn size="lg" iconR="arrow" href={eventHref(feat)}>
               Get tickets{feat.priceFrom != null ? ` · from ${feat.currency}${feat.priceFrom}` : ''}
             </Btn>
             <Btn size="lg" variant="ghost" icon="play">
@@ -133,7 +134,12 @@ export function Hero({ events }: { events: NeopEvent[] }) {
           </div>
         </div>
 
-        <div className="up" style={{ margin: '42px 0 22px', maxWidth: 920, animationDelay: '200ms' }}>
+        {/* position+zIndex here (not just inside SearchBar) because .up's entrance
+            animation makes this div its own stacking context — EventCard uses the
+            same .up class, so without this the trending grid's cards (later in DOM,
+            same auto stacking level) would paint over the autosuggest dropdown
+            regardless of the z-index set inside SearchBar. */}
+        <div className="up" style={{ position: 'relative', zIndex: 5, margin: '42px 0 22px', maxWidth: 920, animationDelay: '200ms' }}>
           <SearchBar />
         </div>
 

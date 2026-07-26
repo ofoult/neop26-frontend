@@ -1,13 +1,59 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { CountryFlag } from '@/components/Flag';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { combineDateTime, fetchPerformerEvents } from '@/lib/api';
 import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime, relativeDayLabel } from '@/lib/format';
+import { jsonLdScript, performerItemListJsonLd } from '@/lib/jsonld';
+import { eventHref, parseIdFromSlugParam, performerHref } from '@/lib/slug';
+import { SITE_URL } from '@/lib/site';
+import type { ApiPerformerResponse } from '@/lib/types';
 
 export const revalidate = 120;
+
+/** Shared by the page and generateMetadata; Next.js dedupes the identical fetch(). */
+async function loadPerformer(slug: string): Promise<{ id: string; data: ApiPerformerResponse }> {
+  const id = parseIdFromSlugParam(slug);
+  if (!id) notFound();
+  const data = await fetchPerformerEvents(id, revalidate).catch(() => null);
+  if (!data) notFound();
+
+  const canonical = performerHref(id, data.performer.name);
+  if (`/performer/${slug}` !== canonical) permanentRedirect(canonical);
+
+  return { id, data };
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const { id, data } = await loadPerformer(params.slug);
+  const name = data.performer.name || 'Artist';
+  const title = `${name} tickets — all upcoming events`;
+  const description = `${data.events.length} upcoming event${data.events.length === 1 ? '' : 's'} for ${name}. Verified tickets, every seat guaranteed.`;
+  const canonical = performerHref(id, name);
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    // openGraph/twitter titles aren't run through the root layout's title
+    // template, so they need the "| neop" suffix spelled out explicitly.
+    openGraph: {
+      title: `${title} | neop`,
+      description,
+      url: canonical,
+      images: data.performer.image ? [{ url: data.performer.image }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | neop`,
+      description,
+      images: data.performer.image ? [data.performer.image] : undefined,
+    },
+  };
+}
 
 /** Background tint for the "how far out" pastille — nearer dates stand out more. */
 function pastilleStyle(label: string): { background: string; color: string } {
@@ -17,15 +63,26 @@ function pastilleStyle(label: string): { background: string; color: string } {
   return { background: 'var(--surface-2)', color: 'var(--dim)' };
 }
 
-export default async function PerformerPage({ params }: { params: { id: string } }) {
-  const data = await fetchPerformerEvents(params.id, revalidate).catch(() => null);
-  if (!data) notFound();
-
+export default async function PerformerPage({ params }: { params: { slug: string } }) {
+  const { data } = await loadPerformer(params.slug);
   const { performer, events } = data;
   const name = performer.name || 'Artist';
 
+  const itemList = performerItemListJsonLd(
+    name,
+    events.map((e) => ({
+      url: `${SITE_URL}${eventHref({ id: e.id, title: e.name ?? '', artist: name, city: e.city ?? '' })}`,
+      name: e.name ?? name,
+    })),
+  );
+
   return (
     <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '48px 28px 100px' }}>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(itemList) }}
+      />
       <div style={{ fontSize: 13.5, color: 'var(--faint)', marginBottom: 24 }}>
         <Link href="/" style={{ color: 'var(--dim)' }}>
           Home
@@ -53,6 +110,9 @@ export default async function PerformerPage({ params }: { params: { id: string }
         </div>
       </div>
 
+      {events.length === 0 ? (
+        <p style={{ color: 'var(--dim)', fontSize: 15 }}>No upcoming events for {name} yet — check back soon.</p>
+      ) : (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {events.map((e) => {
           const dt = combineDateTime(e.event_date, e.event_time);
@@ -62,7 +122,7 @@ export default async function PerformerPage({ params }: { params: { id: string }
           return (
             <Link
               key={e.id}
-              href={`/event/${e.id}`}
+              href={eventHref({ id: e.id, title: e.name ?? '', artist: name, city: e.city ?? '' })}
               className="focus-ring performer-row"
               style={{
                 display: 'flex',
@@ -135,6 +195,7 @@ export default async function PerformerPage({ params }: { params: { id: string }
           );
         })}
       </div>
+      )}
     </div>
   );
 }

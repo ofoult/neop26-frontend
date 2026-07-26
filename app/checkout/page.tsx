@@ -9,6 +9,7 @@ import { Img } from '@/components/Img';
 import { Btn } from '@/components/ui';
 import { fetchEvent } from '@/lib/api';
 import { fmtDateLong } from '@/lib/format';
+import { eventHref } from '@/lib/slug';
 import { SERVICE_FEE_RATE, tierById } from '@/lib/tickets';
 import type { NeopEvent } from '@/lib/types';
 
@@ -97,7 +98,7 @@ function CheckoutInner() {
   return (
     <div style={{ maxWidth: 1080, margin: '0 auto', padding: '24px 28px 0' }}>
       <Link
-        href={`/event/${ev.id}`}
+        href={eventHref(ev)}
         className="focus-ring"
         style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--dim)', fontSize: 14.5, fontWeight: 600, marginBottom: 20 }}
       >

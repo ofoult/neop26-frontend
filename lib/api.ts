@@ -8,6 +8,7 @@ import type {
   ApiEventsResponse,
   ApiListingCategory,
   ApiPerformerResponse,
+  ApiVenueResponse,
   CategoryId,
   NeopEvent,
 } from './types';
@@ -180,6 +181,14 @@ export async function fetchPerformerEvents(id: string, revalidate = 120): Promis
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`Failed to load performer ${id} (${res.status})`);
   return (await res.json()) as ApiPerformerResponse;
+}
+
+/** Venue profile + its upcoming events (matches venue_id). `events` may be empty. */
+export async function fetchVenue(id: string, revalidate = 120): Promise<ApiVenueResponse | null> {
+  const res = await fetch(buildUrl(`/venues/${id}`, {}), { next: { revalidate } });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load venue ${id} (${res.status})`);
+  return (await res.json()) as ApiVenueResponse;
 }
 
 /**

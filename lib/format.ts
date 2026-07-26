@@ -92,6 +92,28 @@ export function currencyFor(country: string | null | undefined): string {
   return '$';
 }
 
+// ISO 4217 codes for the same country groupings, needed wherever a currency
+// code (not a display symbol) is required — e.g. schema.org Offer.priceCurrency.
+const ISO_BY_COUNTRY: Record<string, string> = {
+  'United Kingdom': 'GBP',
+  UK: 'GBP',
+  Switzerland: 'CHF',
+  Sweden: 'SEK',
+  Norway: 'NOK',
+  Denmark: 'DKK',
+  Poland: 'PLN',
+  'Czech Republic': 'CZK',
+  Japan: 'JPY',
+  Israel: 'ILS',
+};
+
+export function isoCurrencyFor(country: string | null | undefined): string {
+  if (!country) return 'USD';
+  if (ISO_BY_COUNTRY[country]) return ISO_BY_COUNTRY[country];
+  if (EURO_COUNTRIES.has(country)) return 'EUR';
+  return 'USD';
+}
+
 // Listings carry an ISO currency code (e.g. "USD", "EUR"), unlike the event
 // feed. Map common codes to a display symbol, falling back to the code itself.
 const SYMBOL_BY_CODE: Record<string, string> = {

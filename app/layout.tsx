@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Instrument_Serif, Schibsted_Grotesk } from 'next/font/google';
 import './globals.css';
 import { Chrome } from '@/components/Chrome';
+import { SITE_URL } from '@/lib/site';
 import { Analytics } from '@vercel/analytics/next';
 
 const sans = Schibsted_Grotesk({
@@ -19,10 +20,27 @@ const serif = Instrument_Serif({
   display: 'swap',
 });
 
+const DESCRIPTION = "Tickets to the world's best live events. Verified sellers, every seat guaranteed.";
+
 export const metadata: Metadata = {
-  title: "neop — tickets to the world's best events",
-  description:
-    "Tickets to the world's best live events. Verified sellers, every seat guaranteed.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "neop — tickets to the world's best events",
+    template: '%s | neop',
+  },
+  description: DESCRIPTION,
+  openGraph: {
+    siteName: 'neop',
+    title: "neop — tickets to the world's best events",
+    description: DESCRIPTION,
+    url: '/',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "neop — tickets to the world's best events",
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

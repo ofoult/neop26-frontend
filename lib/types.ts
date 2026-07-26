@@ -95,6 +95,27 @@ export interface ApiPerformerResponse {
   events: ApiPerformerEventItem[];
 }
 
+/** One row from `GET /venues/:id` — includes the performer, since a venue hosts many. */
+export interface ApiVenueEventItem {
+  id: string;
+  name: string | null;
+  event_date: string | null;
+  event_time: string | null;
+  timezone: string | null;
+  city: string | null;
+  country: string | null;
+  performer1: string | null;
+  performer1_id: string | null;
+  performer2: string | null;
+  image: string | null;
+}
+
+export interface ApiVenueResponse {
+  venue: { id: number; name: string | null; city: string | null; country: string | null };
+  /** May be empty — a venue with no upcoming shows still resolves, unlike a performer. */
+  events: ApiVenueEventItem[];
+}
+
 // ===== neop domain model (what the UI renders) =====
 
 export type CategoryId = 'music' | 'festivals' | 'sports' | 'arts' | 'comedy';
@@ -114,6 +135,16 @@ export interface LocationSuggestion {
   /** For cities: the country it belongs to. */
   country?: string | null;
   count: number;
+}
+
+/** One row from `GET /search/suggest` — the home search's "What" field autosuggest. */
+export interface SearchSuggestion {
+  type: 'event' | 'performer' | 'venue';
+  id: string;
+  label: string;
+  sublabel?: string;
+  /** Only for type "event" when it has a known performer — routes to the performer page instead. */
+  performerId?: string;
 }
 
 export interface NeopEvent {

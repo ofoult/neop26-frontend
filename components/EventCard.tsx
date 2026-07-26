@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { categoryById } from '@/lib/categories';
 import { fmtDate } from '@/lib/format';
+import { eventHref, performerHref } from '@/lib/slug';
 import type { NeopEvent } from '@/lib/types';
 import { Icon } from './Icon';
 import { Img } from './Img';
@@ -21,7 +22,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
   // Events with a known performer route to that artist's event list; the rare
   // event with neither performer1_id nor performer2_id falls back to going
   // straight to its own detail page.
-  const href = ev.performerId ? `/performer/${ev.performerId}` : `/event/${ev.id}`;
+  const href = ev.performerId ? performerHref(ev.performerId, ev.artist) : eventHref(ev);
 
   return (
     <Link

@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
-import { suggestLocations } from '@/app/actions';
-import type { LocationSuggestion } from '@/lib/types';
+import { suggestLocations, suggestSearch } from '@/app/actions';
+import type { LocationSuggestion, SearchSuggestion } from '@/lib/types';
 import { Icon, type IconName } from './Icon';
 import { Btn } from './ui';
 
@@ -63,6 +63,20 @@ export function SearchBar({
     router.push(qs ? `/browse?${qs}` : '/browse');
   }
 
+  // A suggestion's canonical SEO slug is unknown client-side, so this pushes a
+  // bare-id path; the destination page (event/performer/venue) fetches by id
+  // and immediately redirects to its canonical slug — the same self-healing
+  // path already used for legacy/bare-id links (see lib/slug.ts).
+  function navigateToSuggestion(s: SearchSuggestion) {
+    if (s.type === 'event') {
+      router.push(s.performerId ? `/performer/${s.performerId}` : `/event/${s.id}`);
+    } else if (s.type === 'performer') {
+      router.push(`/performer/${s.id}`);
+    } else {
+      router.push(`/venue/${s.id}`);
+    }
+  }
+
   const fieldPad = compact ? '0 16px' : '0 20px';
 
   return (
@@ -73,10 +87,13 @@ export function SearchBar({
       }}
       style={{
         position: 'relative',
-        // Lift the bar above the results grid so the autocomplete dropdown (which
-        // is trapped in this bar's backdrop-filter stacking context) isn't
-        // painted under the event cards.
-        zIndex: 40,
+        // Lift the bar (and, via the ul/popover z-indexes below, its dropdowns)
+        // well above the results grid. EventCard's entrance animation (.up in
+        // globals.css) briefly puts a non-none `transform` on the card's
+        // <Link>, making the card its own stacking context for that animation's
+        // duration — z-index:40 wasn't a large enough margin to reliably beat
+        // that, so autosuggest results could render behind an animating card.
+        zIndex: 200,
         display: 'flex',
         alignItems: 'center',
         background: 'rgba(13,13,20,0.7)',
@@ -88,20 +105,41 @@ export function SearchBar({
         boxShadow: '0 24px 60px -24px rgba(0,0,0,.7)',
       }}
     >
-      <SearchField
+      <SearchField<SearchSuggestion>
         id="neop-search-what"
         icon="search"
         label="What"
-        placeholder="Search events, artists…"
+        placeholder="Search events, artists, venues…"
         value={q}
         onChange={setQ}
         onEnter={() => submit()}
         inputRef={whatRef}
+        fetchSuggestions={suggestSearch}
+        minLength={2}
+        onPick={navigateToSuggestion}
+        keyOf={(s) => `${s.type}:${s.id}`}
+        emptyLabel={(term) => `No results for "${term}" — press Enter to search anyway`}
+        renderItem={(s) => (
+          <>
+            <Icon
+              name={s.type === 'venue' ? 'pin' : s.type === 'performer' ? 'user' : 'ticket'}
+              size={16}
+              style={{ color: 'var(--faint)', flexShrink: 0 }}
+            />
+            <span style={{ fontSize: 14.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1 }}>
+              {s.label}
+              {s.sublabel ? <span style={{ color: 'var(--dim)' }}>{` · ${s.sublabel}`}</span> : null}
+            </span>
+            <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--faint)', flexShrink: 0 }}>
+              {s.type === 'event' ? 'Event' : s.type === 'performer' ? 'Artist' : 'Venue'}
+            </span>
+          </>
+        )}
         pad={fieldPad}
         flex={1.4}
       />
       <Divider />
-      <SearchField
+      <SearchField<LocationSuggestion>
         id="neop-search-where"
         icon="pin"
         label="Where"
@@ -109,10 +147,24 @@ export function SearchBar({
         value={where}
         onChange={setWhere}
         onEnter={() => submit()}
-        onPick={(v) => {
-          setWhere(v);
-          submit(v);
+        fetchSuggestions={suggestLocations}
+        onPick={(s) => {
+          setWhere(s.value);
+          submit(s.value);
         }}
+        keyOf={(s) => `${s.type}:${s.value}:${s.country ?? ''}`}
+        renderItem={(s) => (
+          <>
+            <Icon name={s.type === 'country' ? 'globe' : 'pin'} size={16} style={{ color: 'var(--faint)', flexShrink: 0 }} />
+            <span style={{ fontSize: 14.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {s.value}
+              {s.type === 'city' && s.country ? <span style={{ color: 'var(--dim)' }}>{`, ${s.country}`}</span> : null}
+            </span>
+            <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--faint)', flexShrink: 0 }}>
+              {s.type === 'country' ? 'Country' : 'City'}
+            </span>
+          </>
+        )}
         pad={fieldPad}
         flex={1}
       />
@@ -134,7 +186,13 @@ export function SearchBar({
   );
 }
 
-function SearchField({
+/**
+ * A labeled text input, optionally backed by a debounced suggestion dropdown.
+ * Generic over the suggestion shape so both "What" (mixed event/performer/venue
+ * results, navigates away on pick) and "Where" (location results, fills the
+ * field on pick) share one implementation.
+ */
+function SearchField<T>({
   id,
   icon,
   label,
@@ -142,7 +200,12 @@ function SearchField({
   value,
   onChange,
   onEnter,
+  fetchSuggestions,
   onPick,
+  renderItem,
+  keyOf,
+  minLength = 1,
+  emptyLabel,
   inputRef,
   pad,
   flex,
@@ -154,53 +217,66 @@ function SearchField({
   value: string;
   onChange: (v: string) => void;
   onEnter: () => void;
-  /** When set, this field shows location autocomplete; called on selection. */
-  onPick?: (value: string) => void;
+  /** When set, this field shows an autocomplete dropdown fed by this fetcher. */
+  fetchSuggestions?: (term: string) => Promise<T[]>;
+  /** Called on selection — fills the field ("Where") or navigates away ("What"). */
+  onPick?: (item: T) => void;
+  renderItem?: (item: T, active: boolean) => ReactNode;
+  keyOf?: (item: T) => string;
+  /** Minimum trimmed length before firing a suggestion fetch. */
+  minLength?: number;
+  /** When set, the dropdown stays open on empty results with this message instead of just closing. */
+  emptyLabel?: (term: string) => string;
   inputRef?: RefObject<HTMLInputElement>;
   pad: string;
   flex: number;
 }) {
-  const [items, setItems] = useState<LocationSuggestion[]>([]);
+  const [items, setItems] = useState<T[]>([]);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
+  const [loading, setLoading] = useState(false);
   const reqId = useRef(0);
   const debounce = useRef<ReturnType<typeof setTimeout>>();
   const justPicked = useRef(false);
 
   // Debounced suggestion fetch (only for the autocomplete field).
   useEffect(() => {
-    if (!onPick) return;
+    if (!fetchSuggestions) return;
     if (debounce.current) clearTimeout(debounce.current);
     // Selecting a suggestion sets `value`; don't reopen the dropdown for it.
     if (justPicked.current) {
       justPicked.current = false;
       setItems([]);
       setOpen(false);
+      setLoading(false);
       return;
     }
     const term = value.trim();
-    if (term.length < 1) {
+    if (term.length < minLength) {
       setItems([]);
       setOpen(false);
+      setLoading(false);
       return;
     }
+    setLoading(true);
     debounce.current = setTimeout(async () => {
       const id = ++reqId.current;
-      const res = await suggestLocations(term);
+      const res = await fetchSuggestions(term);
       if (id !== reqId.current) return; // a newer keystroke superseded this one
       setItems(res);
       setActive(-1);
-      setOpen(res.length > 0);
+      setLoading(false);
+      setOpen(res.length > 0 || Boolean(emptyLabel));
     }, 180);
     return () => debounce.current && clearTimeout(debounce.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  function pick(s: LocationSuggestion) {
+  function pick(item: T) {
     justPicked.current = true;
     setOpen(false);
     setItems([]);
-    onPick?.(s.value);
+    onPick?.(item);
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -231,6 +307,8 @@ function SearchField({
     }
   }
 
+  const showDropdown = Boolean(fetchSuggestions) && open && (items.length > 0 || loading || Boolean(emptyLabel));
+
   return (
     <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 11, padding: pad, flex, minWidth: 0 }}>
       <Icon name={icon} size={18} style={{ color: 'var(--faint)', flexShrink: 0 }} />
@@ -251,13 +329,13 @@ function SearchField({
           onBlur={() => setTimeout(() => setOpen(false), 120)}
           placeholder={placeholder}
           autoComplete="off"
-          role={onPick ? 'combobox' : undefined}
-          aria-expanded={onPick ? open : undefined}
+          role={fetchSuggestions ? 'combobox' : undefined}
+          aria-expanded={fetchSuggestions ? open : undefined}
           style={{ width: '100%', border: 'none', outline: 'none', background: 'transparent', color: 'var(--text)', fontSize: 15, padding: 0 }}
         />
       </div>
 
-      {onPick && open && items.length > 0 && (
+      {showDropdown && (
         <ul
           style={{
             position: 'absolute',
@@ -275,47 +353,44 @@ function SearchField({
             border: '1px solid var(--border-2)',
             borderRadius: 16,
             boxShadow: '0 24px 60px -20px rgba(0,0,0,.7)',
-            zIndex: 60,
+            zIndex: 210,
             maxHeight: 320,
             overflowY: 'auto',
           }}
         >
-          {items.map((s, i) => (
-            <li key={`${s.type}:${s.value}:${s.country ?? ''}`}>
-              <button
-                type="button"
-                // onMouseDown fires before input blur, so the pick registers.
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  pick(s);
-                }}
-                onMouseEnter={() => setActive(i)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  width: '100%',
-                  padding: '10px 12px',
-                  borderRadius: 10,
-                  textAlign: 'left',
-                  background: i === active ? 'var(--surface-2)' : 'transparent',
-                  color: 'var(--text)',
-                  transition: 'background .12s',
-                }}
-              >
-                <Icon name={s.type === 'country' ? 'globe' : 'pin'} size={16} style={{ color: 'var(--faint)', flexShrink: 0 }} />
-                <span style={{ fontSize: 14.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {s.value}
-                  {s.type === 'city' && s.country ? (
-                    <span style={{ color: 'var(--dim)' }}>{`, ${s.country}`}</span>
-                  ) : null}
-                </span>
-                <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--faint)', flexShrink: 0 }}>
-                  {s.type === 'country' ? 'Country' : 'City'}
-                </span>
-              </button>
+          {items.length === 0 ? (
+            <li style={{ padding: '10px 12px', fontSize: 13.5, color: 'var(--faint)' }}>
+              {loading ? 'Searching…' : emptyLabel?.(value.trim())}
             </li>
-          ))}
+          ) : (
+            items.map((item, i) => (
+              <li key={keyOf?.(item) ?? i}>
+                <button
+                  type="button"
+                  // onMouseDown fires before input blur, so the pick registers.
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    pick(item);
+                  }}
+                  onMouseEnter={() => setActive(i)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    width: '100%',
+                    padding: '10px 12px',
+                    borderRadius: 10,
+                    textAlign: 'left',
+                    background: i === active ? 'var(--surface-2)' : 'transparent',
+                    color: 'var(--text)',
+                    transition: 'background .12s',
+                  }}
+                >
+                  {renderItem?.(item, i === active)}
+                </button>
+              </li>
+            ))
+          )}
         </ul>
       )}
     </div>
@@ -422,7 +497,7 @@ function DateRangeField({
             border: '1px solid var(--border-2)',
             borderRadius: 16,
             boxShadow: '0 24px 60px -20px rgba(0,0,0,.7)',
-            zIndex: 60,
+            zIndex: 210,
           }}
         >
           <div style={{ display: 'flex', gap: 12 }}>

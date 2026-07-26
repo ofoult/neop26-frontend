@@ -1,0 +1,120 @@
+import type { MetadataRoute } from 'next';
+import { API_BASE } from '@/lib/api';
+import { CATEGORIES } from '@/lib/categories';
+import { eventHref, performerHref } from '@/lib/slug';
+import { SITE_URL } from '@/lib/site';
+
+export const revalidate = 3600;
+
+// Google enforces a 50,000 URL/file limit on sitemaps; this stays comfortably
+// under it (and under the backend's own per-request cap, see
+// backend/src/routes/sitemap.ts) while keeping each chunk a single request.
+const CHUNK_SIZE = 45_000;
+
+interface Counts {
+  events: number;
+  performers: number;
+}
+
+interface SitemapEventRow {
+  id: number;
+  name: string | null;
+  performer1: string | null;
+  performer2: string | null;
+  city: string | null;
+  event_date: string | null;
+  source_updated_at: string | null;
+}
+
+interface SitemapPerformerRow {
+  id: number;
+  name: string | null;
+}
+
+async function getCounts(): Promise<Counts> {
+  try {
+    const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate } });
+    if (!res.ok) return { events: 0, performers: 0 };
+    return (await res.json()) as Counts;
+  } catch {
+    // Backend unreachable (e.g. a sleeping free-tier instance during a
+    // build) — degrade to the static-only sitemap rather than failing the
+    // whole build/request.
+    return { events: 0, performers: 0 };
+  }
+}
+
+/** At least 1, so the id space stays stable even when a resource is empty. */
+function chunkCount(total: number): number {
+  return Math.max(1, Math.ceil(total / CHUNK_SIZE));
+}
+
+// Multi-file sitemap: id 0 is static/category pages, the next `performerChunks`
+// ids are performer chunks, and the remaining ids are event chunks. Next.js
+// serves each id at /sitemap/<id>.xml; robots.ts lists them all explicitly
+// (see app/robots.ts) since there's no single combined index route here.
+export async function generateSitemaps() {
+  const { events, performers } = await getCounts();
+  const total = 1 + chunkCount(performers) + chunkCount(events);
+  return Array.from({ length: total }, (_, id) => ({ id }));
+}
+
+export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
+  const { events, performers } = await getCounts();
+  const performerChunks = chunkCount(performers);
+
+  if (id === 0) return staticEntries();
+  if (id <= performerChunks) return performerEntries(id - 1);
+  return eventEntries(id - 1 - performerChunks);
+}
+
+function staticEntries(): MetadataRoute.Sitemap {
+  const now = new Date();
+  return [
+    { url: `${SITE_URL}/`, lastModified: now, changeFrequency: 'hourly', priority: 1 },
+    { url: `${SITE_URL}/browse`, lastModified: now, changeFrequency: 'hourly', priority: 0.9 },
+    ...CATEGORIES.map((c) => ({
+      url: `${SITE_URL}/browse?cat=${c.id}`,
+      lastModified: now,
+      changeFrequency: 'hourly' as const,
+      priority: 0.8,
+    })),
+  ];
+}
+
+async function performerEntries(chunkIndex: number): Promise<MetadataRoute.Sitemap> {
+  const offset = chunkIndex * CHUNK_SIZE;
+  try {
+    const res = await fetch(`${API_BASE}/sitemap/performers?offset=${offset}&limit=${CHUNK_SIZE}`, {
+      next: { revalidate },
+    });
+    if (!res.ok) return [];
+    const { items } = (await res.json()) as { items: SitemapPerformerRow[] };
+    return items.map((p) => ({
+      url: `${SITE_URL}${performerHref(p.id, p.name)}`,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+async function eventEntries(chunkIndex: number): Promise<MetadataRoute.Sitemap> {
+  const offset = chunkIndex * CHUNK_SIZE;
+  try {
+    const res = await fetch(`${API_BASE}/sitemap/events?offset=${offset}&limit=${CHUNK_SIZE}`, {
+      next: { revalidate },
+    });
+    if (!res.ok) return [];
+    const { items } = (await res.json()) as { items: SitemapEventRow[] };
+    return items.map((e) => {
+      const artist = e.performer1 || e.name || 'event';
+      const title = e.name || artist;
+      return {
+        url: `${SITE_URL}${eventHref({ id: e.id, title, artist, city: e.city || '' })}`,
+        lastModified: e.source_updated_at ? new Date(e.source_updated_at) : undefined,
+      };
+    });
+  } catch {
+    return [];
+  }
+}

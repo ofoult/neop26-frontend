@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { loadMoreEvents } from '@/app/browse/actions';
 import { EventCard } from '@/components/EventCard';
 import { SearchBar } from '@/components/SearchBar';
+import { BROWSE_PER_PAGE } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
 import { parseDate } from '@/lib/format';
 import type { CategoryId, NeopEvent } from '@/lib/types';
@@ -29,9 +30,24 @@ function formatWhenLabel(from?: string, to?: string): string {
   return '';
 }
 
+// Builds a /browse URL for a given page, preserving the active filters —
+// used both by the infinite-scroll fetch and the crawlable pagination links.
+function pageHref(page: number, activeCat: CategoryId | null, query?: string, where?: string, dateFrom?: string, dateTo?: string): string {
+  const params = new URLSearchParams();
+  if (activeCat) params.set('cat', activeCat);
+  if (query) params.set('q', query);
+  if (where) params.set('where', where);
+  if (dateFrom) params.set('from', dateFrom);
+  if (dateTo) params.set('to', dateTo);
+  if (page > 1) params.set('page', String(page));
+  const qs = params.toString();
+  return qs ? `/browse?${qs}` : '/browse';
+}
+
 export function BrowseClient({
   events,
   total,
+  page: initialPage,
   activeCat,
   query,
   where,
@@ -41,6 +57,7 @@ export function BrowseClient({
 }: {
   events: NeopEvent[];
   total: number;
+  page: number;
   activeCat: CategoryId | null;
   query?: string;
   where?: string;
@@ -51,23 +68,28 @@ export function BrowseClient({
   const [sort, setSort] = useState<SortKey>('trending');
   const catObj = activeCat ? categoryById(activeCat) : undefined;
 
-  // Infinite scroll state. `items` starts from the server-rendered first page
-  // and grows as the sentinel scrolls into view.
+  // Infinite scroll state. `items` starts from the server-rendered page (page 1
+  // by default, or whichever page a direct/crawled ?page=N hit) and grows as
+  // the sentinel scrolls into view.
   const [items, setItems] = useState<NeopEvent[]>(events);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initialPage);
   const [loading, setLoading] = useState(false);
   const [errored, setErrored] = useState(false);
   const loadingRef = useRef(false);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
-  // Reset when the category (and thus the SSR payload) changes.
+  // Reset when the category/page (and thus the SSR payload) changes.
   useEffect(() => {
     setItems(events);
-    setPage(1);
+    setPage(initialPage);
     setErrored(false);
-  }, [events]);
+  }, [events, initialPage]);
 
-  const done = items.length >= total;
+  // `items` only holds pages loaded forward from `initialPage` (which may be
+  // > 1 on a direct/crawled ?page=N hit), so compare against total *pages*
+  // rather than total item count.
+  const totalPages = total > 0 ? Math.ceil(total / BROWSE_PER_PAGE) : 0;
+  const done = page >= totalPages;
 
   const loadMore = useCallback(async () => {
     if (loadingRef.current || done || errored) return;
@@ -244,6 +266,39 @@ export function BrowseClient({
 
           {/* Sentinel: when it scrolls near the viewport, the next page loads. */}
           {!done && <div ref={sentinelRef} aria-hidden style={{ height: 1 }} />}
+
+          {/*
+            Real, crawlable ?page=N links. Human visitors never need these —
+            the sentinel above already loads more as they scroll — but a
+            crawler that doesn't run the IntersectionObserver (or doesn't
+            scroll) can still reach every page through these anchors, per
+            Google's documented pattern for infinite-scroll pagination:
+            https://developers.google.com/search/blog/2014/02/infinite-scroll-search-friendly
+          */}
+          {totalPages > 1 && (
+            <nav
+              aria-label="Pagination"
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14, padding: '8px 0 32px', fontSize: 13.5 }}
+            >
+              {initialPage > 1 ? (
+                <Link href={pageHref(initialPage - 1, activeCat, query, where, dateFrom, dateTo)} className="focus-ring" style={{ color: 'var(--dim)' }}>
+                  ← Prev
+                </Link>
+              ) : (
+                <span style={{ color: 'var(--faint)' }}>← Prev</span>
+              )}
+              <span style={{ color: 'var(--faint)' }}>
+                Page {initialPage} of {totalPages}
+              </span>
+              {initialPage < totalPages ? (
+                <Link href={pageHref(initialPage + 1, activeCat, query, where, dateFrom, dateTo)} className="focus-ring" style={{ color: 'var(--dim)' }}>
+                  Next →
+                </Link>
+              ) : (
+                <span style={{ color: 'var(--faint)' }}>Next →</span>
+              )}
+            </nav>
+          )}
 
           <div
             style={{

@@ -1,5 +1,6 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { CountryFlag } from '@/components/Flag';
 import { EventCard } from '@/components/EventCard';
@@ -12,23 +13,81 @@ import { fetchEvent, fetchEventListings, fetchEvents, fetchEventSeatingPlan, fet
 import { CATEGORIES, categoryById } from '@/lib/categories';
 import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime } from '@/lib/format';
+import { eventJsonLd, jsonLdScript } from '@/lib/jsonld';
+import { eventHref, parseIdFromSlugParam, performerHref } from '@/lib/slug';
+import { SITE_URL } from '@/lib/site';
 import type { NeopEvent } from '@/lib/types';
 
 export const revalidate = 120;
 
-export default async function EventPage({ params }: { params: { id: string } }) {
+/** Shared by the page and generateMetadata; Next.js dedupes the identical fetch(). */
+async function loadEvent(slug: string): Promise<NeopEvent> {
+  const id = parseIdFromSlugParam(slug);
+  if (!id) notFound();
+  const ev = await fetchEvent(id, revalidate).catch(() => null);
+  if (!ev) notFound();
+
+  // Note: because this route has a loading.tsx, Next.js starts streaming the
+  // loading fallback (200) before this async function resolves, so by the
+  // time permanentRedirect() throws, the response is already committed to
+  // 200 and Next downgrades it to a 0-delay <meta http-equiv="refresh">
+  // instead of a real 308 — Google explicitly treats a 0-delay meta refresh
+  // the same as a permanent redirect, so this still consolidates correctly
+  // for crawling purposes even though the raw HTTP status isn't 3xx. Only
+  // non-canonical URL variants (bare legacy ids, stale slug text) hit this
+  // path — the sitemap and all internal links always use the canonical form.
+  const canonical = eventHref(ev);
+  if (`/event/${slug}` !== canonical) permanentRedirect(canonical);
+
+  return ev;
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const ev = await loadEvent(params.slug);
+  const title = `${ev.title} tickets — ${ev.venue}, ${ev.city}`;
+  const description = `${ev.blurb} ${fmtDateLong(ev.date)} at ${ev.venue}, ${ev.city}.`.slice(0, 300);
+  const canonical = eventHref(ev);
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    // openGraph/twitter titles aren't run through the root layout's title
+    // template, so they need the "| neop" suffix spelled out explicitly.
+    openGraph: {
+      title: `${title} | neop`,
+      description,
+      url: canonical,
+      images: ev.image ? [{ url: ev.image }] : undefined,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | neop`,
+      description,
+      images: ev.image ? [ev.image] : undefined,
+    },
+  };
+}
+
+export default async function EventPage({ params }: { params: { slug: string } }) {
   // Only the core event record gates the first paint — everything else
   // (ticket categories, the seating-plan SVG, "more like this") streams in
   // afterward via its own Suspense boundary, so a slow Gigsberg listing/SVG
   // fetch no longer blocks the hero from appearing.
-  const ev = await fetchEvent(params.id, revalidate).catch(() => null);
-  if (!ev) notFound();
+  const ev = await loadEvent(params.slug);
 
   const cat = categoryById(ev.category);
   const countryCode = countryCodeFor(ev.country);
+  const canonicalUrl = `${SITE_URL}${eventHref(ev)}`;
 
   return (
     <div>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(eventJsonLd(ev, canonicalUrl)) }}
+      />
       {/* hero */}
       <div style={{ position: 'relative', marginTop: '-88px' }}>
         <div style={{ position: 'absolute', inset: 0, height: 'clamp(340px,46vh,460px)' }}>
@@ -43,7 +102,7 @@ export default async function EventPage({ params }: { params: { id: string } }) 
         </div>
         <div style={{ position: 'relative', maxWidth: 'var(--maxw)', margin: '0 auto', padding: '112px 28px 40px' }}>
           <Link
-            href={ev.performerId ? `/performer/${ev.performerId}` : `/browse?cat=${ev.category}`}
+            href={ev.performerId ? performerHref(ev.performerId, ev.artist) : `/browse?cat=${ev.category}`}
             className="focus-ring"
             style={{
               display: 'inline-flex',
@@ -130,7 +189,7 @@ export default async function EventPage({ params }: { params: { id: string } }) 
       <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '40px 28px 0' }}>
         {/* tickets (left) + seating plan (right) */}
         <Suspense fallback={<TicketsAndSeatingPlanSkeleton />}>
-          <TicketsAndSeatingPlanData ev={ev} eventId={params.id} />
+          <TicketsAndSeatingPlanData ev={ev} eventId={ev.id} />
         </Suspense>
       </div>
 
