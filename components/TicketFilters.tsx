@@ -264,7 +264,6 @@ export function TicketFilters({
               <label
                 key={n}
                 className="focus-ring"
-                onClick={() => selectQuantity(n)}
                 style={{
                   display: 'grid',
                   placeItems: 'center',
@@ -279,10 +278,18 @@ export function TicketFilters({
                   transition: 'all .15s',
                 }}
               >
+                {/*
+                  onClick lives on the input, not the label: clicking the label
+                  text fires a click on the label AND a browser-forwarded click
+                  on this input, but never the reverse — putting the handler
+                  here means exactly one call per user click instead of two
+                  (which would otherwise toggle the selection on and back off).
+                */}
                 <input
                   type="radio"
                   name="ticket-quantity"
                   checked={checked}
+                  onClick={() => selectQuantity(n)}
                   readOnly
                   style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
                 />
