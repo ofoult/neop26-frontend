@@ -2,7 +2,11 @@ import type { MetadataRoute } from 'next';
 import { API_BASE } from '@/lib/api';
 import { SITE_URL } from '@/lib/site';
 
-export const revalidate = 3600;
+// Prerendered at build time and only regenerated on-demand — see
+// app/sitemap.ts for why (including why there's no `dynamic = 'force-static'`
+// here) and app/api/revalidate-sitemap/route.ts for the trigger. Uses the
+// same 'sitemap' cache tag so both regenerate together.
+const SITEMAP_TAG = 'sitemap';
 
 const CHUNK_SIZE = 45_000;
 
@@ -24,7 +28,7 @@ function safeCount(n: unknown): number {
 async function sitemapUrls(): Promise<string[]> {
   let counts = { events: 0, performers: 0, venues: 0 };
   try {
-    const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate } });
+    const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate: false, tags: [SITEMAP_TAG] } });
     if (res.ok) {
       const raw = (await res.json()) as Partial<typeof counts>;
       counts = { events: safeCount(raw.events), performers: safeCount(raw.performers), venues: safeCount(raw.venues) };

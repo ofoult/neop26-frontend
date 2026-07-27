@@ -23,6 +23,8 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
 - `app/checkout/` — checkout flow
 - `app/confirmation/` — post-checkout confirmation
 - `app/actions.ts` — shared server actions
+- `app/sitemap.ts` / `app/robots.ts` — static (cached indefinitely), regenerated on-demand via
+  `app/api/revalidate-sitemap/route.ts` rather than a runtime timer — see "Sitemap" below.
 - `next.config.mjs` — remote image patterns for Gigsberg + Unsplash artwork
 
 ## UX principles
@@ -47,9 +49,24 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
   block the tabnabbing vector (new tab can't reach `window.opener`); don't add `noreferrer` back
   without checking with Gigsberg first.
 
+## Sitemap
+
+`app/sitemap.ts` and `app/robots.ts` are static: every backend fetch inside them uses
+`next: { revalidate: false, tags: ['sitemap'] }`, so they're built once and served from the cache
+with no runtime call to the backend — neither a visitor nor Googlebot can ever be affected by the
+backend being slow/asleep (confirmed static/SSG in `next build` output). They only regenerate
+when `POST /api/revalidate-sitemap` calls `revalidateTag('sitemap')`, which
+`backend/src/sync/run.ts` does automatically after each successful daily sync (see backend
+`CLAUDE.md`). To force a refresh manually: `curl -X POST https://neop.events/api/revalidate-sitemap -H "x-revalidate-secret: $REVALIDATE_SECRET"`.
+Note: `next dev` 404s these sitemap routes regardless of this change (a pre-existing
+`generateSitemaps()` + dev-server limitation) — always verify with `pnpm build && pnpm start`.
+
 ## Environment variables
 
 - `NEXT_PUBLIC_API_BASE_URL` — base URL of the neop-backend API (see `.env.local`)
+- `REVALIDATE_SECRET` — shared secret required by `app/api/revalidate-sitemap`; must match the
+  backend's `REVALIDATE_SECRET` (set in Vercel's project env vars, not `.env.local`, since only
+  the deployed site needs to accept revalidation calls)
 
 ## Deployment
 

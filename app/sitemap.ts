@@ -4,7 +4,18 @@ import { CATEGORIES } from '@/lib/categories';
 import { eventHref, performerHref, venueHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
 
-export const revalidate = 3600;
+// Prerendered at build time and only regenerated on-demand (see
+// app/api/revalidate-sitemap/route.ts, called by the daily sync job once new
+// data lands) rather than on a runtime timer — that decouples every visitor's
+// (and Googlebot's) request from the backend's liveness entirely. Every fetch
+// below is cached indefinitely (`revalidate: false`), which is what makes
+// this route static; confirmed static (SSG) in `next build` output. Note:
+// `next dev` 404s these multi-file sitemap routes regardless (true of the
+// pre-existing code too, not something this change caused) — verify with a
+// real build (`pnpm build && pnpm start`), not `next dev`.
+// Shared cache tag for every backend fetch below, so a single
+// `revalidateTag('sitemap')` call refreshes all of them together.
+const SITEMAP_TAG = 'sitemap';
 
 // Google enforces a 50,000 URL/file limit on sitemaps; this stays comfortably
 // under it (and under the backend's own per-request cap, see
@@ -46,7 +57,7 @@ function safeCount(n: unknown): number {
 
 async function getCounts(): Promise<Counts> {
   try {
-    const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate } });
+    const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate: false, tags: [SITEMAP_TAG] } });
     if (!res.ok) return { events: 0, performers: 0, venues: 0 };
     const raw = (await res.json()) as Partial<Counts>;
     return { events: safeCount(raw.events), performers: safeCount(raw.performers), venues: safeCount(raw.venues) };
@@ -103,7 +114,7 @@ async function performerEntries(chunkIndex: number): Promise<MetadataRoute.Sitem
   const offset = chunkIndex * CHUNK_SIZE;
   try {
     const res = await fetch(`${API_BASE}/sitemap/performers?offset=${offset}&limit=${CHUNK_SIZE}`, {
-      next: { revalidate },
+      next: { revalidate: false, tags: [SITEMAP_TAG] },
     });
     if (!res.ok) return [];
     const { items } = (await res.json()) as { items: SitemapPerformerRow[] };
@@ -119,7 +130,7 @@ async function venueEntries(chunkIndex: number): Promise<MetadataRoute.Sitemap> 
   const offset = chunkIndex * CHUNK_SIZE;
   try {
     const res = await fetch(`${API_BASE}/sitemap/venues?offset=${offset}&limit=${CHUNK_SIZE}`, {
-      next: { revalidate },
+      next: { revalidate: false, tags: [SITEMAP_TAG] },
     });
     if (!res.ok) return [];
     const { items } = (await res.json()) as { items: SitemapVenueRow[] };
@@ -135,7 +146,7 @@ async function eventEntries(chunkIndex: number): Promise<MetadataRoute.Sitemap> 
   const offset = chunkIndex * CHUNK_SIZE;
   try {
     const res = await fetch(`${API_BASE}/sitemap/events?offset=${offset}&limit=${CHUNK_SIZE}`, {
-      next: { revalidate },
+      next: { revalidate: false, tags: [SITEMAP_TAG] },
     });
     if (!res.ok) return [];
     const { items } = (await res.json()) as { items: SitemapEventRow[] };
