@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { suggestLocations, suggestSearch } from '@/app/actions';
+import { eventHref, performerHref, venueHref } from '@/lib/slug';
 import type { LocationSuggestion, SearchSuggestion } from '@/lib/types';
 import { Icon, type IconName } from './Icon';
 import { Btn } from './ui';
@@ -63,17 +64,21 @@ export function SearchBar({
     router.push(qs ? `/browse?${qs}` : '/browse');
   }
 
-  // A suggestion's canonical SEO slug is unknown client-side, so this pushes a
-  // bare-id path; the destination page (event/performer/venue) fetches by id
-  // and immediately redirects to its canonical slug — the same self-healing
-  // path already used for legacy/bare-id links (see lib/slug.ts).
+  // The suggest API returns the name(s) needed to build each result's
+  // canonical SEO slug, so this navigates straight there instead of a
+  // bare-id path that'd bounce through the destination page's self-healing
+  // redirect (see parseIdFromSlugParam in lib/slug.ts).
   function navigateToSuggestion(s: SearchSuggestion) {
     if (s.type === 'event') {
-      router.push(s.performerId ? `/performer/${s.performerId}` : `/event/${s.id}`);
+      router.push(
+        s.performerId
+          ? performerHref(s.performerId, s.performerName)
+          : eventHref({ id: s.id, title: s.label, artist: s.performerName ?? '', city: s.city ?? '' }),
+      );
     } else if (s.type === 'performer') {
-      router.push(`/performer/${s.id}`);
+      router.push(performerHref(s.id, s.label));
     } else {
-      router.push(`/venue/${s.id}`);
+      router.push(venueHref(s.id, s.label));
     }
   }
 

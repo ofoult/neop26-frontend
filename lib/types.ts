@@ -165,6 +165,10 @@ export interface SearchSuggestion {
   sublabel?: string;
   /** Only for type "event" when it has a known performer — routes to the performer page instead. */
   performerId?: string;
+  /** Event only — used to build the canonical slug client-side (performer name if performerId is set, else the event's own artist name for its own slug). */
+  performerName?: string;
+  /** Event only — used to build the event's own canonical slug. */
+  city?: string;
 }
 
 export interface NeopEvent {
