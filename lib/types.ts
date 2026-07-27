@@ -90,8 +90,28 @@ export interface ApiPerformerEventItem {
   venue: string | null;
 }
 
+/** One comment surfaced from the performer's enriched YouTube video. */
+export interface ApiPerformerComment {
+  author: string;
+  text: string;
+  likeCount: number;
+  publishedAt: string;
+}
+
 export interface ApiPerformerResponse {
-  performer: { id: number; name: string | null; image: string | null };
+  performer: {
+    id: number;
+    name: string | null;
+    image: string | null;
+    /** Real bio text (Last.fm, falling back to Wikipedia) — null until `pnpm enrich` has run for this performer. */
+    bio: string | null;
+    bioSource: 'lastfm' | 'wikipedia' | null;
+    bioSourceUrl: string | null;
+    /** A representative YouTube video for this performer, found by the enrichment job. */
+    videoId: string | null;
+    videoTitle: string | null;
+    comments: ApiPerformerComment[];
+  };
   events: ApiPerformerEventItem[];
 }
 
