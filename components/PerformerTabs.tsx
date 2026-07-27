@@ -210,7 +210,7 @@ export function PerformerTabs({
   videoTitle: string | null;
   comments: ApiPerformerComment[];
 }) {
-  const hasAbout = Boolean(bio || videoId || comments.length > 0);
+  const hasAbout = Boolean(bio || videoId || comments?.length > 0);
   const [tab, setTab] = useState<'events' | 'about'>('events');
 
   if (!hasAbout) return <EventsPanel name={name} events={events} />;
