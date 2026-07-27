@@ -38,11 +38,11 @@ export default async function HomePage() {
   const priced = events.filter((e) => e.hot);
   const rest = events.filter((e) => !e.hot);
   const heroEvents = [...priced, ...rest].slice(0, 5);
-  const trending = [...priced, ...rest].slice(0, 3);
+  const trending = [...priced, ...rest].slice(0, 4);
   // Weekend strip: events not already shown in the trending grid.
   const trendingIds = new Set(trending.map((e) => e.id));
-  const weekend = events.filter((e) => !trendingIds.has(e.id)).slice(0, 3);
-  const fests = (festPool?.events ?? []).slice(0, 3);
+  const weekend = events.filter((e) => !trendingIds.has(e.id)).slice(0, 4);
+  const fests = (festPool?.events ?? []).slice(0, 4);
 
   return (
     <div>
@@ -51,9 +51,9 @@ export default async function HomePage() {
       {/* trending */}
       <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
         <SecHead kicker="Selling fast" title="Trending right now" action="See all" actionHref="/browse" />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 38 }}>
           {trending.map((e, i) => (
-            <EventCard key={e.id} ev={e} i={i + 1} wide />
+            <EventCard key={e.id} ev={e} i={i + 1}  />
           ))}
         </div>
       </section>
@@ -62,9 +62,9 @@ export default async function HomePage() {
       {weekend.length > 0 && (
         <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
           <SecHead kicker="Don't miss out" title="On this weekend" action="Browse dates" actionHref="/browse" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 38 }}>
             {weekend.map((e, i) => (
-              <EventCard key={e.id} ev={e} i={i} wide />
+              <EventCard key={e.id} ev={e} i={i}  />
             ))}
           </div>
         </section>
@@ -74,9 +74,9 @@ export default async function HomePage() {
       {fests.length > 0 && (
         <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
           <SecHead kicker="Season highlights" title="Festivals worth the flight" action="All festivals" actionHref="/browse?cat=festivals" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 38 }}>
             {fests.map((e, i) => (
-              <EventCard key={e.id} ev={e} i={i} wide />
+              <EventCard key={e.id} ev={e} i={i}  />
             ))}
           </div>
         </section>
@@ -99,8 +99,8 @@ export default async function HomePage() {
               <div key={t}>
                 <div
                   style={{
-                    width: 48,
-                    height: 48,
+                    width: 128,
+                    height: 58,
                     borderRadius: 14,
                     background: 'var(--surface-2)',
                     border: '1px solid var(--border)',

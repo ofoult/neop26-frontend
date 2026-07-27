@@ -21,7 +21,7 @@
   --accent-ink: #ffffff;
   --grad: linear-gradient(115deg, var(--accent), var(--accent-2));
   --r: 16px;
-  --maxw: 1240px;
+  --maxw: 1660px;
 }
 
 * {
