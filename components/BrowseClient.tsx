@@ -68,15 +68,14 @@ export function BrowseClient({
   const [sort, setSort] = useState<SortKey>('trending');
   const catObj = activeCat ? categoryById(activeCat) : undefined;
 
-  // Infinite scroll state. `items` starts from the server-rendered page (page 1
-  // by default, or whichever page a direct/crawled ?page=N hit) and grows as
-  // the sentinel scrolls into view.
+// Pagination state. `items` starts from the server-rendered page (page 1 by
+// default, or whichever page a direct ?page=N visit loads). Additional pages
+// are loaded only when requested by the user.
   const [items, setItems] = useState<NeopEvent[]>(events);
   const [page, setPage] = useState(initialPage);
   const [loading, setLoading] = useState(false);
   const [errored, setErrored] = useState(false);
   const loadingRef = useRef(false);
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   // Reset when the category/page (and thus the SSR payload) changes.
   useEffect(() => {
@@ -91,6 +90,7 @@ export function BrowseClient({
   const totalPages = total > 0 ? Math.ceil(total / BROWSE_PER_PAGE) : 0;
   const done = page >= totalPages;
 
+  // Fetches the next page of events and appends it to the current list.
   const loadMore = useCallback(async () => {
     if (loadingRef.current || done || errored) return;
     loadingRef.current = true;
@@ -104,27 +104,13 @@ export function BrowseClient({
       });
       setPage(next);
     } catch {
-      // Stop auto-retrying on failure; the "Load more" button allows a retry.
+      // Allow the user to retry after a failed request.
       setErrored(true);
     } finally {
       loadingRef.current = false;
       setLoading(false);
     }
   }, [activeCat, page, done, errored, query, where, dateFrom, dateTo]);
-
-  // Observe the sentinel; fetch the next page when it nears the viewport.
-  useEffect(() => {
-    const el = sentinelRef.current;
-    if (!el || done) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) void loadMore();
-      },
-      { rootMargin: '600px 0px' },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [loadMore, done]);
 
   const sorted = useMemo(() => {
     const list = [...items];
@@ -162,7 +148,7 @@ export function BrowseClient({
           <Link href="/" style={{ color: "var(--dim)" }}>
             Home
           </Link>{" "}
-          / Browse{searching ? " / Search" : catObj ? ` / ${catObj.label}` : ""}
+          {searching ? " / Search" : catObj ? ` / ${catObj.label}` : ""}
         </div>
         <h1
           className="serif"
@@ -255,30 +241,23 @@ export function BrowseClient({
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3,1fr)",
-              gap: 18,
+              gridTemplateColumns: "repeat(4,1fr)",
+              gap: 38,
             }}
           >
             {sorted.map((e, i) => (
               <EventCard key={e.id} ev={e} i={i} wide />
             ))}
           </div>
-
-          {/* Sentinel: when it scrolls near the viewport, the next page loads. */}
-          {!done && <div ref={sentinelRef} aria-hidden style={{ height: 1 }} />}
-
-          {/*
-            Real, crawlable ?page=N links. Human visitors never need these —
-            the sentinel above already loads more as they scroll — but a
-            crawler that doesn't run the IntersectionObserver (or doesn't
-            scroll) can still reach every page through these anchors, per
-            Google's documented pattern for infinite-scroll pagination:
-            https://developers.google.com/search/blog/2014/02/infinite-scroll-search-friendly
-          */}
+            {/*
+              Crawlable pagination links.
+              These preserve the current filters and allow both users and search engines
+              to navigate directly between pages.
+            */}
           {totalPages > 1 && (
             <nav
               aria-label="Pagination"
-              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14, padding: '8px 0 32px', fontSize: 13.5 }}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14, padding: '38px 0 12px', fontSize: 16 }}
             >
               {initialPage > 1 ? (
                 <Link href={pageHref(initialPage - 1, activeCat, query, where, dateFrom, dateTo)} className="focus-ring" style={{ color: 'var(--dim)' }}>
