@@ -41,13 +41,16 @@ export function TicketsAndSeatingPlan({
     [categories, filters],
   );
 
+  // Fresh "Buy"/seat clicks start at the quantity filter's value, or 1 if unset.
+  const defaultQuantity = filters.quantity ?? 1;
+
   function handleSeatClick(categoryName: string) {
     const cat = categories?.find((c) => c.name.trim().toLowerCase() === categoryName.trim().toLowerCase());
     if (!cat) return;
-    // Mirrors the "Buy" button: switch to this category (resetting to its
-    // first valid seat count) unless it's already the active one, then open
-    // the drawer either way — every seat click should surface it.
-    if (seatSelection.activeId !== cat.id) seatSelection.inc(cat);
+    // Mirrors the "Buy" button: switch to this category (resetting to the
+    // quantity filter's seat count) unless it's already the active one, then
+    // open the drawer either way — every seat click should surface it.
+    if (seatSelection.activeId !== cat.id) seatSelection.inc(cat, defaultQuantity);
     setDrawerOpen(true);
   }
 
@@ -64,6 +67,7 @@ export function TicketsAndSeatingPlan({
           onOpenDrawer={() => setDrawerOpen(true)}
           onCloseDrawer={() => setDrawerOpen(false)}
           visibleCategoryIds={visibleCategoryIds}
+          defaultQuantity={defaultQuantity}
         />
       </div>
 

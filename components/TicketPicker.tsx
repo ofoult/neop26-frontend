@@ -59,6 +59,7 @@ export function TicketPicker({
   onOpenDrawer,
   onCloseDrawer,
   visibleCategoryIds,
+  defaultQuantity,
 }: {
   ev: NeopEvent;
   categories?: ApiListingCategory[];
@@ -74,6 +75,8 @@ export function TicketPicker({
   onCloseDrawer: () => void;
   /** When set, only categories whose id is in this set are shown in the list (the rest of `categories` — active selection, checkout — is unaffected). `null`/`undefined` means show all. */
   visibleCategoryIds?: Set<string> | null;
+  /** Seat count a fresh "Buy" click should start at — the quantity filter's value, or 1. */
+  defaultQuantity: number;
 }) {
   // Real per-category pricing from the Gigsberg listing search.
   if (categories && categories.length > 0) {
@@ -88,6 +91,7 @@ export function TicketPicker({
         onOpenDrawer={onOpenDrawer}
         onCloseDrawer={onCloseDrawer}
         visibleCategoryIds={visibleCategoryIds}
+        defaultQuantity={defaultQuantity}
       />
     );
   }
@@ -179,8 +183,13 @@ export interface SeatSelection {
   /** The one category currently holding seats, or null when none is selected. */
   activeId: string | null;
   qty: number;
-  /** Steps up to the next valid seat count, starting the category if none is active yet. */
-  inc: (cat: ApiListingCategory) => void;
+  /**
+   * Steps up to the next valid seat count, starting the category if none is
+   * active yet. `startQty` (the quantity filter's value, or 1) seeds the
+   * initial count when starting fresh — falling back to the smallest valid
+   * count if the category doesn't support it.
+   */
+  inc: (cat: ApiListingCategory, startQty?: number) => void;
   /** Steps down; going below the smallest valid count deselects the category. */
   dec: (cat: ApiListingCategory) => void;
 }
@@ -194,12 +203,12 @@ export function useSeatSelection(): SeatSelection {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [qty, setQty] = useState(0);
 
-  function inc(cat: ApiListingCategory) {
+  function inc(cat: ApiListingCategory, startQty?: number) {
     const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
     if (counts.length === 0) return;
     if (activeId !== cat.id) {
       setActiveId(cat.id);
-      setQty(counts[0]);
+      setQty(startQty !== undefined && counts.includes(startQty) ? startQty : counts[0]);
       return;
     }
     const i = counts.indexOf(qty);
@@ -231,6 +240,7 @@ function RealTickets({
   onOpenDrawer,
   onCloseDrawer,
   visibleCategoryIds,
+  defaultQuantity,
 }: {
   ev: NeopEvent;
   categories: ApiListingCategory[];
@@ -241,6 +251,7 @@ function RealTickets({
   onOpenDrawer: () => void;
   onCloseDrawer: () => void;
   visibleCategoryIds?: Set<string> | null;
+  defaultQuantity: number;
 }) {
   const { activeId, qty, inc, dec } = seatSelection;
   // Mirrors `highlightedCategory` (which comes from hovering a seat on the
@@ -258,9 +269,10 @@ function RealTickets({
 
   function handleBuy(cat: ApiListingCategory) {
     // Only one category can hold a selection at a time: picking a fresh one
-    // starts it at the smallest valid seat count; re-opening the category
-    // that's already active resumes wherever it was left.
-    if (activeId !== cat.id) inc(cat);
+    // starts it at the quantity filter's value (or the smallest valid seat
+    // count if unset/unsupported); re-opening the category that's already
+    // active resumes wherever it was left.
+    if (activeId !== cat.id) inc(cat, defaultQuantity);
     onOpenDrawer();
   }
 

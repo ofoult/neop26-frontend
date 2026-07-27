@@ -6,17 +6,18 @@ import { Icon } from './Icon';
 import { validSeatCounts } from './TicketPicker';
 
 export interface TicketFilterState {
-  quantities: Set<number>;
+  /** At most one seat count can be selected at a time (radio-like), or null for "any". */
+  quantity: number | null;
   categoryNames: Set<string>;
   ticketTypes: Set<string>;
 }
 
 export function emptyTicketFilterState(): TicketFilterState {
-  return { quantities: new Set(), categoryNames: new Set(), ticketTypes: new Set() };
+  return { quantity: null, categoryNames: new Set(), ticketTypes: new Set() };
 }
 
 export function hasActiveTicketFilters(filters: TicketFilterState): boolean {
-  return filters.quantities.size > 0 || filters.categoryNames.size > 0 || filters.ticketTypes.size > 0;
+  return filters.quantity !== null || filters.categoryNames.size > 0 || filters.ticketTypes.size > 0;
 }
 
 /**
@@ -29,9 +30,9 @@ export function filterCategoryIds(categories: ApiListingCategory[], filters: Tic
       .filter((cat) => {
         if (filters.categoryNames.size > 0 && !filters.categoryNames.has(cat.name)) return false;
         if (filters.ticketTypes.size > 0 && !cat.ticketTypes.some((t) => filters.ticketTypes.has(t))) return false;
-        if (filters.quantities.size > 0) {
+        if (filters.quantity !== null) {
           const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
-          if (!counts.some((n) => filters.quantities.has(n))) return false;
+          if (!counts.includes(filters.quantity)) return false;
         }
         return true;
       })
@@ -87,12 +88,16 @@ function CheckboxRow({ checked, onChange, label }: { checked: boolean; onChange:
 /** A "select box" that, on hover (or click/focus for touch + keyboard), opens a floating checkbox list. */
 function FilterDropdown({
   label,
-  count,
+  active,
+  badge,
   wide,
   children,
 }: {
   label: string;
-  count: number;
+  /** Whether the trigger should render in its "filter applied" state. */
+  active: boolean;
+  /** Value shown in the badge — a filter count for multi-select groups, or the selected value itself for single-select ones. Only rendered while `active`. */
+  badge?: number;
   /** Wider panel + multi-column grid, used for the quantity list. */
   wide?: boolean;
   children: ReactNode;
@@ -132,8 +137,6 @@ function FilterDropdown({
     if (closeTimer.current) clearTimeout(closeTimer.current);
   }, []);
 
-  const active = count > 0;
-
   return (
     <div ref={rootRef} onMouseEnter={openNow} onMouseLeave={closeSoon} style={{ position: 'relative' }}>
       <button
@@ -158,7 +161,7 @@ function FilterDropdown({
         }}
       >
         {label}
-        {active && (
+        {active && badge !== undefined && (
           <span
             style={{
               display: 'grid',
@@ -173,7 +176,7 @@ function FilterDropdown({
               fontWeight: 700,
             }}
           >
-            {count}
+            {badge}
           </span>
         )}
         <Icon name="chevronDown" size={14} style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .15s', opacity: 0.7 }} />
@@ -233,11 +236,10 @@ export function TicketFilters({
   const showType = typeOptions.length > 1;
   if (!showQuantity && !showCategory && !showType) return null;
 
-  function toggleQuantity(n: number) {
-    const next = new Set(filters.quantities);
-    if (next.has(n)) next.delete(n);
-    else next.add(n);
-    onChange({ ...filters, quantities: next });
+  // Radio-like: picking a number selects it exclusively; picking the
+  // already-selected number clears it back to "any".
+  function selectQuantity(n: number) {
+    onChange({ ...filters, quantity: filters.quantity === n ? null : n });
   }
   function toggleCategory(name: string) {
     const next = new Set(filters.categoryNames);
@@ -255,39 +257,44 @@ export function TicketFilters({
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 18 }}>
       {showQuantity && (
-        <FilterDropdown label="Quantity" count={filters.quantities.size} wide>
-          {quantityOptions.map((n) => (
-            <label
-              key={n}
-              className="focus-ring"
-              style={{
-                display: 'grid',
-                placeItems: 'center',
-                aspectRatio: '1',
-                borderRadius: 9,
-                fontSize: 13,
-                fontWeight: filters.quantities.has(n) ? 700 : 500,
-                color: filters.quantities.has(n) ? '#fff' : 'var(--dim)',
-                background: filters.quantities.has(n) ? 'var(--grad)' : 'var(--surface)',
-                border: `1px solid ${filters.quantities.has(n) ? 'transparent' : 'var(--border)'}`,
-                cursor: 'pointer',
-                transition: 'all .15s',
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={filters.quantities.has(n)}
-                onChange={() => toggleQuantity(n)}
-                style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
-              />
-              {n}
-            </label>
-          ))}
+        <FilterDropdown label="Quantity" active={filters.quantity !== null} badge={filters.quantity ?? undefined} wide>
+          {quantityOptions.map((n) => {
+            const checked = filters.quantity === n;
+            return (
+              <label
+                key={n}
+                className="focus-ring"
+                onClick={() => selectQuantity(n)}
+                style={{
+                  display: 'grid',
+                  placeItems: 'center',
+                  aspectRatio: '1',
+                  borderRadius: 9,
+                  fontSize: 13,
+                  fontWeight: checked ? 700 : 500,
+                  color: checked ? '#fff' : 'var(--dim)',
+                  background: checked ? 'var(--grad)' : 'var(--surface)',
+                  border: `1px solid ${checked ? 'transparent' : 'var(--border)'}`,
+                  cursor: 'pointer',
+                  transition: 'all .15s',
+                }}
+              >
+                <input
+                  type="radio"
+                  name="ticket-quantity"
+                  checked={checked}
+                  readOnly
+                  style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
+                />
+                {n}
+              </label>
+            );
+          })}
         </FilterDropdown>
       )}
 
       {showCategory && (
-        <FilterDropdown label="Category" count={filters.categoryNames.size}>
+        <FilterDropdown label="Category" active={filters.categoryNames.size > 0} badge={filters.categoryNames.size}>
           {categoryOptions.map((name) => (
             <CheckboxRow key={name} checked={filters.categoryNames.has(name)} onChange={() => toggleCategory(name)} label={name} />
           ))}
@@ -295,7 +302,7 @@ export function TicketFilters({
       )}
 
       {showType && (
-        <FilterDropdown label="Ticket type" count={filters.ticketTypes.size}>
+        <FilterDropdown label="Ticket type" active={filters.ticketTypes.size > 0} badge={filters.ticketTypes.size}>
           {typeOptions.map((t) => (
             <CheckboxRow key={t} checked={filters.ticketTypes.has(t)} onChange={() => toggleType(t)} label={t} />
           ))}
