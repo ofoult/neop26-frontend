@@ -168,7 +168,7 @@ function AboutPanel({
         </div>
       )}
 
-      {comments.length > 0 && (
+      {comments?.length > 0 && (
         <div style={{ maxWidth: 720 }}>
           <SecHead kicker="From YouTube" title="Fans are saying" />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
