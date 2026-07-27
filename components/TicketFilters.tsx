@@ -257,7 +257,11 @@ export function TicketFilters({
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 18 }}>
       {showQuantity && (
-        <FilterDropdown label="Quantity" active={filters.quantity !== null} badge={filters.quantity ?? undefined} wide>
+        <FilterDropdown
+          label={filters.quantity !== null ? `${filters.quantity} ${filters.quantity === 1 ? 'ticket' : 'tickets'}` : 'Quantity'}
+          active={filters.quantity !== null}
+          wide
+        >
           {quantityOptions.map((n) => {
             const checked = filters.quantity === n;
             return (
