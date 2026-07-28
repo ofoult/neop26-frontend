@@ -1,12 +1,26 @@
+import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { EventCard } from '@/components/EventCard';
 import { Hero } from '@/components/Hero';
 import { Icon, type IconName } from '@/components/Icon';
 import { SecHead } from '@/components/SecHead';
 import { fetchEvents } from '@/lib/api';
+import { hreflangAlternates, localePath } from '@/lib/hreflang';
 import type { NeopEvent } from '@/lib/types';
 
 export const revalidate = 120;
+
+// Only the canonical/hreflang alternates for "/" — title/description/OG stay
+// inherited from the root layout's generateMetadata (see its comment for why
+// this is the only page that needs its own metadata beyond that default).
+export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+  return {
+    alternates: {
+      canonical: localePath('/', params.locale),
+      languages: hreflangAlternates('/'),
+    },
+  };
+}
 
 export default async function HomePage() {
   const t = await getTranslations('Home');

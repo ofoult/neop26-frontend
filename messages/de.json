@@ -227,5 +227,9 @@
     "body": "Wir konnten diese Seite oder dieses Event nicht finden. Es könnte ausverkauft oder verschoben sein.",
     "backHome": "Zurück zur Startseite",
     "browseEvents": "Events durchsuchen"
+  },
+  "Event": {
+    "keepExploring": "Weiter entdecken",
+    "moreLikeThis": "Das könnte dir auch gefallen"
   }
 }

@@ -9,6 +9,7 @@ import { SITE_URL } from '@/lib/site';
 import { Analytics } from '@vercel/analytics/next';
 import { routing, type Locale } from '@/i18n/routing';
 import { isRtlLocale } from '@/lib/rtl';
+import { ogAlternateLocales, ogLocale } from '@/lib/hreflang';
 
 const sans = Schibsted_Grotesk({
   subsets: ['latin'],
@@ -31,28 +32,40 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-// Base metadata is still English-only in this phase — per-locale metadata
-// translation is deferred (see frontend/CLAUDE.md's Internationalization section).
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: "neop — tickets to the world's best events",
-    template: '%s | neop',
-  },
-  description: DESCRIPTION,
-  openGraph: {
-    siteName: 'neop',
-    title: "neop — tickets to the world's best events",
+// Title/description text is still English-only in this phase — per-locale
+// copy translation is deferred (see frontend/CLAUDE.md's Internationalization
+// section). `openGraph.locale`/`alternateLocale` are the one per-locale thing
+// set here, since they're valid for every page regardless of path; canonical
+// /hreflang alternates are deliberately NOT set at this level (they're
+// path-specific — set only by pages that define their own generateMetadata,
+// e.g. the home page and event/performer/venue detail pages, so routes
+// without their own metadata — browse/checkout/confirmation — keep behaving
+// exactly as before rather than inheriting an incorrect "/" canonical).
+export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+  const { locale } = params;
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: "neop — tickets to the world's best events",
+      template: '%s | neop',
+    },
     description: DESCRIPTION,
-    url: '/',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "neop — tickets to the world's best events",
-    description: DESCRIPTION,
-  },
-};
+    openGraph: {
+      siteName: 'neop',
+      title: "neop — tickets to the world's best events",
+      description: DESCRIPTION,
+      url: '/',
+      type: 'website',
+      locale: ogLocale(locale),
+      alternateLocale: ogAlternateLocales(locale),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: "neop — tickets to the world's best events",
+      description: DESCRIPTION,
+    },
+  };
+}
 
 export default async function LocaleLayout({
   children,

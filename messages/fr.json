@@ -227,5 +227,9 @@
     "body": "Nous n'avons pas trouvé cette page ou cet évènement. Il est peut-être complet ou a été déplacé.",
     "backHome": "Retour à l'accueil",
     "browseEvents": "Parcourir les évènements"
+  },
+  "Event": {
+    "keepExploring": "Continuez à explorer",
+    "moreLikeThis": "Vous aimerez aussi"
   }
 }

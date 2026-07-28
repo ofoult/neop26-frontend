@@ -227,5 +227,9 @@
     "body": "No hemos encontrado esa página o evento. Puede que se haya agotado o se haya movido.",
     "backHome": "Volver al inicio",
     "browseEvents": "Explorar eventos"
+  },
+  "Event": {
+    "keepExploring": "Sigue explorando",
+    "moreLikeThis": "También te puede gustar"
   }
 }

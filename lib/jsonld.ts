@@ -12,7 +12,7 @@ const SCHEMA_TYPE_BY_CATEGORY: Record<CategoryId, string> = {
 };
 
 /** Builds schema.org Event JSON-LD for one event detail page. */
-export function eventJsonLd(ev: NeopEvent, canonicalUrl: string): Record<string, unknown> {
+export function eventJsonLd(ev: NeopEvent, canonicalUrl: string, locale: string): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': SCHEMA_TYPE_BY_CATEGORY[ev.category] ?? 'Event',
@@ -21,6 +21,7 @@ export function eventJsonLd(ev: NeopEvent, canonicalUrl: string): Record<string,
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     url: canonicalUrl,
+    inLanguage: locale,
     image: ev.image ? [ev.image] : undefined,
     description: ev.blurb,
     location: {
@@ -49,11 +50,13 @@ export function eventJsonLd(ev: NeopEvent, canonicalUrl: string): Record<string,
 export function performerItemListJsonLd(
   performerName: string,
   events: { url: string; name: string }[],
+  locale: string,
 ): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: `${performerName} — upcoming events`,
+    inLanguage: locale,
     itemListElement: events.map((e, i) => ({
       '@type': 'ListItem',
       position: i + 1,

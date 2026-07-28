@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { API_BASE } from '@/lib/api';
 import { CATEGORIES } from '@/lib/categories';
+import { hreflangAlternatesAbsolute } from '@/lib/hreflang';
 import { eventHref, performerHref, venueHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
 
@@ -99,13 +100,20 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
 function staticEntries(): MetadataRoute.Sitemap {
   const now = new Date();
   return [
-    { url: `${SITE_URL}/`, lastModified: now, changeFrequency: 'hourly', priority: 1 },
-    { url: `${SITE_URL}/browse`, lastModified: now, changeFrequency: 'hourly', priority: 0.9 },
+    { url: `${SITE_URL}/`, lastModified: now, changeFrequency: 'hourly', priority: 1, alternates: { languages: hreflangAlternatesAbsolute('/') } },
+    {
+      url: `${SITE_URL}/browse`,
+      lastModified: now,
+      changeFrequency: 'hourly',
+      priority: 0.9,
+      alternates: { languages: hreflangAlternatesAbsolute('/browse') },
+    },
     ...CATEGORIES.map((c) => ({
       url: `${SITE_URL}/browse?cat=${c.id}`,
       lastModified: now,
       changeFrequency: 'hourly' as const,
       priority: 0.8,
+      alternates: { languages: hreflangAlternatesAbsolute(`/browse?cat=${c.id}`) },
     })),
   ];
 }
@@ -118,9 +126,10 @@ async function performerEntries(chunkIndex: number): Promise<MetadataRoute.Sitem
     });
     if (!res.ok) return [];
     const { items } = (await res.json()) as { items: SitemapPerformerRow[] };
-    return items.map((p) => ({
-      url: `${SITE_URL}${performerHref(p.id, p.name)}`,
-    }));
+    return items.map((p) => {
+      const path = performerHref(p.id, p.name);
+      return { url: `${SITE_URL}${path}`, alternates: { languages: hreflangAlternatesAbsolute(path) } };
+    });
   } catch {
     return [];
   }
@@ -134,9 +143,10 @@ async function venueEntries(chunkIndex: number): Promise<MetadataRoute.Sitemap> 
     });
     if (!res.ok) return [];
     const { items } = (await res.json()) as { items: SitemapVenueRow[] };
-    return items.map((v) => ({
-      url: `${SITE_URL}${venueHref(v.id, v.name)}`,
-    }));
+    return items.map((v) => {
+      const path = venueHref(v.id, v.name);
+      return { url: `${SITE_URL}${path}`, alternates: { languages: hreflangAlternatesAbsolute(path) } };
+    });
   } catch {
     return [];
   }
@@ -153,9 +163,11 @@ async function eventEntries(chunkIndex: number): Promise<MetadataRoute.Sitemap> 
     return items.map((e) => {
       const artist = e.performer1 || e.name || 'event';
       const title = e.name || artist;
+      const path = eventHref({ id: e.id, title, artist, city: e.city || '' });
       return {
-        url: `${SITE_URL}${eventHref({ id: e.id, title, artist, city: e.city || '' })}`,
+        url: `${SITE_URL}${path}`,
         lastModified: e.source_updated_at ? new Date(e.source_updated_at) : undefined,
+        alternates: { languages: hreflangAlternatesAbsolute(path) },
       };
     });
   } catch {

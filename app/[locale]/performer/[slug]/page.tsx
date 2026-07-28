@@ -6,6 +6,7 @@ import { Img } from '@/components/Img';
 import { PerformerTabs } from '@/components/PerformerTabs';
 import { fetchPerformerEvents } from '@/lib/api';
 import { jsonLdScript, performerItemListJsonLd } from '@/lib/jsonld';
+import { hreflangAlternates, localePath, ogAlternateLocales, ogLocale } from '@/lib/hreflang';
 import { eventHref, parseIdFromSlugParam, performerHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
 import type { ApiPerformerResponse } from '@/lib/types';
@@ -25,17 +26,18 @@ async function loadPerformer(slug: string): Promise<{ id: string; data: ApiPerfo
   return { id, data };
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
   const { id, data } = await loadPerformer(params.slug);
   const name = data.performer.name || 'Artist';
   const title = `${name} tickets — all upcoming events`;
   const description = `${data.events.length} upcoming event${data.events.length === 1 ? '' : 's'} for ${name}. Verified tickets, every seat guaranteed.`;
-  const canonical = performerHref(id, name);
+  const path = performerHref(id, name);
+  const canonical = localePath(path, params.locale);
 
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: { canonical, languages: hreflangAlternates(path) },
     // openGraph/twitter titles aren't run through the root layout's title
     // template, so they need the "| neop" suffix spelled out explicitly.
     openGraph: {
@@ -43,6 +45,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       description,
       url: canonical,
       images: data.performer.image ? [{ url: data.performer.image }] : undefined,
+      locale: ogLocale(params.locale),
+      alternateLocale: ogAlternateLocales(params.locale),
     },
     twitter: {
       card: 'summary_large_image',
@@ -65,6 +69,7 @@ export default async function PerformerPage({ params }: { params: { locale: stri
       url: `${SITE_URL}${eventHref({ id: e.id, title: e.name ?? '', artist: name, city: e.city ?? '' })}`,
       name: e.name ?? name,
     })),
+    params.locale,
   );
 
   return (

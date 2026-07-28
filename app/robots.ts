@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { API_BASE } from '@/lib/api';
+import { routing } from '@/i18n/routing';
+import { localePath } from '@/lib/hreflang';
 import { SITE_URL } from '@/lib/site';
 
 // Prerendered at build time and only regenerated on-demand — see
@@ -40,14 +42,22 @@ async function sitemapUrls(): Promise<string[]> {
   return Array.from({ length: total }, (_, id) => `${SITE_URL}/sitemap/${id}.xml`);
 }
 
+// Transactional, per-user flows — no SEO value, and the checkout step
+// carries order details in the query string. Listed explicitly per locale
+// since `localePrefix: 'as-needed'` means each non-default locale has its own
+// prefixed path (e.g. /fr/checkout) that a bare "/checkout" rule wouldn't match.
+const NON_DEFAULT_LOCALES = routing.locales.filter((l) => l !== routing.defaultLocale);
+const DISALLOWED_PATHS = ['/checkout', '/confirmation'].flatMap((path) => [
+  path,
+  ...NON_DEFAULT_LOCALES.map((locale) => localePath(path, locale)),
+]);
+
 export default async function robots(): Promise<MetadataRoute.Robots> {
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      // Transactional, per-user flows — no SEO value, and the checkout
-      // step carries order details in the query string.
-      disallow: ['/checkout', '/confirmation'],
+      disallow: DISALLOWED_PATHS,
     },
     sitemap: await sitemapUrls(),
     host: SITE_URL,

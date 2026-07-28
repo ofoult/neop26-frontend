@@ -227,5 +227,9 @@
     "body": "We couldn't find that page or event. It may have sold out or moved.",
     "backHome": "Back home",
     "browseEvents": "Browse events"
+  },
+  "Event": {
+    "keepExploring": "Keep exploring",
+    "moreLikeThis": "More like this"
   }
 }

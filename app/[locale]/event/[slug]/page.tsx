@@ -15,6 +15,7 @@ import { CATEGORIES, categoryById } from '@/lib/categories';
 import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime } from '@/lib/format';
 import { eventJsonLd, jsonLdScript } from '@/lib/jsonld';
+import { hreflangAlternates, localePath, ogAlternateLocales, ogLocale } from '@/lib/hreflang';
 import { eventHref, parseIdFromSlugParam, performerHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
 import type { NeopEvent } from '@/lib/types';
@@ -43,16 +44,17 @@ async function loadEvent(slug: string): Promise<NeopEvent> {
   return ev;
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
   const ev = await loadEvent(params.slug);
   const title = `${ev.title} tickets — ${ev.venue}, ${ev.city}`;
   const description = `${ev.blurb} ${fmtDateLong(ev.date)} at ${ev.venue}, ${ev.city}.`.slice(0, 300);
-  const canonical = eventHref(ev);
+  const path = eventHref(ev);
+  const canonical = localePath(path, params.locale);
 
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: { canonical, languages: hreflangAlternates(path) },
     // openGraph/twitter titles aren't run through the root layout's title
     // template, so they need the "| neop" suffix spelled out explicitly.
     openGraph: {
@@ -61,6 +63,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       url: canonical,
       images: ev.image ? [{ url: ev.image }] : undefined,
       type: 'website',
+      locale: ogLocale(params.locale),
+      alternateLocale: ogAlternateLocales(params.locale),
     },
     twitter: {
       card: 'summary_large_image',
@@ -88,7 +92,7 @@ export default async function EventPage({ params }: { params: { locale: string; 
       <script
         type="application/ld+json"
         suppressHydrationWarning
-        dangerouslySetInnerHTML={{ __html: jsonLdScript(eventJsonLd(ev, canonicalUrl)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(eventJsonLd(ev, canonicalUrl, params.locale)) }}
       />
       {/* hero */}
       <div style={{ position: 'relative', marginTop: '-88px' }}>
@@ -242,10 +246,11 @@ async function MoreLikeThis({ ev }: { ev: NeopEvent }) {
   const moreRes = await fetchEvents({ typeId, perPage: 8, revalidate }).catch(() => null);
   const more = (moreRes?.events ?? []).filter((e) => e.id !== ev.id).slice(0, 3);
   if (more.length === 0) return null;
+  const t = await getTranslations('Event');
 
   return (
     <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
-      <SecHead kicker="Keep exploring" title="More like this" />
+      <SecHead kicker={t('keepExploring')} title={t('moreLikeThis')} />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
         {more.map((e, i) => (
           <EventCard key={e.id} ev={e} i={i} />
@@ -255,10 +260,11 @@ async function MoreLikeThis({ ev }: { ev: NeopEvent }) {
   );
 }
 
-function MoreLikeThisSkeleton() {
+async function MoreLikeThisSkeleton() {
+  const t = await getTranslations('Event');
   return (
     <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
-      <SecHead kicker="Keep exploring" title="More like this" />
+      <SecHead kicker={t('keepExploring')} title={t('moreLikeThis')} />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
         {[0, 1, 2].map((i) => (
           <Skeleton key={i} style={{ aspectRatio: '4/5', borderRadius: 18 }} />

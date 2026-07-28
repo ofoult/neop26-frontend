@@ -8,6 +8,7 @@ import { combineDateTime, fetchVenue } from '@/lib/api';
 import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime, relativeDayBucket, type RelativeDayBucket } from '@/lib/format';
 import { jsonLdScript, performerItemListJsonLd } from '@/lib/jsonld';
+import { hreflangAlternates, localePath, ogAlternateLocales, ogLocale } from '@/lib/hreflang';
 import { eventHref, parseIdFromSlugParam, performerHref, venueHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
 import type { ApiVenueResponse } from '@/lib/types';
@@ -27,18 +28,25 @@ async function loadVenue(slug: string): Promise<{ id: string; data: ApiVenueResp
   return { id, data };
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
   const { id, data } = await loadVenue(params.slug);
   const name = data.venue.name || 'Venue';
   const title = `${name} tickets — all upcoming events`;
   const description = `${data.events.length} upcoming event${data.events.length === 1 ? '' : 's'} at ${name}. Verified tickets, every seat guaranteed.`;
-  const canonical = venueHref(id, name);
+  const path = venueHref(id, name);
+  const canonical = localePath(path, params.locale);
 
   return {
     title,
     description,
-    alternates: { canonical },
-    openGraph: { title: `${title} | neop`, description, url: canonical },
+    alternates: { canonical, languages: hreflangAlternates(path) },
+    openGraph: {
+      title: `${title} | neop`,
+      description,
+      url: canonical,
+      locale: ogLocale(params.locale),
+      alternateLocale: ogAlternateLocales(params.locale),
+    },
     twitter: { card: 'summary_large_image', title: `${title} | neop`, description },
   };
 }
@@ -66,6 +74,7 @@ export default async function VenuePage({ params }: { params: { locale: string; 
       url: `${SITE_URL}${eventHref({ id: e.id, title: e.name ?? '', artist: e.performer1 || e.name || name, city: e.city ?? '' })}`,
       name: e.name ?? name,
     })),
+    params.locale,
   );
 
   return (
