@@ -1,0 +1,91 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Sprache und Währung"
+  },
+  "Footer": {
+    "tagline": "Tickets für die besten Live-Events der Welt. Verifizierte Verkäufer, jeder Platz garantiert.",
+    "learnMore": "Mehr erfahren",
+    "aboutUs": "Über uns",
+    "sitemap": "Sitemap",
+    "partners": "Partner",
+    "support": "Support",
+    "help": "Hilfe",
+    "faq": "FAQ",
+    "contactUs": "Kontakt",
+    "guarantee": "100 % Garantie",
+    "rights": "© {year} neop. Alle Rechte vorbehalten.",
+    "privacy": "Datenschutz",
+    "terms": "AGB",
+    "cookies": "Cookies"
+  },
+  "Hero": {
+    "featured": "Empfohlen",
+    "getTickets": "Tickets sichern",
+    "from": "ab",
+    "watchTrailer": "Trailer ansehen"
+  },
+  "Home": {
+    "trendingKicker": "Schnell ausverkauft",
+    "trendingTitle": "Gerade im Trend",
+    "seeAll": "Alle ansehen",
+    "weekendKicker": "Nicht verpassen",
+    "weekendTitle": "Dieses Wochenende",
+    "browseDates": "Termine durchsuchen",
+    "festivalsKicker": "Highlights der Saison",
+    "festivalsTitle": "Festivals, die die Reise wert sind",
+    "allFestivals": "Alle Festivals",
+    "guaranteeTitle": "Jeder Platz garantiert",
+    "guaranteeBody": "Wird dein Event abgesagt oder kommen die Tickets nicht an, bist du abgesichert — volle Rückerstattung, ohne Nachfragen.",
+    "countriesTitle": "Über 90 Länder",
+    "countriesBody": "Von Tokio bis Rio — durchsuche und buche verifizierte Tickets für Events auf jedem Kontinent.",
+    "instantTitle": "Sofortiger mobiler Einlass",
+    "instantBody": "Deine Tickets landen Sekunden nach dem Checkout in deiner Wallet. Scannen und direkt reingehen.",
+    "noEventsTitle": "Keine Events vorhanden",
+    "noEventsBody": "Das neop-Backend hat keine Events zurückgegeben. Stelle sicher, dass es unter <code>{url}</code> läuft und Daten synchronisiert wurden."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Sprach- und Währungseinstellungen",
+    "languageAndRegion": "Sprache und Region",
+    "currency": "Währung",
+    "apply": "Übernehmen"
+  },
+  "Categories": {
+    "music": "Musik",
+    "festivals": "Festivals",
+    "sports": "Sport",
+    "arts": "Theater & Kunst",
+    "comedy": "Comedy"
+  },
+  "DateLabels": {
+    "today": "Heute",
+    "tomorrow": "Morgen",
+    "thisWeek": "Diese Woche",
+    "nextWeek": "Nächste Woche",
+    "thisMonth": "Diesen Monat",
+    "nextMonth": "Nächsten Monat",
+    "thisYear": "Dieses Jahr",
+    "nextYear": "Nächstes Jahr"
+  },
+  "SearchBar": {
+    "what": "Was",
+    "where": "Wo",
+    "when": "Wann",
+    "searchPlaceholder": "Events, Künstler, Venues suchen…",
+    "wherePlaceholder": "Überall",
+    "noResultsFor": "Keine Ergebnisse für „{term}“ — drücke Enter, um trotzdem zu suchen",
+    "searching": "Suche…",
+    "typeEvent": "Event",
+    "typeArtist": "Künstler",
+    "typeVenue": "Venue",
+    "typeCountry": "Land",
+    "typeCity": "Stadt",
+    "search": "Suchen",
+    "anyDates": "Beliebiges Datum",
+    "fromDate": "Ab {date}",
+    "untilDate": "Bis {date}",
+    "start": "Start",
+    "end": "Ende",
+    "clear": "Löschen",
+    "done": "Fertig"
+  }
+}

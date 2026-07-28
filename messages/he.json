@@ -1,0 +1,91 @@
+{
+  "Nav": {
+    "languageAndCurrency": "שפה ומטבע"
+  },
+  "Footer": {
+    "tagline": "כרטיסים לאירועים החיים הטובים בעולם. מוכרים מאומתים, כל מושב מובטח.",
+    "learnMore": "מידע נוסף",
+    "aboutUs": "עלינו",
+    "sitemap": "מפת האתר",
+    "partners": "שותפים",
+    "support": "תמיכה",
+    "help": "עזרה",
+    "faq": "שאלות נפוצות",
+    "contactUs": "צור קשר",
+    "guarantee": "100% הבטחה",
+    "rights": "© {year} neop. כל הזכויות שמורות.",
+    "privacy": "פרטיות",
+    "terms": "תנאים",
+    "cookies": "עוגיות"
+  },
+  "Hero": {
+    "featured": "מומלץ",
+    "getTickets": "רכישת כרטיסים",
+    "from": "החל מ-",
+    "watchTrailer": "צפייה בטריילר"
+  },
+  "Home": {
+    "trendingKicker": "אוזל מהר",
+    "trendingTitle": "פופולרי עכשיו",
+    "seeAll": "לכל האירועים",
+    "weekendKicker": "אל תפספסו",
+    "weekendTitle": "בסוף השבוע הזה",
+    "browseDates": "עיון בתאריכים",
+    "festivalsKicker": "השיאים של העונה",
+    "festivalsTitle": "פסטיבלים ששווה לטוס בשבילם",
+    "allFestivals": "כל הפסטיבלים",
+    "guaranteeTitle": "כל מושב מובטח",
+    "guaranteeBody": "אם האירוע שלכם מבוטל או שהכרטיסים לא מגיעים, אתם מכוסים — החזר כספי מלא, בלי שאלות.",
+    "countriesTitle": "מעל 90 מדינות",
+    "countriesBody": "מטוקיו ועד ריו, עיינו והזמינו כרטיסים מאומתים לאירועים בכל היבשות.",
+    "instantTitle": "כניסה מיידית מהנייד",
+    "instantBody": "הכרטיסים מגיעים לארנק הדיגיטלי שלכם שניות לאחר התשלום. סרקו והיכנסו ישר.",
+    "noEventsTitle": "אין אירועים להצגה",
+    "noEventsBody": "שרת ה-backend של neop לא החזיר אירועים. ודאו שהוא פועל בכתובת <code>{url}</code> ושהנתונים סונכרנו."
+  },
+  "LanguageSelect": {
+    "modalTitle": "העדפות שפה ומטבע",
+    "languageAndRegion": "שפה ואזור",
+    "currency": "מטבע",
+    "apply": "החל"
+  },
+  "Categories": {
+    "music": "מוזיקה",
+    "festivals": "פסטיבלים",
+    "sports": "ספורט",
+    "arts": "תיאטרון ואומנויות",
+    "comedy": "קומדיה"
+  },
+  "DateLabels": {
+    "today": "היום",
+    "tomorrow": "מחר",
+    "thisWeek": "השבוע",
+    "nextWeek": "בשבוע הבא",
+    "thisMonth": "החודש",
+    "nextMonth": "בחודש הבא",
+    "thisYear": "השנה",
+    "nextYear": "בשנה הבאה"
+  },
+  "SearchBar": {
+    "what": "מה",
+    "where": "איפה",
+    "when": "מתי",
+    "searchPlaceholder": "חיפוש אירועים, אמנים, אולמות…",
+    "wherePlaceholder": "בכל מקום",
+    "noResultsFor": "אין תוצאות עבור \"{term}\" — הקישו Enter כדי לחפש בכל זאת",
+    "searching": "מחפש…",
+    "typeEvent": "אירוע",
+    "typeArtist": "אמן",
+    "typeVenue": "אולם",
+    "typeCountry": "מדינה",
+    "typeCity": "עיר",
+    "search": "חיפוש",
+    "anyDates": "כל תאריך",
+    "fromDate": "החל מ-{date}",
+    "untilDate": "עד {date}",
+    "start": "התחלה",
+    "end": "סיום",
+    "clear": "ניקוי",
+    "done": "אישור"
+  }
+}

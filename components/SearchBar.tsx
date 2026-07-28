@@ -1,7 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
+import { usePathname, useRouter } from '@/i18n/navigation';
 import { suggestLocations, suggestSearch } from '@/app/actions';
 import { eventHref, performerHref, venueHref } from '@/lib/slug';
 import type { LocationSuggestion, SearchSuggestion } from '@/lib/types';
@@ -33,6 +34,9 @@ export function SearchBar({
   autoFocus?: boolean;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations('SearchBar');
   const [q, setQ] = useState(defaultQuery);
   const [where, setWhere] = useState(defaultWhere);
   const [from, setFrom] = useState(defaultFrom);
@@ -41,15 +45,16 @@ export function SearchBar({
 
   // One-shot focus when arriving from the nav search (?focus=1). Focus without
   // scrolling, then strip the param so it can't linger and keep re-grabbing
-  // focus on later re-renders. Reads window.location to avoid useSearchParams,
-  // which would de-opt the static homepage that also renders this bar.
+  // focus on later re-renders. `pathname` (from i18n/navigation) is already
+  // locale-stripped, so re-adding it via router.replace doesn't double up the
+  // locale prefix the way reading window.location.pathname directly would.
   useEffect(() => {
     if (!autoFocus) return;
     whatRef.current?.focus({ preventScroll: true });
     const url = new URL(window.location.href);
     if (url.searchParams.has('focus')) {
       url.searchParams.delete('focus');
-      router.replace(`${url.pathname}${url.search}`, { scroll: false });
+      router.replace(`${pathname}${url.search}`, { scroll: false });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoFocus]);
@@ -113,8 +118,8 @@ export function SearchBar({
       <SearchField<SearchSuggestion>
         id="neop-search-what"
         icon="search"
-        label="What"
-        placeholder="Search events, artists, venues…"
+        label={t('what')}
+        placeholder={t('searchPlaceholder')}
         value={q}
         onChange={setQ}
         onEnter={() => submit()}
@@ -123,7 +128,7 @@ export function SearchBar({
         minLength={2}
         onPick={navigateToSuggestion}
         keyOf={(s) => `${s.type}:${s.id}`}
-        emptyLabel={(term) => `No results for "${term}" — press Enter to search anyway`}
+        emptyLabel={(term) => t('noResultsFor', { term })}
         renderItem={(s) => (
           <>
             <Icon
@@ -136,7 +141,7 @@ export function SearchBar({
               {s.sublabel ? <span style={{ color: 'var(--dim)' }}>{` · ${s.sublabel}`}</span> : null}
             </span>
             <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--faint)', flexShrink: 0 }}>
-              {s.type === 'event' ? 'Event' : s.type === 'performer' ? 'Artist' : 'Venue'}
+              {s.type === 'event' ? t('typeEvent') : s.type === 'performer' ? t('typeArtist') : t('typeVenue')}
             </span>
           </>
         )}
@@ -147,8 +152,8 @@ export function SearchBar({
       <SearchField<LocationSuggestion>
         id="neop-search-where"
         icon="pin"
-        label="Where"
-        placeholder="Anywhere"
+        label={t('where')}
+        placeholder={t('wherePlaceholder')}
         value={where}
         onChange={setWhere}
         onEnter={() => submit()}
@@ -166,7 +171,7 @@ export function SearchBar({
               {s.type === 'city' && s.country ? <span style={{ color: 'var(--dim)' }}>{`, ${s.country}`}</span> : null}
             </span>
             <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--faint)', flexShrink: 0 }}>
-              {s.type === 'country' ? 'Country' : 'City'}
+              {s.type === 'country' ? t('typeCountry') : t('typeCity')}
             </span>
           </>
         )}
@@ -185,7 +190,7 @@ export function SearchBar({
         flex={1}
       />
       <Btn type="submit" icon="search" style={{ flexShrink: 0 }}>
-        Search
+        {t('search')}
       </Btn>
     </form>
   );
@@ -236,6 +241,7 @@ function SearchField<T>({
   pad: string;
   flex: number;
 }) {
+  const t = useTranslations('SearchBar');
   const [items, setItems] = useState<T[]>([]);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
@@ -365,7 +371,7 @@ function SearchField<T>({
         >
           {items.length === 0 ? (
             <li style={{ padding: '10px 12px', fontSize: 13.5, color: 'var(--faint)' }}>
-              {loading ? 'Searching…' : emptyLabel?.(value.trim())}
+              {loading ? t('searching') : emptyLabel?.(value.trim())}
             </li>
           ) : (
             items.map((item, i) => (
@@ -403,17 +409,17 @@ function SearchField<T>({
 }
 
 // Formats a YYYY-MM-DD date as "Jun 20" without timezone drift.
-function fmtDay(d: string): string {
+function fmtDay(d: string, locale: string): string {
   const [y, m, day] = d.split('-').map(Number);
   if (!y || !m || !day) return d;
-  return new Date(y, m - 1, day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  return new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric' }).format(new Date(y, m - 1, day));
 }
 
-function rangeLabel(from: string, to: string): string {
-  if (from && to) return `${fmtDay(from)} – ${fmtDay(to)}`;
-  if (from) return `From ${fmtDay(from)}`;
-  if (to) return `Until ${fmtDay(to)}`;
-  return 'Any dates';
+function rangeLabel(from: string, to: string, locale: string, t: ReturnType<typeof useTranslations>): string {
+  if (from && to) return `${fmtDay(from, locale)} – ${fmtDay(to, locale)}`;
+  if (from) return t('fromDate', { date: fmtDay(from, locale) });
+  if (to) return t('untilDate', { date: fmtDay(to, locale) });
+  return t('anyDates');
 }
 
 /** "When" field: a popover with start/end date inputs (dates only, no time). */
@@ -430,6 +436,8 @@ function DateRangeField({
   pad: string;
   flex: number;
 }) {
+  const t = useTranslations('SearchBar');
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -473,7 +481,7 @@ function DateRangeField({
         style={{ textAlign: 'left', background: 'transparent', border: 'none', padding: 0, minWidth: 0, flex: 1, cursor: 'pointer' }}
       >
         <span style={{ display: 'block', fontSize: 11, color: 'var(--faint)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-          When
+          {t('when')}
         </span>
         <span
           style={{
@@ -485,7 +493,7 @@ function DateRangeField({
             textOverflow: 'ellipsis',
           }}
         >
-          {rangeLabel(from, to)}
+          {rangeLabel(from, to, locale, t)}
         </span>
       </button>
 
@@ -494,7 +502,7 @@ function DateRangeField({
           style={{
             position: 'absolute',
             top: 'calc(100% + 16px)',
-            right: 0,
+            insetInlineEnd: 0,
             width: 320,
             padding: 16,
             background: '#12121b',
@@ -507,7 +515,7 @@ function DateRangeField({
         >
           <div style={{ display: 'flex', gap: 12 }}>
             <label style={{ flex: 1 }}>
-              <span style={dateLabel}>Start</span>
+              <span style={dateLabel}>{t('start')}</span>
               <input
                 type="date"
                 value={from}
@@ -517,7 +525,7 @@ function DateRangeField({
               />
             </label>
             <label style={{ flex: 1 }}>
-              <span style={dateLabel}>End</span>
+              <span style={dateLabel}>{t('end')}</span>
               <input
                 type="date"
                 value={to}
@@ -542,7 +550,7 @@ function DateRangeField({
                 padding: '6px 4px',
               }}
             >
-              Clear
+              {t('clear')}
             </button>
             <button
               type="button"
@@ -558,7 +566,7 @@ function DateRangeField({
                 padding: '8px 18px',
               }}
             >
-              Done
+              {t('done')}
             </button>
           </div>
         </div>

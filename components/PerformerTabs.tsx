@@ -1,19 +1,20 @@
 'use client';
 
+import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { CountryFlag } from '@/components/Flag';
 import { Icon } from '@/components/Icon';
 import { SecHead } from '@/components/SecHead';
 import { combineDateTime } from '@/lib/api';
 import { countryCodeFor } from '@/lib/countryCodes';
-import { fmtDateLong, fmtTime, relativeDayLabel } from '@/lib/format';
+import { fmtDateLong, fmtTime, relativeDayBucket, type RelativeDayBucket } from '@/lib/format';
 import { eventHref } from '@/lib/slug';
 import type { ApiPerformerComment, ApiPerformerEventItem } from '@/lib/types';
 
 /** Background tint for the "how far out" pastille — nearer dates stand out more. */
-function pastilleStyle(label: string): { background: string; color: string } {
-  if (label === 'Today' || label === 'Tomorrow') {
+function pastilleStyle(bucket: RelativeDayBucket | { year: number }): { background: string; color: string } {
+  if (bucket === 'today' || bucket === 'tomorrow') {
     return { background: 'var(--grad)', color: 'var(--accent-ink)' };
   }
   return { background: 'var(--surface-2)', color: 'var(--dim)' };
@@ -34,6 +35,9 @@ function tabButtonStyle(active: boolean): React.CSSProperties {
 }
 
 function EventsPanel({ name, events }: { name: string; events: ApiPerformerEventItem[] }) {
+  const locale = useLocale();
+  const tDate = useTranslations('DateLabels');
+
   if (events.length === 0) {
     return <p style={{ color: 'var(--dim)', fontSize: 15 }}>No upcoming events for {name} yet — check back soon.</p>;
   }
@@ -42,8 +46,9 @@ function EventsPanel({ name, events }: { name: string; events: ApiPerformerEvent
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       {events.map((e) => {
         const dt = combineDateTime(e.event_date, e.event_time);
-        const when = relativeDayLabel(dt);
-        const whenStyle = pastilleStyle(when);
+        const bucket = relativeDayBucket(dt);
+        const when = typeof bucket === 'string' ? tDate(bucket) : String(bucket.year);
+        const whenStyle = pastilleStyle(bucket);
         const countryCode = countryCodeFor(e.country);
         return (
           <Link
@@ -80,10 +85,10 @@ function EventsPanel({ name, events }: { name: string; events: ApiPerformerEvent
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 8, color: 'var(--dim)', fontSize: 14.5 }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <Icon name="cal" size={15} /> {fmtDateLong(dt)}
+                  <Icon name="cal" size={15} /> {fmtDateLong(dt, locale)}
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <Icon name="clock" size={15} /> {fmtTime(dt)}
+                  <Icon name="clock" size={15} /> {fmtTime(dt, locale)}
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                   <Icon name="pin" size={15} /> {[e.venue, e.city].filter(Boolean).join(', ')}

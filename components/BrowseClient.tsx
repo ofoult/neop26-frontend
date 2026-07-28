@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { loadMoreEvents } from '@/app/browse/actions';
+import { loadMoreEvents } from '@/app/[locale]/browse/actions';
 import { EventCard } from '@/components/EventCard';
 import { SearchBar } from '@/components/SearchBar';
 import { BROWSE_PER_PAGE } from '@/lib/api';

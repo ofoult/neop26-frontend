@@ -1,0 +1,91 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Language and currency"
+  },
+  "Footer": {
+    "tagline": "Tickets to the world's best live events. Verified sellers, every seat guaranteed.",
+    "learnMore": "Learn More",
+    "aboutUs": "About us",
+    "sitemap": "Sitemap",
+    "partners": "Partners",
+    "support": "Support",
+    "help": "Help",
+    "faq": "FAQ",
+    "contactUs": "Contact Us",
+    "guarantee": "100% guarantee",
+    "rights": "© {year} neop. All rights reserved.",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookies": "Cookies"
+  },
+  "Hero": {
+    "featured": "Featured",
+    "getTickets": "Get tickets",
+    "from": "from",
+    "watchTrailer": "Watch trailer"
+  },
+  "Home": {
+    "trendingKicker": "Selling fast",
+    "trendingTitle": "Trending right now",
+    "seeAll": "See all",
+    "weekendKicker": "Don't miss out",
+    "weekendTitle": "On this weekend",
+    "browseDates": "Browse dates",
+    "festivalsKicker": "Season highlights",
+    "festivalsTitle": "Festivals worth the flight",
+    "allFestivals": "All festivals",
+    "guaranteeTitle": "Every seat guaranteed",
+    "guaranteeBody": "If your event is cancelled or tickets don't arrive, you're covered — full refund, no questions.",
+    "countriesTitle": "90+ countries",
+    "countriesBody": "From Tokyo to Rio, browse and book verified tickets to events on every continent.",
+    "instantTitle": "Instant mobile entry",
+    "instantBody": "Tickets land in your wallet seconds after checkout. Scan and walk straight in.",
+    "noEventsTitle": "No events to show",
+    "noEventsBody": "The neop backend didn't return any events. Make sure it's running on <code>{url}</code> and has synced data."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Language and Currency preferences",
+    "languageAndRegion": "Language and Region",
+    "currency": "Currency",
+    "apply": "Apply"
+  },
+  "Categories": {
+    "music": "Music",
+    "festivals": "Festivals",
+    "sports": "Sports",
+    "arts": "Theater & Arts",
+    "comedy": "Comedy"
+  },
+  "DateLabels": {
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "thisWeek": "This week",
+    "nextWeek": "Next week",
+    "thisMonth": "This month",
+    "nextMonth": "Next month",
+    "thisYear": "This year",
+    "nextYear": "Next year"
+  },
+  "SearchBar": {
+    "what": "What",
+    "where": "Where",
+    "when": "When",
+    "searchPlaceholder": "Search events, artists, venues…",
+    "wherePlaceholder": "Anywhere",
+    "noResultsFor": "No results for \"{term}\" — press Enter to search anyway",
+    "searching": "Searching…",
+    "typeEvent": "Event",
+    "typeArtist": "Artist",
+    "typeVenue": "Venue",
+    "typeCountry": "Country",
+    "typeCity": "City",
+    "search": "Search",
+    "anyDates": "Any dates",
+    "fromDate": "From {date}",
+    "untilDate": "Until {date}",
+    "start": "Start",
+    "end": "End",
+    "clear": "Clear",
+    "done": "Done"
+  }
+}

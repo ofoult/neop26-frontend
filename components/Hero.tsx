@@ -1,5 +1,6 @@
 'use client';
 
+import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { fmtDate } from '@/lib/format';
 import { eventHref } from '@/lib/slug';
@@ -15,6 +16,8 @@ const ROTATE_MS = 10000;
 // pauses while the user interacts (hover or keyboard focus) with the hero, and
 // the dots at the bottom jump straight to a given event.
 export function Hero({ events }: { events: NeopEvent[] }) {
+  const t = useTranslations('Hero');
+  const locale = useLocale();
   const count = events.length;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -87,7 +90,7 @@ export function Hero({ events }: { events: NeopEvent[] }) {
               marginBottom: 24,
             }}
           >
-            <Icon name="bolt" size={14} /> Featured · {feat.city}
+            <Icon name="bolt" size={14} /> {t('featured')} · {feat.city}
           </div>
           <h1 className="up" style={{ margin: 0, animationDelay: '40ms' }}>
             <span
@@ -118,14 +121,14 @@ export function Hero({ events }: { events: NeopEvent[] }) {
           </p>
           <div className="up" style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap', animationDelay: '140ms' }}>
             <Btn size="lg" iconR="arrow" href={eventHref(feat)}>
-              Get tickets{feat.priceFrom != null ? ` · from ${feat.currency}${feat.priceFrom}` : ''}
+              {t('getTickets')}{feat.priceFrom != null ? ` · ${t('from')} ${feat.currency}${feat.priceFrom}` : ''}
             </Btn>
             <Btn size="lg" variant="ghost" icon="play">
-              Watch trailer
+              {t('watchTrailer')}
             </Btn>
             <div style={{ display: 'flex', alignItems: 'center', gap: 18, color: 'rgba(255,255,255,.85)', fontSize: 14.5, marginLeft: 6 }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                <Icon name="cal" size={16} /> {fmtDate(feat.date)}
+                <Icon name="cal" size={16} /> {fmtDate(feat.date, locale)}
               </span>
               <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                 <Icon name="pin" size={16} /> {feat.venue}

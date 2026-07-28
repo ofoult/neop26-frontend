@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { notFound, permanentRedirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
 import { CountryFlag } from '@/components/Flag';
 import { EventCard } from '@/components/EventCard';
@@ -70,13 +71,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function EventPage({ params }: { params: { slug: string } }) {
+export default async function EventPage({ params }: { params: { locale: string; slug: string } }) {
   // Only the core event record gates the first paint — everything else
   // (ticket categories, the seating-plan SVG, "more like this") streams in
   // afterward via its own Suspense boundary, so a slow Gigsberg listing/SVG
   // fetch no longer blocks the hero from appearing.
   const ev = await loadEvent(params.slug);
 
+  const tCat = await getTranslations({ locale: params.locale, namespace: 'Categories' });
   const cat = categoryById(ev.category);
   const countryCode = countryCodeFor(ev.country);
   const canonicalUrl = `${SITE_URL}${eventHref(ev)}`;
@@ -147,7 +149,7 @@ export default async function EventPage({ params }: { params: { slug: string } }
                 fontWeight: 600,
               }}
             >
-              {cat?.label} · {ev.genre}
+              {cat && tCat(cat.id)} · {ev.genre}
             </span>
           </div>
           <div
@@ -167,10 +169,10 @@ export default async function EventPage({ params }: { params: { slug: string } }
           </h1>
           <div style={{ display: 'flex', gap: 26, marginTop: 24, flexWrap: 'wrap', color: 'rgba(255,255,255,.9)', fontSize: 16 }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <Icon name="cal" size={19} /> {fmtDateLong(ev.date)}
+              <Icon name="cal" size={19} /> {fmtDateLong(ev.date, params.locale)}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <Icon name="clock" size={19} /> {fmtTime(ev.date)}
+              <Icon name="clock" size={19} /> {fmtTime(ev.date, params.locale)}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
               <Icon name="pin" size={19} /> {ev.venue}, {ev.city}

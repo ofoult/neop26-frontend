@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Icon } from "./Icon";
 import { Logo } from "./ui";
@@ -11,6 +12,7 @@ import { LanguageCurrencySelect } from "./LanguageCurrencySelect";
 export function Nav() {
   // const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const tCat = useTranslations("Categories");
 
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 24);
@@ -58,7 +60,7 @@ export function Nav() {
                 background: `linear-gradient(rgba(7,7,11,0.72), rgba(7,7,11,0.08)), ${cat.color}`,
               } as React.CSSProperties}
             >
-              {cat.emoji} {cat.label}
+              {cat.emoji} {tCat(cat.id)}
             </Link>
           ))}
         </nav>

@@ -1,35 +1,46 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Icon } from "@/components/Icon";
 import { createPortal } from "react-dom";
 import { LANGUAGES, CURRENCIES } from "@/lib/languageCurrency";
 import { CountryFlag } from "@/components/Flag";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 
 export function LanguageCurrencySelect() {
+  const locale = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
+  const tNav = useTranslations("Nav");
+  const t = useTranslations("LanguageSelect");
+
   const [open, setOpen] = useState(false);
 
   const [selected, setSelected] = useState({
-    language: "EN",
+    language: locale,
     currency: "USD",
   });
 
-  const [applied, setApplied] = useState({
-    language: "EN",
-    currency: "USD",
-  });
+  const [currency, setCurrency] = useState("USD");
+
+  const activeLanguage = LANGUAGES.find((l) => l.code === locale) ?? LANGUAGES[0];
 
   return (
     <>
       <div style={{ marginLeft: "auto" }}>
         <button
           className="nav-lang focus-ring"
-          aria-label="Language and currency"
-          onClick={() => setOpen(true)}
+          aria-label={tNav("languageAndCurrency")}
+          onClick={() => {
+            setSelected({ language: locale, currency });
+            setOpen(true);
+          }}
         >
           <Icon name="globe" size={18} />
           <span className="nav-lang-label">
-            {applied.language} · {applied.currency}
+            {activeLanguage.code.toUpperCase()} · {currency}
           </span>
         </button>
       </div>
@@ -56,8 +67,11 @@ export function LanguageCurrencySelect() {
               onClick={(e) => e.stopPropagation()}
               style={{
                 width: 620,
+                maxHeight: "calc(100vh - 140px)",
                 borderRadius: 22,
                 overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
                 background: "rgba(7,7,11,0.90)",
                 border: "1px solid var(--border)",
                 backdropFilter: "blur(20px)",
@@ -71,6 +85,7 @@ export function LanguageCurrencySelect() {
                   alignItems: "center",
                   padding: "22px 28px",
                   borderBottom: "1px solid var(--border)",
+                  flexShrink: 0,
                 }}
               >
                 <h2
@@ -80,7 +95,7 @@ export function LanguageCurrencySelect() {
                     fontSize: 30,
                   }}
                 >
-                  Language and Currency preferences
+                  {t("modalTitle")}
                 </h2>
 
                 <button
@@ -98,6 +113,8 @@ export function LanguageCurrencySelect() {
               <div
                 style={{
                   padding: "32px 40px",
+                  overflowY: "auto",
+                  minHeight: 0,
                 }}
               >
                 <h3
@@ -108,7 +125,7 @@ export function LanguageCurrencySelect() {
                     fontSize: 22,
                   }}
                 >
-                  Language and Region
+                  {t("languageAndRegion")}
                 </h3>
                 <div
                   style={{
@@ -181,7 +198,7 @@ export function LanguageCurrencySelect() {
                             style={{
                               position: "absolute",
                               top: 10,
-                              right: 12,
+                              insetInlineEnd: 12,
                               fontSize: 18,
                             }}
                           >
@@ -200,7 +217,7 @@ export function LanguageCurrencySelect() {
                     fontSize: 22,
                   }}
                 >
-                  Currency
+                  {t("currency")}
                 </h3>
                 <div
                   style={{
@@ -209,16 +226,16 @@ export function LanguageCurrencySelect() {
                     gap: 16,
                   }}
                 >
-                  {CURRENCIES.map((currency) => {
-                    const isSelected = selected.currency === currency.code;
+                  {CURRENCIES.map((curr) => {
+                    const isSelected = selected.currency === curr.code;
 
                     return (
                       <button
-                        key={currency.code}
+                        key={curr.code}
                         onClick={() =>
                           setSelected((prev) => ({
                             ...prev,
-                            currency: currency.code,
+                            currency: curr.code,
                           }))
                         }
                         style={{
@@ -243,7 +260,7 @@ export function LanguageCurrencySelect() {
                               fontWeight: 600,
                             }}
                           >
-                            {currency.name}
+                            {curr.name}
                           </div>
 
                           <div
@@ -253,7 +270,7 @@ export function LanguageCurrencySelect() {
                               marginTop: 4,
                             }}
                           >
-                            {currency.code} · {currency.symbol}
+                            {curr.code} · {curr.symbol}
                           </div>
                         </div>
 
@@ -262,7 +279,7 @@ export function LanguageCurrencySelect() {
                             style={{
                               position: "absolute",
                               top: 10,
-                              right: 12,
+                              insetInlineEnd: 12,
                               fontSize: 18,
                             }}
                           >
@@ -277,8 +294,11 @@ export function LanguageCurrencySelect() {
                 {/*  Apply button */}
                 <button
                   onClick={() => {
-                    setApplied(selected);
+                    setCurrency(selected.currency);
                     setOpen(false);
+                    if (selected.language !== locale) {
+                      router.replace(pathname, { locale: selected.language as Locale });
+                    }
                   }}
                   style={{
                     marginTop: 40,
@@ -294,7 +314,7 @@ export function LanguageCurrencySelect() {
                     fontWeight: 600,
                   }}
                 >
-                  Apply
+                  {t("apply")}
                 </button>
               </div>
             </div>

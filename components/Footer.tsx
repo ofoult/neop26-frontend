@@ -1,12 +1,15 @@
+import { useTranslations } from 'next-intl';
 import { Icon } from './Icon';
 import { Logo } from './ui';
 
-const COLS: [string, string[]][] = [
-  ['Learn More', ['About us', 'Sitemap', 'Partners']],
-  ['Support', ['Help', 'FAQ', 'Contact Us']],
-];
-
 export function Footer() {
+  const t = useTranslations('Footer');
+
+  const COLS: [string, string[]][] = [
+    [t('learnMore'), [t('aboutUs'), t('sitemap'), t('partners')]],
+    [t('support'), [t('help'), t('faq'), t('contactUs')]],
+  ];
+
   return (
     <footer style={{ borderTop: '1px solid var(--border)', marginTop: 100, background: 'var(--bg-2)' }}>
       <div
@@ -22,7 +25,7 @@ export function Footer() {
         <div>
           <Logo />
           <p style={{ color: 'var(--dim)', fontSize: 14.5, lineHeight: 1.6, marginTop: 16, maxWidth: 280 }}>
-            Tickets to the world&apos;s best live events. Verified sellers, every seat guaranteed.
+            {t('tagline')}
           </p>
           <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
             <span
@@ -38,7 +41,7 @@ export function Footer() {
                 color: 'var(--dim)',
               }}
             >
-              <Icon name="lock" size={14} /> 100% guarantee
+              <Icon name="lock" size={14} /> {t('guarantee')}
             </span>
           </div>
         </div>
@@ -78,11 +81,11 @@ export function Footer() {
           fontSize: 13.5,
         }}
       >
-        <span>© 2026 neop. All rights reserved.</span>
+        <span>{t('rights', { year: new Date().getFullYear() })}</span>
         <span style={{ display: 'flex', gap: 22 }}>
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Cookies</a>
+          <a href="#">{t('privacy')}</a>
+          <a href="#">{t('terms')}</a>
+          <a href="#">{t('cookies')}</a>
         </span>
       </div>
     </footer>

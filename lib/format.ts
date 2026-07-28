@@ -1,5 +1,7 @@
 // Date / time / currency formatting — date helpers ported verbatim from the
-// neop HTML reference so output matches the design exactly.
+// neop HTML reference so output matches the design exactly. `locale` defaults
+// to 'en' everywhere so any caller that doesn't pass one keeps the exact same
+// (English) output as before locale support was added.
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -8,51 +10,88 @@ export function parseDate(s: string): Date {
   return new Date(s);
 }
 
-export function fmtDate(s: string): string {
-  const d = parseDate(s);
-  return `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+// Locale-aware weekday/month names, built via Intl rather than a single
+// hardcoded English array — kept as small standalone helpers (rather than
+// switching fmtDate/fmtDateLong to Intl.DateTimeFormat wholesale) so the
+// original fixed layout ("Sun 29 Jul", no locale-dependent reordering/commas)
+// stays intact across locales.
+function weekdayShort(d: Date, locale: string): string {
+  return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(d);
 }
 
-export function fmtDateLong(s: string): string {
-  const d = parseDate(s);
-  return `${DAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+function monthShort(d: Date, locale: string): string {
+  return new Intl.DateTimeFormat(locale, { month: 'short' }).format(d);
 }
+
+export function fmtDate(s: string, locale: string = 'en'): string {
+  const d = parseDate(s);
+  return `${weekdayShort(d, locale)} ${d.getDate()} ${monthShort(d, locale)}`;
+}
+
+export function fmtDateLong(s: string, locale: string = 'en'): string {
+  const d = parseDate(s);
+  return `${weekdayShort(d, locale)}, ${monthShort(d, locale)} ${d.getDate()}, ${d.getFullYear()}`;
+}
+
+export type RelativeDayBucket =
+  | 'today'
+  | 'tomorrow'
+  | 'thisWeek'
+  | 'nextWeek'
+  | 'thisMonth'
+  | 'nextMonth'
+  | 'thisYear'
+  | 'nextYear';
 
 /**
  * Coarse "how far out" bucket for a "pastille" badge next to an event's name —
- * Today / Tomorrow / This week / … / a bare year once it's more than a year out.
- * Compares calendar days (local time), not exact timestamps.
+ * today / tomorrow / this week / … / a bare year once it's more than a year
+ * out. Compares calendar days (local time), not exact timestamps. Returns a
+ * stable key (not display text) so callers can translate it themselves.
  */
-export function relativeDayLabel(s: string, now: Date = new Date()): string {
+export function relativeDayBucket(s: string, now: Date = new Date()): RelativeDayBucket | { year: number } {
   const startOfDay = (x: Date) => new Date(x.getFullYear(), x.getMonth(), x.getDate());
   const today = startOfDay(now);
   const target = startOfDay(parseDate(s));
   const diffDays = Math.round((target.getTime() - today.getTime()) / 86_400_000);
 
-  if (diffDays === 0) return 'Today';
-  if (diffDays === 1) return 'Tomorrow';
-  if (diffDays > 1 && diffDays <= 7) return 'This week';
-  if (diffDays > 7 && diffDays <= 14) return 'Next week';
+  if (diffDays === 0) return 'today';
+  if (diffDays === 1) return 'tomorrow';
+  if (diffDays > 1 && diffDays <= 7) return 'thisWeek';
+  if (diffDays > 7 && diffDays <= 14) return 'nextWeek';
 
   if (target.getFullYear() === today.getFullYear() && target.getMonth() === today.getMonth()) {
-    return 'This month';
+    return 'thisMonth';
   }
   const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
   if (target.getFullYear() === nextMonth.getFullYear() && target.getMonth() === nextMonth.getMonth()) {
-    return 'Next month';
+    return 'nextMonth';
   }
-  if (target.getFullYear() === today.getFullYear()) return 'This year';
-  if (target.getFullYear() === today.getFullYear() + 1) return 'Next year';
-  return String(target.getFullYear());
+  if (target.getFullYear() === today.getFullYear()) return 'thisYear';
+  if (target.getFullYear() === today.getFullYear() + 1) return 'nextYear';
+  return { year: target.getFullYear() };
 }
 
-export function fmtTime(s: string): string {
+const RELATIVE_DAY_LABELS_EN: Record<RelativeDayBucket, string> = {
+  today: 'Today',
+  tomorrow: 'Tomorrow',
+  thisWeek: 'This week',
+  nextWeek: 'Next week',
+  thisMonth: 'This month',
+  nextMonth: 'Next month',
+  thisYear: 'This year',
+  nextYear: 'Next year',
+};
+
+/** English-only convenience wrapper around {@link relativeDayBucket} for callers that don't translate it. */
+export function relativeDayLabel(s: string, now: Date = new Date()): string {
+  const bucket = relativeDayBucket(s, now);
+  return typeof bucket === 'string' ? RELATIVE_DAY_LABELS_EN[bucket] : String(bucket.year);
+}
+
+export function fmtTime(s: string, locale: string = 'en'): string {
   const d = parseDate(s);
-  let h = d.getHours();
-  const m = d.getMinutes();
-  const ap = h >= 12 ? 'PM' : 'AM';
-  h = h % 12 || 12;
-  return `${h}:${m.toString().padStart(2, '0')} ${ap}`;
+  return new Intl.DateTimeFormat(locale, { hour: 'numeric', minute: '2-digit' }).format(d);
 }
 
 export function dayNum(s: string): number {

@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { useState, type CSSProperties, type ReactNode } from 'react';
+import { Link } from '@/i18n/navigation';
 import { Icon, type IconName } from './Icon';
 
 // ---------- wordmark ----------

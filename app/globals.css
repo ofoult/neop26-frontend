@@ -43,6 +43,15 @@ body {
   overflow-x: hidden;
 }
 
+/* --font-sans/--font-serif (next/font/google) only load a Latin subset, so
+   Hebrew text (including headings using .serif) would otherwise silently
+   fall back to whatever the browser picks. Give it a deliberate system-font
+   fallback instead; !important because it must win over .serif/.sans, which
+   are defined later in this file and would otherwise take precedence. */
+:lang(he) {
+  font-family: -apple-system, "Segoe UI", Arial, sans-serif !important;
+}
+
 ::selection {
   background: var(--accent);
   color: #fff;

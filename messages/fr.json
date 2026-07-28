@@ -1,0 +1,91 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Langue et devise"
+  },
+  "Footer": {
+    "tagline": "Billets pour les meilleurs évènements en direct au monde. Vendeurs vérifiés, chaque place garantie.",
+    "learnMore": "En savoir plus",
+    "aboutUs": "À propos de nous",
+    "sitemap": "Plan du site",
+    "partners": "Partenaires",
+    "support": "Assistance",
+    "help": "Aide",
+    "faq": "FAQ",
+    "contactUs": "Nous contacter",
+    "guarantee": "Garantie à 100 %",
+    "rights": "© {year} neop. Tous droits réservés.",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "cookies": "Cookies"
+  },
+  "Hero": {
+    "featured": "À la une",
+    "getTickets": "Obtenir des billets",
+    "from": "à partir de",
+    "watchTrailer": "Voir la bande-annonce"
+  },
+  "Home": {
+    "trendingKicker": "Ça part vite",
+    "trendingTitle": "Tendances du moment",
+    "seeAll": "Tout voir",
+    "weekendKicker": "À ne pas manquer",
+    "weekendTitle": "Ce week-end",
+    "browseDates": "Parcourir les dates",
+    "festivalsKicker": "Temps forts de la saison",
+    "festivalsTitle": "Festivals qui valent le déplacement",
+    "allFestivals": "Tous les festivals",
+    "guaranteeTitle": "Chaque place garantie",
+    "guaranteeBody": "Si votre évènement est annulé ou que les billets n'arrivent pas, vous êtes couvert — remboursement intégral, sans questions.",
+    "countriesTitle": "Plus de 90 pays",
+    "countriesBody": "De Tokyo à Rio, parcourez et réservez des billets vérifiés pour des évènements sur tous les continents.",
+    "instantTitle": "Entrée mobile instantanée",
+    "instantBody": "Vos billets arrivent dans votre portefeuille quelques secondes après le paiement. Scannez et entrez directement.",
+    "noEventsTitle": "Aucun évènement à afficher",
+    "noEventsBody": "Le backend neop n'a renvoyé aucun évènement. Vérifiez qu'il tourne bien sur <code>{url}</code> et que les données sont synchronisées."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Préférences de langue et de devise",
+    "languageAndRegion": "Langue et région",
+    "currency": "Devise",
+    "apply": "Appliquer"
+  },
+  "Categories": {
+    "music": "Musique",
+    "festivals": "Festivals",
+    "sports": "Sport",
+    "arts": "Théâtre et arts",
+    "comedy": "Comédie"
+  },
+  "DateLabels": {
+    "today": "Aujourd'hui",
+    "tomorrow": "Demain",
+    "thisWeek": "Cette semaine",
+    "nextWeek": "La semaine prochaine",
+    "thisMonth": "Ce mois-ci",
+    "nextMonth": "Le mois prochain",
+    "thisYear": "Cette année",
+    "nextYear": "L'année prochaine"
+  },
+  "SearchBar": {
+    "what": "Quoi",
+    "where": "Où",
+    "when": "Quand",
+    "searchPlaceholder": "Rechercher des évènements, artistes, salles…",
+    "wherePlaceholder": "Partout",
+    "noResultsFor": "Aucun résultat pour « {term} » — appuyez sur Entrée pour rechercher quand même",
+    "searching": "Recherche…",
+    "typeEvent": "Évènement",
+    "typeArtist": "Artiste",
+    "typeVenue": "Salle",
+    "typeCountry": "Pays",
+    "typeCity": "Ville",
+    "search": "Rechercher",
+    "anyDates": "Toutes dates",
+    "fromDate": "À partir du {date}",
+    "untilDate": "Jusqu'au {date}",
+    "start": "Début",
+    "end": "Fin",
+    "clear": "Effacer",
+    "done": "Terminé"
+  }
+}

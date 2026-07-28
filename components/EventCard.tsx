@@ -1,6 +1,7 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { categoryById } from '@/lib/categories';
 import { fmtDate } from '@/lib/format';
@@ -14,6 +15,8 @@ import { Img } from './Img';
 // production; editorial is the canonical design.)
 export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide?: boolean }) {
   const [h, setH] = useState(false);
+  const locale = useLocale();
+  const tCat = useTranslations('Categories');
   const cat = categoryById(ev.category);
   // Cap the entrance stagger so infinitely-scrolled cards (high i) don't sit
   // invisible for seconds — that delay would leave a tall blank gap at the bottom.
@@ -86,7 +89,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
               letterSpacing: '0.06em',
             }}
           >
-            <span>{cat?.label}</span>
+            <span>{cat && tCat(cat.id)}</span>
             <span style={{ opacity: 0.5 }}>·</span>
             <span>{ev.genre}</span>
           </div>
@@ -95,7 +98,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
           </div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, gap: 12 }}>
             <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,.82)', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="pin" size={14} /> {[ev.city, ev.country].filter(Boolean).join(', ')} · {fmtDate(ev.date)}
+              <Icon name="pin" size={14} /> {[ev.city, ev.country].filter(Boolean).join(', ')} · {fmtDate(ev.date, locale)}
               {ev.performerEventCount > 1 && ` · ${ev.performerEventCount} events for this artist`}
             </div>
             <div
