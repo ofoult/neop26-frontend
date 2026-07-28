@@ -1,12 +1,14 @@
 'use client';
 
+import { useLocale } from 'next-intl';
 import { useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { isRtlLocale } from '@/lib/rtl';
 
 /**
- * Right-side slide-over. Stays mounted (off-screen) even while closed so both
- * the open and close transitions animate — unmounting on close would make it
- * just vanish instead of sliding out.
+ * End-side slide-over (right in LTR, left in RTL). Stays mounted (off-screen)
+ * even while closed so both the open and close transitions animate —
+ * unmounting on close would make it just vanish instead of sliding out.
  */
 export function Drawer({
   open,
@@ -19,6 +21,7 @@ export function Drawer({
   title?: string;
   children: ReactNode;
 }) {
+  const isRtl = isRtlLocale(useLocale());
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -59,13 +62,13 @@ export function Drawer({
         style={{
           position: 'absolute',
           top: 0,
-          right: 0,
+          insetInlineEnd: 0,
           height: '100%',
           width: 'min(440px, 100vw)',
           background: 'var(--bg-2)',
-          borderLeft: '1px solid var(--border)',
-          boxShadow: '-30px 0 80px rgba(0,0,0,.45)',
-          transform: open ? 'translateX(0)' : 'translateX(100%)',
+          borderInlineStart: '1px solid var(--border)',
+          boxShadow: isRtl ? '30px 0 80px rgba(0,0,0,.45)' : '-30px 0 80px rgba(0,0,0,.45)',
+          transform: open ? 'translateX(0)' : `translateX(${isRtl ? '-100%' : '100%'})`,
           transition: 'transform .32s cubic-bezier(.2,.8,.2,1)',
           display: 'flex',
           flexDirection: 'column',

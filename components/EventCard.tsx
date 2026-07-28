@@ -37,7 +37,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
       className="focus-ring up"
-      style={{ textAlign: 'left', display: 'block', width: '100%', animationDelay }}
+      style={{ textAlign: 'start', display: 'block', width: '100%', animationDelay }}
     >
       <div
         style={{
@@ -62,7 +62,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
             style={{
               position: 'absolute',
               top: 14,
-              left: 14,
+              insetInlineStart: 14,
               display: 'inline-flex',
               alignItems: 'center',
               gap: 5,
@@ -76,7 +76,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
               fontWeight: 600,
             }}
           >
-            <Icon name="bolt" size={13} /> Trending
+            <Icon name="bolt" size={13} /> {t('trending')}
           </span>
         )}
         <div style={{ position: 'absolute', left: 18, right: 18, bottom: 16 }}>
@@ -118,7 +118,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
                 transition: 'opacity .2s',
               }}
             >
-              {ev.priceFrom != null ? `from ${ev.currency}${ev.priceFrom}` : 'View tickets'}
+              {ev.priceFrom != null ? t('fromPrice', { price: `${ev.currency}${ev.priceFrom}` }) : t('viewTickets')}
               <Icon name="arrow" size={15} />
             </div>
           </div>

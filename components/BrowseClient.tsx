@@ -1,7 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import { useLocale, useTranslations } from 'next-intl';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from '@/i18n/navigation';
 import { loadMoreEvents } from '@/app/[locale]/browse/actions';
 import { EventCard } from '@/components/EventCard';
 import { SearchBar } from '@/components/SearchBar';
@@ -11,22 +12,25 @@ import { parseDate } from '@/lib/format';
 import type { CategoryId, NeopEvent } from '@/lib/types';
 
 type SortKey = 'trending' | 'price' | 'date';
-const SORTS: [SortKey, string][] = [
-  ['trending', 'Trending'],
-  ['price', 'Price'],
-  ['date', 'Date'],
-];
+const SORT_KEYS: SortKey[] = ['trending', 'price', 'date'];
+const SORT_LABEL_KEY: Record<SortKey, 'sortTrending' | 'sortPrice' | 'sortDate'> = {
+  trending: 'sortTrending',
+  price: 'sortPrice',
+  date: 'sortDate',
+};
 
-// Human label for a YYYY-MM-DD date range, e.g. "Jun 20 – Jun 28".
-function formatWhenLabel(from?: string, to?: string): string {
+// Human label for a YYYY-MM-DD date range, e.g. "Jun 20 – Jun 28". `t` is the
+// SearchBar namespace's translator, reused here since "From {date}"/"Until
+// {date}" are the same phrases as the search bar's own date-range field.
+function formatWhenLabel(from: string | undefined, to: string | undefined, locale: string, t: ReturnType<typeof useTranslations>): string {
   const fmt = (d: string) => {
     const [y, m, day] = d.split('-').map(Number);
     if (!y || !m || !day) return d;
-    return new Date(y, m - 1, day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric' }).format(new Date(y, m - 1, day));
   };
   if (from && to) return `${fmt(from)} – ${fmt(to)}`;
-  if (from) return `from ${fmt(from)}`;
-  if (to) return `until ${fmt(to)}`;
+  if (from) return t('fromDate', { date: fmt(from) });
+  if (to) return t('untilDate', { date: fmt(to) });
   return '';
 }
 
@@ -65,6 +69,10 @@ export function BrowseClient({
   dateTo?: string;
   autoFocus?: boolean;
 }) {
+  const locale = useLocale();
+  const t = useTranslations('Browse');
+  const tSearchBar = useTranslations('SearchBar');
+  const tCat = useTranslations('Categories');
   const [sort, setSort] = useState<SortKey>('trending');
   const catObj = activeCat ? categoryById(activeCat) : undefined;
 
@@ -127,8 +135,8 @@ export function BrowseClient({
   const searching = Boolean(query || where || dateFrom || dateTo);
   const searchLabel = [
     query,
-    where && `in ${where}`,
-    formatWhenLabel(dateFrom, dateTo),
+    where && t('inWhere', { where }),
+    formatWhenLabel(dateFrom, dateTo, locale, tSearchBar),
   ]
     .filter(Boolean)
     .join(' ');
@@ -146,9 +154,9 @@ export function BrowseClient({
           style={{ fontSize: 13.5, color: "var(--faint)", marginBottom: 10 }}
         >
           <Link href="/" style={{ color: "var(--dim)" }}>
-            Home
+            {t('home')}
           </Link>{" "}
-          {searching ? " / Search" : catObj ? ` / ${catObj.label}` : ""}
+          {searching ? ` / ${t('searchBreadcrumb')}` : catObj ? ` / ${tCat(catObj.id)}` : ""}
         </div>
         <h1
           className="serif"
@@ -156,18 +164,18 @@ export function BrowseClient({
         >
           {searching ? (
             <>
-              Results for{" "}
+              {t('resultsFor')}{" "}
               <span className="ital" style={{ color: "var(--dim)" }}>
                 “{searchLabel}”
               </span>
             </>
           ) : catObj ? (
-            catObj.label
+            tCat(catObj.id)
           ) : (
             <>
-              Discover events{" "}
+              {t('discoverEvents')}{" "}
               <span className="ital" style={{ color: "var(--dim)" }}>
-                worldwide
+                {t('worldwide')}
               </span>
             </>
           )}
@@ -190,9 +198,9 @@ export function BrowseClient({
       >
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <span
-            style={{ fontSize: 18, color: "var(--faint)", paddingLeft: 10 }}
+            style={{ fontSize: 18, color: "var(--faint)", paddingInlineStart: 10 }}
           >
-            Sort
+            {t('sort')}
           </span>
           <div
             style={{
@@ -204,7 +212,7 @@ export function BrowseClient({
               padding: 4,
             }}
           >
-            {SORTS.map(([k, l]) => (
+            {SORT_KEYS.map((k) => (
               <button
                 key={k}
                 onClick={() => setSort(k)}
@@ -219,7 +227,7 @@ export function BrowseClient({
                   transition: "all .2s",
                 }}
               >
-                {l}
+                {t(SORT_LABEL_KEY[k])}
               </button>
             ))}
           </div>
@@ -227,14 +235,14 @@ export function BrowseClient({
       </div>
 
       <div style={{ fontSize: 14, color: "var(--dim)", marginBottom: 18 }}>
-        {total.toLocaleString()} artists
-        {sorted.length < total ? ` · showing ${sorted.length}` : ""}
+        {t('artistsCount', { count: total })}
+        {sorted.length < total ? ` · ${t('showingCount', { count: sorted.length })}` : ""}
       </div>
       {sorted.length === 0 ? (
         <div style={{ color: "var(--dim)", fontSize: 16, padding: "40px 0" }}>
           {searching
-            ? `No events match “${searchLabel}”.`
-            : "No events found in this category."}
+            ? t('noEventsMatch', { term: searchLabel })
+            : t('noEventsInCategory')}
         </div>
       ) : (
         <>
@@ -256,25 +264,25 @@ export function BrowseClient({
             */}
           {totalPages > 1 && (
             <nav
-              aria-label="Pagination"
+              aria-label={t('pagination')}
               style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14, padding: '38px 0 12px', fontSize: 16 }}
             >
               {initialPage > 1 ? (
                 <Link href={pageHref(initialPage - 1, activeCat, query, where, dateFrom, dateTo)} className="focus-ring" style={{ color: 'var(--dim)' }}>
-                  ← Prev
+                  ← {t('prev')}
                 </Link>
               ) : (
-                <span style={{ color: 'var(--faint)' }}>← Prev</span>
+                <span style={{ color: 'var(--faint)' }}>← {t('prev')}</span>
               )}
               <span style={{ color: 'var(--faint)' }}>
-                Page {initialPage} of {totalPages}
+                {t('pageOf', { page: initialPage, total: totalPages })}
               </span>
               {initialPage < totalPages ? (
                 <Link href={pageHref(initialPage + 1, activeCat, query, where, dateFrom, dateTo)} className="focus-ring" style={{ color: 'var(--dim)' }}>
-                  Next →
+                  {t('next')} →
                 </Link>
               ) : (
-                <span style={{ color: 'var(--faint)' }}>Next →</span>
+                <span style={{ color: 'var(--faint)' }}>{t('next')} →</span>
               )}
             </nav>
           )}
@@ -288,7 +296,7 @@ export function BrowseClient({
             }}
           >
             {loading ? (
-              "Loading more events…"
+              t('loadingMore')
             ) : errored ? (
               <button
                 onClick={() => {
@@ -306,10 +314,10 @@ export function BrowseClient({
                   color: "var(--text)",
                 }}
               >
-                Couldn’t load more — retry
+                {t('retryFailed')}
               </button>
             ) : done ? (
-              "You’ve reached the end."
+              t('reachedEnd')
             ) : null}
           </div>
         </>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { currencySymbol } from '@/lib/format';
 import type { ApiListingCategory, NeopEvent } from '@/lib/types';
@@ -35,12 +36,13 @@ function checkoutHref(url: string, qty: number): string {
 
 /** Shared sticky card chrome + "Select tickets" header. */
 export function Panel({ children }: { children: ReactNode }) {
+  const t = useTranslations('TicketPicker');
   return (
     <aside style={{ position: 'sticky', top: 104 }}>
       <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)', overflow: 'hidden' }}>
         <div style={{ padding: '22px 22px 6px' }}>
           <div style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--faint)' }}>
-            Select tickets
+            {t('selectTickets')}
           </div>
         </div>
         {children}
@@ -78,6 +80,7 @@ export function TicketPicker({
   /** Seat count a fresh "Buy" click should start at — the quantity filter's value, or 1. */
   defaultQuantity: number;
 }) {
+  const t = useTranslations('TicketPicker');
   // Real per-category pricing from the Gigsberg listing search.
   if (categories && categories.length > 0) {
     return (
@@ -104,7 +107,7 @@ export function TicketPicker({
         <div style={{ padding: '14px 22px 28px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
           <Icon name="ticket" size={18} />
           <p style={{ fontSize: 15, color: 'var(--dim)', lineHeight: 1.6, margin: 0 }}>
-            Tickets for this event are not available right now. Please check back later.
+            {t('notAvailable')}
           </p>
         </div>
       </Panel>
@@ -115,16 +118,15 @@ export function TicketPicker({
     <Panel>
       <div style={{ padding: '12px 22px 0' }}>
         <p style={{ fontSize: 15, color: 'var(--dim)', lineHeight: 1.6, margin: 0 }}>
-          Seat-by-seat pricing isn&apos;t available for this event — continue on our partner&apos;s page to
-          see options and check out.
+          {t('noSeatPricing')}
         </p>
       </div>
       <div style={{ padding: '20px 22px 22px' }}>
         <Btn full size="lg" iconR="arrow" href={ev.url} newTab>
-          Get tickets
+          {t('getTickets')}
         </Btn>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 14, fontSize: 13, color: 'var(--faint)' }}>
-          <Icon name="lock" size={14} /> Protected by neop&apos;s 100% guarantee
+          <Icon name="lock" size={14} /> {t('protectedGuarantee')}
         </div>
       </div>
     </Panel>
@@ -132,10 +134,10 @@ export function TicketPicker({
 }
 
 /** Describes how many tickets are left, with emphasis when stock is low. */
-function availabilityLabel(available: number): { text: string; hot: boolean } {
-  if (available <= 0) return { text: 'Limited', hot: false };
-  if (available <= 10) return { text: `Only ${available} left`, hot: true };
-  return { text: `${available} available`, hot: false };
+function availabilityLabel(available: number, t: ReturnType<typeof useTranslations>): { text: string; hot: boolean } {
+  if (available <= 0) return { text: t('limited'), hot: false };
+  if (available <= 10) return { text: t('onlyLeft', { count: available }), hot: true };
+  return { text: t('available', { count: available }), hot: false };
 }
 
 /**
@@ -166,14 +168,14 @@ export function validSeatCounts(splitType: string | null, max: number): number[]
 }
 
 /** Short human hint for a non-trivial split rule (empty for "any"/unknown). */
-function splitHint(splitType: string | null): string {
+function splitHint(splitType: string | null, t: ReturnType<typeof useTranslations>): string {
   switch (splitType) {
     case 'none':
-      return 'Full set only';
+      return t('fullSetOnly');
     case 'pairs':
-      return 'Sold in pairs';
+      return t('soldInPairs');
     case 'dont_leave_one':
-      return "Can't leave a single seat";
+      return t('cantLeaveOne');
     default:
       return '';
   }
@@ -253,6 +255,7 @@ function RealTickets({
   visibleCategoryIds?: Set<string> | null;
   defaultQuantity: number;
 }) {
+  const t = useTranslations('TicketPicker');
   const { activeId, qty, inc, dec } = seatSelection;
   // Mirrors `highlightedCategory` (which comes from hovering a seat on the
   // plan) so hovering the row itself picks up the exact same highlight style.
@@ -281,7 +284,7 @@ function RealTickets({
       <div style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {rows.length === 0 && (
           <p style={{ fontSize: 14.5, color: 'var(--dim)', lineHeight: 1.6, margin: '4px 6px 8px' }}>
-            No tickets match the selected filters.
+            {t('noMatchFilters')}
           </p>
         )}
         {rows.map((cat) => {
@@ -295,10 +298,10 @@ function RealTickets({
           const maxSel = counts.length ? counts[counts.length - 1] : 0;
           const sym = currencySymbol(cat.currency, ev.currency);
           // Never advertise more than a single order could actually take.
-          const avail = availabilityLabel(Math.min(cat.available, maxSel));
+          const avail = availabilityLabel(Math.min(cat.available, maxSel), t);
           const hasRange = cat.maxPrice > cat.fromPrice;
-          const hint = splitHint(cat.splitType);
-          const desc = cat.ticketTypes.length > 0 ? cat.ticketTypes.join(' · ') : `${cat.listings} listing${cat.listings === 1 ? '' : 's'}`;
+          const hint = splitHint(cat.splitType, t);
+          const desc = cat.ticketTypes.length > 0 ? cat.ticketTypes.join(' · ') : t('listingsCount', { count: cat.listings });
           return (
             <div
               key={cat.id}
@@ -337,25 +340,25 @@ function RealTickets({
                   {desc}
                   {hint && <span style={{ color: 'var(--faint)' }}> · {hint}</span>}
                 </span>
-                <span style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                <span style={{ textAlign: 'end', whiteSpace: 'nowrap' }}>
                   <span style={{ fontSize: 12.5, fontWeight: 600, color: avail.hot ? 'var(--accent-2)' : 'var(--faint)' }}>
                     {avail.text}
                   </span>
                   <span style={{ display: 'block', fontSize: 11.5, color: 'var(--faint)', marginTop: 2 }}>
-                    max {maxSel} / order
+                    {t('maxPerOrder', { count: maxSel })}
                   </span>
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, gap: 12 }}>
                 {isActive && qty > 0 ? (
                   <span style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--accent-2)' }}>
-                    {qty} {qty === 1 ? 'ticket' : 'tickets'} selected
+                    {t('ticketsSelected', { count: qty })}
                   </span>
                 ) : (
                   <span />
                 )}
                 <Btn size="sm" variant={isActive && qty > 0 ? 'soft' : 'solid'} onClick={() => handleBuy(cat)}>
-                  {isActive && qty > 0 ? 'Edit' : 'Buy'}
+                  {isActive && qty > 0 ? t('edit') : t('buy')}
                 </Btn>
               </div>
             </div>
@@ -365,24 +368,24 @@ function RealTickets({
 
       <div style={{ padding: '4px 22px 22px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, fontSize: 13, color: 'var(--faint)' }}>
-          <Icon name="lock" size={14} /> Protected by neop&apos;s 100% guarantee
+          <Icon name="lock" size={14} /> {t('protectedGuarantee')}
         </div>
       </div>
 
-      <Drawer open={drawerOpen} onClose={onCloseDrawer} title="Select tickets">
+      <Drawer open={drawerOpen} onClose={onCloseDrawer} title={t('selectTickets')}>
         {active && (() => {
           const counts = validSeatCounts(active.splitType, active.maxQuantity);
           const atMin = counts.indexOf(qty) <= 0;
           const atMax = counts.indexOf(qty) >= counts.length - 1;
           // Never advertise more than a single order could actually take.
-          const activeAvail = availabilityLabel(Math.min(active.available, counts.length ? counts[counts.length - 1] : 0));
+          const activeAvail = availabilityLabel(Math.min(active.available, counts.length ? counts[counts.length - 1] : 0), t);
           return (
             <>
               <div style={{ padding: '22px 22px 0' }}>
                 <div style={{ fontSize: 20, fontWeight: 700 }}>{active.name}</div>
                 <div style={{ fontSize: 14.5, color: 'var(--dim)', marginTop: 4 }}>
                   {activeSymbol}
-                  {active.fromPrice} / ticket
+                  {active.fromPrice} {t('perTicket')}
                   {activeAvail.hot && <span style={{ color: 'var(--accent-2)', fontWeight: 600 }}> · {activeAvail.text}</span>}
                 </div>
               </div>
@@ -393,7 +396,7 @@ function RealTickets({
                   disabled={atMin}
                   className="focus-ring"
                   style={{ ...qtyBtn, opacity: atMin ? 0.4 : 1 }}
-                  aria-label={`Remove seat from ${active.name}`}
+                  aria-label={t('removeSeatFrom', { name: active.name })}
                 >
                   <Icon name="minus" size={16} />
                 </button>
@@ -403,13 +406,13 @@ function RealTickets({
                   disabled={atMax}
                   className="focus-ring"
                   style={{ ...qtyBtn, opacity: atMax ? 0.4 : 1 }}
-                  aria-label={`Add seat to ${active.name}`}
+                  aria-label={t('addSeatTo', { name: active.name })}
                 >
                   <Icon name="plus" size={16} />
                 </button>
               </div>
-              {splitHint(active.splitType) && (
-                <p style={{ textAlign: 'center', fontSize: 13, color: 'var(--faint)', margin: '0 0 8px' }}>{splitHint(active.splitType)}</p>
+              {splitHint(active.splitType, t) && (
+                <p style={{ textAlign: 'center', fontSize: 13, color: 'var(--faint)', margin: '0 0 8px' }}>{splitHint(active.splitType, t)}</p>
               )}
 
               <div style={{ marginTop: 'auto', padding: '20px 22px 28px', borderTop: '1px solid var(--border)' }}>
@@ -424,10 +427,10 @@ function RealTickets({
                   </span>
                 </div>
                 <Btn full size="lg" iconR="arrow" href={href} newTab>
-                  Get {qty} {qty === 1 ? 'ticket' : 'tickets'}
+                  {t('getNTickets', { count: qty })}
                 </Btn>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 14, fontSize: 13, color: 'var(--faint)' }}>
-                  <Icon name="lock" size={14} /> Protected by neop&apos;s 100% guarantee
+                  <Icon name="lock" size={14} /> {t('protectedGuarantee')}
                 </div>
               </div>
             </>

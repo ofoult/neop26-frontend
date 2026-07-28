@@ -56,7 +56,36 @@
     "comedy": "Comedia"
   },
   "EventCard": {
-    "eventsForArtist": "{count, plural, one {# evento para este artista} other {# eventos para este artista}}"
+    "eventsForArtist": "{count, plural, one {# evento para este artista} other {# eventos para este artista}}",
+    "trending": "Tendencia",
+    "viewTickets": "Ver entradas",
+    "fromPrice": "desde {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Se agotan rápido:"
+  },
+  "Browse": {
+    "home": "Inicio",
+    "searchBreadcrumb": "Búsqueda",
+    "resultsFor": "Resultados para",
+    "discoverEvents": "Descubre eventos",
+    "worldwide": "en todo el mundo",
+    "sort": "Ordenar",
+    "sortTrending": "Tendencia",
+    "sortPrice": "Precio",
+    "sortDate": "Fecha",
+    "artistsCount": "{count, plural, one {# artista} other {# artistas}}",
+    "showingCount": "mostrando {count}",
+    "noEventsMatch": "No hay eventos que coincidan con \"{term}\".",
+    "noEventsInCategory": "No se encontraron eventos en esta categoría.",
+    "pagination": "Paginación",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "pageOf": "Página {page} de {total}",
+    "loadingMore": "Cargando más eventos…",
+    "retryFailed": "No se pudo cargar más — reintentar",
+    "reachedEnd": "Has llegado al final.",
+    "inWhere": "en {where}"
   },
   "DateLabels": {
     "today": "Hoy",
@@ -101,5 +130,102 @@
     "source": "Fuente: {source}",
     "fromYoutube": "Desde YouTube",
     "fansSaying": "Lo que dicen los fans"
+  },
+  "Common": {
+    "loading": "Cargando…"
+  },
+  "Checkout": {
+    "loadingOrder": "Cargando tu pedido…",
+    "lostOrderTitle": "Hemos perdido tu pedido",
+    "lostOrderBody": "Ese enlace de pago no tiene los detalles necesarios o el evento ya no tiene ese precio.",
+    "browseEvents": "Explorar eventos",
+    "backToEvent": "Volver al evento",
+    "title": "Pago",
+    "heldNotice": "Estás a segundos de terminar. Las entradas están reservadas durante 10:00.",
+    "step1": "Tus datos",
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "step2": "Pago",
+    "methodCard": "Tarjeta",
+    "cardNumber": "Número de tarjeta",
+    "expiry": "Caducidad",
+    "cvc": "CVC",
+    "securePayment": "Los pagos están cifrados y protegidos. Esto es una demo — no se cobra ninguna tarjeta.",
+    "serviceFees": "Gastos de gestión",
+    "deliveryMobile": "Entrega · móvil",
+    "free": "Gratis",
+    "total": "Total",
+    "pay": "Pagar {amount}"
+  },
+  "Confirmation": {
+    "finalising": "Finalizando tus entradas…",
+    "orderNotFound": "Pedido no encontrado",
+    "findEvents": "Buscar eventos",
+    "goingTitle": "¡Vas a ir!",
+    "confirmationSent": "Confirmación enviada. Tus entradas están en tu monedero, listas para escanear.",
+    "date": "Fecha",
+    "time": "Hora",
+    "venue": "Recinto",
+    "city": "Ciudad",
+    "ticket": "Entrada",
+    "quantity": "Cantidad",
+    "ticketsCount": "{count, plural, one {# entrada} other {# entradas}}",
+    "order": "Pedido",
+    "backHome": "Volver al inicio",
+    "findMoreEvents": "Buscar más eventos"
+  },
+  "TicketTiers": {
+    "ga": "Entrada general",
+    "prem": "Premium",
+    "vip": "Experiencia VIP"
+  },
+  "TicketPicker": {
+    "selectTickets": "Seleccionar entradas",
+    "notAvailable": "Las entradas para este evento no están disponibles en este momento. Vuelve más tarde.",
+    "noSeatPricing": "El precio asiento por asiento no está disponible para este evento — continúa en la página de nuestro socio para ver las opciones y completar la compra.",
+    "getTickets": "Comprar entradas",
+    "protectedGuarantee": "Protegido por la garantía del 100 % de neop",
+    "limited": "Limitado",
+    "onlyLeft": "Solo quedan {count}",
+    "available": "{count} disponibles",
+    "fullSetOnly": "Solo el lote completo",
+    "soldInPairs": "Se venden en pares",
+    "cantLeaveOne": "No se puede dejar un solo asiento",
+    "noMatchFilters": "Ninguna entrada coincide con los filtros seleccionados.",
+    "maxPerOrder": "máx. {count} / pedido",
+    "ticketsSelected": "{count, plural, one {# entrada seleccionada} other {# entradas seleccionadas}}",
+    "edit": "Editar",
+    "buy": "Comprar",
+    "removeSeatFrom": "Quitar un asiento de {name}",
+    "addSeatTo": "Añadir un asiento a {name}",
+    "perTicket": "/ entrada",
+    "getNTickets": "{count, plural, one {Comprar # entrada} other {Comprar # entradas}}",
+    "listingsCount": "{count, plural, one {# anuncio} other {# anuncios}}"
+  },
+  "TicketFilters": {
+    "quantity": "Cantidad",
+    "category": "Categoría",
+    "ticketType": "Tipo de entrada",
+    "clearAll": "Borrar todo",
+    "ticketsCount": "{count, plural, one {# entrada} other {# entradas}}"
+  },
+  "SeatingPlan": {
+    "heading": "Plano de asientos",
+    "block": "Bloque {block}",
+    "from": "Desde"
+  },
+  "Venue": {
+    "home": "Inicio",
+    "venue": "Recinto",
+    "upcomingEvents": "{count, plural, one {# evento próximo} other {# eventos próximos}}",
+    "noUpcomingShows": "Todavía no hay espectáculos próximos en este recinto — vuelve pronto.",
+    "tickets": "Entradas"
+  },
+  "NotFound": {
+    "title": "Hilo perdido",
+    "body": "No hemos encontrado esa página o evento. Puede que se haya agotado o se haya movido.",
+    "backHome": "Volver al inicio",
+    "browseEvents": "Explorar eventos"
   }
 }

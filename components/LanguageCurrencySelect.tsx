@@ -35,7 +35,7 @@ export function LanguageCurrencySelect() {
 
   return (
     <>
-      <div style={{ marginLeft: "auto" }}>
+      <div style={{ marginInlineStart: "auto" }}>
         <button
           className="nav-lang focus-ring"
           aria-label={tNav("languageAndCurrency")}

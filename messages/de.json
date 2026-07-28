@@ -56,7 +56,36 @@
     "comedy": "Comedy"
   },
   "EventCard": {
-    "eventsForArtist": "{count, plural, one {# Event für diesen Künstler} other {# Events für diesen Künstler}}"
+    "eventsForArtist": "{count, plural, one {# Event für diesen Künstler} other {# Events für diesen Künstler}}",
+    "trending": "Trend",
+    "viewTickets": "Tickets ansehen",
+    "fromPrice": "ab {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Schnell ausverkauft:"
+  },
+  "Browse": {
+    "home": "Start",
+    "searchBreadcrumb": "Suche",
+    "resultsFor": "Ergebnisse für",
+    "discoverEvents": "Events entdecken",
+    "worldwide": "weltweit",
+    "sort": "Sortieren",
+    "sortTrending": "Trend",
+    "sortPrice": "Preis",
+    "sortDate": "Datum",
+    "artistsCount": "{count, plural, one {# Künstler} other {# Künstler}}",
+    "showingCount": "{count} angezeigt",
+    "noEventsMatch": "Keine Events gefunden für „{term}“.",
+    "noEventsInCategory": "Keine Events in dieser Kategorie gefunden.",
+    "pagination": "Seitennavigation",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "pageOf": "Seite {page} von {total}",
+    "loadingMore": "Weitere Events werden geladen…",
+    "retryFailed": "Laden fehlgeschlagen — erneut versuchen",
+    "reachedEnd": "Du hast das Ende erreicht.",
+    "inWhere": "in {where}"
   },
   "DateLabels": {
     "today": "Heute",
@@ -101,5 +130,102 @@
     "source": "Quelle: {source}",
     "fromYoutube": "Von YouTube",
     "fansSaying": "Das sagen die Fans"
+  },
+  "Common": {
+    "loading": "Wird geladen…"
+  },
+  "Checkout": {
+    "loadingOrder": "Deine Bestellung wird geladen…",
+    "lostOrderTitle": "Wir haben deine Bestellung verloren",
+    "lostOrderBody": "Diesem Checkout-Link fehlen Angaben, oder das Event hat keinen Preis mehr.",
+    "browseEvents": "Events durchsuchen",
+    "backToEvent": "Zurück zum Event",
+    "title": "Kasse",
+    "heldNotice": "Gleich geschafft. Tickets sind für 10:00 reserviert.",
+    "step1": "Deine Angaben",
+    "fullName": "Vollständiger Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "step2": "Zahlung",
+    "methodCard": "Karte",
+    "cardNumber": "Kartennummer",
+    "expiry": "Gültig bis",
+    "cvc": "CVC",
+    "securePayment": "Zahlungen sind verschlüsselt und sicher. Dies ist eine Demo — es wird keine Karte belastet.",
+    "serviceFees": "Servicegebühren",
+    "deliveryMobile": "Lieferung · mobil",
+    "free": "Kostenlos",
+    "total": "Gesamt",
+    "pay": "{amount} zahlen"
+  },
+  "Confirmation": {
+    "finalising": "Deine Tickets werden fertiggestellt…",
+    "orderNotFound": "Bestellung nicht gefunden",
+    "findEvents": "Events finden",
+    "goingTitle": "Du bist dabei!",
+    "confirmationSent": "Bestätigung gesendet. Deine Tickets sind in deiner Wallet, bereit zum Scannen.",
+    "date": "Datum",
+    "time": "Uhrzeit",
+    "venue": "Veranstaltungsort",
+    "city": "Stadt",
+    "ticket": "Ticket",
+    "quantity": "Anzahl",
+    "ticketsCount": "{count, plural, one {# Ticket} other {# Tickets}}",
+    "order": "Bestellung",
+    "backHome": "Zurück zur Startseite",
+    "findMoreEvents": "Weitere Events finden"
+  },
+  "TicketTiers": {
+    "ga": "Standard-Zugang",
+    "prem": "Premium",
+    "vip": "VIP-Erlebnis"
+  },
+  "TicketPicker": {
+    "selectTickets": "Tickets auswählen",
+    "notAvailable": "Tickets für dieses Event sind derzeit nicht verfügbar. Schau später wieder vorbei.",
+    "noSeatPricing": "Für dieses Event ist keine sitzplatzgenaue Preisgestaltung verfügbar — fahre auf der Seite unseres Partners fort, um Optionen zu sehen und zu bezahlen.",
+    "getTickets": "Tickets sichern",
+    "protectedGuarantee": "Geschützt durch die 100 %-Garantie von neop",
+    "limited": "Begrenzt",
+    "onlyLeft": "Nur noch {count} übrig",
+    "available": "{count} verfügbar",
+    "fullSetOnly": "Nur als komplettes Set",
+    "soldInPairs": "Nur paarweise verkauft",
+    "cantLeaveOne": "Kann keinen einzelnen Platz übriglassen",
+    "noMatchFilters": "Keine Tickets entsprechen den ausgewählten Filtern.",
+    "maxPerOrder": "max. {count} / Bestellung",
+    "ticketsSelected": "{count, plural, one {# Ticket ausgewählt} other {# Tickets ausgewählt}}",
+    "edit": "Bearbeiten",
+    "buy": "Kaufen",
+    "removeSeatFrom": "Platz von {name} entfernen",
+    "addSeatTo": "Platz zu {name} hinzufügen",
+    "perTicket": "/ Ticket",
+    "getNTickets": "{count, plural, one {# Ticket sichern} other {# Tickets sichern}}",
+    "listingsCount": "{count, plural, one {# Angebot} other {# Angebote}}"
+  },
+  "TicketFilters": {
+    "quantity": "Anzahl",
+    "category": "Kategorie",
+    "ticketType": "Tickettyp",
+    "clearAll": "Alles zurücksetzen",
+    "ticketsCount": "{count, plural, one {# Ticket} other {# Tickets}}"
+  },
+  "SeatingPlan": {
+    "heading": "Sitzplan",
+    "block": "Block {block}",
+    "from": "Ab"
+  },
+  "Venue": {
+    "home": "Start",
+    "venue": "Veranstaltungsort",
+    "upcomingEvents": "{count, plural, one {# bevorstehendes Event} other {# bevorstehende Events}}",
+    "noUpcomingShows": "Noch keine bevorstehenden Shows an diesem Veranstaltungsort — schau bald wieder vorbei.",
+    "tickets": "Tickets"
+  },
+  "NotFound": {
+    "title": "Faden verloren",
+    "body": "Wir konnten diese Seite oder dieses Event nicht finden. Es könnte ausverkauft oder verschoben sein.",
+    "backHome": "Zurück zur Startseite",
+    "browseEvents": "Events durchsuchen"
   }
 }

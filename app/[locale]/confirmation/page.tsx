@@ -1,5 +1,6 @@
 'use client';
 
+import { useLocale, useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { Icon } from '@/components/Icon';
@@ -24,6 +25,9 @@ function Centered({ children }: { children: React.ReactNode }) {
 }
 
 function ConfirmInner() {
+  const locale = useLocale();
+  const t = useTranslations('Confirmation');
+  const tTier = useTranslations('TicketTiers');
   const params = useSearchParams();
   const eventId = params.get('event');
   const tierId = params.get('tier') ?? 'ga';
@@ -49,15 +53,15 @@ function ConfirmInner() {
   }, [eventId]);
 
   if (ev === undefined) {
-    return <Centered><p style={{ color: 'var(--dim)' }}>Finalising your tickets…</p></Centered>;
+    return <Centered><p style={{ color: 'var(--dim)' }}>{t('finalising')}</p></Centered>;
   }
 
   const tier = ev && ev.priceFrom != null ? tierById(ev.priceFrom, tierId) : undefined;
   if (!ev) {
     return (
       <Centered>
-        <h1 className="serif" style={{ fontSize: 40, margin: '0 0 12px' }}>Order not found</h1>
-        <Btn href="/browse" iconR="arrow">Find events</Btn>
+        <h1 className="serif" style={{ fontSize: 40, margin: '0 0 12px' }}>{t('orderNotFound')}</h1>
+        <Btn href="/browse" iconR="arrow">{t('findEvents')}</Btn>
       </Centered>
     );
   }
@@ -80,10 +84,10 @@ function ConfirmInner() {
         <Icon name="check" size={36} stroke={2.4} />
       </div>
       <h1 className="serif up" style={{ fontSize: 'clamp(36px,6vw,56px)', margin: '0 0 12px', lineHeight: 1, animationDelay: '60ms' }}>
-        You&apos;re going!
+        {t('goingTitle')}
       </h1>
       <p className="up" style={{ color: 'var(--dim)', fontSize: 17, margin: '0 0 32px', animationDelay: '100ms' }}>
-        Confirmation sent. Your tickets are in your wallet, ready to scan.
+        {t('confirmationSent')}
       </p>
 
       {/* ticket stub */}
@@ -91,7 +95,7 @@ function ConfirmInner() {
         className="up"
         style={{
           animationDelay: '160ms',
-          textAlign: 'left',
+          textAlign: 'start',
           background: 'var(--bg-2)',
           borderRadius: 22,
           overflow: 'hidden',
@@ -101,7 +105,7 @@ function ConfirmInner() {
         <div style={{ position: 'relative', height: 150 }}>
           <Img src={ev.image} alt={ev.title} style={{ width: '100%', height: '100%' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--bg-2), transparent 65%)' }} />
-          <div style={{ position: 'absolute', left: 22, bottom: 16 }}>
+          <div style={{ position: 'absolute', insetInlineStart: 22, bottom: 16 }}>
             <div style={{ fontSize: 12.5, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,.8)' }}>
               {ev.artist}
             </div>
@@ -115,12 +119,12 @@ function ConfirmInner() {
           <span style={{ position: 'absolute', right: -9, top: -9, width: 18, height: 18, borderRadius: '50%', background: 'var(--bg)' }} />
         </div>
         <div style={{ padding: '22px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
-          <Stub l="Date" v={fmtDate(ev.date)} />
-          <Stub l="Time" v={fmtTime(ev.date)} />
-          <Stub l="Venue" v={ev.venue} />
-          <Stub l="City" v={`${ev.city}, ${ev.country}`} />
-          <Stub l="Ticket" v={tier?.name ?? 'General Admission'} />
-          <Stub l="Quantity" v={`${qty} ${qty > 1 ? 'tickets' : 'ticket'}`} />
+          <Stub l={t('date')} v={fmtDate(ev.date, locale)} />
+          <Stub l={t('time')} v={fmtTime(ev.date, locale)} />
+          <Stub l={t('venue')} v={ev.venue} />
+          <Stub l={t('city')} v={`${ev.city}, ${ev.country}`} />
+          <Stub l={t('ticket')} v={tTier(tier?.id ?? 'ga')} />
+          <Stub l={t('quantity')} v={t('ticketsCount', { count: qty })} />
           <div
             style={{
               gridColumn: 'span 2',
@@ -132,7 +136,7 @@ function ConfirmInner() {
             }}
           >
             <div>
-              <div style={{ fontSize: 12, color: 'var(--faint)', fontWeight: 600 }}>ORDER</div>
+              <div style={{ fontSize: 12, color: 'var(--faint)', fontWeight: 600, textTransform: 'uppercase' }}>{t('order')}</div>
               <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: '0.02em' }}>{code}</div>
             </div>
             <div style={{ width: 56, height: 56, borderRadius: 10, background: '#fff', padding: 6 }}>
@@ -150,10 +154,10 @@ function ConfirmInner() {
 
       <div className="up" style={{ display: 'flex', gap: 12, marginTop: 24, animationDelay: '220ms' }}>
         <Btn full size="lg" variant="soft" href="/">
-          Back home
+          {t('backHome')}
         </Btn>
         <Btn full size="lg" iconR="arrow" href="/browse">
-          Find more events
+          {t('findMoreEvents')}
         </Btn>
       </div>
     </div>
@@ -161,8 +165,9 @@ function ConfirmInner() {
 }
 
 export default function ConfirmationPage() {
+  const t = useTranslations('Common');
   return (
-    <Suspense fallback={<Centered><p style={{ color: 'var(--dim)' }}>Loading…</p></Centered>}>
+    <Suspense fallback={<Centered><p style={{ color: 'var(--dim)' }}>{t('loading')}</p></Centered>}>
       <ConfirmInner />
     </Suspense>
   );

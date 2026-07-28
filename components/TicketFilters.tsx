@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { ApiListingCategory } from '@/lib/types';
 import { Icon } from './Icon';
@@ -189,7 +190,7 @@ function FilterDropdown({
           style={{
             position: 'absolute',
             top: 'calc(100% + 10px)',
-            left: 0,
+            insetInlineStart: 0,
             width: wide ? 260 : 220,
             padding: 10,
             background: '#12121b',
@@ -226,6 +227,7 @@ export function TicketFilters({
   filters: TicketFilterState;
   onChange: (next: TicketFilterState) => void;
 }) {
+  const t = useTranslations('TicketFilters');
   const maxQuantity = categories.reduce((m, c) => Math.max(m, c.maxQuantity), 0);
   const quantityOptions = Array.from({ length: Math.min(20, maxQuantity) }, (_, i) => i + 1);
   const categoryOptions = Array.from(new Set(categories.map((c) => c.name)));
@@ -258,7 +260,7 @@ export function TicketFilters({
     <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 18 }}>
       {showQuantity && (
         <FilterDropdown
-          label={filters.quantity !== null ? `${filters.quantity} ${filters.quantity === 1 ? 'ticket' : 'tickets'}` : 'Quantity'}
+          label={filters.quantity !== null ? t('ticketsCount', { count: filters.quantity }) : t('quantity')}
           active={filters.quantity !== null}
           wide
         >
@@ -305,7 +307,7 @@ export function TicketFilters({
       )}
 
       {showCategory && (
-        <FilterDropdown label="Category" active={filters.categoryNames.size > 0} badge={filters.categoryNames.size}>
+        <FilterDropdown label={t('category')} active={filters.categoryNames.size > 0} badge={filters.categoryNames.size}>
           {categoryOptions.map((name) => (
             <CheckboxRow key={name} checked={filters.categoryNames.has(name)} onChange={() => toggleCategory(name)} label={name} />
           ))}
@@ -313,7 +315,7 @@ export function TicketFilters({
       )}
 
       {showType && (
-        <FilterDropdown label="Ticket type" active={filters.ticketTypes.size > 0} badge={filters.ticketTypes.size}>
+        <FilterDropdown label={t('ticketType')} active={filters.ticketTypes.size > 0} badge={filters.ticketTypes.size}>
           {typeOptions.map((t) => (
             <CheckboxRow key={t} checked={filters.ticketTypes.has(t)} onChange={() => toggleType(t)} label={t} />
           ))}
@@ -334,7 +336,7 @@ export function TicketFilters({
             padding: '11px 4px',
           }}
         >
-          Clear all
+          {t('clearAll')}
         </button>
       )}
     </div>

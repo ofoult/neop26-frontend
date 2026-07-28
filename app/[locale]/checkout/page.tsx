@@ -1,8 +1,9 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState, type CSSProperties } from 'react';
+import { Link, useRouter } from '@/i18n/navigation';
 import { Field } from '@/components/Field';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
@@ -40,6 +41,9 @@ function Centered({ children }: { children: React.ReactNode }) {
 
 function CheckoutInner() {
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations('Checkout');
+  const tTier = useTranslations('TicketTiers');
   const params = useSearchParams();
   const eventId = params.get('event');
   const tierId = params.get('tier') ?? 'ga';
@@ -67,7 +71,7 @@ function CheckoutInner() {
 
   if (ev === undefined) {
     return <Centered>
-      <p style={{ color: 'var(--dim)', fontSize: 16 }}>Loading your order…</p>
+      <p style={{ color: 'var(--dim)', fontSize: 16 }}>{t('loadingOrder')}</p>
     </Centered>;
   }
 
@@ -75,12 +79,12 @@ function CheckoutInner() {
   if (!ev || !tier) {
     return (
       <Centered>
-        <h1 className="serif" style={{ fontSize: 40, margin: '0 0 12px' }}>We lost your order</h1>
+        <h1 className="serif" style={{ fontSize: 40, margin: '0 0 12px' }}>{t('lostOrderTitle')}</h1>
         <p style={{ color: 'var(--dim)', fontSize: 16, marginBottom: 24 }}>
-          That checkout link is missing details or the event is no longer priced.
+          {t('lostOrderBody')}
         </p>
         <Btn href="/browse" iconR="arrow">
-          Browse events
+          {t('browseEvents')}
         </Btn>
       </Centered>
     );
@@ -102,13 +106,13 @@ function CheckoutInner() {
         className="focus-ring"
         style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--dim)', fontSize: 14.5, fontWeight: 600, marginBottom: 20 }}
       >
-        <Icon name="arrowL" size={16} /> Back to event
+        <Icon name="arrowL" size={16} /> {t('backToEvent')}
       </Link>
       <h1 className="serif" style={{ fontSize: 'clamp(34px,5vw,52px)', margin: '0 0 8px', lineHeight: 1 }}>
-        Checkout
+        {t('title')}
       </h1>
       <p style={{ color: 'var(--dim)', fontSize: 16, margin: '0 0 32px' }}>
-        You&apos;re seconds away. Tickets are held for 10:00.
+        {t('heldNotice')}
       </p>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40, alignItems: 'start' }}>
@@ -116,17 +120,17 @@ function CheckoutInner() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
           <section>
             <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={stepDot}>1</span> Your details
+              <span style={stepDot}>1</span> {t('step1')}
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-              <Field label="Full name" placeholder="Alex Rivera" value={name} onChange={setName} span={2} />
-              <Field label="Email" placeholder="alex@email.com" value={email} onChange={setEmail} type="email" />
-              <Field label="Phone" placeholder="+1 555 000 0000" type="tel" />
+              <Field label={t('fullName')} placeholder="Alex Rivera" value={name} onChange={setName} span={2} />
+              <Field label={t('email')} placeholder="alex@email.com" value={email} onChange={setEmail} type="email" />
+              <Field label={t('phone')} placeholder="+1 555 000 0000" type="tel" />
             </div>
           </section>
           <section>
             <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={stepDot}>2</span> Payment
+              <span style={stepDot}>2</span> {t('step2')}
             </h3>
             <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
               {['Card', 'Apple Pay', 'PayPal'].map((m) => {
@@ -148,19 +152,19 @@ function CheckoutInner() {
                       cursor: 'pointer',
                     }}
                   >
-                    {m}
+                    {m === 'Card' ? t('methodCard') : m}
                   </button>
                 );
               })}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-              <Field label="Card number" placeholder="1234 5678 9012 3456" span={2} />
-              <Field label="Expiry" placeholder="MM / YY" />
-              <Field label="CVC" placeholder="123" />
+              <Field label={t('cardNumber')} placeholder="1234 5678 9012 3456" span={2} />
+              <Field label={t('expiry')} placeholder="MM / YY" />
+              <Field label={t('cvc')} placeholder="123" />
             </div>
           </section>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13.5, color: 'var(--faint)' }}>
-            <Icon name="lock" size={15} /> Payments are encrypted and secured. This is a demo — no card is charged.
+            <Icon name="lock" size={15} /> {t('securePayment')}
           </div>
         </div>
 
@@ -178,14 +182,14 @@ function CheckoutInner() {
           <div style={{ position: 'relative', height: 140 }}>
             <Img src={ev.image} alt={ev.title} style={{ width: '100%', height: '100%' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--bg-2), transparent 70%)' }} />
-            <div className="serif" style={{ position: 'absolute', left: 20, bottom: 14, fontSize: 24, lineHeight: 1 }}>
+            <div className="serif" style={{ position: 'absolute', insetInlineStart: 20, bottom: 14, fontSize: 24, lineHeight: 1 }}>
               {ev.title}
             </div>
           </div>
           <div style={{ padding: '18px 22px' }}>
             <div style={{ fontSize: 13.5, color: 'var(--dim)', display: 'flex', flexDirection: 'column', gap: 7 }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Icon name="cal" size={15} /> {fmtDateLong(ev.date)}
+                <Icon name="cal" size={15} /> {fmtDateLong(ev.date, locale)}
               </span>
               <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Icon name="pin" size={15} /> {ev.venue}, {ev.city}
@@ -202,9 +206,9 @@ function CheckoutInner() {
                 fontSize: 14.5,
               }}
             >
-              <Row l={`${tier.name} × ${qty}`} r={`${ev.currency}${sub}`} />
-              <Row l="Service fees" r={`${ev.currency}${fees}`} dim />
-              <Row l="Delivery · mobile" r="Free" dim />
+              <Row l={`${tTier(tier.id)} × ${qty}`} r={`${ev.currency}${sub}`} />
+              <Row l={t('serviceFees')} r={`${ev.currency}${fees}`} dim />
+              <Row l={t('deliveryMobile')} r={t('free')} dim />
             </div>
             <div
               style={{
@@ -215,7 +219,7 @@ function CheckoutInner() {
                 alignItems: 'baseline',
               }}
             >
-              <span style={{ fontSize: 16, fontWeight: 600 }}>Total</span>
+              <span style={{ fontSize: 16, fontWeight: 600 }}>{t('total')}</span>
               <span style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.02em' }}>
                 {ev.currency}
                 {total}
@@ -223,8 +227,7 @@ function CheckoutInner() {
             </div>
             <div style={{ marginTop: 18 }}>
               <Btn full size="lg" icon="lock" onClick={pay}>
-                Pay {ev.currency}
-                {total}
+                {t('pay', { amount: `${ev.currency}${total}` })}
               </Btn>
             </div>
           </div>
@@ -235,8 +238,9 @@ function CheckoutInner() {
 }
 
 export default function CheckoutPage() {
+  const t = useTranslations('Common');
   return (
-    <Suspense fallback={<Centered><p style={{ color: 'var(--dim)' }}>Loading…</p></Centered>}>
+    <Suspense fallback={<Centered><p style={{ color: 'var(--dim)' }}>{t('loading')}</p></Centered>}>
       <CheckoutInner />
     </Suspense>
   );

@@ -140,7 +140,7 @@ export function SearchBar({
               {s.label}
               {s.sublabel ? <span style={{ color: 'var(--dim)' }}>{` · ${s.sublabel}`}</span> : null}
             </span>
-            <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--faint)', flexShrink: 0 }}>
+            <span style={{ marginInlineStart: 'auto', fontSize: 12, color: 'var(--faint)', flexShrink: 0 }}>
               {s.type === 'event' ? t('typeEvent') : s.type === 'performer' ? t('typeArtist') : t('typeVenue')}
             </span>
           </>
@@ -170,7 +170,7 @@ export function SearchBar({
               {s.value}
               {s.type === 'city' && s.country ? <span style={{ color: 'var(--dim)' }}>{`, ${s.country}`}</span> : null}
             </span>
-            <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--faint)', flexShrink: 0 }}>
+            <span style={{ marginInlineStart: 'auto', fontSize: 12, color: 'var(--faint)', flexShrink: 0 }}>
               {s.type === 'country' ? t('typeCountry') : t('typeCity')}
             </span>
           </>
@@ -351,8 +351,8 @@ function SearchField<T>({
           style={{
             position: 'absolute',
             top: 'calc(100% + 16px)',
-            left: 0,
-            right: 0,
+            insetInlineStart: 0,
+            insetInlineEnd: 0,
             minWidth: 260,
             margin: 0,
             padding: 6,
@@ -391,7 +391,7 @@ function SearchField<T>({
                     width: '100%',
                     padding: '10px 12px',
                     borderRadius: 10,
-                    textAlign: 'left',
+                    textAlign: 'start',
                     background: i === active ? 'var(--surface-2)' : 'transparent',
                     color: 'var(--text)',
                     transition: 'background .12s',
@@ -478,7 +478,7 @@ function DateRangeField({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        style={{ textAlign: 'left', background: 'transparent', border: 'none', padding: 0, minWidth: 0, flex: 1, cursor: 'pointer' }}
+        style={{ textAlign: 'start', background: 'transparent', border: 'none', padding: 0, minWidth: 0, flex: 1, cursor: 'pointer' }}
       >
         <span style={{ display: 'block', fontSize: 11, color: 'var(--faint)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           {t('when')}

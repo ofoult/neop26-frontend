@@ -8,6 +8,7 @@ import { Chrome } from '@/components/Chrome';
 import { SITE_URL } from '@/lib/site';
 import { Analytics } from '@vercel/analytics/next';
 import { routing, type Locale } from '@/i18n/routing';
+import { isRtlLocale } from '@/lib/rtl';
 
 const sans = Schibsted_Grotesk({
   subsets: ['latin'],
@@ -69,7 +70,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages();
-  const dir = locale === 'he' ? 'rtl' : 'ltr';
+  const dir = isRtlLocale(locale) ? 'rtl' : 'ltr';
 
   return (
     <html lang={locale} dir={dir} className={`${sans.variable} ${serif.variable}`}>

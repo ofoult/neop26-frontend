@@ -56,7 +56,36 @@
     "comedy": "Comédie"
   },
   "EventCard": {
-    "eventsForArtist": "{count, plural, one {# évènement pour cet artiste} other {# évènements pour cet artiste}}"
+    "eventsForArtist": "{count, plural, one {# évènement pour cet artiste} other {# évènements pour cet artiste}}",
+    "trending": "Tendance",
+    "viewTickets": "Voir les billets",
+    "fromPrice": "à partir de {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Ça part vite :"
+  },
+  "Browse": {
+    "home": "Accueil",
+    "searchBreadcrumb": "Recherche",
+    "resultsFor": "Résultats pour",
+    "discoverEvents": "Découvrez des évènements",
+    "worldwide": "dans le monde entier",
+    "sort": "Trier",
+    "sortTrending": "Tendance",
+    "sortPrice": "Prix",
+    "sortDate": "Date",
+    "artistsCount": "{count, plural, one {# artiste} other {# artistes}}",
+    "showingCount": "{count} affichés",
+    "noEventsMatch": "Aucun évènement ne correspond à « {term} ».",
+    "noEventsInCategory": "Aucun évènement trouvé dans cette catégorie.",
+    "pagination": "Pagination",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "pageOf": "Page {page} sur {total}",
+    "loadingMore": "Chargement d'autres évènements…",
+    "retryFailed": "Échec du chargement — réessayer",
+    "reachedEnd": "Vous avez atteint la fin.",
+    "inWhere": "à {where}"
   },
   "DateLabels": {
     "today": "Aujourd'hui",
@@ -101,5 +130,102 @@
     "source": "Source : {source}",
     "fromYoutube": "Depuis YouTube",
     "fansSaying": "Ce que disent les fans"
+  },
+  "Common": {
+    "loading": "Chargement…"
+  },
+  "Checkout": {
+    "loadingOrder": "Chargement de votre commande…",
+    "lostOrderTitle": "Nous avons perdu votre commande",
+    "lostOrderBody": "Ce lien de paiement ne contient pas les détails nécessaires ou l'évènement n'est plus au tarif indiqué.",
+    "browseEvents": "Parcourir les évènements",
+    "backToEvent": "Retour à l'évènement",
+    "title": "Paiement",
+    "heldNotice": "Vous y êtes presque. Les billets sont réservés pendant 10:00.",
+    "step1": "Vos informations",
+    "fullName": "Nom complet",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "step2": "Paiement",
+    "methodCard": "Carte",
+    "cardNumber": "Numéro de carte",
+    "expiry": "Expiration",
+    "cvc": "CVC",
+    "securePayment": "Les paiements sont chiffrés et sécurisés. Ceci est une démo — aucune carte n'est débitée.",
+    "serviceFees": "Frais de service",
+    "deliveryMobile": "Livraison · mobile",
+    "free": "Gratuit",
+    "total": "Total",
+    "pay": "Payer {amount}"
+  },
+  "Confirmation": {
+    "finalising": "Finalisation de vos billets…",
+    "orderNotFound": "Commande introuvable",
+    "findEvents": "Trouver des évènements",
+    "goingTitle": "Vous y allez !",
+    "confirmationSent": "Confirmation envoyée. Vos billets sont dans votre portefeuille, prêts à être scannés.",
+    "date": "Date",
+    "time": "Heure",
+    "venue": "Salle",
+    "city": "Ville",
+    "ticket": "Billet",
+    "quantity": "Quantité",
+    "ticketsCount": "{count, plural, one {# billet} other {# billets}}",
+    "order": "Commande",
+    "backHome": "Retour à l'accueil",
+    "findMoreEvents": "Trouver d'autres évènements"
+  },
+  "TicketTiers": {
+    "ga": "Accès général",
+    "prem": "Premium",
+    "vip": "Expérience VIP"
+  },
+  "TicketPicker": {
+    "selectTickets": "Sélectionner les billets",
+    "notAvailable": "Les billets pour cet évènement ne sont pas disponibles pour le moment. Revenez plus tard.",
+    "noSeatPricing": "La tarification place par place n'est pas disponible pour cet évènement — continuez sur le site de notre partenaire pour voir les options et finaliser l'achat.",
+    "getTickets": "Obtenir des billets",
+    "protectedGuarantee": "Protégé par la garantie à 100 % de neop",
+    "limited": "Limité",
+    "onlyLeft": "Seulement {count} restants",
+    "available": "{count} disponibles",
+    "fullSetOnly": "Lot complet uniquement",
+    "soldInPairs": "Vendus par paires",
+    "cantLeaveOne": "Impossible de laisser une seule place",
+    "noMatchFilters": "Aucun billet ne correspond aux filtres sélectionnés.",
+    "maxPerOrder": "max {count} / commande",
+    "ticketsSelected": "{count, plural, one {# billet sélectionné} other {# billets sélectionnés}}",
+    "edit": "Modifier",
+    "buy": "Acheter",
+    "removeSeatFrom": "Retirer une place de {name}",
+    "addSeatTo": "Ajouter une place à {name}",
+    "perTicket": "/ billet",
+    "getNTickets": "{count, plural, one {Obtenir # billet} other {Obtenir # billets}}",
+    "listingsCount": "{count, plural, one {# annonce} other {# annonces}}"
+  },
+  "TicketFilters": {
+    "quantity": "Quantité",
+    "category": "Catégorie",
+    "ticketType": "Type de billet",
+    "clearAll": "Tout effacer",
+    "ticketsCount": "{count, plural, one {# billet} other {# billets}}"
+  },
+  "SeatingPlan": {
+    "heading": "Plan de la salle",
+    "block": "Bloc {block}",
+    "from": "À partir de"
+  },
+  "Venue": {
+    "home": "Accueil",
+    "venue": "Salle",
+    "upcomingEvents": "{count, plural, one {# évènement à venir} other {# évènements à venir}}",
+    "noUpcomingShows": "Aucun spectacle à venir dans cette salle pour le moment — revenez bientôt.",
+    "tickets": "Billets"
+  },
+  "NotFound": {
+    "title": "Fil perdu",
+    "body": "Nous n'avons pas trouvé cette page ou cet évènement. Il est peut-être complet ou a été déplacé.",
+    "backHome": "Retour à l'accueil",
+    "browseEvents": "Parcourir les évènements"
   }
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState, type MouseEvent } from 'react';
 import { currencySymbol } from '@/lib/format';
 import type { ApiListingCategory, ApiSeatingPlanCategory } from '@/lib/types';
@@ -148,6 +149,7 @@ export function SeatingPlanSvg({
   onSeatClick?: (categoryName: string) => void;
   alt: string;
 }) {
+  const t = useTranslations('SeatingPlan');
   const [hover, setHover] = useState<HoverInfo | null>(null);
 
   useEffect(() => {
@@ -283,9 +285,9 @@ export function SeatingPlanSvg({
           }}
         >
           <div style={{ fontWeight: 700 }}>{hover.category}</div>
-          <div style={{ color: 'var(--dim)' }}>Block {hover.block}</div>
+          <div style={{ color: 'var(--dim)' }}>{t('block', { block: hover.block })}</div>
           <div style={{ fontWeight: 700, marginTop: 2 }}>
-            From {sym}
+            {t('from')} {sym}
             {hover.fromPrice}
             {hasRange && (
               <span style={{ fontWeight: 500, color: 'var(--dim)' }}>

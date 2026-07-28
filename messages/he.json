@@ -56,7 +56,36 @@
     "comedy": "קומדיה"
   },
   "EventCard": {
-    "eventsForArtist": "{count, plural, one {אירוע אחד לאמן זה} other {# אירועים לאמן זה}}"
+    "eventsForArtist": "{count, plural, one {אירוע אחד לאמן זה} other {# אירועים לאמן זה}}",
+    "trending": "פופולרי",
+    "viewTickets": "צפייה בכרטיסים",
+    "fromPrice": "החל מ-{price}"
+  },
+  "Marquee": {
+    "sellingFast": "אוזל מהר:"
+  },
+  "Browse": {
+    "home": "בית",
+    "searchBreadcrumb": "חיפוש",
+    "resultsFor": "תוצאות עבור",
+    "discoverEvents": "גלו אירועים",
+    "worldwide": "בכל העולם",
+    "sort": "מיון",
+    "sortTrending": "פופולרי",
+    "sortPrice": "מחיר",
+    "sortDate": "תאריך",
+    "artistsCount": "{count, plural, one {אמן אחד} other {# אמנים}}",
+    "showingCount": "מוצגים {count}",
+    "noEventsMatch": "לא נמצאו אירועים התואמים את \"{term}\".",
+    "noEventsInCategory": "לא נמצאו אירועים בקטגוריה זו.",
+    "pagination": "דפדוף",
+    "prev": "הקודם",
+    "next": "הבא",
+    "pageOf": "עמוד {page} מתוך {total}",
+    "loadingMore": "טוען אירועים נוספים…",
+    "retryFailed": "הטעינה נכשלה — נסו שוב",
+    "reachedEnd": "הגעתם לסוף.",
+    "inWhere": "ב{where}"
   },
   "DateLabels": {
     "today": "היום",
@@ -101,5 +130,102 @@
     "source": "מקור: {source}",
     "fromYoutube": "מיוטיוב",
     "fansSaying": "מה שהמעריצים אומרים"
+  },
+  "Common": {
+    "loading": "טוען…"
+  },
+  "Checkout": {
+    "loadingOrder": "טוענים את ההזמנה שלכם…",
+    "lostOrderTitle": "איבדנו את ההזמנה שלכם",
+    "lostOrderBody": "בקישור התשלום חסרים פרטים, או שהאירוע כבר לא מתומחר.",
+    "browseEvents": "עיון באירועים",
+    "backToEvent": "חזרה לאירוע",
+    "title": "תשלום",
+    "heldNotice": "עוד רגע וזה נגמר. הכרטיסים שמורים למשך 10:00.",
+    "step1": "הפרטים שלכם",
+    "fullName": "שם מלא",
+    "email": "אימייל",
+    "phone": "טלפון",
+    "step2": "תשלום",
+    "methodCard": "כרטיס",
+    "cardNumber": "מספר כרטיס",
+    "expiry": "בתוקף עד",
+    "cvc": "CVC",
+    "securePayment": "התשלומים מוצפנים ומאובטחים. זוהי הדגמה — לא מתבצע חיוב בפועל.",
+    "serviceFees": "דמי שירות",
+    "deliveryMobile": "משלוח · לנייד",
+    "free": "חינם",
+    "total": "סך הכול",
+    "pay": "תשלום {amount}"
+  },
+  "Confirmation": {
+    "finalising": "משלימים את הכרטיסים שלכם…",
+    "orderNotFound": "ההזמנה לא נמצאה",
+    "findEvents": "מציאת אירועים",
+    "goingTitle": "אתם בפנים!",
+    "confirmationSent": "האישור נשלח. הכרטיסים שלכם נמצאים בארנק הדיגיטלי, מוכנים לסריקה.",
+    "date": "תאריך",
+    "time": "שעה",
+    "venue": "אולם",
+    "city": "עיר",
+    "ticket": "כרטיס",
+    "quantity": "כמות",
+    "ticketsCount": "{count, plural, one {כרטיס אחד} other {# כרטיסים}}",
+    "order": "הזמנה",
+    "backHome": "חזרה לדף הבית",
+    "findMoreEvents": "מציאת אירועים נוספים"
+  },
+  "TicketTiers": {
+    "ga": "כניסה כללית",
+    "prem": "פרימיום",
+    "vip": "חוויית VIP"
+  },
+  "TicketPicker": {
+    "selectTickets": "בחירת כרטיסים",
+    "notAvailable": "הכרטיסים לאירוע זה אינם זמינים כרגע. בדקו שוב בקרוב.",
+    "noSeatPricing": "תמחור לפי מושב אינו זמין לאירוע זה — המשיכו לדף השותף שלנו כדי לראות אפשרויות ולהשלים את התשלום.",
+    "getTickets": "רכישת כרטיסים",
+    "protectedGuarantee": "מוגן על ידי ההבטחה של neop ל-100%",
+    "limited": "מוגבל",
+    "onlyLeft": "נותרו רק {count}",
+    "available": "{count} זמינים",
+    "fullSetOnly": "סט מלא בלבד",
+    "soldInPairs": "נמכר בזוגות",
+    "cantLeaveOne": "לא ניתן להשאיר מושב בודד",
+    "noMatchFilters": "אין כרטיסים התואמים את הסינון שנבחר.",
+    "maxPerOrder": "מקסימום {count} להזמנה",
+    "ticketsSelected": "{count, plural, one {כרטיס אחד נבחר} other {# כרטיסים נבחרו}}",
+    "edit": "עריכה",
+    "buy": "קנייה",
+    "removeSeatFrom": "הסרת מושב מ-{name}",
+    "addSeatTo": "הוספת מושב ל-{name}",
+    "perTicket": "/ כרטיס",
+    "getNTickets": "{count, plural, one {רכישת כרטיס אחד} other {רכישת # כרטיסים}}",
+    "listingsCount": "{count, plural, one {מודעה אחת} other {# מודעות}}"
+  },
+  "TicketFilters": {
+    "quantity": "כמות",
+    "category": "קטגוריה",
+    "ticketType": "סוג כרטיס",
+    "clearAll": "ניקוי הכול",
+    "ticketsCount": "{count, plural, one {כרטיס אחד} other {# כרטיסים}}"
+  },
+  "SeatingPlan": {
+    "heading": "מפת מקומות ישיבה",
+    "block": "בלוק {block}",
+    "from": "החל מ-"
+  },
+  "Venue": {
+    "home": "בית",
+    "venue": "אולם",
+    "upcomingEvents": "{count, plural, one {אירוע קרוב אחד} other {# אירועים קרובים}}",
+    "noUpcomingShows": "אין עדיין הופעות קרובות באולם זה — בדקו שוב בקרוב.",
+    "tickets": "כרטיסים"
+  },
+  "NotFound": {
+    "title": "איבדנו את החוט",
+    "body": "לא מצאנו את העמוד או האירוע הזה. ייתכן שאזל או שהועבר.",
+    "backHome": "חזרה לדף הבית",
+    "browseEvents": "עיון באירועים"
   }
 }

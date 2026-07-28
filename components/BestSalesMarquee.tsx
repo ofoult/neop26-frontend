@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 // import {fetchTrendingEvents} from "@/lib/api";
 
 // This is a temporary mock of trending events. The real data is fetched from the backend but currently not working because of client issue , delete this when resolve and uncoment the fetching of trending events from the backend.
@@ -17,6 +18,7 @@ const MOCK_TRENDING_EVENTS = [
 ];
 
 export  function BestSalesMarquee() {
+  const t = useTranslations("Marquee");
 
   // const trendingEvents = await fetchTrendingEvents();
   // const row = [...trendingEvents, ...trendingEvents];
@@ -47,11 +49,11 @@ export  function BestSalesMarquee() {
           letterSpacing: "0.1em",
           color: "var(--text)",
           whiteSpace: "nowrap",
-          paddingLeft: 50,
-          paddingRight: 30,
+          paddingInlineStart: 50,
+          paddingInlineEnd: 30,
         }}
       >
-        Selling Fast:
+        {t("sellingFast")}
       </div>
 
       <div
@@ -91,7 +93,7 @@ export  function BestSalesMarquee() {
                   height: 7,
                   borderRadius: "50%",
                   background: "var(--accent)",
-                  marginLeft: 35,
+                  marginInlineStart: 35,
                 }}
               />
             </span>

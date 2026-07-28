@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import { CountryFlag } from '@/components/Flag';
 import { Icon } from '@/components/Icon';
 import { combineDateTime, fetchVenue } from '@/lib/api';
 import { countryCodeFor } from '@/lib/countryCodes';
-import { fmtDateLong, fmtTime, relativeDayLabel } from '@/lib/format';
+import { fmtDateLong, fmtTime, relativeDayBucket, type RelativeDayBucket } from '@/lib/format';
 import { jsonLdScript, performerItemListJsonLd } from '@/lib/jsonld';
 import { eventHref, parseIdFromSlugParam, performerHref, venueHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
@@ -43,17 +44,19 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 /** Background tint for the "how far out" pastille — nearer dates stand out more. */
-function pastilleStyle(label: string): { background: string; color: string } {
-  if (label === 'Today' || label === 'Tomorrow') {
+function pastilleStyle(bucket: RelativeDayBucket | { year: number }): { background: string; color: string } {
+  if (bucket === 'today' || bucket === 'tomorrow') {
     return { background: 'var(--grad)', color: 'var(--accent-ink)' };
   }
   return { background: 'var(--surface-2)', color: 'var(--dim)' };
 }
 
-export default async function VenuePage({ params }: { params: { slug: string } }) {
+export default async function VenuePage({ params }: { params: { locale: string; slug: string } }) {
   const { data } = await loadVenue(params.slug);
   const { venue, events } = data;
-  const name = venue.name || 'Venue';
+  const t = await getTranslations({ locale: params.locale, namespace: 'Venue' });
+  const tDate = await getTranslations({ locale: params.locale, namespace: 'DateLabels' });
+  const name = venue.name || t('venue');
   const location = [venue.city, venue.country].filter(Boolean).join(', ');
   const countryCode = countryCodeFor(venue.country);
 
@@ -74,7 +77,7 @@ export default async function VenuePage({ params }: { params: { slug: string } }
       />
       <div style={{ fontSize: 13.5, color: 'var(--faint)', marginBottom: 24 }}>
         <Link href="/" style={{ color: 'var(--dim)' }}>
-          Home
+          {t('home')}
         </Link>{' '}
         / {name}
       </div>
@@ -83,7 +86,7 @@ export default async function VenuePage({ params }: { params: { slug: string } }
         <div
           style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent)', marginBottom: 8 }}
         >
-          Venue
+          {t('venue')}
         </div>
         <h1 className="serif" style={{ fontSize: 'clamp(32px,5vw,52px)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
           {name}
@@ -96,18 +99,19 @@ export default async function VenuePage({ params }: { params: { slug: string } }
           </p>
         )}
         <p style={{ color: 'var(--dim)', marginTop: 6, fontSize: 15 }}>
-          {events.length} upcoming event{events.length === 1 ? '' : 's'}
+          {t('upcomingEvents', { count: events.length })}
         </p>
       </div>
 
       {events.length === 0 ? (
-        <p style={{ color: 'var(--dim)', fontSize: 15 }}>No upcoming shows at this venue yet — check back soon.</p>
+        <p style={{ color: 'var(--dim)', fontSize: 15 }}>{t('noUpcomingShows')}</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {events.map((e) => {
             const dt = combineDateTime(e.event_date, e.event_time);
-            const when = relativeDayLabel(dt);
-            const whenStyle = pastilleStyle(when);
+            const bucket = relativeDayBucket(dt);
+            const when = typeof bucket === 'string' ? tDate(bucket) : String(bucket.year);
+            const whenStyle = pastilleStyle(bucket);
             const eventCountryCode = countryCodeFor(e.country);
             const artist = e.performer1 || e.name || name;
             const href = e.performer1_id ? performerHref(e.performer1_id, e.performer1) : eventHref({ id: e.id, title: e.name ?? '', artist, city: e.city ?? '' });
@@ -146,10 +150,10 @@ export default async function VenuePage({ params }: { params: { slug: string } }
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginTop: 8, color: 'var(--dim)', fontSize: 14.5 }}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                      <Icon name="cal" size={15} /> {fmtDateLong(dt)}
+                      <Icon name="cal" size={15} /> {fmtDateLong(dt, params.locale)}
                     </span>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                      <Icon name="clock" size={15} /> {fmtTime(dt)}
+                      <Icon name="clock" size={15} /> {fmtTime(dt, params.locale)}
                     </span>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                       <Icon name="user" size={15} /> {artist}
@@ -180,7 +184,7 @@ export default async function VenuePage({ params }: { params: { slug: string } }
                     color: 'var(--accent-ink)',
                   }}
                 >
-                  Tickets
+                  {t('tickets')}
                   <Icon name="arrow" size={17} />
                 </span>
               </Link>
