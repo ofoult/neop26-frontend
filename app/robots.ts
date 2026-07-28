@@ -3,6 +3,7 @@ import { API_BASE } from '@/lib/api';
 import { routing } from '@/i18n/routing';
 import { localePath } from '@/lib/hreflang';
 import { SITE_URL } from '@/lib/site';
+import { chunkCount, safeCount, type SitemapCounts } from '@/lib/sitemap';
 
 // Prerendered at build time and only regenerated on-demand — see
 // app/sitemap.ts for why (including why there's no `dynamic = 'force-static'`
@@ -10,29 +11,16 @@ import { SITE_URL } from '@/lib/site';
 // same 'sitemap' cache tag so both regenerate together.
 const SITEMAP_TAG = 'sitemap';
 
-const CHUNK_SIZE = 45_000;
-
-function chunkCount(total: number): number {
-  return Math.max(1, Math.ceil(total / CHUNK_SIZE));
-}
-
-/** Coerces a possibly-missing/non-numeric count (e.g. a field a not-yet-deployed
- * backend doesn't return yet) to a safe integer, so it can never poison the
- * chunk-count math downstream with NaN. */
-function safeCount(n: unknown): number {
-  return Number.isFinite(n) ? (n as number) : 0;
-}
-
 // Every generated sitemap chunk (see app/sitemap.ts) needs to be listed
 // explicitly — there's no single combined index route for a multi-file
 // Next.js sitemap, so this recomputes the same chunk count from the same
 // counts endpoint to stay in sync automatically as the catalogue grows.
 async function sitemapUrls(): Promise<string[]> {
-  let counts = { events: 0, performers: 0, venues: 0 };
+  let counts: SitemapCounts = { events: 0, performers: 0, venues: 0 };
   try {
     const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate: false, tags: [SITEMAP_TAG] } });
     if (res.ok) {
-      const raw = (await res.json()) as Partial<typeof counts>;
+      const raw = (await res.json()) as Partial<SitemapCounts>;
       counts = { events: safeCount(raw.events), performers: safeCount(raw.performers), venues: safeCount(raw.venues) };
     }
   } catch {

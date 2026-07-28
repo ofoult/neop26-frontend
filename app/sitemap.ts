@@ -4,6 +4,7 @@ import { CATEGORIES } from '@/lib/categories';
 import { hreflangAlternatesAbsolute } from '@/lib/hreflang';
 import { eventHref, performerHref, venueHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
+import { CHUNK_SIZE, chunkCount, safeCount, type SitemapCounts } from '@/lib/sitemap';
 
 // Prerendered at build time and only regenerated on-demand (see
 // app/api/revalidate-sitemap/route.ts, called by the daily sync job once new
@@ -17,17 +18,6 @@ import { SITE_URL } from '@/lib/site';
 // Shared cache tag for every backend fetch below, so a single
 // `revalidateTag('sitemap')` call refreshes all of them together.
 const SITEMAP_TAG = 'sitemap';
-
-// Google enforces a 50,000 URL/file limit on sitemaps; this stays comfortably
-// under it (and under the backend's own per-request cap, see
-// backend/src/routes/sitemap.ts) while keeping each chunk a single request.
-const CHUNK_SIZE = 45_000;
-
-interface Counts {
-  events: number;
-  performers: number;
-  venues: number;
-}
 
 interface SitemapEventRow {
   id: number;
@@ -49,18 +39,11 @@ interface SitemapVenueRow {
   name: string | null;
 }
 
-/** Coerces a possibly-missing/non-numeric count (e.g. a field a not-yet-deployed
- * backend doesn't return yet) to a safe integer, so it can never poison the
- * chunk-count math downstream with NaN. */
-function safeCount(n: unknown): number {
-  return Number.isFinite(n) ? (n as number) : 0;
-}
-
-async function getCounts(): Promise<Counts> {
+async function getCounts(): Promise<SitemapCounts> {
   try {
     const res = await fetch(`${API_BASE}/sitemap/counts`, { next: { revalidate: false, tags: [SITEMAP_TAG] } });
     if (!res.ok) return { events: 0, performers: 0, venues: 0 };
-    const raw = (await res.json()) as Partial<Counts>;
+    const raw = (await res.json()) as Partial<SitemapCounts>;
     return { events: safeCount(raw.events), performers: safeCount(raw.performers), venues: safeCount(raw.venues) };
   } catch {
     // Backend unreachable (e.g. a sleeping free-tier instance during a
@@ -68,11 +51,6 @@ async function getCounts(): Promise<Counts> {
     // whole build/request.
     return { events: 0, performers: 0, venues: 0 };
   }
-}
-
-/** At least 1, so the id space stays stable even when a resource is empty. */
-function chunkCount(total: number): number {
-  return Math.max(1, Math.ceil(total / CHUNK_SIZE));
 }
 
 // Multi-file sitemap: id 0 is static/category pages, the next `performerChunks`
