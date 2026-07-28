@@ -2,9 +2,11 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDate } from '@/lib/format';
 import { eventHref } from '@/lib/slug';
 import type { NeopEvent } from '@/lib/types';
+import { CountryFlag } from './Flag';
 import { Icon } from './Icon';
 import { Img } from './Img';
 import { SearchBar } from './SearchBar';
@@ -34,6 +36,8 @@ export function Hero({ events }: { events: NeopEvent[] }) {
   }, [i, paused, count]);
 
   if (!feat) return null;
+
+  const countryCode = countryCodeFor(feat.country);
 
   return (
     <section
@@ -131,7 +135,7 @@ export function Hero({ events }: { events: NeopEvent[] }) {
                 <Icon name="cal" size={16} /> {fmtDate(feat.date, locale)}
               </span>
               <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                <Icon name="pin" size={16} /> {feat.venue}
+                <Icon name="pin" size={16} /> {countryCode && <CountryFlag code={countryCode} width={16} />} {feat.venue}
               </span>
             </div>
           </div>

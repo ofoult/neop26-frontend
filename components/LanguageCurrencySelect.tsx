@@ -17,15 +17,21 @@ export function LanguageCurrencySelect() {
   const t = useTranslations("LanguageSelect");
 
   const [open, setOpen] = useState(false);
-
-  const [selected, setSelected] = useState({
-    language: locale,
-    currency: "USD",
-  });
-
   const [currency, setCurrency] = useState("USD");
 
   const activeLanguage = LANGUAGES.find((l) => l.code === locale) ?? LANGUAGES[0];
+
+  function selectLanguage(code: string) {
+    setOpen(false);
+    if (code !== locale) {
+      router.replace(pathname, { locale: code as Locale });
+    }
+  }
+
+  function selectCurrency(code: string) {
+    setCurrency(code);
+    setOpen(false);
+  }
 
   return (
     <>
@@ -33,10 +39,7 @@ export function LanguageCurrencySelect() {
         <button
           className="nav-lang focus-ring"
           aria-label={tNav("languageAndCurrency")}
-          onClick={() => {
-            setSelected({ language: locale, currency });
-            setOpen(true);
-          }}
+          onClick={() => setOpen(true)}
         >
           <Icon name="globe" size={18} />
           <span className="nav-lang-label">
@@ -135,17 +138,12 @@ export function LanguageCurrencySelect() {
                   }}
                 >
                   {LANGUAGES.map((language) => {
-                    const isSelected = selected.language === language.code;
+                    const isSelected = locale === language.code;
 
                     return (
                       <button
                         key={language.code}
-                        onClick={() =>
-                          setSelected((prev) => ({
-                            ...prev,
-                            language: language.code,
-                          }))
-                        }
+                        onClick={() => selectLanguage(language.code)}
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -227,17 +225,12 @@ export function LanguageCurrencySelect() {
                   }}
                 >
                   {CURRENCIES.map((curr) => {
-                    const isSelected = selected.currency === curr.code;
+                    const isSelected = currency === curr.code;
 
                     return (
                       <button
                         key={curr.code}
-                        onClick={() =>
-                          setSelected((prev) => ({
-                            ...prev,
-                            currency: curr.code,
-                          }))
-                        }
+                        onClick={() => selectCurrency(curr.code)}
                         style={{
                           position: "relative",
                           display: "flex",
@@ -290,32 +283,6 @@ export function LanguageCurrencySelect() {
                     );
                   })}
                 </div>
-
-                {/*  Apply button */}
-                <button
-                  onClick={() => {
-                    setCurrency(selected.currency);
-                    setOpen(false);
-                    if (selected.language !== locale) {
-                      router.replace(pathname, { locale: selected.language as Locale });
-                    }
-                  }}
-                  style={{
-                    marginTop: 40,
-                    width: "100%",
-                    padding: "14px",
-                    borderRadius: 14,
-                    border: "1px solid var(--border)",
-                    background:
-                      "linear-gradient(rgba(7,7,11,0.82), rgba(7,7,11,0.32)), var(--grad)",
-                    color: "white",
-                    cursor: "pointer",
-                    fontSize: 18,
-                    fontWeight: 600,
-                  }}
-                >
-                  {t("apply")}
-                </button>
               </div>
             </div>
           </div>,

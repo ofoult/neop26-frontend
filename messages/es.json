@@ -46,8 +46,7 @@
   "LanguageSelect": {
     "modalTitle": "Preferencias de idioma y moneda",
     "languageAndRegion": "Idioma y región",
-    "currency": "Moneda",
-    "apply": "Aplicar"
+    "currency": "Moneda"
   },
   "Categories": {
     "music": "Música",
@@ -55,6 +54,9 @@
     "sports": "Deportes",
     "arts": "Teatro y artes",
     "comedy": "Comedia"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, one {# evento para este artista} other {# eventos para este artista}}"
   },
   "DateLabels": {
     "today": "Hoy",
@@ -87,5 +89,17 @@
     "end": "Fin",
     "clear": "Borrar",
     "done": "Listo"
+  },
+  "Performer": {
+    "home": "Inicio",
+    "artist": "Artista",
+    "upcomingEvents": "{count, plural, one {# evento próximo} other {# eventos próximos}}",
+    "noUpcomingEvents": "No hay eventos próximos para {name} todavía — vuelve pronto.",
+    "tickets": "Entradas",
+    "eventsTab": "Eventos",
+    "aboutTab": "Acerca de",
+    "source": "Fuente: {source}",
+    "fromYoutube": "Desde YouTube",
+    "fansSaying": "Lo que dicen los fans"
   }
 }

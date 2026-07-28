@@ -46,8 +46,7 @@
   "LanguageSelect": {
     "modalTitle": "העדפות שפה ומטבע",
     "languageAndRegion": "שפה ואזור",
-    "currency": "מטבע",
-    "apply": "החל"
+    "currency": "מטבע"
   },
   "Categories": {
     "music": "מוזיקה",
@@ -55,6 +54,9 @@
     "sports": "ספורט",
     "arts": "תיאטרון ואומנויות",
     "comedy": "קומדיה"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, one {אירוע אחד לאמן זה} other {# אירועים לאמן זה}}"
   },
   "DateLabels": {
     "today": "היום",
@@ -87,5 +89,17 @@
     "end": "סיום",
     "clear": "ניקוי",
     "done": "אישור"
+  },
+  "Performer": {
+    "home": "בית",
+    "artist": "אמן",
+    "upcomingEvents": "{count, plural, one {אירוע קרוב אחד} other {# אירועים קרובים}}",
+    "noUpcomingEvents": "אין אירועים קרובים עבור {name} כרגע — בדקו שוב בקרוב.",
+    "tickets": "כרטיסים",
+    "eventsTab": "אירועים",
+    "aboutTab": "אודות",
+    "source": "מקור: {source}",
+    "fromYoutube": "מיוטיוב",
+    "fansSaying": "מה שהמעריצים אומרים"
   }
 }

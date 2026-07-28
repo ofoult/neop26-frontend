@@ -4,9 +4,11 @@ import { Link } from '@/i18n/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { categoryById } from '@/lib/categories';
+import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDate } from '@/lib/format';
 import { eventHref, performerHref } from '@/lib/slug';
 import type { NeopEvent } from '@/lib/types';
+import { CountryFlag } from './Flag';
 import { Icon } from './Icon';
 import { Img } from './Img';
 
@@ -17,7 +19,9 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
   const [h, setH] = useState(false);
   const locale = useLocale();
   const tCat = useTranslations('Categories');
+  const t = useTranslations('EventCard');
   const cat = categoryById(ev.category);
+  const countryCode = countryCodeFor(ev.country);
   // Cap the entrance stagger so infinitely-scrolled cards (high i) don't sit
   // invisible for seconds — that delay would leave a tall blank gap at the bottom.
   const animationDelay = `${Math.min(i, 11) * 60}ms`;
@@ -98,8 +102,9 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
           </div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, gap: 12 }}>
             <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,.82)', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="pin" size={14} /> {[ev.city, ev.country].filter(Boolean).join(', ')} · {fmtDate(ev.date, locale)}
-              {ev.performerEventCount > 1 && ` · ${ev.performerEventCount} events for this artist`}
+              <Icon name="pin" size={14} /> {countryCode && <CountryFlag code={countryCode} width={14} />}{' '}
+              {[ev.city, ev.country].filter(Boolean).join(', ')} · {fmtDate(ev.date, locale)}
+              {ev.performerEventCount > 1 && ` · ${t('eventsForArtist', { count: ev.performerEventCount })}`}
             </div>
             <div
               style={{

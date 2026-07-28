@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import { Img } from '@/components/Img';
 import { PerformerTabs } from '@/components/PerformerTabs';
 import { fetchPerformerEvents } from '@/lib/api';
@@ -52,10 +53,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function PerformerPage({ params }: { params: { slug: string } }) {
+export default async function PerformerPage({ params }: { params: { locale: string; slug: string } }) {
   const { data } = await loadPerformer(params.slug);
   const { performer, events } = data;
-  const name = performer.name || 'Artist';
+  const tPerf = await getTranslations({ locale: params.locale, namespace: 'Performer' });
+  const name = performer.name || tPerf('artist');
 
   const itemList = performerItemListJsonLd(
     name,
@@ -74,7 +76,7 @@ export default async function PerformerPage({ params }: { params: { slug: string
       />
       <div style={{ fontSize: 13.5, color: 'var(--faint)', marginBottom: 24 }}>
         <Link href="/" style={{ color: 'var(--dim)' }}>
-          Home
+          {tPerf('home')}
         </Link>{' '}
         / {name}
       </div>
@@ -88,13 +90,13 @@ export default async function PerformerPage({ params }: { params: { slug: string
           <div
             style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent)', marginBottom: 8 }}
           >
-            Artist
+            {tPerf('artist')}
           </div>
           <h1 className="serif" style={{ fontSize: 'clamp(32px,5vw,52px)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
             {name}
           </h1>
           <p style={{ color: 'var(--dim)', marginTop: 10, fontSize: 15 }}>
-            {events.length} upcoming event{events.length === 1 ? '' : 's'}
+            {tPerf('upcomingEvents', { count: events.length })}
           </p>
         </div>
       </div>

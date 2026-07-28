@@ -37,9 +37,10 @@ function tabButtonStyle(active: boolean): React.CSSProperties {
 function EventsPanel({ name, events }: { name: string; events: ApiPerformerEventItem[] }) {
   const locale = useLocale();
   const tDate = useTranslations('DateLabels');
+  const t = useTranslations('Performer');
 
   if (events.length === 0) {
-    return <p style={{ color: 'var(--dim)', fontSize: 15 }}>No upcoming events for {name} yet — check back soon.</p>;
+    return <p style={{ color: 'var(--dim)', fontSize: 15 }}>{t('noUpcomingEvents', { name })}</p>;
   }
 
   return (
@@ -119,7 +120,7 @@ function EventsPanel({ name, events }: { name: string; events: ApiPerformerEvent
                 color: 'var(--accent-ink)',
               }}
             >
-              Tickets
+              {t('tickets')}
               <Icon name="arrow" size={17} />
             </span>
           </Link>
@@ -146,6 +147,8 @@ function AboutPanel({
   videoTitle: string | null;
   comments: ApiPerformerComment[];
 }) {
+  const t = useTranslations('Performer');
+
   return (
     <div>
       {bio && (
@@ -153,7 +156,7 @@ function AboutPanel({
           <p style={{ fontSize: 15.5, lineHeight: 1.7, color: 'var(--dim)' }}>{bio}</p>
           {bioSourceUrl && (
             <a href={bioSourceUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12.5, color: 'var(--faint)' }}>
-              Source: {bioSource === 'lastfm' ? 'Last.fm' : 'Wikipedia'}
+              {t('source', { source: bioSource === 'lastfm' ? 'Last.fm' : 'Wikipedia' })}
             </a>
           )}
         </div>
@@ -175,7 +178,7 @@ function AboutPanel({
 
       {comments?.length > 0 && (
         <div style={{ maxWidth: 720 }}>
-          <SecHead kicker="From YouTube" title="Fans are saying" />
+          <SecHead kicker={t('fromYoutube')} title={t('fansSaying')} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {comments.map((c, i) => (
               <div key={i} style={{ padding: '16px 18px', borderRadius: 14, border: '1px solid var(--border)' }}>
@@ -215,6 +218,7 @@ export function PerformerTabs({
   videoTitle: string | null;
   comments: ApiPerformerComment[];
 }) {
+  const t = useTranslations('Performer');
   const hasAbout = Boolean(bio || videoId || comments?.length > 0);
   const [tab, setTab] = useState<'events' | 'about'>('events');
 
@@ -233,7 +237,7 @@ export function PerformerTabs({
           style={tabButtonStyle(tab === 'events')}
           onClick={() => setTab('events')}
         >
-          Events
+          {t('eventsTab')}
         </button>
         <button
           type="button"
@@ -245,7 +249,7 @@ export function PerformerTabs({
           style={tabButtonStyle(tab === 'about')}
           onClick={() => setTab('about')}
         >
-          About
+          {t('aboutTab')}
         </button>
       </div>
 
