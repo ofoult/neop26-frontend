@@ -3,7 +3,9 @@ import { BROWSE_PER_PAGE, fetchEvents } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
 import type { CategoryId } from '@/lib/types';
 
-export const revalidate = 120;
+// Backend data only changes via a once-daily sync job, so a long ISR window
+// avoids re-invoking a function + hitting the backend on every crawl/visit.
+export const revalidate = 1800;
 
 export default async function BrowsePage({
   searchParams,

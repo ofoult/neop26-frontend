@@ -8,7 +8,9 @@ import { fetchEvents } from '@/lib/api';
 import { hreflangAlternates, localePath } from '@/lib/hreflang';
 import type { NeopEvent } from '@/lib/types';
 
-export const revalidate = 120;
+// Backend data only changes via a once-daily sync job, so a long ISR window
+// avoids re-invoking a function + hitting the backend on every crawl/visit.
+export const revalidate = 1800;
 
 // Only the canonical/hreflang alternates for "/" — title/description/OG stay
 // inherited from the root layout's generateMetadata (see its comment for why

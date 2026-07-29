@@ -13,7 +13,9 @@ import { eventHref, parseIdFromSlugParam, performerHref, venueHref } from '@/lib
 import { SITE_URL } from '@/lib/site';
 import type { ApiVenueResponse } from '@/lib/types';
 
-export const revalidate = 120;
+// Backend data only changes via a once-daily sync job, so a long ISR window
+// avoids re-invoking a function + hitting the backend on every crawl/visit.
+export const revalidate = 1800;
 
 /** Shared by the page and generateMetadata; Next.js dedupes the identical fetch(). */
 async function loadVenue(slug: string): Promise<{ id: string; data: ApiVenueResponse }> {

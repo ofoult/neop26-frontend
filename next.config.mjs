@@ -12,6 +12,10 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.gigsberg.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
+    // Event artwork rarely if ever changes for a given URL — cache optimized
+    // variants for 30 days instead of Next's default minute-scale TTL, so
+    // repeat crawls/visits of the same page don't re-run image optimization.
+    minimumCacheTTL: 2592000,
   },
 };
 

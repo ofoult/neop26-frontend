@@ -40,6 +40,17 @@ const DISALLOWED_PATHS = ['/checkout', '/confirmation'].flatMap((path) => [
   ...NON_DEFAULT_LOCALES.map((locale) => localePath(path, locale)),
 ]);
 
+// /browse's free-text (q), location (where), and date-range (from/to) filters
+// produce effectively unbounded, low-value URL combinations with no lasting
+// canonical value — crawling them wastes crawl budget/bandwidth for no SEO
+// gain. `cat` (listed in the sitemap) and `page` (real paginated content,
+// see browse/page.tsx) stay crawlable. `*` is a wildcard extension search
+// engines widely support, matching regardless of param order/position.
+const BROWSE_FILTER_DISALLOW = routing.locales.flatMap((locale) => {
+  const browsePath = localePath('/browse', locale);
+  return ['q', 'where', 'from', 'to'].map((param) => `${browsePath}?*${param}=`);
+});
+
 // Only search engines get crawl access — everything else (AI crawlers, social
 // preview bots, generic scrapers) is disallowed here for well-behaved bots,
 // and actively blocked at the edge in middleware.ts for bots that don't
@@ -52,7 +63,7 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       ...SEARCH_ENGINE_BOTS.map((userAgent) => ({
         userAgent,
         allow: '/',
-        disallow: DISALLOWED_PATHS,
+        disallow: [...DISALLOWED_PATHS, ...BROWSE_FILTER_DISALLOW],
       })),
       { userAgent: '*', disallow: '/' },
     ],
