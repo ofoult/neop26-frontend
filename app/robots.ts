@@ -40,13 +40,22 @@ const DISALLOWED_PATHS = ['/checkout', '/confirmation'].flatMap((path) => [
   ...NON_DEFAULT_LOCALES.map((locale) => localePath(path, locale)),
 ]);
 
+// Only search engines get crawl access — everything else (AI crawlers, social
+// preview bots, generic scrapers) is disallowed here for well-behaved bots,
+// and actively blocked at the edge in middleware.ts for bots that don't
+// bother reading robots.txt.
+const SEARCH_ENGINE_BOTS = ['Googlebot', 'Google-InspectionTool', 'Bingbot', 'DuckDuckBot', 'Applebot', 'Yandex'];
+
 export default async function robots(): Promise<MetadataRoute.Robots> {
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: DISALLOWED_PATHS,
-    },
+    rules: [
+      ...SEARCH_ENGINE_BOTS.map((userAgent) => ({
+        userAgent,
+        allow: '/',
+        disallow: DISALLOWED_PATHS,
+      })),
+      { userAgent: '*', disallow: '/' },
+    ],
     sitemap: await sitemapUrls(),
     host: SITE_URL,
   };
