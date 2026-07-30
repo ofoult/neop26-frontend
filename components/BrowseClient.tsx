@@ -143,10 +143,10 @@ export function BrowseClient({
 
   return (
     <div
+      className="browse-container"
       style={{
         maxWidth: "var(--maxw)",
         margin: "0 auto",
-        padding: "32px 28px 0",
       }}
     >
       <div style={{ marginBottom: 28 }}>
@@ -196,7 +196,7 @@ export function BrowseClient({
       <div
         style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
           <span
             style={{ fontSize: 18, color: "var(--faint)", paddingInlineStart: 10 }}
           >
@@ -246,13 +246,7 @@ export function BrowseClient({
         </div>
       ) : (
         <>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4,1fr)",
-              gap: 38,
-            }}
-          >
+          <div className="event-grid">
             {sorted.map((e, i) => (
               <EventCard key={e.id} ev={e} i={i} wide />
             ))}
@@ -265,7 +259,7 @@ export function BrowseClient({
           {totalPages > 1 && (
             <nav
               aria-label={t('pagination')}
-              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14, padding: '38px 0 12px', fontSize: 16 }}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14, padding: '38px 0 12px', fontSize: 16, flexWrap: 'wrap', textAlign: 'center' }}
             >
               {initialPage > 1 ? (
                 <Link href={pageHref(initialPage - 1, activeCat, query, where, dateFrom, dateTo)} className="focus-ring" style={{ color: 'var(--dim)' }}>

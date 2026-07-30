@@ -54,6 +54,7 @@ export function LanguageCurrencySelect() {
             onClick={() => {
               setOpen(false);
             }}
+            className="lang-modal-backdrop"
             style={{
               position: "fixed",
               inset: 0,
@@ -68,6 +69,7 @@ export function LanguageCurrencySelect() {
           >
             <div
               onClick={(e) => e.stopPropagation()}
+              className="lang-modal-card"
               style={{
                 width: 620,
                 maxHeight: "calc(100vh - 140px)",
@@ -144,6 +146,7 @@ export function LanguageCurrencySelect() {
                       <button
                         key={language.code}
                         onClick={() => selectLanguage(language.code)}
+                        className="lang-option"
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -231,6 +234,7 @@ export function LanguageCurrencySelect() {
                       <button
                         key={curr.code}
                         onClick={() => selectCurrency(curr.code)}
+                        className="lang-option"
                         style={{
                           position: "relative",
                           display: "flex",

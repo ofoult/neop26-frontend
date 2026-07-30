@@ -13,13 +13,11 @@ export function Footer() {
   return (
     <footer style={{ borderTop: '1px solid var(--border)', marginTop: 100, background: 'var(--bg-2)' }}>
       <div
+        className="footer-grid"
         style={{
           maxWidth: 'var(--maxw)',
           margin: '0 auto',
           padding: '64px 28px 40px',
-          display: 'grid',
-          gridTemplateColumns: '1.6fr 1fr 1fr 1fr',
-          gap: 40,
         }}
       >
         <div>
@@ -70,13 +68,12 @@ export function Footer() {
         ))}
       </div>
       <div
+        className="footer-bottom"
         style={{
           maxWidth: 'var(--maxw)',
           margin: '0 auto',
           padding: '22px 28px',
           borderTop: '1px solid var(--border)',
-          display: 'flex',
-          justifyContent: 'space-between',
           color: 'var(--faint)',
           fontSize: 13.5,
         }}

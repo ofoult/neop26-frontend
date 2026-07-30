@@ -68,9 +68,9 @@ export default async function HomePage() {
       <Hero events={heroEvents} />
 
       {/* trending */}
-      <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
+      <section className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
         <SecHead kicker={t('trendingKicker')} title={t('trendingTitle')} action={t('seeAll')} actionHref="/browse" />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 38 }}>
+        <div className="event-grid">
           {trending.map((e, i) => (
             <EventCard key={e.id} ev={e} i={i + 1}  />
           ))}
@@ -79,9 +79,9 @@ export default async function HomePage() {
 
       {/* this weekend */}
       {weekend.length > 0 && (
-        <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
+        <section className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
           <SecHead kicker={t('weekendKicker')} title={t('weekendTitle')} action={t('browseDates')} actionHref="/browse" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 38 }}>
+          <div className="event-grid">
             {weekend.map((e, i) => (
               <EventCard key={e.id} ev={e} i={i}  />
             ))}
@@ -91,9 +91,9 @@ export default async function HomePage() {
 
       {/* festivals spotlight */}
       {fests.length > 0 && (
-        <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
+        <section className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
           <SecHead kicker={t('festivalsKicker')} title={t('festivalsTitle')} action={t('allFestivals')} actionHref="/browse?cat=festivals" />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 38 }}>
+          <div className="event-grid">
             {fests.map((e, i) => (
               <EventCard key={e.id} ev={e} i={i}  />
             ))}
@@ -102,16 +102,13 @@ export default async function HomePage() {
       )}
 
       {/* guarantee band */}
-      <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '80px 28px 0' }}>
+      <section className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
         <div style={{ borderRadius: 24, overflow: 'hidden', position: 'relative', border: '1px solid var(--border)' }}>
           <div style={{ position: 'absolute', inset: 0, background:"linear-gradient(rgba(7,7,11,0.82), rgba(7,7,11,0.32)), var(--grad)" }} />
           <div
+            className="guarantee-band guarantee-grid"
             style={{
               position: 'relative',
-              padding: '54px 48px',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3,1fr)',
-              gap: 36,
             }}
           >
             {GUARANTEES.map(([ic, title, desc]) => (

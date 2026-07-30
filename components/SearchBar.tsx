@@ -10,7 +10,7 @@ import { Icon, type IconName } from './Icon';
 import { Btn } from './ui';
 
 function Divider(): ReactNode {
-  return <span style={{ width: 1, height: 32, background: 'var(--border)' }} />;
+  return <span className="search-divider" style={{ width: 1, height: 32, background: 'var(--border)' }} />;
 }
 
 /**
@@ -95,6 +95,7 @@ export function SearchBar({
         e.preventDefault();
         submit();
       }}
+      className="search-bar"
       style={{
         position: 'relative',
         // Lift the bar (and, via the ul/popover z-indexes below, its dropdowns)
@@ -321,7 +322,7 @@ function SearchField<T>({
   const showDropdown = Boolean(fetchSuggestions) && open && (items.length > 0 || loading || Boolean(emptyLabel));
 
   return (
-    <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 11, padding: pad, flex, minWidth: 0 }}>
+    <div className="search-field" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 11, padding: pad, flex, minWidth: 0 }}>
       <Icon name={icon} size={18} style={{ color: 'var(--faint)', flexShrink: 0 }} />
       <div style={{ minWidth: 0, flex: 1 }}>
         <label
@@ -353,7 +354,7 @@ function SearchField<T>({
             top: 'calc(100% + 16px)',
             insetInlineStart: 0,
             insetInlineEnd: 0,
-            minWidth: 260,
+            minWidth: 0,
             margin: 0,
             padding: 6,
             listStyle: 'none',
@@ -473,7 +474,7 @@ function DateRangeField({
   };
 
   return (
-    <div ref={ref} style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 11, padding: pad, flex, minWidth: 0 }}>
+    <div ref={ref} className="search-daterange" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 11, padding: pad, flex, minWidth: 0 }}>
       <Icon name="cal" size={18} style={{ color: 'var(--faint)', flexShrink: 0 }} />
       <button
         type="button"
@@ -503,7 +504,7 @@ function DateRangeField({
             position: 'absolute',
             top: 'calc(100% + 16px)',
             insetInlineEnd: 0,
-            width: 320,
+            width: 'min(320px, calc(100vw - 64px))',
             padding: 16,
             background: '#12121b',
             backdropFilter: 'blur(20px)',
