@@ -241,8 +241,13 @@ function sanitizeSvgMarkup(svg: string): string {
  * (rather than loaded as an opaque <img>), letting the UI target individual
  * block elements by id/data-name — needed to highlight a category's seats on
  * hover. Returns null on any failure.
+ *
+ * A venue's seating chart artwork doesn't change once published, so this is
+ * cached for 30 days rather than the 1hr default other event data uses —
+ * cuts repeat fetches to Gigsberg's CDN and repeat sanitizeSvgMarkup() work
+ * on every ISR regeneration of the event page.
  */
-export async function fetchSeatingPlanSvgMarkup(url: string, revalidate = 3600): Promise<string | null> {
+export async function fetchSeatingPlanSvgMarkup(url: string, revalidate = 60 * 60 * 24 * 30): Promise<string | null> {
   try {
     const res = await fetch(url, { next: { revalidate } });
     if (!res.ok) return null;

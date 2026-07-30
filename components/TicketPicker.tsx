@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { currencySymbol } from '@/lib/format';
 import type { ApiListingCategory, NeopEvent } from '@/lib/types';
@@ -21,16 +21,41 @@ const qtyBtn: CSSProperties = {
 
 /**
  * Builds the checkout link, putting the chosen seat count into the listing's
- * `quantity` param. The API hands us URLs ending in `...&quantity=`; setting the
- * param is robust whether or not it already has a value.
+ * `quantity` param and localizing the path to match the viewer's site locale
+ * (Gigsberg mirrors our locale scheme: English unprefixed, others as `/xx/...`).
+ * The API hands us URLs ending in `...&quantity=`; setting the param is robust
+ * whether or not it already has a value.
  */
-function checkoutHref(url: string, qty: number): string {
+function checkoutHref(url: string, qty: number, locale: string): string {
+  const withQty = (() => {
+    try {
+      const u = new URL(url);
+      u.searchParams.set('quantity', String(qty));
+      return u.toString();
+    } catch {
+      return url.endsWith('quantity=') ? `${url}${qty}` : `${url}${url.includes('?') ? '&' : '?'}quantity=${qty}`;
+    }
+  })();
+  return localizeGigsbergUrl(withQty, locale);
+}
+
+// Gigsberg URLs always carry a leading locale segment (e.g. `/en/checkout/...`).
+// Inserting a second one instead of replacing it (`/fr/en/checkout/...`) gets
+// silently rewritten by Gigsberg's router to a mangled URL with the query
+// string — including `aff`/`affiliate_id` — stripped, breaking attribution.
+const GIGSBERG_LOCALES = ['en', 'fr', 'es', 'de', 'he'];
+
+/** Swaps (or inserts, if absent) the leading locale segment on a Gigsberg URL. */
+function localizeGigsbergUrl(url: string, locale: string): string {
   try {
     const u = new URL(url);
-    u.searchParams.set('quantity', String(qty));
+    const segments = u.pathname.split('/');
+    if (GIGSBERG_LOCALES.includes(segments[1])) segments[1] = locale;
+    else segments.splice(1, 0, locale);
+    u.pathname = segments.join('/');
     return u.toString();
   } catch {
-    return url.endsWith('quantity=') ? `${url}${qty}` : `${url}${url.includes('?') ? '&' : '?'}quantity=${qty}`;
+    return url;
   }
 }
 
@@ -81,6 +106,7 @@ export function TicketPicker({
   defaultQuantity: number;
 }) {
   const t = useTranslations('TicketPicker');
+  const locale = useLocale();
   // Real per-category pricing from the Gigsberg listing search.
   if (categories && categories.length > 0) {
     return (
@@ -122,7 +148,7 @@ export function TicketPicker({
         </p>
       </div>
       <div style={{ padding: '20px 22px 22px' }}>
-        <Btn full size="lg" iconR="arrow" href={ev.url} newTab>
+        <Btn full size="lg" iconR="arrow" href={localizeGigsbergUrl(ev.url, locale)} newTab>
           {t('getTickets')}
         </Btn>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 14, fontSize: 13, color: 'var(--faint)' }}>
@@ -256,6 +282,7 @@ function RealTickets({
   defaultQuantity: number;
 }) {
   const t = useTranslations('TicketPicker');
+  const locale = useLocale();
   const { activeId, qty, inc, dec } = seatSelection;
   // Mirrors `highlightedCategory` (which comes from hovering a seat on the
   // plan) so hovering the row itself picks up the exact same highlight style.
@@ -267,7 +294,7 @@ function RealTickets({
   const active = activeId ? categories.find((c) => c.id === activeId) ?? null : null;
   const activeSymbol = currencySymbol(active?.currency ?? null, ev.currency);
   const subtotal = active ? Math.round(active.fromPrice * qty * 100) / 100 : 0;
-  const href = active?.checkoutUrl ? checkoutHref(active.checkoutUrl, qty) : ev.url ?? '/browse';
+  const href = active?.checkoutUrl ? checkoutHref(active.checkoutUrl, qty, locale) : localizeGigsbergUrl(ev.url ?? '/browse', locale);
   const rows = visibleCategoryIds ? categories.filter((c) => visibleCategoryIds.has(c.id)) : categories;
 
   function handleBuy(cat: ApiListingCategory) {

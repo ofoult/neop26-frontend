@@ -54,11 +54,30 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
 - **Locales**: `en` (default), `fr`, `es`, `de`, `he` (RTL). `localePrefix: 'as-needed'` — English
   stays unprefixed at today's URLs (`/`, `/browse`, …); the other four get `/fr`, `/es`, `/de`,
   `/he`. `app/[locale]/layout.tsx` sets `dir="rtl"` only for `he`.
-- **Coverage so far (Phase 1)**: `Nav`, `Footer`, `Hero`, the home page, and the
-  `LanguageCurrencySelect` modal are fully translated in all 5 locales. Everything else (browse,
-  event/performer/venue detail, checkout, confirmation, category labels, `lib/format.ts`'s
-  date/relative-day strings) still renders in English regardless of locale prefix — translating
-  those is later-phase work, not a bug.
+- **Coverage**: essentially the whole app is translated in all 5 locales — home, `Nav`, `Footer`,
+  `Hero`, `LanguageCurrencySelect`, browse (`BrowseClient`, `SearchBar`, `TicketFilters`), event
+  detail, performer detail, venue detail, checkout, confirmation, `not-found`, `EventCard`,
+  `TicketPicker`, `TicketsAndSeatingPlan`, `SeatingPlanSvg`, and `PerformerTabs` all use
+  `useTranslations`/`getTranslations` against dedicated namespaces in `messages/${locale}.json`
+  (189 keys, in sync across all 5 locale files). Category labels render via `t('Categories')`
+  everywhere (`lib/categories.ts`'s own hardcoded `label` field is dead data, unused for display).
+  `lib/format.ts`'s date functions (`fmtDate`, `fmtDateLong`, `fmtTime`) are locale-aware via
+  `Intl.DateTimeFormat`, and the relative-day bucket (`relativeDayBucket()`) returns a
+  locale-independent key rendered through the `DateLabels` namespace — `RELATIVE_DAY_LABELS_EN`
+  and `relativeDayLabel()` in that same file are unused dead code, not a live English fallback.
+  <!-- Earlier note here ("Phase 1", browse/event/performer/venue/checkout/confirmation still
+  English-only) was stale — verified 2026-07-30 by reading every route/component; that note
+  described an earlier state that no longer matches the code. -->
+  **Known remaining gaps** (small, not a phase boundary): `app/[locale]/event/[slug]/page.tsx`
+  hardcodes the "Back" link text and the "Trending" badge (the latter has an unused
+  `EventCard.trending` key sitting right there); `components/Hero.tsx`'s carousel dot
+  `aria-label`, `components/ui.tsx`'s `Logo` `aria-label="neop home"`, and
+  `components/Drawer.tsx`'s close-button `aria-label="Close"` are hardcoded English with no
+  translation key; `components/TicketsAndSeatingPlan.tsx`'s seating-plan image `alt` text has a
+  hardcoded "seating plan" suffix; `components/LanguageCurrencySelect.tsx`'s close button has no
+  `aria-label` at all; and `app/[locale]/checkout/page.tsx` has hardcoded example placeholders
+  (name/email/phone/card fields) plus `'Apple Pay'`/`'PayPal'` payment-method labels (arguably
+  fine to leave as brand names, but not routed through `t()` either way).
 - **Adding a new translated string**: add the English key to `messages/en.json` first, then add
   the same key with a real translation to `messages/fr.json`, `messages/es.json`,
   `messages/de.json`, `messages/he.json` before merging — never leave a locale file missing a key
