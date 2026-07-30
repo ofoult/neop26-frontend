@@ -263,8 +263,12 @@ export function SeatingPlanSvg({
       <style dangerouslySetInnerHTML={{ __html: categoryHighlightCss }} />
       <style dangerouslySetInnerHTML={{ __html: seatHighlightCss }} />
       {/* Gigsberg's own SVG, sanitized server-side and inlined so individual
-          blocks can be targeted by the CSS/hover logic above. */}
-      <div dangerouslySetInnerHTML={{ __html: svgMarkup }} />
+          blocks can be targeted by the CSS/hover logic above. data-nosnippet
+          keeps its section/row labels ("201", "TR1", ...) out of Google's
+          search-result snippet — the SVG is dense with this text and was
+          getting picked over the real meta description — without affecting
+          visibility, indexing, or ranking. */}
+      <div data-nosnippet dangerouslySetInnerHTML={{ __html: svgMarkup }} />
 
       {hover && (
         <div

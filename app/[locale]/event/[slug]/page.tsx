@@ -47,7 +47,10 @@ async function loadEvent(slug: string): Promise<NeopEvent> {
 export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
   const ev = await loadEvent(params.slug);
   const title = `${ev.title} tickets — ${ev.venue}, ${ev.city}`;
-  const description = `${ev.blurb} ${fmtDateLong(ev.date)} at ${ev.venue}, ${ev.city}.`.slice(0, 300);
+  // ev.blurb already names the venue/city, so just append the date rather
+  // than repeating "at venue, city" — keeps this under Google's ~155-160
+  // char truncation point instead of padding it with duplicate info.
+  const description = `${ev.blurb} ${fmtDateLong(ev.date)}.`.slice(0, 160);
   const path = eventHref(ev);
   const canonical = localePath(path, params.locale);
 
@@ -188,6 +191,13 @@ export default async function EventPage({ params }: { params: { locale: string; 
               </span>
             )}
           </div>
+          {/* Same copy as the meta description (page.tsx generateMetadata) —
+              having it appear verbatim on the page, not just in <meta>,
+              gives Google real on-page text to match against so it doesn't
+              fall back to unrelated content further down the page. */}
+          <p style={{ marginTop: 22, maxWidth: 640, color: 'rgba(255,255,255,.85)', fontSize: 16, lineHeight: 1.6 }}>
+            {ev.blurb}
+          </p>
         </div>
       </div>
 
