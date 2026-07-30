@@ -115,14 +115,14 @@ function CheckoutInner() {
         {t('heldNotice')}
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40, alignItems: 'start' }}>
+      <div className="checkout-grid">
         {/* form */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
           <section>
             <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={stepDot}>1</span> {t('step1')}
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div className="checkout-fields-grid">
               <Field label={t('fullName')} placeholder="Alex Rivera" value={name} onChange={setName} span={2} />
               <Field label={t('email')} placeholder="alex@email.com" value={email} onChange={setEmail} type="email" />
               <Field label={t('phone')} placeholder="+1 555 000 0000" type="tel" />
@@ -132,7 +132,7 @@ function CheckoutInner() {
             <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={stepDot}>2</span> {t('step2')}
             </h3>
-            <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+            <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
               {['Card', 'Apple Pay', 'PayPal'].map((m) => {
                 const on = method === m;
                 return (
@@ -141,7 +141,7 @@ function CheckoutInner() {
                     onClick={() => setMethod(m)}
                     className="focus-ring"
                     style={{
-                      flex: 1,
+                      flex: '1 1 100px',
                       padding: '14px',
                       borderRadius: 12,
                       textAlign: 'center',
@@ -157,7 +157,7 @@ function CheckoutInner() {
                 );
               })}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div className="checkout-fields-grid">
               <Field label={t('cardNumber')} placeholder="1234 5678 9012 3456" span={2} />
               <Field label={t('expiry')} placeholder="MM / YY" />
               <Field label={t('cvc')} placeholder="123" />
@@ -170,6 +170,7 @@ function CheckoutInner() {
 
         {/* summary */}
         <aside
+          className="checkout-summary"
           style={{
             position: 'sticky',
             top: 104,

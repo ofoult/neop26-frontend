@@ -12,7 +12,7 @@ export default async function NotFound() {
       <p style={{ color: 'var(--dim)', fontSize: 17, margin: '0 0 28px' }}>
         {t('body')}
       </p>
-      <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+      <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
         <Btn href="/" variant="soft" size="lg">
           {t('backHome')}
         </Btn>

@@ -254,6 +254,39 @@ img {
   }
 }
 
+/* Checkout page (see app/[locale]/checkout/page.tsx) — the form column plus
+   a fixed 380px summary column overflows well before phone width, so it
+   collapses to one stacked column (summary below the form) and the sticky
+   summary becomes static instead of pinning over nothing. */
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 40px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .checkout-summary {
+    position: static !important;
+  }
+}
+
+.checkout-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 480px) {
+  .checkout-fields-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Loading placeholder (see Skeleton.tsx) */
 @keyframes skeletonShimmer {
   0% {

@@ -152,7 +152,7 @@ function ConfirmInner() {
         </div>
       </div>
 
-      <div className="up" style={{ display: 'flex', gap: 12, marginTop: 24, animationDelay: '220ms' }}>
+      <div className="up" style={{ display: 'flex', gap: 12, marginTop: 24, animationDelay: '220ms', flexWrap: 'wrap' }}>
         <Btn full size="lg" variant="soft" href="/">
           {t('backHome')}
         </Btn>
