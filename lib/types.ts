@@ -31,6 +31,8 @@ export interface ApiEventDetail extends ApiEventListItem {
   venue_id: string | null;
   categories: unknown;
   raw: unknown;
+  /** When we first synced this listing from Gigsberg — used as an offers.validFrom proxy (no real on-sale date exists). */
+  source_created_at: string | null;
 }
 
 export interface ApiEventsResponse {
@@ -195,4 +197,6 @@ export interface NeopEvent {
   performerEventCount: number;
   /** performer1_id, falling back to performer2_id; null when the event has neither. */
   performerId: string | null;
+  /** When we first synced this listing (detail rows only) — used as an offers.validFrom proxy. */
+  createdAt: string | null;
 }

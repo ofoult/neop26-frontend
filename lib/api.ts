@@ -93,13 +93,14 @@ export function adaptListItem(item: ApiEventListItem): NeopEvent {
     url: item.url,
     performerEventCount: item.performer_event_count ?? 1,
     performerId: item.performer1_id ?? item.performer2_id ?? null,
+    createdAt: null,
   };
 }
 
 export function adaptDetail(item: ApiEventDetail): NeopEvent {
   const base = adaptListItem(item);
   // Detail rows carry type_id, giving a more reliable category resolution.
-  return { ...base, category: categoryFromType(item.type_id, item.type_name) };
+  return { ...base, category: categoryFromType(item.type_id, item.type_name), createdAt: item.source_created_at };
 }
 
 // ---------- fetchers ----------
