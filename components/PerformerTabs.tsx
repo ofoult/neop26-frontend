@@ -55,19 +55,15 @@ function EventsPanel({ name, events }: { name: string; events: ApiPerformerEvent
           <Link
             key={e.id}
             href={eventHref({ id: e.id, title: e.name ?? '', artist: name, city: e.city ?? '' })}
-            className="focus-ring performer-row"
+            className="focus-ring performer-row perf-event-row"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: 20,
               padding: '20px 22px',
               borderRadius: 16,
               border: '1px solid var(--border)',
             }}
           >
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                 <span style={{ fontSize: 17, fontWeight: 600 }}>{e.name}</span>
                 <span
                   style={{
@@ -105,9 +101,11 @@ function EventsPanel({ name, events }: { name: string; events: ApiPerformerEvent
             {/* Decorative — the whole card is the click target (same destination). */}
             <span
               aria-hidden
+              className="perf-event-ticket"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: 9,
                 padding: '13px 22px',
                 fontSize: 15,

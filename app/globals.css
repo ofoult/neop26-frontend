@@ -168,8 +168,10 @@ img {
   display: block;
 }
 
-/* Header (see Nav.tsx) — collapses to an icon-only row on narrow phones so the
-   search/currency/sign-in controls stay on-screen instead of overflowing. */
+/* Header (see Nav.tsx) — on narrow phones the category links can't stay
+   inline with the logo/currency controls without overflowing, so they drop
+   to their own full-width row and become a horizontally-swipeable strip
+   instead of disappearing. */
 .nav-inner {
   max-width: var(--maxw);
   margin: 0 auto;
@@ -195,12 +197,27 @@ img {
   flex-shrink: 0;
 }
 
+.category-pill {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 @media (max-width: 700px) {
   .nav-inner {
-    padding: 12px 16px;
+    padding: 12px 16px 0;
     gap: 10px;
+    flex-wrap: wrap;
   }
   .nav-links {
+    order: 3;
+    flex-basis: 100%;
+    margin-inline-start: 0;
+    padding: 10px 0 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar {
     display: none;
   }
 }
@@ -272,6 +289,28 @@ img {
 .performer-row:hover {
   border-color: var(--border-2);
   background: var(--surface);
+}
+
+/* Performer page event rows (see PerformerTabs.tsx) — info on the left,
+   ticket pill on the right. Below 640px there isn't room for both side by
+   side without the pill floating awkwardly next to wrapped meta text, so it
+   drops under the info and spans full width instead. */
+.perf-event-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .perf-event-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .perf-event-row .perf-event-ticket {
+    width: 100%;
+  }
 }
 
 /* Event card grids (home sections + browse results). 4 columns down to 2 on

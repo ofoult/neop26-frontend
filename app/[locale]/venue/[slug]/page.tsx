@@ -128,19 +128,15 @@ export default async function VenuePage({ params }: { params: { locale: string; 
               <Link
                 key={e.id}
                 href={href}
-                className="focus-ring performer-row"
+                className="focus-ring performer-row perf-event-row"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 20,
                   padding: '20px 22px',
                   borderRadius: 16,
                   border: '1px solid var(--border)',
                 }}
               >
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                     <span style={{ fontSize: 17, fontWeight: 600 }}>{e.name || artist}</span>
                     <span
                       style={{
@@ -178,9 +174,11 @@ export default async function VenuePage({ params }: { params: { locale: string; 
                 {/* Decorative — the whole card is the click target (same destination). */}
                 <span
                   aria-hidden
+                  className="perf-event-ticket"
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
+                    justifyContent: 'center',
                     gap: 9,
                     padding: '13px 22px',
                     fontSize: 15,
