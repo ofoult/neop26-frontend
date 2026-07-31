@@ -114,32 +114,19 @@ Note: `next dev` 404s these sitemap routes regardless of this change (a pre-exis
 
 ## SEO & Google indexing
 
-**Current status (checked 2026-07-31): the production site does not appear to be indexed by
-Google at all.** `site:neop.events` returns zero results — not the homepage, not any event page —
-and a search for the site's own homepage tagline text turns up nothing related to neop either.
-This is not an on-page SEO quality problem: the on-page implementation described below (metadata,
-sitemap, hreflang, JSON-LD) is solid and would normally be enough to get indexed. Zero presence in
-Google's index for an apparently-live production app is the one fact confirmed here; the *why* was
-not confirmed (a raw fetch of `https://neop.events` from this review's tooling also returned 403,
-but the same tool returned 403 for `vercel.com` and `example.com` too, so that specific data point
-is a tooling artifact, not proof of anything about neop.events — don't treat it as confirmed).
+**Indexing status: inconclusive from this review, not confirmed either way.** An attempt was made
+(2026-07-31) to check `site:neop.events` and fetch `https://neop.events` directly to verify
+indexing, but the tooling available in that review session proved unreliable for this: its
+WebFetch tool returned HTTP 403 for `neop.events` but *also* for `vercel.com` and `example.com` in
+the same session, proving it was broken/blocked at the tool level rather than reporting anything
+real about neop.events, and its WebSearch tool failed to surface even the bare domain name for a
+plain `neop.events` query — a tooling/ranking gap, not evidence of non-indexing. Per the site
+owner, the site **is** indexed. Don't trust either of those data points from that session; if
+indexing is ever in question again, verify directly in Google Search Console (Coverage report +
+URL Inspection on `https://neop.events/`) rather than via a sandboxed agent's web-fetch tools.
 
-**Action needed (whoever has Vercel dashboard + Google Search Console access should check):**
-1. Google Search Console → Coverage report + URL Inspection ("Test Live URL") on
-   `https://neop.events/` — this will show directly whether Googlebot is being blocked, redirected,
-   or simply hasn't crawled the site yet, and is the fastest way to get a real root cause instead
-   of guessing.
-2. If GSC shows a failed/blocked live fetch: check Vercel Project Settings → Deployment Protection
-   (must be public for Production, not password/SSO-gated) and Project Settings → Firewall / Attack
-   Challenge Mode / BotID (must not be challenging or blocking Googlebot).
-3. If GSC shows successful crawls but "discovered/crawled, not indexed": the site may simply never
-   have been submitted — submit `https://neop.events/robots.txt`'s sitemap list in GSC and request
-   indexing for a few key URLs.
-4. Note: `app/api/revalidate-sitemap/route.ts` self-fetches `${SITE_URL}/robots.txt` and every
-   sitemap chunk to warm the cache after each sync, wrapped in a `catch` that silently no-ops on
-   failure — if step 1/2 turns up a perimeter block, it's worth checking whether this self-warm is
-   also silently failing, which would mean sitemap chunks are only ever served from a stale/empty
-   build-time cache.
+The on-page SEO implementation itself (metadata, sitemap, hreflang, JSON-LD, described below) is
+solid regardless of indexing status.
 
 **Secondary, code-level SEO opportunities found in this review** (worth fixing regardless, but
 none of them explain total non-indexing on their own):
