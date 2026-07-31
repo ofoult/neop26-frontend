@@ -261,7 +261,7 @@ async function MoreLikeThis({ ev }: { ev: NeopEvent }) {
   return (
     <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
       <SecHead kicker={t('keepExploring')} title={t('moreLikeThis')} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+      <div className="more-like-this-grid">
         {more.map((e, i) => (
           <EventCard key={e.id} ev={e} i={i} />
         ))}
@@ -275,7 +275,7 @@ async function MoreLikeThisSkeleton() {
   return (
     <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
       <SecHead kicker={t('keepExploring')} title={t('moreLikeThis')} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+      <div className="more-like-this-grid">
         {[0, 1, 2].map((i) => (
           <Skeleton key={i} style={{ aspectRatio: '4/5', borderRadius: 18 }} />
         ))}

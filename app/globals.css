@@ -369,6 +369,27 @@ img {
   }
 }
 
+/* "More like this" strip on the event detail page — 3 columns on desktop,
+   collapsing so cards never get squeezed on tablets/phones. */
+.more-like-this-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 860px) {
+  .more-like-this-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .more-like-this-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 /* Section wrapper used throughout the home page and browse results —
    trims the large desktop top padding on phones. */
 .page-section {
