@@ -112,6 +112,57 @@ when `POST /api/revalidate-sitemap` calls `revalidateTag('sitemap')`, which
 Note: `next dev` 404s these sitemap routes regardless of this change (a pre-existing
 `generateSitemaps()` + dev-server limitation) — always verify with `pnpm build && pnpm start`.
 
+## SEO & Google indexing
+
+**Current status (checked 2026-07-31): the production site does not appear to be indexed by
+Google at all.** `site:neop.events` returns zero results — not the homepage, not any event page —
+and a search for the site's own homepage tagline text turns up nothing related to neop either.
+This is not an on-page SEO quality problem: the on-page implementation described below (metadata,
+sitemap, hreflang, JSON-LD) is solid and would normally be enough to get indexed. Zero presence in
+Google's index for an apparently-live production app is the one fact confirmed here; the *why* was
+not confirmed (a raw fetch of `https://neop.events` from this review's tooling also returned 403,
+but the same tool returned 403 for `vercel.com` and `example.com` too, so that specific data point
+is a tooling artifact, not proof of anything about neop.events — don't treat it as confirmed).
+
+**Action needed (whoever has Vercel dashboard + Google Search Console access should check):**
+1. Google Search Console → Coverage report + URL Inspection ("Test Live URL") on
+   `https://neop.events/` — this will show directly whether Googlebot is being blocked, redirected,
+   or simply hasn't crawled the site yet, and is the fastest way to get a real root cause instead
+   of guessing.
+2. If GSC shows a failed/blocked live fetch: check Vercel Project Settings → Deployment Protection
+   (must be public for Production, not password/SSO-gated) and Project Settings → Firewall / Attack
+   Challenge Mode / BotID (must not be challenging or blocking Googlebot).
+3. If GSC shows successful crawls but "discovered/crawled, not indexed": the site may simply never
+   have been submitted — submit `https://neop.events/robots.txt`'s sitemap list in GSC and request
+   indexing for a few key URLs.
+4. Note: `app/api/revalidate-sitemap/route.ts` self-fetches `${SITE_URL}/robots.txt` and every
+   sitemap chunk to warm the cache after each sync, wrapped in a `catch` that silently no-ops on
+   failure — if step 1/2 turns up a perimeter block, it's worth checking whether this self-warm is
+   also silently failing, which would mean sitemap chunks are only ever served from a stale/empty
+   build-time cache.
+
+**Secondary, code-level SEO opportunities found in this review** (worth fixing regardless, but
+none of them explain total non-indexing on their own):
+- `app/[locale]/browse/page.tsx` has no `generateMetadata` at all — unlike `/`, `/event/[slug]`,
+  `/performer/[slug]`, `/venue/[slug]`. It inherits the root layout's generic title/description
+  and gets **no canonical tag**, even though it's the main catalogue entry point (priority 0.9 in
+  the sitemap) and takes `?cat=`, `?q=`, `?page=` query params that can otherwise be crawled as
+  distinct, uncanonicalized URLs.
+- `components/EventCard.tsx` — used on the home page's grids, `/browse`, and the event page's
+  "more like this" strip, i.e. nearly every listing surface — links to the **performer's** page
+  (`performerHref`) instead of the event's own detail page whenever `ev.performerId` is set,
+  which is true for the large majority of events. Individual event pages (the ones carrying the
+  `Event` JSON-LD, price, date) end up reachable mainly via the sitemap and the performer page's
+  own event list, rather than directly from any listing grid — worth confirming this internal-
+  linking tradeoff is intentional.
+- `components/Img.tsx` (the shared image component for every card thumbnail and the Hero image)
+  renders a plain `<img>` with no `loading="lazy"` on below-the-fold thumbnails and no
+  `fetchpriority="high"` on the Hero's LCP image — both are inputs to Core Web Vitals, which
+  factors into Google ranking.
+- `lib/jsonld.ts`'s `eventJsonLd` sets `startDate: ev.date`, where `ev.date` (from
+  `combineDateTime` in `lib/api.ts`) is a naive local datetime with no UTC offset/timezone.
+  Google's structured-data guidance recommends including a timezone on `startDate`.
+
 ## Environment variables
 
 - `NEXT_PUBLIC_API_BASE_URL` — base URL of the neop-backend API (see `.env.local`)
