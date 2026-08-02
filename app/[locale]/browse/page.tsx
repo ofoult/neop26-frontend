@@ -1,14 +1,50 @@
+import type { Metadata } from 'next';
 import { BrowseClient } from '@/components/BrowseClient';
 import { BROWSE_PER_PAGE, fetchEvents } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
+import { hreflangAlternates, localePath } from '@/lib/hreflang';
 import type { CategoryId } from '@/lib/types';
 
 export const revalidate = 120;
 
+type BrowseSearchParams = { cat?: string; q?: string; where?: string; from?: string; to?: string; focus?: string; page?: string };
+
+// Canonical/hreflang cover only { cat, page } — the dimensions the sitemap
+// actually lists (see app/sitemap.ts's staticEntries). q/where/from/to/focus
+// are free-text search and UI state, not distinct category pages: letting
+// every search-term combination self-canonicalize would spread ranking
+// signal across near-infinite near-duplicate URLs instead of consolidating
+// it onto the handful of real category pages Google should index.
+function canonicalBrowsePath(searchParams: BrowseSearchParams): string {
+  const cat = categoryById(searchParams.cat);
+  const page = Math.max(1, Math.trunc(Number(searchParams.page)) || 1);
+  const params = new URLSearchParams();
+  if (cat) params.set('cat', cat.id);
+  if (page > 1) params.set('page', String(page));
+  const qs = params.toString();
+  return qs ? `/browse?${qs}` : '/browse';
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: { locale: string };
+  searchParams: BrowseSearchParams;
+}): Promise<Metadata> {
+  const path = canonicalBrowsePath(searchParams);
+  return {
+    alternates: {
+      canonical: localePath(path, params.locale),
+      languages: hreflangAlternates(path),
+    },
+  };
+}
+
 export default async function BrowsePage({
   searchParams,
 }: {
-  searchParams: { cat?: string; q?: string; where?: string; from?: string; to?: string; focus?: string; page?: string };
+  searchParams: BrowseSearchParams;
 }) {
   const cat = categoryById(searchParams.cat);
   const activeCat = (cat?.id ?? null) as CategoryId | null;
