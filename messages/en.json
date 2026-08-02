@@ -22,7 +22,12 @@
     "featured": "Featured",
     "getTickets": "Get tickets",
     "from": "from",
-    "watchTrailer": "Watch trailer"
+    "watchTrailer": "Watch trailer",
+    "pageTitle": "Tickets to the world's best live events"
+  },
+  "Metadata": {
+    "title": "neop — tickets to the world's best events",
+    "description": "Tickets to the world's best live events. Verified sellers, every seat guaranteed."
   },
   "Home": {
     "trendingKicker": "Selling fast",
@@ -129,7 +134,9 @@
     "aboutTab": "About",
     "source": "Source: {source}",
     "fromYoutube": "From YouTube",
-    "fansSaying": "Fans are saying"
+    "fansSaying": "Fans are saying",
+    "metaTitle": "{name} tickets — all upcoming events",
+    "metaDescription": "{count, plural, one {# upcoming event} other {# upcoming events}} for {name}. Verified tickets, every seat guaranteed."
   },
   "Common": {
     "loading": "Loading…"
@@ -220,7 +227,9 @@
     "venue": "Venue",
     "upcomingEvents": "{count, plural, one {# upcoming event} other {# upcoming events}}",
     "noUpcomingShows": "No upcoming shows at this venue yet — check back soon.",
-    "tickets": "Tickets"
+    "tickets": "Tickets",
+    "metaTitle": "{name} tickets — all upcoming events",
+    "metaDescription": "{count, plural, one {# upcoming event} other {# upcoming events}} at {name}. Verified tickets, every seat guaranteed."
   },
   "NotFound": {
     "title": "Lost the thread",
@@ -230,6 +239,7 @@
   },
   "Event": {
     "keepExploring": "Keep exploring",
-    "moreLikeThis": "More like this"
+    "moreLikeThis": "More like this",
+    "metaTitle": "{title} tickets — {venue}, {city}"
   }
 }

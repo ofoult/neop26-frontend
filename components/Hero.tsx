@@ -76,6 +76,11 @@ export function Hero({ events }: { events: NeopEvent[] }) {
         />
       </div>
       <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '0 28px 4px', width: '100%' }}>
+        {/* The visible headline below rotates with the carousel (a featured
+            event's name), so it can't double as the page's H1 — Google reads
+            H1 as "what this page is about", not "what's on screen right
+            now". This static, hidden heading carries that signal instead. */}
+        <h1 className="sr-only">{t('pageTitle')}</h1>
         {/* Event-specific content; keyed so its entrance animations replay on change. */}
         <div key={feat.id}>
           <div
@@ -96,7 +101,7 @@ export function Hero({ events }: { events: NeopEvent[] }) {
           >
             <Icon name="bolt" size={14} /> {t('featured')} · {feat.city}
           </div>
-          <h1 className="up" style={{ margin: 0, animationDelay: '40ms' }}>
+          <p className="up" style={{ margin: 0, animationDelay: '40ms' }}>
             <span
               style={{
                 display: 'block',
@@ -116,7 +121,7 @@ export function Hero({ events }: { events: NeopEvent[] }) {
             >
               {feat.title}
             </span>
-          </h1>
+          </p>
           <p
             className="up"
             style={{ fontSize: 19, color: 'rgba(255,255,255,.85)', maxWidth: 540, lineHeight: 1.55, margin: '22px 0 26px', animationDelay: '100ms' }}

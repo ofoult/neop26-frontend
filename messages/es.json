@@ -22,7 +22,12 @@
     "featured": "Destacado",
     "getTickets": "Comprar entradas",
     "from": "desde",
-    "watchTrailer": "Ver tráiler"
+    "watchTrailer": "Ver tráiler",
+    "pageTitle": "Entradas para los mejores eventos en vivo del mundo"
+  },
+  "Metadata": {
+    "title": "neop — entradas para los mejores eventos del mundo",
+    "description": "Entradas para los mejores eventos en vivo del mundo. Vendedores verificados, cada asiento garantizado."
   },
   "Home": {
     "trendingKicker": "Se agotan rápido",
@@ -129,7 +134,9 @@
     "aboutTab": "Acerca de",
     "source": "Fuente: {source}",
     "fromYoutube": "Desde YouTube",
-    "fansSaying": "Lo que dicen los fans"
+    "fansSaying": "Lo que dicen los fans",
+    "metaTitle": "Entradas de {name} — todos los eventos próximos",
+    "metaDescription": "{count, plural, one {# evento próximo} other {# eventos próximos}} de {name}. Entradas verificadas, cada asiento garantizado."
   },
   "Common": {
     "loading": "Cargando…"
@@ -220,7 +227,9 @@
     "venue": "Recinto",
     "upcomingEvents": "{count, plural, one {# evento próximo} other {# eventos próximos}}",
     "noUpcomingShows": "Todavía no hay espectáculos próximos en este recinto — vuelve pronto.",
-    "tickets": "Entradas"
+    "tickets": "Entradas",
+    "metaTitle": "Entradas de {name} — todos los eventos próximos",
+    "metaDescription": "{count, plural, one {# evento próximo} other {# eventos próximos}} en {name}. Entradas verificadas, cada asiento garantizado."
   },
   "NotFound": {
     "title": "Hilo perdido",
@@ -230,6 +239,7 @@
   },
   "Event": {
     "keepExploring": "Sigue explorando",
-    "moreLikeThis": "También te puede gustar"
+    "moreLikeThis": "También te puede gustar",
+    "metaTitle": "Entradas {title} — {venue}, {city}"
   }
 }

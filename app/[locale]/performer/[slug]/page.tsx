@@ -28,9 +28,10 @@ async function loadPerformer(slug: string): Promise<{ id: string; data: ApiPerfo
 
 export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
   const { id, data } = await loadPerformer(params.slug);
-  const name = data.performer.name || 'Artist';
-  const title = `${name} tickets — all upcoming events`;
-  const description = `${data.events.length} upcoming event${data.events.length === 1 ? '' : 's'} for ${name}. Verified tickets, every seat guaranteed.`;
+  const t = await getTranslations({ locale: params.locale, namespace: 'Performer' });
+  const name = data.performer.name || t('artist');
+  const title = t('metaTitle', { name });
+  const description = t('metaDescription', { count: data.events.length, name });
   const path = performerHref(id, name);
   const canonical = localePath(path, params.locale);
 

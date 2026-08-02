@@ -22,7 +22,12 @@
     "featured": "À la une",
     "getTickets": "Obtenir des billets",
     "from": "à partir de",
-    "watchTrailer": "Voir la bande-annonce"
+    "watchTrailer": "Voir la bande-annonce",
+    "pageTitle": "Billets pour les meilleurs évènements en direct au monde"
+  },
+  "Metadata": {
+    "title": "neop — billets pour les meilleurs évènements au monde",
+    "description": "Billets pour les meilleurs évènements en direct au monde. Vendeurs vérifiés, chaque place garantie."
   },
   "Home": {
     "trendingKicker": "Ça part vite",
@@ -129,7 +134,9 @@
     "aboutTab": "À propos",
     "source": "Source : {source}",
     "fromYoutube": "Depuis YouTube",
-    "fansSaying": "Ce que disent les fans"
+    "fansSaying": "Ce que disent les fans",
+    "metaTitle": "Billets {name} — tous les évènements à venir",
+    "metaDescription": "{count, plural, one {# évènement à venir} other {# évènements à venir}} pour {name}. Billets vérifiés, chaque place garantie."
   },
   "Common": {
     "loading": "Chargement…"
@@ -220,7 +227,9 @@
     "venue": "Salle",
     "upcomingEvents": "{count, plural, one {# évènement à venir} other {# évènements à venir}}",
     "noUpcomingShows": "Aucun spectacle à venir dans cette salle pour le moment — revenez bientôt.",
-    "tickets": "Billets"
+    "tickets": "Billets",
+    "metaTitle": "Billets {name} — tous les évènements à venir",
+    "metaDescription": "{count, plural, one {# évènement à venir} other {# évènements à venir}} à {name}. Billets vérifiés, chaque place garantie."
   },
   "NotFound": {
     "title": "Fil perdu",
@@ -230,6 +239,7 @@
   },
   "Event": {
     "keepExploring": "Continuez à explorer",
-    "moreLikeThis": "Vous aimerez aussi"
+    "moreLikeThis": "Vous aimerez aussi",
+    "metaTitle": "Billets {title} — {venue}, {city}"
   }
 }

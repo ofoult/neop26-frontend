@@ -22,7 +22,12 @@
     "featured": "מומלץ",
     "getTickets": "רכישת כרטיסים",
     "from": "החל מ-",
-    "watchTrailer": "צפייה בטריילר"
+    "watchTrailer": "צפייה בטריילר",
+    "pageTitle": "כרטיסים לאירועים החיים הטובים בעולם"
+  },
+  "Metadata": {
+    "title": "neop — כרטיסים לאירועים הטובים בעולם",
+    "description": "כרטיסים לאירועים החיים הטובים בעולם. מוכרים מאומתים, כל מושב מובטח."
   },
   "Home": {
     "trendingKicker": "אוזל מהר",
@@ -129,7 +134,9 @@
     "aboutTab": "אודות",
     "source": "מקור: {source}",
     "fromYoutube": "מיוטיוב",
-    "fansSaying": "מה שהמעריצים אומרים"
+    "fansSaying": "מה שהמעריצים אומרים",
+    "metaTitle": "כרטיסים ל-{name} — כל האירועים הקרובים",
+    "metaDescription": "{count, plural, one {אירוע קרוב אחד} other {# אירועים קרובים}} עבור {name}. כרטיסים מאומתים, כל מושב מובטח."
   },
   "Common": {
     "loading": "טוען…"
@@ -220,7 +227,9 @@
     "venue": "אולם",
     "upcomingEvents": "{count, plural, one {אירוע קרוב אחד} other {# אירועים קרובים}}",
     "noUpcomingShows": "אין עדיין הופעות קרובות באולם זה — בדקו שוב בקרוב.",
-    "tickets": "כרטיסים"
+    "tickets": "כרטיסים",
+    "metaTitle": "כרטיסים ל-{name} — כל האירועים הקרובים",
+    "metaDescription": "{count, plural, one {אירוע קרוב אחד} other {# אירועים קרובים}} ב-{name}. כרטיסים מאומתים, כל מושב מובטח."
   },
   "NotFound": {
     "title": "איבדנו את החוט",
@@ -230,6 +239,7 @@
   },
   "Event": {
     "keepExploring": "המשיכו לגלות",
-    "moreLikeThis": "אולי יעניין אתכם גם"
+    "moreLikeThis": "אולי יעניין אתכם גם",
+    "metaTitle": "כרטיסים ל-{title} — {venue}, {city}"
   }
 }

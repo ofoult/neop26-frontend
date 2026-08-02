@@ -46,11 +46,15 @@ async function loadEvent(slug: string): Promise<NeopEvent> {
 
 export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
   const ev = await loadEvent(params.slug);
-  const title = `${ev.title} tickets — ${ev.venue}, ${ev.city}`;
+  const t = await getTranslations({ locale: params.locale, namespace: 'Event' });
+  const title = t('metaTitle', { title: ev.title, venue: ev.venue, city: ev.city });
   // ev.blurb already names the venue/city, so just append the date rather
   // than repeating "at venue, city" — keeps this under Google's ~155-160
   // char truncation point instead of padding it with duplicate info.
-  const description = `${ev.blurb} ${fmtDateLong(ev.date)}.`.slice(0, 160);
+  // Note: ev.blurb itself comes from the Gigsberg feed and is English-only
+  // regardless of locale — translating vendor content is out of scope here,
+  // only the date suffix is locale-aware.
+  const description = `${ev.blurb} ${fmtDateLong(ev.date, params.locale)}.`.slice(0, 160);
   const path = eventHref(ev);
   const canonical = localePath(path, params.locale);
 

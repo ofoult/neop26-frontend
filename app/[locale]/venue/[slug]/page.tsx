@@ -30,9 +30,10 @@ async function loadVenue(slug: string): Promise<{ id: string; data: ApiVenueResp
 
 export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
   const { id, data } = await loadVenue(params.slug);
-  const name = data.venue.name || 'Venue';
-  const title = `${name} tickets — all upcoming events`;
-  const description = `${data.events.length} upcoming event${data.events.length === 1 ? '' : 's'} at ${name}. Verified tickets, every seat guaranteed.`;
+  const t = await getTranslations({ locale: params.locale, namespace: 'Venue' });
+  const name = data.venue.name || t('venue');
+  const title = t('metaTitle', { name });
+  const description = t('metaDescription', { count: data.events.length, name });
   const path = venueHref(id, name);
   const canonical = localePath(path, params.locale);
 
