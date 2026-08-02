@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { Instrument_Serif, Schibsted_Grotesk } from 'next/font/google';
+import Script from 'next/script';
 import '../globals.css';
 import { Chrome } from '@/components/Chrome';
 import { SITE_URL } from '@/lib/site';
@@ -89,6 +90,18 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir} className={`${sans.variable} ${serif.variable}`}>
+      <head>
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-2QQYVYSB98" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-2QQYVYSB98');
+          `}
+        </Script>
+      </head>
       <body>
         <div id="root" style={{ minHeight: '100vh' }}>
           <NextIntlClientProvider messages={messages}>
