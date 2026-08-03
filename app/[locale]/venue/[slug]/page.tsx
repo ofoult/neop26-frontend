@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { CountryFlag } from '@/components/Flag';
 import { Icon } from '@/components/Icon';
@@ -29,6 +29,7 @@ async function loadVenue(slug: string): Promise<{ id: string; data: ApiVenueResp
 }
 
 export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
+  setRequestLocale(params.locale);
   const { id, data } = await loadVenue(params.slug);
   const t = await getTranslations({ locale: params.locale, namespace: 'Venue' });
   const name = data.venue.name || t('venue');
@@ -61,6 +62,7 @@ function pastilleStyle(bucket: RelativeDayBucket | { year: number }): { backgrou
 }
 
 export default async function VenuePage({ params }: { params: { locale: string; slug: string } }) {
+  setRequestLocale(params.locale);
   const { data } = await loadVenue(params.slug);
   const { venue, events } = data;
   const t = await getTranslations({ locale: params.locale, namespace: 'Venue' });

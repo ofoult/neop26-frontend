@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Link } from '@/i18n/navigation';
 import { notFound, permanentRedirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 import { CountryFlag } from '@/components/Flag';
 import { EventCard } from '@/components/EventCard';
@@ -45,6 +45,7 @@ async function loadEvent(slug: string): Promise<NeopEvent> {
 }
 
 export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
+  setRequestLocale(params.locale);
   const ev = await loadEvent(params.slug);
   const t = await getTranslations({ locale: params.locale, namespace: 'Event' });
   const title = t('metaTitle', { title: ev.title, venue: ev.venue, city: ev.city });
@@ -83,6 +84,7 @@ export async function generateMetadata({ params }: { params: { locale: string; s
 }
 
 export default async function EventPage({ params }: { params: { locale: string; slug: string } }) {
+  setRequestLocale(params.locale);
   // Only the core event record gates the first paint — everything else
   // (ticket categories, the seating-plan SVG, "more like this") streams in
   // afterward via its own Suspense boundary, so a slow Gigsberg listing/SVG

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { setRequestLocale } from 'next-intl/server';
 import { BrowseClient } from '@/components/BrowseClient';
 import { BROWSE_PER_PAGE, fetchEvents } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
@@ -42,10 +43,13 @@ export async function generateMetadata({
 }
 
 export default async function BrowsePage({
+  params,
   searchParams,
 }: {
+  params: { locale: string };
   searchParams: BrowseSearchParams;
 }) {
+  setRequestLocale(params.locale);
   const cat = categoryById(searchParams.cat);
   const activeCat = (cat?.id ?? null) as CategoryId | null;
   const query = searchParams.q?.trim() || undefined;

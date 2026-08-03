@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { EventCard } from '@/components/EventCard';
 import { Hero } from '@/components/Hero';
 import { Icon, type IconName } from '@/components/Icon';
@@ -22,7 +22,13 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 }
 
-export default async function HomePage() {
+export default async function HomePage({ params }: { params: { locale: string } }) {
+  // Calling getTranslations() without an explicit locale falls back to
+  // reading it from `headers()`, which opts the whole route into dynamic
+  // (uncached) rendering — setRequestLocale must be called in every page,
+  // not just the root layout, since Next.js can render layouts and pages
+  // independently. See https://next-intl.dev/docs/routing/setup#static-rendering.
+  setRequestLocale(params.locale);
   const t = await getTranslations('Home');
 
   const GUARANTEES: [IconName, string, string][] = [

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { Img } from '@/components/Img';
 import { PerformerTabs } from '@/components/PerformerTabs';
@@ -27,6 +27,7 @@ async function loadPerformer(slug: string): Promise<{ id: string; data: ApiPerfo
 }
 
 export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
+  setRequestLocale(params.locale);
   const { id, data } = await loadPerformer(params.slug);
   const t = await getTranslations({ locale: params.locale, namespace: 'Performer' });
   const name = data.performer.name || t('artist');
@@ -59,6 +60,7 @@ export async function generateMetadata({ params }: { params: { locale: string; s
 }
 
 export default async function PerformerPage({ params }: { params: { locale: string; slug: string } }) {
+  setRequestLocale(params.locale);
   const { data } = await loadPerformer(params.slug);
   const { performer, events } = data;
   const tPerf = await getTranslations({ locale: params.locale, namespace: 'Performer' });
