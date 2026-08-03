@@ -106,7 +106,7 @@ export default async function EventPage({ params }: { params: { locale: string; 
       {/* hero */}
       <div style={{ position: 'relative', marginTop: '-88px' }}>
         <div style={{ position: 'absolute', inset: 0, height: 'clamp(340px,46vh,460px)' }}>
-          <Img src={ev.image} alt={ev.title} style={{ width: '100%', height: '100%' }} />
+          <Img src={ev.image} alt={ev.title} priority style={{ width: '100%', height: '100%' }} />
           <div
             style={{
               position: 'absolute',

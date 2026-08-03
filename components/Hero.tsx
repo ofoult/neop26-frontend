@@ -59,7 +59,7 @@ export function Hero({ events }: { events: NeopEvent[] }) {
     >
       {/* Background swaps with the active event. Keyed for a soft fade-in. */}
       <div key={feat.id} className="hero-fade" style={{ position: 'absolute', inset: 0, zIndex: -1 }}>
-        <Img src={feat.image} alt={feat.title} style={{ width: '100%', height: '100%' }} />
+        <Img src={feat.image} alt={feat.title} priority style={{ width: '100%', height: '100%' }} />
         <div
           style={{
             position: 'absolute',

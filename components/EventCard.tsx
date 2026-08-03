@@ -49,7 +49,13 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
           borderColor: h ? 'var(--border-2)' : 'var(--border)',
         }}
       >
-        <Img src={ev.image} alt={ev.title} zoom={h} style={{ aspectRatio: wide ? '16/10' : '4/5' }} />
+        <Img
+          src={ev.image}
+          alt={ev.title}
+          zoom={h}
+          sizes="(max-width: 560px) 100vw, (max-width: 1100px) 50vw, 25vw"
+          style={{ aspectRatio: wide ? '16/10' : '4/5' }}
+        />
         <div
           style={{
             position: 'absolute',
