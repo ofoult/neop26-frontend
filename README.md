@@ -42,3 +42,4 @@ Icons inline SVG in Icon component. Logo CSS wordmark.
 ## Files
 neop.html shell. neop/data.js catalog. neop/components.jsx shared. neop/screens.jsx Home Browse. neop/flow.jsx EventDetail Checkout Confirm. neop/app.jsx root. tweaks-panel.jsx omit in production.
 
+
