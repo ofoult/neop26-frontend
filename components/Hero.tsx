@@ -57,8 +57,14 @@ export function Hero({ events }: { events: NeopEvent[] }) {
         paddingTop: 88,
       }}
     >
-      {/* Background swaps with the active event. Keyed for a soft fade-in. */}
-      <div key={feat.id} className="hero-fade" style={{ position: 'absolute', inset: 0, zIndex: -1 }}>
+      {/* Background swaps with the active event. Keyed for a soft fade-in.
+          z-index must not be negative: with the hero image now rendered by
+          next/image (an absolutely-positioned <img>), a negative z-index
+          here paints this whole layer behind the page's own opaque
+          background instead of just behind the in-flow text content above
+          it — text still stacks correctly on top at z-index 0 because it
+          comes later in DOM order within the same stacking level. */}
+      <div key={feat.id} className="hero-fade" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <Img src={feat.image} alt={feat.title} priority style={{ width: '100%', height: '100%' }} />
         <div
           style={{
