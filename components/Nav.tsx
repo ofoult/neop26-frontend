@@ -44,10 +44,16 @@ export function Nav() {
       <div className="nav-inner">
         <Logo href="/" />
         <nav className="nav-links">
+          {/* prefetch={false}: this bar is sticky and always in the initial
+              viewport, so all 5 links would otherwise fire RSC prefetch
+              requests immediately on every page load, competing for
+              bandwidth with the LCP image/JS on throttled mobile
+              connections for a navigation a visitor rarely takes right away. */}
           {CATEGORIES.map((cat) => (
             <Link
               key={cat.id}
               href={`/browse?cat=${cat.id}`}
+              prefetch={false}
               className="focus-ring category-pill"
               style={{
                 "--cat-color": cat.color,

@@ -34,6 +34,11 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
   return (
     <Link
       href={href}
+      // Grids of these cards (trending/browse) sit near the top of the
+      // viewport, so default prefetch fires a burst of concurrent RSC
+      // requests for every visible card on load — real bandwidth on a
+      // throttled mobile connection that the hero image/JS need more.
+      prefetch={false}
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
       className="focus-ring up"
