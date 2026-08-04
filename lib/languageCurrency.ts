@@ -2,8 +2,9 @@
 
 // `code` is the ISO 639-1 language/locale code (matches i18n/routing.ts's
 // `locales`), while `flag` is the ISO 3166 country code passed straight
-// through to react-world-flags — the two are intentionally different vocabularies
-// (Hebrew's language code "he" has no matching flag; it displays Israel's "IL" flag).
+// through to flagcdn.com (components/Flag.tsx) — the two are intentionally
+// different vocabularies (Hebrew's language code "he" has no matching flag;
+// it displays Israel's "IL" flag).
 export const LANGUAGES = [
   {
     code: "en",

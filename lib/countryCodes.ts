@@ -1,5 +1,5 @@
 // Maps the Gigsberg feed's plain-English country names to ISO 3166-1 alpha-2
-// codes, for react-world-flags (components/Flag.tsx). Built from the distinct
+// codes, for flagcdn.com (components/Flag.tsx). Built from the distinct
 // `country` values actually present in gigsberg_events — not an exhaustive
 // world list.
 const COUNTRY_CODES: Record<string, string> = {
