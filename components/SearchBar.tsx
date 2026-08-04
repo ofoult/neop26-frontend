@@ -129,6 +129,7 @@ export function SearchBar({
         minLength={2}
         onPick={navigateToSuggestion}
         keyOf={(s) => `${s.type}:${s.id}`}
+        sectionOf={(s) => s.type}
         emptyLabel={(term) => t('noResultsFor', { term })}
         renderItem={(s) => (
           <>
@@ -215,6 +216,7 @@ function SearchField<T>({
   onPick,
   renderItem,
   keyOf,
+  sectionOf,
   minLength = 1,
   emptyLabel,
   inputRef,
@@ -234,6 +236,10 @@ function SearchField<T>({
   onPick?: (item: T) => void;
   renderItem?: (item: T, active: boolean) => ReactNode;
   keyOf?: (item: T) => string;
+  /** When set, a divider is drawn wherever this key changes between consecutive
+   * items — the backend already returns items pre-grouped, so this only needs
+   * to detect the boundaries, not re-sort. */
+  sectionOf?: (item: T) => string;
   /** Minimum trimmed length before firing a suggestion fetch. */
   minLength?: number;
   /** When set, the dropdown stays open on empty results with this message instead of just closing. */
@@ -375,33 +381,37 @@ function SearchField<T>({
               {loading ? t('searching') : emptyLabel?.(value.trim())}
             </li>
           ) : (
-            items.map((item, i) => (
-              <li key={keyOf?.(item) ?? i}>
-                <button
-                  type="button"
-                  // onMouseDown fires before input blur, so the pick registers.
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    pick(item);
-                  }}
-                  onMouseEnter={() => setActive(i)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    width: '100%',
-                    padding: '10px 12px',
-                    borderRadius: 10,
-                    textAlign: 'start',
-                    background: i === active ? 'var(--surface-2)' : 'transparent',
-                    color: 'var(--text)',
-                    transition: 'background .12s',
-                  }}
-                >
-                  {renderItem?.(item, i === active)}
-                </button>
-              </li>
-            ))
+            items.map((item, i) => {
+              const showDivider = i > 0 && sectionOf && sectionOf(item) !== sectionOf(items[i - 1]);
+              return (
+                <li key={keyOf?.(item) ?? i}>
+                  {showDivider && <div aria-hidden style={{ height: 1, background: 'var(--border)', margin: '6px 4px' }} />}
+                  <button
+                    type="button"
+                    // onMouseDown fires before input blur, so the pick registers.
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      pick(item);
+                    }}
+                    onMouseEnter={() => setActive(i)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                      width: '100%',
+                      padding: '10px 12px',
+                      borderRadius: 10,
+                      textAlign: 'start',
+                      background: i === active ? 'var(--surface-2)' : 'transparent',
+                      color: 'var(--text)',
+                      transition: 'background .12s',
+                    }}
+                  >
+                    {renderItem?.(item, i === active)}
+                  </button>
+                </li>
+              );
+            })
           )}
         </ul>
       )}
