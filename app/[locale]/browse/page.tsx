@@ -15,7 +15,7 @@ type BrowseSearchParams = { cat?: string; q?: string; where?: string; from?: str
 // search-term combination self-canonicalize would spread ranking signal
 // across near-infinite near-duplicate URLs instead of consolidating it onto
 // the real category/subcategory pages under /browse/{slug} that Google
-// should index (see app/sitemap.ts and browse/[slug]/page.tsx).
+// should index (see app/api/sitemap/static/route.ts and browse/[slug]/page.tsx).
 function canonicalBrowsePath(searchParams: BrowseSearchParams): string {
   const page = Math.max(1, Math.trunc(Number(searchParams.page)) || 1);
   const params = new URLSearchParams();

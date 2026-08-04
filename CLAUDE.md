@@ -116,15 +116,56 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
 
 ## Sitemap
 
-`app/sitemap.ts` and `app/robots.ts` are static: every backend fetch inside them uses
-`next: { revalidate: false, tags: ['sitemap'] }`, so they're built once and served from the cache
-with no runtime call to the backend — neither a visitor nor Googlebot can ever be affected by the
-backend being slow/asleep (confirmed static/SSG in `next build` output). They only regenerate
+A real multi-file sitemap, hand-rolled as plain Route Handlers rather than Next's built-in
+`MetadataRoute.Sitemap` convention — that convention only emits a flat `<urlset>` at a fixed
+`/sitemap/[id].xml` path, with no way to produce a genuine `<sitemapindex>` or a custom filename,
+both of which this design needs.
+
+- **`/sitemap.xml`** (`app/api/sitemap/index/route.ts`) — a real `<sitemapindex>` listing
+  `sitemap-static.xml` plus every per-type/per-language/per-chunk file below.
+- **`/sitemap-static.xml`** (`app/api/sitemap/static/route.ts`) — the fixed/bounded set of pages
+  (home, `/browse`, category and subcategory pages) across all 14 locales, combined into one file
+  since there are only a few dozen such paths total.
+- **`/sitemap-{performer|event|venue}-{lang}-{n}.xml`**
+  (`app/api/sitemap/[type]/[lang]/[chunk]/route.ts`) — one chunk of one resource type in one
+  language, e.g. `sitemap-performer-fr-3.xml`. English is `-en-` like every other locale (no
+  special-cased unprefixed form), even though its actual page URLs stay unprefixed per
+  `localePrefix: 'as-needed'`.
+
+Custom filenames at the site root can't just be a dynamic route segment — `app/[locale]/...`
+already owns that position, and Next.js rejects two differently-named dynamic segments at the same
+level. `middleware.ts` resolves this by rewriting the pretty sitemap URLs to the routes above
+(`NextResponse.rewrite`, so crawlers only ever see the pretty URL) before next-intl's own
+middleware ever runs; its `config.matcher` explicitly opts these paths back in, since they'd
+otherwise be excluded by the same "skip anything with a dot" rule that keeps middleware off static
+assets. `lib/sitemap.ts` is the single source of truth for the filename scheme
+(`sitemapFilename`/`parseSitemapFilename`) and chunk sizing — shared by the middleware parser, the
+index route, the per-chunk route's own `generateStaticParams`, and
+`app/api/revalidate-sitemap/route.ts`'s warm-up list, so none of them can drift out of sync with
+each other.
+
+Each `<url>` entry is just a `<loc>` (+ `<lastmod>` for events) — **no hreflang alternates**, unlike
+an earlier version of this design. Every page already sets its own hreflang tags independently in
+its own `<head>` (`lib/hreflang.ts`'s `hreflangAlternates`, used from every locale page's
+`generateMetadata`), and Google treats sitemap-hreflang and HTML-head-hreflang as equivalent,
+redundant signals, so dropping them from the sitemap loses no real SEO value. It does matter for
+size: with alternates, one `<url>` entry carried a link for all 14 languages, so file size scaled
+with the locale count — growing from 5 to 14 locales once pushed a chunk from ~7MB to ~24MB,
+over Vercel's 19.07MB prerendered-response cap (`FALLBACK_BODY_TOO_LARGE`). Without them, entries
+are tiny regardless of locale count, which is also why `lib/sitemap.ts`'s `CHUNK_SIZE` could grow
+back up to 45,000 (just under the sitemap protocol's own 50,000 URL/file cap) instead of needing
+another hand-tuned shrink every time a locale is added.
+
+Every backend fetch in these routes uses `next: { revalidate: false, tags: ['sitemap'] }`, so
+they're built once and served from the cache with no runtime call to the backend — neither a
+visitor nor Googlebot can ever be affected by the backend being slow/asleep. They only regenerate
 when `POST /api/revalidate-sitemap` calls `revalidateTag('sitemap')`, which
 `backend/src/sync/run.ts` does automatically after each successful daily sync (see backend
 `CLAUDE.md`). To force a refresh manually: `curl -X POST https://neop.events/api/revalidate-sitemap -H "x-revalidate-secret: $REVALIDATE_SECRET"`.
-Note: `next dev` 404s these sitemap routes regardless of this change (a pre-existing
-`generateSitemaps()` + dev-server limitation) — always verify with `pnpm build && pnpm start`.
+Unlike the old `generateSitemaps()`-based design (which 404d under `next dev` regardless of any
+code change, a framework limitation), these are plain Route Handlers and work fine under
+`next dev` too — confirmed by actually curling `/sitemap.xml` and a `/sitemap-performer-{lang}-1.xml`
+chunk against a dev server, not just `pnpm build && pnpm start`.
 
 ## Environment variables
 
