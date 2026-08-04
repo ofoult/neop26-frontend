@@ -1,0 +1,248 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Nyelv és pénznem",
+    "loadingSubcategories": "Betöltés…"
+  },
+  "Footer": {
+    "tagline": "Jegyek a világ legjobb élő eseményeire. Ellenőrzött eladók, minden hely garantált.",
+    "learnMore": "Tudj meg többet",
+    "aboutUs": "Rólunk",
+    "sitemap": "Oldaltérkép",
+    "partners": "Partnerek",
+    "support": "Ügyfélszolgálat",
+    "help": "Segítség",
+    "faq": "GYIK",
+    "contactUs": "Kapcsolat",
+    "guarantee": "100%-os garancia",
+    "rights": "© {year} neop. Minden jog fenntartva.",
+    "privacy": "Adatvédelem",
+    "terms": "Feltételek",
+    "cookies": "Sütik"
+  },
+  "Hero": {
+    "featured": "Kiemelt",
+    "getTickets": "Jegyvásárlás",
+    "from": "Már",
+    "watchTrailer": "Előzetes megtekintése",
+    "pageTitle": "Jegyek a világ legjobb élő eseményeire"
+  },
+  "Metadata": {
+    "title": "neop — jegyek a világ legjobb eseményeire",
+    "description": "Jegyek a világ legjobb élő eseményeire. Ellenőrzött eladók, minden hely garantált."
+  },
+  "Home": {
+    "trendingKicker": "Gyorsan fogynak",
+    "trendingTitle": "Most felkapott",
+    "seeAll": "Az összes megtekintése",
+    "weekendKicker": "Ne hagyd ki",
+    "weekendTitle": "Ezen a hétvégén",
+    "browseDates": "Dátumok böngészése",
+    "festivalsKicker": "Az évad legjobbjai",
+    "festivalsTitle": "Fesztiválok, amikért megéri utazni",
+    "allFestivals": "Az összes fesztivál",
+    "guaranteeTitle": "Minden hely garantált",
+    "guaranteeBody": "Ha az eseményedet lemondják, vagy a jegyek nem érkeznek meg, biztosítva vagy — teljes visszatérítés, kérdés nélkül.",
+    "countriesTitle": "90+ ország",
+    "countriesBody": "Tokiótól Rióig böngéssz és foglalj ellenőrzött jegyeket eseményekre minden kontinensen.",
+    "instantTitle": "Azonnali mobilbelépés",
+    "instantBody": "A jegyek másodpercekkel a fizetés után megjelennek a pénztárcádban. Szkenneld be, és lépj be egyenesen.",
+    "noEventsTitle": "Nincs megjeleníthető esemény",
+    "noEventsBody": "A neop háttérrendszer nem adott vissza eseményeket. Ellenőrizd, hogy fut-e a <code>{url}</code> címen, és hogy az adatok szinkronizálva vannak-e."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Nyelvi és pénznembeli beállítások",
+    "languageAndRegion": "Nyelv és régió",
+    "currency": "Pénznem"
+  },
+  "Categories": {
+    "music": "Zene",
+    "festivals": "Fesztiválok",
+    "sports": "Sport",
+    "arts": "Színház és művészet",
+    "comedy": "Comedy"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, one {# esemény ehhez az előadóhoz} other {# esemény ehhez az előadóhoz}}",
+    "trending": "Felkapott",
+    "viewTickets": "Jegyek megtekintése",
+    "fromPrice": "Már {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Gyorsan fogynak:"
+  },
+  "Browse": {
+    "home": "Kezdőlap",
+    "searchBreadcrumb": "Keresés",
+    "resultsFor": "Találatok erre:",
+    "discoverEvents": "Fedezz fel eseményeket",
+    "worldwide": "világszerte",
+    "allCategory": "Mind",
+    "subcategorySelectLabel": "Böngéssz a {category} alkategóriái között",
+    "sort": "Rendezés",
+    "sortTrending": "Felkapott",
+    "sortPrice": "Ár",
+    "sortDate": "Dátum",
+    "artistsCount": "{count, plural, one {# előadó} other {# előadó}}",
+    "showingCount": "{count} megjelenítve",
+    "noEventsMatch": "Nincs a „{term}” kifejezésnek megfelelő esemény.",
+    "noEventsInCategory": "Nem található esemény ebben a kategóriában.",
+    "pagination": "Lapozás",
+    "prev": "Előző",
+    "next": "Következő",
+    "pageOf": "{page}. oldal, összesen {total}",
+    "loadingMore": "További események betöltése…",
+    "retryFailed": "Nem sikerült betölteni — próbáld újra",
+    "reachedEnd": "Elérted a végét.",
+    "inWhere": "itt: {where}"
+  },
+  "DateLabels": {
+    "today": "Ma",
+    "tomorrow": "Holnap",
+    "thisWeek": "Ezen a héten",
+    "nextWeek": "Jövő héten",
+    "thisMonth": "Ebben a hónapban",
+    "nextMonth": "Jövő hónapban",
+    "thisYear": "Ebben az évben",
+    "nextYear": "Jövőre"
+  },
+  "SearchBar": {
+    "what": "Mit",
+    "where": "Hol",
+    "when": "Mikor",
+    "searchPlaceholder": "Keress eseményeket, előadókat, helyszíneket…",
+    "wherePlaceholder": "Bárhol",
+    "noResultsFor": "Nincs eredmény erre: „{term}” — nyomd meg az Enter billentyűt a kereséshez",
+    "searching": "Keresés…",
+    "typeEvent": "Esemény",
+    "typeArtist": "Előadó",
+    "typeVenue": "Helyszín",
+    "typeCountry": "Ország",
+    "typeCity": "Város",
+    "search": "Keresés",
+    "anyDates": "Bármikor",
+    "fromDate": "Ettől: {date}",
+    "untilDate": "Eddig: {date}",
+    "start": "Kezdés",
+    "end": "Befejezés",
+    "clear": "Törlés",
+    "done": "Kész"
+  },
+  "Performer": {
+    "home": "Kezdőlap",
+    "artist": "Előadó",
+    "upcomingEvents": "{count, plural, one {# közelgő esemény} other {# közelgő esemény}}",
+    "noUpcomingEvents": "Még nincs közelgő esemény {name} számára — nézz vissza hamarosan.",
+    "tickets": "Jegyek",
+    "eventsTab": "Események",
+    "aboutTab": "Névjegy",
+    "source": "Forrás: {source}",
+    "fromYoutube": "YouTube-ról",
+    "fansSaying": "Amit a fanok mondanak",
+    "metaTitle": "{name} jegyek — minden közelgő esemény",
+    "metaDescription": "{count, plural, one {# közelgő esemény} other {# közelgő esemény}} {name} részéről. Ellenőrzött jegyek, minden hely garantált."
+  },
+  "Common": {
+    "loading": "Betöltés…"
+  },
+  "Checkout": {
+    "loadingOrder": "A rendelésed betöltése…",
+    "lostOrderTitle": "Elveszítettük a rendelésedet",
+    "lostOrderBody": "A fizetési linkből hiányoznak az adatok, vagy az eseménynek már nincs ára.",
+    "browseEvents": "Böngéssz eseményeket",
+    "backToEvent": "Vissza az eseményhez",
+    "title": "Pénztár",
+    "heldNotice": "Már majdnem ott vagy. A jegyek 10:00-ig vannak lefoglalva.",
+    "step1": "Adataid",
+    "fullName": "Teljes név",
+    "email": "E-mail",
+    "phone": "Telefon",
+    "step2": "Fizetés",
+    "methodCard": "Kártya",
+    "cardNumber": "Kártyaszám",
+    "expiry": "Lejárat",
+    "cvc": "CVC",
+    "securePayment": "A fizetések titkosítottak és biztonságosak. Ez egy demó — nem történik terhelés kártyáról.",
+    "serviceFees": "Szolgáltatási díj",
+    "deliveryMobile": "Kiszállítás · mobil",
+    "free": "Ingyenes",
+    "total": "Összesen",
+    "pay": "Fizetés: {amount}"
+  },
+  "Confirmation": {
+    "finalising": "Jegyeid véglegesítése…",
+    "orderNotFound": "A rendelés nem található",
+    "findEvents": "Események keresése",
+    "goingTitle": "Mész!",
+    "confirmationSent": "A visszaigazolás elküldve. A jegyeid a pénztárcádban vannak, szkennelésre készen.",
+    "date": "Dátum",
+    "time": "Időpont",
+    "venue": "Helyszín",
+    "city": "Város",
+    "ticket": "Jegy",
+    "quantity": "Mennyiség",
+    "ticketsCount": "{count, plural, one {# jegy} other {# jegy}}",
+    "order": "Rendelés",
+    "backHome": "Vissza a kezdőlapra",
+    "findMoreEvents": "További események keresése"
+  },
+  "TicketTiers": {
+    "ga": "Általános beléptetés",
+    "prem": "Prémium",
+    "vip": "VIP élmény"
+  },
+  "TicketPicker": {
+    "selectTickets": "Válassz jegyeket",
+    "notAvailable": "Ehhez az eseményhez jelenleg nem elérhetők jegyek. Nézz vissza később.",
+    "noSeatPricing": "Ehhez az eseményhez nem érhető el helyenkénti árazás — folytasd partnerünk oldalán, hogy megnézd a lehetőségeket és fizess.",
+    "getTickets": "Jegyvásárlás",
+    "protectedGuarantee": "A neop 100%-os garanciája védi",
+    "limited": "Korlátozott",
+    "onlyLeft": "Már csak {count} maradt",
+    "available": "{count} elérhető",
+    "fullSetOnly": "Csak teljes szett",
+    "soldInPairs": "Páronként kerül értékesítésre",
+    "cantLeaveOne": "Nem hagyható egyetlen szabad hely",
+    "noMatchFilters": "Nincs a kiválasztott szűrőknek megfelelő jegy.",
+    "maxPerOrder": "max {count} / rendelés",
+    "ticketsSelected": "{count, plural, one {# jegy kiválasztva} other {# jegy kiválasztva}}",
+    "edit": "Szerkesztés",
+    "buy": "Vásárlás",
+    "removeSeatFrom": "Hely eltávolítása innen: {name}",
+    "addSeatTo": "Hely hozzáadása ide: {name}",
+    "perTicket": "/ jegy",
+    "getNTickets": "{count, plural, one {# jegy megvásárlása} other {# jegy megvásárlása}}",
+    "listingsCount": "{count, plural, one {# hirdetés} other {# hirdetés}}"
+  },
+  "TicketFilters": {
+    "quantity": "Mennyiség",
+    "category": "Kategória",
+    "ticketType": "Jegytípus",
+    "clearAll": "Összes törlése",
+    "ticketsCount": "{count, plural, one {# jegy} other {# jegy}}"
+  },
+  "SeatingPlan": {
+    "heading": "Ülésrend",
+    "block": "{block} blokk",
+    "from": "Már"
+  },
+  "Venue": {
+    "home": "Kezdőlap",
+    "venue": "Helyszín",
+    "upcomingEvents": "{count, plural, one {# közelgő esemény} other {# közelgő esemény}}",
+    "noUpcomingShows": "Még nincs közelgő program ezen a helyszínen — nézz vissza hamarosan.",
+    "tickets": "Jegyek",
+    "metaTitle": "{name} jegyek — minden közelgő esemény",
+    "metaDescription": "{count, plural, one {# közelgő esemény} other {# közelgő esemény}} itt: {name}. Ellenőrzött jegyek, minden hely garantált."
+  },
+  "NotFound": {
+    "title": "Elveszett a fonal",
+    "body": "Nem találtuk ezt az oldalt vagy eseményt. Lehet, hogy elkelt, vagy áthelyezték.",
+    "backHome": "Vissza a kezdőlapra",
+    "browseEvents": "Böngéssz eseményeket"
+  },
+  "Event": {
+    "keepExploring": "Fedezz fel továbbiakat",
+    "moreLikeThis": "Hasonlók",
+    "metaTitle": "{title} jegyek — {venue}, {city}"
+  }
+}

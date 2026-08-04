@@ -36,6 +36,60 @@ export const LANGUAGES = [
     region: "ישראל",
     flag: "IL",
   },
+  {
+    code: "it",
+    language: "Italiano",
+    region: "Italia",
+    flag: "IT",
+  },
+  {
+    code: "nl",
+    language: "Nederlands",
+    region: "Nederland",
+    flag: "NL",
+  },
+  {
+    code: "sv",
+    language: "Svenska",
+    region: "Sverige",
+    flag: "SE",
+  },
+  {
+    code: "ru",
+    language: "Русский",
+    region: "Россия",
+    flag: "RU",
+  },
+  {
+    code: "ar",
+    language: "العربية",
+    region: "السعودية",
+    flag: "SA",
+  },
+  {
+    code: "hu",
+    language: "Magyar",
+    region: "Magyarország",
+    flag: "HU",
+  },
+  {
+    code: "pl",
+    language: "Polski",
+    region: "Polska",
+    flag: "PL",
+  },
+  {
+    code: "hr",
+    language: "Hrvatski",
+    region: "Hrvatska",
+    flag: "HR",
+  },
+  {
+    code: "pt",
+    language: "Português",
+    region: "Portugal",
+    flag: "PT",
+  },
 ];
 
 export const CURRENCIES = [

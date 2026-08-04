@@ -1,0 +1,248 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Język i waluta",
+    "loadingSubcategories": "Wczytywanie…"
+  },
+  "Footer": {
+    "tagline": "Bilety na najlepsze wydarzenia na żywo na świecie. Zweryfikowani sprzedawcy, każde miejsce zagwarantowane.",
+    "learnMore": "Dowiedz się więcej",
+    "aboutUs": "O nas",
+    "sitemap": "Mapa witryny",
+    "partners": "Partnerzy",
+    "support": "Wsparcie",
+    "help": "Pomoc",
+    "faq": "FAQ",
+    "contactUs": "Kontakt",
+    "guarantee": "Gwarancja 100%",
+    "rights": "© {year} neop. Wszelkie prawa zastrzeżone.",
+    "privacy": "Prywatność",
+    "terms": "Warunki",
+    "cookies": "Cookies"
+  },
+  "Hero": {
+    "featured": "Wyróżnione",
+    "getTickets": "Kup bilety",
+    "from": "od",
+    "watchTrailer": "Zobacz zwiastun",
+    "pageTitle": "Bilety na najlepsze wydarzenia na żywo na świecie"
+  },
+  "Metadata": {
+    "title": "neop — bilety na najlepsze wydarzenia na świecie",
+    "description": "Bilety na najlepsze wydarzenia na żywo na świecie. Zweryfikowani sprzedawcy, każde miejsce zagwarantowane."
+  },
+  "Home": {
+    "trendingKicker": "Szybko się rozchodzą",
+    "trendingTitle": "Popularne teraz",
+    "seeAll": "Zobacz wszystko",
+    "weekendKicker": "Nie przegap",
+    "weekendTitle": "W ten weekend",
+    "browseDates": "Przeglądaj daty",
+    "festivalsKicker": "Najważniejsze wydarzenia sezonu",
+    "festivalsTitle": "Festiwale, dla których warto polecieć",
+    "allFestivals": "Wszystkie festiwale",
+    "guaranteeTitle": "Każde miejsce zagwarantowane",
+    "guaranteeBody": "Jeśli Twoje wydarzenie zostanie odwołane lub bilety nie dotrą, jesteś objęty ochroną — pełny zwrot pieniędzy, bez pytań.",
+    "countriesTitle": "Ponad 90 krajów",
+    "countriesBody": "Od Tokio do Rio — przeglądaj i rezerwuj zweryfikowane bilety na wydarzenia na każdym kontynencie.",
+    "instantTitle": "Natychmiastowe wejście z telefonu",
+    "instantBody": "Bilety trafiają do Twojego portfela w kilka sekund po zapłacie. Zeskanuj i wejdź od razu.",
+    "noEventsTitle": "Brak wydarzeń do wyświetlenia",
+    "noEventsBody": "Backend neop nie zwrócił żadnych wydarzeń. Sprawdź, czy działa na <code>{url}</code> i czy dane są zsynchronizowane."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Preferencje języka i waluty",
+    "languageAndRegion": "Język i region",
+    "currency": "Waluta"
+  },
+  "Categories": {
+    "music": "Muzyka",
+    "festivals": "Festiwale",
+    "sports": "Sport",
+    "arts": "Teatr i sztuka",
+    "comedy": "Komedia"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, one {# wydarzenie z tym artystą} few {# wydarzenia z tym artystą} many {# wydarzeń z tym artystą} other {# wydarzeń z tym artystą}}",
+    "trending": "Popularne",
+    "viewTickets": "Zobacz bilety",
+    "fromPrice": "od {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Szybko się rozchodzą:"
+  },
+  "Browse": {
+    "home": "Strona główna",
+    "searchBreadcrumb": "Szukaj",
+    "resultsFor": "Wyniki dla",
+    "discoverEvents": "Odkryj wydarzenia",
+    "worldwide": "na całym świecie",
+    "allCategory": "Wszystkie",
+    "subcategorySelectLabel": "Przeglądaj podkategorie {category}",
+    "sort": "Sortuj",
+    "sortTrending": "Popularne",
+    "sortPrice": "Cena",
+    "sortDate": "Data",
+    "artistsCount": "{count, plural, one {# artysta} few {# artyści} many {# artystów} other {# artystów}}",
+    "showingCount": "wyświetlono {count}",
+    "noEventsMatch": "Brak wydarzeń odpowiadających „{term}”.",
+    "noEventsInCategory": "Nie znaleziono wydarzeń w tej kategorii.",
+    "pagination": "Paginacja",
+    "prev": "Wstecz",
+    "next": "Dalej",
+    "pageOf": "Strona {page} z {total}",
+    "loadingMore": "Wczytywanie kolejnych wydarzeń…",
+    "retryFailed": "Nie udało się wczytać — spróbuj ponownie",
+    "reachedEnd": "Dotarłeś do końca.",
+    "inWhere": "w {where}"
+  },
+  "DateLabels": {
+    "today": "Dziś",
+    "tomorrow": "Jutro",
+    "thisWeek": "W tym tygodniu",
+    "nextWeek": "W następnym tygodniu",
+    "thisMonth": "W tym miesiącu",
+    "nextMonth": "W następnym miesiącu",
+    "thisYear": "W tym roku",
+    "nextYear": "W następnym roku"
+  },
+  "SearchBar": {
+    "what": "Co",
+    "where": "Gdzie",
+    "when": "Kiedy",
+    "searchPlaceholder": "Szukaj wydarzeń, artystów, miejsc…",
+    "wherePlaceholder": "Wszędzie",
+    "noResultsFor": "Brak wyników dla „{term}” — naciśnij Enter, aby wyszukać mimo to",
+    "searching": "Wyszukiwanie…",
+    "typeEvent": "Wydarzenie",
+    "typeArtist": "Artysta",
+    "typeVenue": "Miejsce",
+    "typeCountry": "Kraj",
+    "typeCity": "Miasto",
+    "search": "Szukaj",
+    "anyDates": "Dowolne daty",
+    "fromDate": "Od {date}",
+    "untilDate": "Do {date}",
+    "start": "Początek",
+    "end": "Koniec",
+    "clear": "Wyczyść",
+    "done": "Gotowe"
+  },
+  "Performer": {
+    "home": "Strona główna",
+    "artist": "Artysta",
+    "upcomingEvents": "{count, plural, one {# nadchodzące wydarzenie} few {# nadchodzące wydarzenia} many {# nadchodzących wydarzeń} other {# nadchodzących wydarzeń}}",
+    "noUpcomingEvents": "Brak nadchodzących wydarzeń dla {name} — zajrzyj wkrótce.",
+    "tickets": "Bilety",
+    "eventsTab": "Wydarzenia",
+    "aboutTab": "Informacje",
+    "source": "Źródło: {source}",
+    "fromYoutube": "Z YouTube",
+    "fansSaying": "Co mówią fani",
+    "metaTitle": "Bilety {name} — wszystkie nadchodzące wydarzenia",
+    "metaDescription": "{count, plural, one {# nadchodzące wydarzenie} few {# nadchodzące wydarzenia} many {# nadchodzących wydarzeń} other {# nadchodzących wydarzeń}} dla {name}. Zweryfikowane bilety, każde miejsce zagwarantowane."
+  },
+  "Common": {
+    "loading": "Wczytywanie…"
+  },
+  "Checkout": {
+    "loadingOrder": "Wczytywanie Twojego zamówienia…",
+    "lostOrderTitle": "Zgubiliśmy Twoje zamówienie",
+    "lostOrderBody": "W tym linku do płatności brakuje danych lub wydarzenie nie ma już ceny.",
+    "browseEvents": "Przeglądaj wydarzenia",
+    "backToEvent": "Wróć do wydarzenia",
+    "title": "Kasa",
+    "heldNotice": "Jesteś tuż u celu. Bilety są zarezerwowane na 10:00.",
+    "step1": "Twoje dane",
+    "fullName": "Imię i nazwisko",
+    "email": "E-mail",
+    "phone": "Telefon",
+    "step2": "Płatność",
+    "methodCard": "Karta",
+    "cardNumber": "Numer karty",
+    "expiry": "Data ważności",
+    "cvc": "CVC",
+    "securePayment": "Płatności są szyfrowane i bezpieczne. To wersja demonstracyjna — żadna karta nie zostanie obciążona.",
+    "serviceFees": "Opłaty serwisowe",
+    "deliveryMobile": "Dostawa · mobilna",
+    "free": "Bezpłatnie",
+    "total": "Razem",
+    "pay": "Zapłać {amount}"
+  },
+  "Confirmation": {
+    "finalising": "Finalizowanie Twoich biletów…",
+    "orderNotFound": "Nie znaleziono zamówienia",
+    "findEvents": "Znajdź wydarzenia",
+    "goingTitle": "Idziesz!",
+    "confirmationSent": "Potwierdzenie wysłane. Twoje bilety są w portfelu, gotowe do zeskanowania.",
+    "date": "Data",
+    "time": "Godzina",
+    "venue": "Miejsce",
+    "city": "Miasto",
+    "ticket": "Bilet",
+    "quantity": "Liczba",
+    "ticketsCount": "{count, plural, one {# bilet} few {# bilety} many {# biletów} other {# biletów}}",
+    "order": "Zamówienie",
+    "backHome": "Powrót do strony głównej",
+    "findMoreEvents": "Znajdź więcej wydarzeń"
+  },
+  "TicketTiers": {
+    "ga": "Wstęp ogólny",
+    "prem": "Premium",
+    "vip": "Wrażenia VIP"
+  },
+  "TicketPicker": {
+    "selectTickets": "Wybierz bilety",
+    "notAvailable": "Bilety na to wydarzenie są obecnie niedostępne. Zajrzyj później.",
+    "noSeatPricing": "Wycena miejsc nie jest dostępna dla tego wydarzenia — przejdź na stronę naszego partnera, aby zobaczyć opcje i dokończyć zakup.",
+    "getTickets": "Kup bilety",
+    "protectedGuarantee": "Chronione 100% gwarancją neop",
+    "limited": "Ograniczone",
+    "onlyLeft": "Pozostało tylko {count}",
+    "available": "Dostępne: {count}",
+    "fullSetOnly": "Tylko cały komplet",
+    "soldInPairs": "Sprzedawane w parach",
+    "cantLeaveOne": "Nie można pozostawić jednego wolnego miejsca",
+    "noMatchFilters": "Brak biletów odpowiadających wybranym filtrom.",
+    "maxPerOrder": "maks. {count} / zamówienie",
+    "ticketsSelected": "{count, plural, one {# bilet wybrany} few {# bilety wybrane} many {# biletów wybranych} other {# biletów wybranych}}",
+    "edit": "Edytuj",
+    "buy": "Kup",
+    "removeSeatFrom": "Usuń miejsce z {name}",
+    "addSeatTo": "Dodaj miejsce do {name}",
+    "perTicket": "/ bilet",
+    "getNTickets": "{count, plural, one {Kup # bilet} few {Kup # bilety} many {Kup # biletów} other {Kup # biletów}}",
+    "listingsCount": "{count, plural, one {# ogłoszenie} few {# ogłoszenia} many {# ogłoszeń} other {# ogłoszeń}}"
+  },
+  "TicketFilters": {
+    "quantity": "Liczba",
+    "category": "Kategoria",
+    "ticketType": "Typ biletu",
+    "clearAll": "Wyczyść wszystko",
+    "ticketsCount": "{count, plural, one {# bilet} few {# bilety} many {# biletów} other {# biletów}}"
+  },
+  "SeatingPlan": {
+    "heading": "Plan sali",
+    "block": "Blok {block}",
+    "from": "Od"
+  },
+  "Venue": {
+    "home": "Strona główna",
+    "venue": "Miejsce",
+    "upcomingEvents": "{count, plural, one {# nadchodzące wydarzenie} few {# nadchodzące wydarzenia} many {# nadchodzących wydarzeń} other {# nadchodzących wydarzeń}}",
+    "noUpcomingShows": "Brak nadchodzących wydarzeń w tym miejscu — zajrzyj wkrótce.",
+    "tickets": "Bilety",
+    "metaTitle": "Bilety {name} — wszystkie nadchodzące wydarzenia",
+    "metaDescription": "{count, plural, one {# nadchodzące wydarzenie} few {# nadchodzące wydarzenia} many {# nadchodzących wydarzeń} other {# nadchodzących wydarzeń}} w {name}. Zweryfikowane bilety, każde miejsce zagwarantowane."
+  },
+  "NotFound": {
+    "title": "Zgubiono wątek",
+    "body": "Nie mogliśmy znaleźć tej strony lub wydarzenia. Może zostało wyprzedane lub przeniesione.",
+    "backHome": "Powrót do strony głównej",
+    "browseEvents": "Przeglądaj wydarzenia"
+  },
+  "Event": {
+    "keepExploring": "Odkrywaj dalej",
+    "moreLikeThis": "Więcej podobnych",
+    "metaTitle": "Bilety {title} — {venue}, {city}"
+  }
+}

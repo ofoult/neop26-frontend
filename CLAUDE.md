@@ -51,20 +51,32 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
   re-exported from `@/i18n/navigation` — use these instead of `next/link`/`next/navigation` in
   any component that renders on a translated page), and `i18n/request.ts` (loads
   `messages/${locale}.json`). `middleware.ts` handles locale detection/routing.
-- **Locales**: `en` (default), `fr`, `es`, `de`, `he` (RTL). `localePrefix: 'as-needed'` — English
-  stays unprefixed at today's URLs (`/`, `/browse`, …); the other four get `/fr`, `/es`, `/de`,
-  `/he`. `app/[locale]/layout.tsx` sets `dir="rtl"` only for `he`.
-- **Coverage**: essentially the whole app is translated in all 5 locales — home, `Nav`, `Footer`,
+- **Locales**: `en` (default), `fr`, `es`, `de`, `he`, `it`, `nl`, `sv`, `ru`, `ar`, `hu`, `pl`,
+  `hr`, `pt` — 14 total (`i18n/routing.ts`). `he` and `ar` are RTL (`lib/rtl.ts`'s
+  `isRtlLocale`/`RTL_LOCALES`). `localePrefix: 'as-needed'` — English stays unprefixed at today's
+  URLs (`/`, `/browse`, …); every other locale gets its own prefix (`/fr`, `/es`, `/de`, `/he`,
+  `/it`, `/nl`, `/sv`, `/ru`, `/ar`, `/hu`, `/pl`, `/hr`, `/pt`). `app/[locale]/layout.tsx` sets
+  `dir="rtl"` via `isRtlLocale(locale)`.
+- **Coverage**: essentially the whole app is translated in all 14 locales — home, `Nav`, `Footer`,
   `Hero`, `LanguageCurrencySelect`, browse (`BrowseClient`, `SearchBar`, `TicketFilters`), event
   detail, performer detail, venue detail, checkout, confirmation, `not-found`, `EventCard`,
   `TicketPicker`, `TicketsAndSeatingPlan`, `SeatingPlanSvg`, and `PerformerTabs` all use
   `useTranslations`/`getTranslations` against dedicated namespaces in `messages/${locale}.json`
-  (189 keys, in sync across all 5 locale files). Category labels render via `t('Categories')`
-  everywhere (`lib/categories.ts`'s own hardcoded `label` field is dead data, unused for display).
+  (200 keys, in sync across all 14 locale files — verified by diffing each locale's flattened key
+  set against `en.json`). Category labels render via `t('Categories')` everywhere
+  (`lib/categories.ts`'s own hardcoded `label` field is dead data, unused for display).
   `lib/format.ts`'s date functions (`fmtDate`, `fmtDateLong`, `fmtTime`) are locale-aware via
   `Intl.DateTimeFormat`, and the relative-day bucket (`relativeDayBucket()`) returns a
   locale-independent key rendered through the `DateLabels` namespace — `RELATIVE_DAY_LABELS_EN`
   and `relativeDayLabel()` in that same file are unused dead code, not a live English fallback.
+  Most plural strings use only ICU's `one`/`other` categories (matching the simplification
+  already established for `fr`/`he`), but the four locales with grammatically obligatory extra
+  plural categories spell them all out: `ru`/`pl` use `one`/`few`/`many`/`other`, `hr` uses
+  `one`/`few`/`other` (CLDR defines no separate `many` for Croatian), and `ar` uses the full
+  `zero`/`one`/`two`/`few`/`many`/`other` set. Verified correct across the relevant CLDR boundary
+  counts (2, 5, 11-14, 21-25, 100+ for `ru`/`pl`/`hr`; 0, 2, 3-10, 11-99, 100+ for `ar`) by
+  actually formatting each plural message with `intl-messageformat` rather than just eyeballing
+  the ICU source.
   <!-- Earlier note here ("Phase 1", browse/event/performer/venue/checkout/confirmation still
   English-only) was stale — verified 2026-07-30 by reading every route/component; that note
   described an earlier state that no longer matches the code. -->
@@ -83,9 +95,11 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
   `messages/de.json`, `messages/he.json` before merging — never leave a locale file missing a key
   a sibling component already uses. Reference via `useTranslations()` (client) or
   `getTranslations()` (server), never a fresh hardcoded string in an already-translated component.
-- **Hebrew font fallback**: `--font-sans`/`--font-serif` (`next/font/google`) only load a Latin
-  subset. `app/globals.css`'s `:lang(he)` rule overrides to a system-font stack so Hebrew text
-  doesn't silently fall back to an arbitrary browser default.
+- **Non-Latin font fallback**: `--font-sans`/`--font-serif` (`next/font/google`) only load a Latin
+  subset. `app/globals.css`'s `:lang(he)`/`:lang(ar)`/`:lang(ru)` rule overrides to a system-font
+  stack so Hebrew, Arabic, and Russian text doesn't silently fall back to an arbitrary browser
+  default. The other 10 locales (`it`, `nl`, `sv`, `hu`, `pl`, `hr`, `pt`, plus the original `fr`,
+  `es`, `de`) render in Latin script and need no such override.
 - **RTL scope**: only the components above have been checked/fixed for `dir="rtl"` layout (mostly
   physical→logical CSS property swaps, e.g. `insetInlineEnd` instead of `right`). The rest of the
   app uses inline styles with physical properties throughout and has not been audited for RTL —

@@ -1,0 +1,248 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Jezik i valuta",
+    "loadingSubcategories": "Učitavanje…"
+  },
+  "Footer": {
+    "tagline": "Ulaznice za najbolje uživo događaje u svijetu. Provjereni prodavači, svako mjesto zagarantirano.",
+    "learnMore": "Saznajte više",
+    "aboutUs": "O nama",
+    "sitemap": "Mapa web-mjesta",
+    "partners": "Partneri",
+    "support": "Podrška",
+    "help": "Pomoć",
+    "faq": "Često postavljana pitanja",
+    "contactUs": "Kontaktirajte nas",
+    "guarantee": "100% garancija",
+    "rights": "© {year} neop. Sva prava pridržana.",
+    "privacy": "Privatnost",
+    "terms": "Uvjeti",
+    "cookies": "Kolačići"
+  },
+  "Hero": {
+    "featured": "Izdvojeno",
+    "getTickets": "Kupi ulaznice",
+    "from": "od",
+    "watchTrailer": "Pogledaj najavu",
+    "pageTitle": "Ulaznice za najbolje uživo događaje u svijetu"
+  },
+  "Metadata": {
+    "title": "neop — ulaznice za najbolje događaje u svijetu",
+    "description": "Ulaznice za najbolje uživo događaje u svijetu. Provjereni prodavači, svako mjesto zagarantirano."
+  },
+  "Home": {
+    "trendingKicker": "Brzo se prodaju",
+    "trendingTitle": "Trenutno popularno",
+    "seeAll": "Pogledaj sve",
+    "weekendKicker": "Ne propustite",
+    "weekendTitle": "Ovog vikenda",
+    "browseDates": "Pregledaj datume",
+    "festivalsKicker": "Najvažniji trenuci sezone",
+    "festivalsTitle": "Festivali vrijedni putovanja",
+    "allFestivals": "Svi festivali",
+    "guaranteeTitle": "Svako mjesto zagarantirano",
+    "guaranteeBody": "Ako se vaš događaj otkaže ili ulaznice ne stignu, osigurani su vam — potpuni povrat novca, bez pitanja.",
+    "countriesTitle": "Više od 90 zemalja",
+    "countriesBody": "Od Tokija do Rija — pregledajte i rezervirajte provjerene ulaznice za događaje na svakom kontinentu.",
+    "instantTitle": "Trenutan ulazak putem mobitela",
+    "instantBody": "Ulaznice stižu u vaš novčanik nekoliko sekundi nakon plaćanja. Skenirajte i uđite odmah.",
+    "noEventsTitle": "Nema događaja za prikaz",
+    "noEventsBody": "Pozadinski sustav neop nije vratio nikakve događaje. Provjerite radi li na <code>{url}</code> i jesu li podaci sinkronizirani."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Postavke jezika i valute",
+    "languageAndRegion": "Jezik i regija",
+    "currency": "Valuta"
+  },
+  "Categories": {
+    "music": "Glazba",
+    "festivals": "Festivali",
+    "sports": "Sport",
+    "arts": "Kazalište i umjetnost",
+    "comedy": "Komedija"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, one {# događaj za ovog izvođača} few {# događaja za ovog izvođača} other {# događaja za ovog izvođača}}",
+    "trending": "Popularno",
+    "viewTickets": "Pogledaj ulaznice",
+    "fromPrice": "od {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Brzo se prodaju:"
+  },
+  "Browse": {
+    "home": "Početna",
+    "searchBreadcrumb": "Pretraga",
+    "resultsFor": "Rezultati za",
+    "discoverEvents": "Otkrijte događaje",
+    "worldwide": "širom svijeta",
+    "allCategory": "Sve",
+    "subcategorySelectLabel": "Pregledaj potkategorije {category}",
+    "sort": "Sortiraj",
+    "sortTrending": "Popularno",
+    "sortPrice": "Cijena",
+    "sortDate": "Datum",
+    "artistsCount": "{count, plural, one {# izvođač} few {# izvođača} other {# izvođača}}",
+    "showingCount": "prikazano {count}",
+    "noEventsMatch": "Nema događaja koji odgovaraju „{term}”.",
+    "noEventsInCategory": "Nisu pronađeni događaji u ovoj kategoriji.",
+    "pagination": "Numeriranje stranica",
+    "prev": "Prethodna",
+    "next": "Sljedeća",
+    "pageOf": "Stranica {page} od {total}",
+    "loadingMore": "Učitavanje više događaja…",
+    "retryFailed": "Učitavanje nije uspjelo — pokušaj ponovno",
+    "reachedEnd": "Došli ste do kraja.",
+    "inWhere": "u {where}"
+  },
+  "DateLabels": {
+    "today": "Danas",
+    "tomorrow": "Sutra",
+    "thisWeek": "Ovaj tjedan",
+    "nextWeek": "Sljedeći tjedan",
+    "thisMonth": "Ovaj mjesec",
+    "nextMonth": "Sljedeći mjesec",
+    "thisYear": "Ove godine",
+    "nextYear": "Sljedeće godine"
+  },
+  "SearchBar": {
+    "what": "Što",
+    "where": "Gdje",
+    "when": "Kada",
+    "searchPlaceholder": "Pretraži događaje, izvođače, mjesta…",
+    "wherePlaceholder": "Bilo gdje",
+    "noResultsFor": "Nema rezultata za „{term}” — pritisnite Enter za pretragu unatoč tome",
+    "searching": "Pretraživanje…",
+    "typeEvent": "Događaj",
+    "typeArtist": "Izvođač",
+    "typeVenue": "Mjesto održavanja",
+    "typeCountry": "Država",
+    "typeCity": "Grad",
+    "search": "Pretraži",
+    "anyDates": "Bilo koji datum",
+    "fromDate": "Od {date}",
+    "untilDate": "Do {date}",
+    "start": "Početak",
+    "end": "Kraj",
+    "clear": "Očisti",
+    "done": "Gotovo"
+  },
+  "Performer": {
+    "home": "Početna",
+    "artist": "Izvođač",
+    "upcomingEvents": "{count, plural, one {# nadolazeći događaj} few {# nadolazeća događaja} other {# nadolazećih događaja}}",
+    "noUpcomingEvents": "Još nema nadolazećih događaja za {name} — navratite ponovno uskoro.",
+    "tickets": "Ulaznice",
+    "eventsTab": "Događaji",
+    "aboutTab": "O izvođaču",
+    "source": "Izvor: {source}",
+    "fromYoutube": "S YouTubea",
+    "fansSaying": "Što kažu obožavatelji",
+    "metaTitle": "Ulaznice za {name} — svi nadolazeći događaji",
+    "metaDescription": "{count, plural, one {# nadolazeći događaj} few {# nadolazeća događaja} other {# nadolazećih događaja}} za {name}. Provjerene ulaznice, svako mjesto zagarantirano."
+  },
+  "Common": {
+    "loading": "Učitavanje…"
+  },
+  "Checkout": {
+    "loadingOrder": "Učitavanje vaše narudžbe…",
+    "lostOrderTitle": "Izgubili smo vašu narudžbu",
+    "lostOrderBody": "Toj poveznici za plaćanje nedostaju podaci ili događaj više nema cijenu.",
+    "browseEvents": "Pregledaj događaje",
+    "backToEvent": "Povratak na događaj",
+    "title": "Plaćanje",
+    "heldNotice": "Skoro ste stigli. Ulaznice su rezervirane 10:00.",
+    "step1": "Vaši podaci",
+    "fullName": "Puno ime",
+    "email": "E-pošta",
+    "phone": "Telefon",
+    "step2": "Plaćanje",
+    "methodCard": "Kartica",
+    "cardNumber": "Broj kartice",
+    "expiry": "Datum isteka",
+    "cvc": "CVC",
+    "securePayment": "Plaćanja su šifrirana i sigurna. Ovo je demo verzija — kartica se ne naplaćuje.",
+    "serviceFees": "Naknade za usluge",
+    "deliveryMobile": "Dostava · mobitel",
+    "free": "Besplatno",
+    "total": "Ukupno",
+    "pay": "Plati {amount}"
+  },
+  "Confirmation": {
+    "finalising": "Finaliziranje vaših ulaznica…",
+    "orderNotFound": "Narudžba nije pronađena",
+    "findEvents": "Pronađi događaje",
+    "goingTitle": "Idete!",
+    "confirmationSent": "Potvrda je poslana. Vaše ulaznice su u novčaniku, spremne za skeniranje.",
+    "date": "Datum",
+    "time": "Vrijeme",
+    "venue": "Mjesto održavanja",
+    "city": "Grad",
+    "ticket": "Ulaznica",
+    "quantity": "Količina",
+    "ticketsCount": "{count, plural, one {# ulaznica} few {# ulaznice} other {# ulaznica}}",
+    "order": "Narudžba",
+    "backHome": "Povratak na početnu",
+    "findMoreEvents": "Pronađi više događaja"
+  },
+  "TicketTiers": {
+    "ga": "Opći ulaz",
+    "prem": "Premium",
+    "vip": "VIP iskustvo"
+  },
+  "TicketPicker": {
+    "selectTickets": "Odaberite ulaznice",
+    "notAvailable": "Ulaznice za ovaj događaj trenutno nisu dostupne. Navratite ponovno kasnije.",
+    "noSeatPricing": "Cijene po sjedalu nisu dostupne za ovaj događaj — nastavite na stranici našeg partnera da vidite opcije i dovršite kupnju.",
+    "getTickets": "Kupi ulaznice",
+    "protectedGuarantee": "Zaštićeno 100% garancijom neopa",
+    "limited": "Ograničeno",
+    "onlyLeft": "Preostalo je samo {count}",
+    "available": "Dostupno: {count}",
+    "fullSetOnly": "Samo kompletan set",
+    "soldInPairs": "Prodaje se u parovima",
+    "cantLeaveOne": "Nije moguće ostaviti jedno slobodno mjesto",
+    "noMatchFilters": "Nema ulaznica koje odgovaraju odabranim filtrima.",
+    "maxPerOrder": "maks. {count} / narudžba",
+    "ticketsSelected": "{count, plural, one {# ulaznica odabrana} few {# ulaznice odabrane} other {# ulaznica odabrano}}",
+    "edit": "Uredi",
+    "buy": "Kupi",
+    "removeSeatFrom": "Ukloni mjesto od {name}",
+    "addSeatTo": "Dodaj mjesto k {name}",
+    "perTicket": "/ ulaznica",
+    "getNTickets": "{count, plural, one {Kupi # ulaznicu} few {Kupi # ulaznice} other {Kupi # ulaznica}}",
+    "listingsCount": "{count, plural, one {# oglas} few {# oglasa} other {# oglasa}}"
+  },
+  "TicketFilters": {
+    "quantity": "Količina",
+    "category": "Kategorija",
+    "ticketType": "Vrsta ulaznice",
+    "clearAll": "Očisti sve",
+    "ticketsCount": "{count, plural, one {# ulaznica} few {# ulaznice} other {# ulaznica}}"
+  },
+  "SeatingPlan": {
+    "heading": "Plan sjedenja",
+    "block": "Blok {block}",
+    "from": "Od"
+  },
+  "Venue": {
+    "home": "Početna",
+    "venue": "Mjesto održavanja",
+    "upcomingEvents": "{count, plural, one {# nadolazeći događaj} few {# nadolazeća događaja} other {# nadolazećih događaja}}",
+    "noUpcomingShows": "Još nema nadolazećih nastupa na ovoj lokaciji — navratite ponovno uskoro.",
+    "tickets": "Ulaznice",
+    "metaTitle": "Ulaznice za {name} — svi nadolazeći događaji",
+    "metaDescription": "{count, plural, one {# nadolazeći događaj} few {# nadolazeća događaja} other {# nadolazećih događaja}} u {name}. Provjerene ulaznice, svako mjesto zagarantirano."
+  },
+  "NotFound": {
+    "title": "Izgubljen trag",
+    "body": "Nismo mogli pronaći tu stranicu ili događaj. Možda je prodano ili premješteno.",
+    "backHome": "Povratak na početnu",
+    "browseEvents": "Pregledaj događaje"
+  },
+  "Event": {
+    "keepExploring": "Nastavite istraživati",
+    "moreLikeThis": "Više ovakvih",
+    "metaTitle": "Ulaznice za {title} — {venue}, {city}"
+  }
+}

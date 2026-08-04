@@ -1,0 +1,248 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Taal en valuta",
+    "loadingSubcategories": "Laden…"
+  },
+  "Footer": {
+    "tagline": "Tickets voor de beste live-evenementen ter wereld. Geverifieerde verkopers, elke plaats gegarandeerd.",
+    "learnMore": "Meer informatie",
+    "aboutUs": "Over ons",
+    "sitemap": "Sitemap",
+    "partners": "Partners",
+    "support": "Ondersteuning",
+    "help": "Help",
+    "faq": "Veelgestelde vragen",
+    "contactUs": "Contact",
+    "guarantee": "100% garantie",
+    "rights": "© {year} neop. Alle rechten voorbehouden.",
+    "privacy": "Privacy",
+    "terms": "Voorwaarden",
+    "cookies": "Cookies"
+  },
+  "Hero": {
+    "featured": "Uitgelicht",
+    "getTickets": "Tickets kopen",
+    "from": "vanaf",
+    "watchTrailer": "Bekijk trailer",
+    "pageTitle": "Tickets voor de beste live-evenementen ter wereld"
+  },
+  "Metadata": {
+    "title": "neop — tickets voor de beste evenementen ter wereld",
+    "description": "Tickets voor de beste live-evenementen ter wereld. Geverifieerde verkopers, elke plaats gegarandeerd."
+  },
+  "Home": {
+    "trendingKicker": "Gaat hard",
+    "trendingTitle": "Nu populair",
+    "seeAll": "Alles bekijken",
+    "weekendKicker": "Mis het niet",
+    "weekendTitle": "Dit weekend",
+    "browseDates": "Bekijk data",
+    "festivalsKicker": "Hoogtepunten van het seizoen",
+    "festivalsTitle": "Festivals die de reis waard zijn",
+    "allFestivals": "Alle festivals",
+    "guaranteeTitle": "Elke plaats gegarandeerd",
+    "guaranteeBody": "Als je evenement wordt geannuleerd of de tickets komen niet aan, ben je verzekerd — volledige terugbetaling, zonder vragen.",
+    "countriesTitle": "90+ landen",
+    "countriesBody": "Van Tokio tot Rio, bekijk en boek geverifieerde tickets voor evenementen op elk continent.",
+    "instantTitle": "Directe mobiele toegang",
+    "instantBody": "Tickets staan binnen enkele seconden na afrekenen in je wallet. Scan en loop direct naar binnen.",
+    "noEventsTitle": "Geen evenementen om te tonen",
+    "noEventsBody": "De neop-backend heeft geen evenementen teruggegeven. Controleer of deze draait op <code>{url}</code> en of de gegevens gesynchroniseerd zijn."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Voorkeuren voor taal en valuta",
+    "languageAndRegion": "Taal en regio",
+    "currency": "Valuta"
+  },
+  "Categories": {
+    "music": "Muziek",
+    "festivals": "Festivals",
+    "sports": "Sport",
+    "arts": "Theater en kunst",
+    "comedy": "Comedy"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, one {# evenement voor deze artiest} other {# evenementen voor deze artiest}}",
+    "trending": "Populair",
+    "viewTickets": "Bekijk tickets",
+    "fromPrice": "vanaf {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Gaat hard:"
+  },
+  "Browse": {
+    "home": "Home",
+    "searchBreadcrumb": "Zoeken",
+    "resultsFor": "Resultaten voor",
+    "discoverEvents": "Ontdek evenementen",
+    "worldwide": "wereldwijd",
+    "allCategory": "Alle",
+    "subcategorySelectLabel": "Bekijk subcategorieën van {category}",
+    "sort": "Sorteren",
+    "sortTrending": "Populair",
+    "sortPrice": "Prijs",
+    "sortDate": "Datum",
+    "artistsCount": "{count, plural, one {# artiest} other {# artiesten}}",
+    "showingCount": "{count} weergegeven",
+    "noEventsMatch": "Geen evenementen komen overeen met \"{term}\".",
+    "noEventsInCategory": "Geen evenementen gevonden in deze categorie.",
+    "pagination": "Paginering",
+    "prev": "Vorige",
+    "next": "Volgende",
+    "pageOf": "Pagina {page} van {total}",
+    "loadingMore": "Meer evenementen laden…",
+    "retryFailed": "Laden mislukt — opnieuw proberen",
+    "reachedEnd": "Je hebt het einde bereikt.",
+    "inWhere": "in {where}"
+  },
+  "DateLabels": {
+    "today": "Vandaag",
+    "tomorrow": "Morgen",
+    "thisWeek": "Deze week",
+    "nextWeek": "Volgende week",
+    "thisMonth": "Deze maand",
+    "nextMonth": "Volgende maand",
+    "thisYear": "Dit jaar",
+    "nextYear": "Volgend jaar"
+  },
+  "SearchBar": {
+    "what": "Wat",
+    "where": "Waar",
+    "when": "Wanneer",
+    "searchPlaceholder": "Zoek evenementen, artiesten, locaties…",
+    "wherePlaceholder": "Overal",
+    "noResultsFor": "Geen resultaten voor \"{term}\" — druk op Enter om toch te zoeken",
+    "searching": "Zoeken…",
+    "typeEvent": "Evenement",
+    "typeArtist": "Artiest",
+    "typeVenue": "Locatie",
+    "typeCountry": "Land",
+    "typeCity": "Stad",
+    "search": "Zoeken",
+    "anyDates": "Alle data",
+    "fromDate": "Vanaf {date}",
+    "untilDate": "Tot {date}",
+    "start": "Start",
+    "end": "Einde",
+    "clear": "Wissen",
+    "done": "Klaar"
+  },
+  "Performer": {
+    "home": "Home",
+    "artist": "Artiest",
+    "upcomingEvents": "{count, plural, one {# aankomend evenement} other {# aankomende evenementen}}",
+    "noUpcomingEvents": "Nog geen aankomende evenementen voor {name} — kom snel terug.",
+    "tickets": "Tickets",
+    "eventsTab": "Evenementen",
+    "aboutTab": "Over",
+    "source": "Bron: {source}",
+    "fromYoutube": "Van YouTube",
+    "fansSaying": "Wat fans zeggen",
+    "metaTitle": "{name} tickets — alle aankomende evenementen",
+    "metaDescription": "{count, plural, one {# aankomend evenement} other {# aankomende evenementen}} voor {name}. Geverifieerde tickets, elke plaats gegarandeerd."
+  },
+  "Common": {
+    "loading": "Laden…"
+  },
+  "Checkout": {
+    "loadingOrder": "Je bestelling laden…",
+    "lostOrderTitle": "We zijn je bestelling kwijtgeraakt",
+    "lostOrderBody": "Die afrekenlink mist gegevens of het evenement heeft geen prijs meer.",
+    "browseEvents": "Bekijk evenementen",
+    "backToEvent": "Terug naar evenement",
+    "title": "Afrekenen",
+    "heldNotice": "Je bent er bijna. Tickets zijn 10:00 gereserveerd.",
+    "step1": "Jouw gegevens",
+    "fullName": "Volledige naam",
+    "email": "E-mail",
+    "phone": "Telefoon",
+    "step2": "Betaling",
+    "methodCard": "Kaart",
+    "cardNumber": "Kaartnummer",
+    "expiry": "Vervaldatum",
+    "cvc": "CVC",
+    "securePayment": "Betalingen zijn versleuteld en beveiligd. Dit is een demo — er wordt geen kaart belast.",
+    "serviceFees": "Servicekosten",
+    "deliveryMobile": "Levering · mobiel",
+    "free": "Gratis",
+    "total": "Totaal",
+    "pay": "Betaal {amount}"
+  },
+  "Confirmation": {
+    "finalising": "Je tickets worden afgerond…",
+    "orderNotFound": "Bestelling niet gevonden",
+    "findEvents": "Evenementen vinden",
+    "goingTitle": "Je gaat!",
+    "confirmationSent": "Bevestiging verzonden. Je tickets staan in je wallet, klaar om te scannen.",
+    "date": "Datum",
+    "time": "Tijd",
+    "venue": "Locatie",
+    "city": "Stad",
+    "ticket": "Ticket",
+    "quantity": "Aantal",
+    "ticketsCount": "{count, plural, one {# ticket} other {# tickets}}",
+    "order": "Bestelling",
+    "backHome": "Terug naar home",
+    "findMoreEvents": "Meer evenementen vinden"
+  },
+  "TicketTiers": {
+    "ga": "Algemene toegang",
+    "prem": "Premium",
+    "vip": "VIP-ervaring"
+  },
+  "TicketPicker": {
+    "selectTickets": "Selecteer tickets",
+    "notAvailable": "Tickets voor dit evenement zijn momenteel niet beschikbaar. Kom later terug.",
+    "noSeatPricing": "Prijzen per stoel zijn niet beschikbaar voor dit evenement — ga verder op de pagina van onze partner om opties te bekijken en af te rekenen.",
+    "getTickets": "Tickets kopen",
+    "protectedGuarantee": "Beschermd door de 100% garantie van neop",
+    "limited": "Beperkt",
+    "onlyLeft": "Nog maar {count} over",
+    "available": "{count} beschikbaar",
+    "fullSetOnly": "Alleen volledige set",
+    "soldInPairs": "Verkocht per paar",
+    "cantLeaveOne": "Kan geen enkele stoel achterlaten",
+    "noMatchFilters": "Geen tickets komen overeen met de geselecteerde filters.",
+    "maxPerOrder": "max {count} / bestelling",
+    "ticketsSelected": "{count, plural, one {# ticket geselecteerd} other {# tickets geselecteerd}}",
+    "edit": "Bewerken",
+    "buy": "Kopen",
+    "removeSeatFrom": "Verwijder stoel van {name}",
+    "addSeatTo": "Voeg stoel toe aan {name}",
+    "perTicket": "/ ticket",
+    "getNTickets": "{count, plural, one {Koop # ticket} other {Koop # tickets}}",
+    "listingsCount": "{count, plural, one {# aanbieding} other {# aanbiedingen}}"
+  },
+  "TicketFilters": {
+    "quantity": "Aantal",
+    "category": "Categorie",
+    "ticketType": "Tickettype",
+    "clearAll": "Alles wissen",
+    "ticketsCount": "{count, plural, one {# ticket} other {# tickets}}"
+  },
+  "SeatingPlan": {
+    "heading": "Zaalplan",
+    "block": "Blok {block}",
+    "from": "Vanaf"
+  },
+  "Venue": {
+    "home": "Home",
+    "venue": "Locatie",
+    "upcomingEvents": "{count, plural, one {# aankomend evenement} other {# aankomende evenementen}}",
+    "noUpcomingShows": "Nog geen aankomende shows op deze locatie — kom snel terug.",
+    "tickets": "Tickets",
+    "metaTitle": "{name} tickets — alle aankomende evenementen",
+    "metaDescription": "{count, plural, one {# aankomend evenement} other {# aankomende evenementen}} bij {name}. Geverifieerde tickets, elke plaats gegarandeerd."
+  },
+  "NotFound": {
+    "title": "De draad kwijt",
+    "body": "We konden die pagina of dat evenement niet vinden. Mogelijk is het uitverkocht of verplaatst.",
+    "backHome": "Terug naar home",
+    "browseEvents": "Bekijk evenementen"
+  },
+  "Event": {
+    "keepExploring": "Blijf ontdekken",
+    "moreLikeThis": "Meer zoals dit",
+    "metaTitle": "{title} tickets — {venue}, {city}"
+  }
+}

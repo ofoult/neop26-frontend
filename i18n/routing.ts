@@ -1,7 +1,7 @@
 import { defineRouting } from 'next-intl/routing';
 
 export const routing = defineRouting({
-  locales: ['en', 'fr', 'es', 'de', 'he'],
+  locales: ['en', 'fr', 'es', 'de', 'he', 'it', 'nl', 'sv', 'ru', 'ar', 'hu', 'pl', 'hr', 'pt'],
   defaultLocale: 'en',
   localePrefix: 'as-needed',
   // The middleware still auto-detects locale from Accept-Language on each

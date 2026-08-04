@@ -44,11 +44,14 @@ body {
 }
 
 /* --font-sans/--font-serif (next/font/google) only load a Latin subset, so
-   Hebrew text (including headings using .serif) would otherwise silently
-   fall back to whatever the browser picks. Give it a deliberate system-font
-   fallback instead; !important because it must win over .serif/.sans, which
-   are defined later in this file and would otherwise take precedence. */
-:lang(he) {
+   Hebrew, Arabic and Russian text (including headings using .serif) would
+   otherwise silently fall back to whatever the browser picks. Give them a
+   deliberate system-font fallback instead; !important because it must win
+   over .serif/.sans, which are defined later in this file and would
+   otherwise take precedence. */
+:lang(he),
+:lang(ar),
+:lang(ru) {
   font-family: -apple-system, "Segoe UI", Arial, sans-serif !important;
 }
 

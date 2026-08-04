@@ -1,0 +1,248 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Язык и валюта",
+    "loadingSubcategories": "Загрузка…"
+  },
+  "Footer": {
+    "tagline": "Билеты на лучшие живые мероприятия в мире. Проверенные продавцы, каждое место гарантировано.",
+    "learnMore": "Узнать больше",
+    "aboutUs": "О нас",
+    "sitemap": "Карта сайта",
+    "partners": "Партнёры",
+    "support": "Поддержка",
+    "help": "Помощь",
+    "faq": "Часто задаваемые вопросы",
+    "contactUs": "Связаться с нами",
+    "guarantee": "Гарантия 100%",
+    "rights": "© {year} neop. Все права защищены.",
+    "privacy": "Конфиденциальность",
+    "terms": "Условия",
+    "cookies": "Cookie-файлы"
+  },
+  "Hero": {
+    "featured": "Рекомендуем",
+    "getTickets": "Купить билеты",
+    "from": "от",
+    "watchTrailer": "Смотреть трейлер",
+    "pageTitle": "Билеты на лучшие живые мероприятия в мире"
+  },
+  "Metadata": {
+    "title": "neop — билеты на лучшие мероприятия мира",
+    "description": "Билеты на лучшие живые мероприятия в мире. Проверенные продавцы, каждое место гарантировано."
+  },
+  "Home": {
+    "trendingKicker": "Быстро раскупают",
+    "trendingTitle": "Популярно сейчас",
+    "seeAll": "Смотреть все",
+    "weekendKicker": "Не пропустите",
+    "weekendTitle": "В эти выходные",
+    "browseDates": "Выбрать даты",
+    "festivalsKicker": "Главные события сезона",
+    "festivalsTitle": "Фестивали, ради которых стоит лететь",
+    "allFestivals": "Все фестивали",
+    "guaranteeTitle": "Каждое место гарантировано",
+    "guaranteeBody": "Если ваше мероприятие отменят или билеты не придут, вы защищены — полный возврат средств, без вопросов.",
+    "countriesTitle": "Более 90 стран",
+    "countriesBody": "От Токио до Рио — выбирайте и бронируйте проверенные билеты на мероприятия на любом континенте.",
+    "instantTitle": "Мгновенный вход через телефон",
+    "instantBody": "Билеты появляются в вашем кошельке через несколько секунд после оплаты. Отсканируйте и проходите.",
+    "noEventsTitle": "Нет мероприятий для отображения",
+    "noEventsBody": "Сервер neop не вернул ни одного мероприятия. Убедитесь, что он запущен на <code>{url}</code> и данные синхронизированы."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Настройки языка и валюты",
+    "languageAndRegion": "Язык и регион",
+    "currency": "Валюта"
+  },
+  "Categories": {
+    "music": "Музыка",
+    "festivals": "Фестивали",
+    "sports": "Спорт",
+    "arts": "Театр и искусство",
+    "comedy": "Комедия"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, one {# мероприятие для этого артиста} few {# мероприятия для этого артиста} many {# мероприятий для этого артиста} other {# мероприятия для этого артиста}}",
+    "trending": "В тренде",
+    "viewTickets": "Смотреть билеты",
+    "fromPrice": "от {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Быстро раскупают:"
+  },
+  "Browse": {
+    "home": "Главная",
+    "searchBreadcrumb": "Поиск",
+    "resultsFor": "Результаты по запросу",
+    "discoverEvents": "Откройте для себя мероприятия",
+    "worldwide": "по всему миру",
+    "allCategory": "Все",
+    "subcategorySelectLabel": "Просмотр подкатегорий {category}",
+    "sort": "Сортировка",
+    "sortTrending": "В тренде",
+    "sortPrice": "Цена",
+    "sortDate": "Дата",
+    "artistsCount": "{count, plural, one {# артист} few {# артиста} many {# артистов} other {# артиста}}",
+    "showingCount": "показано {count}",
+    "noEventsMatch": "Нет мероприятий, соответствующих «{term}».",
+    "noEventsInCategory": "В этой категории мероприятий не найдено.",
+    "pagination": "Постраничная навигация",
+    "prev": "Назад",
+    "next": "Далее",
+    "pageOf": "Страница {page} из {total}",
+    "loadingMore": "Загрузка дополнительных мероприятий…",
+    "retryFailed": "Не удалось загрузить — повторить",
+    "reachedEnd": "Вы достигли конца списка.",
+    "inWhere": "в {where}"
+  },
+  "DateLabels": {
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "thisWeek": "На этой неделе",
+    "nextWeek": "На следующей неделе",
+    "thisMonth": "В этом месяце",
+    "nextMonth": "В следующем месяце",
+    "thisYear": "В этом году",
+    "nextYear": "В следующем году"
+  },
+  "SearchBar": {
+    "what": "Что",
+    "where": "Где",
+    "when": "Когда",
+    "searchPlaceholder": "Поиск мероприятий, артистов, площадок…",
+    "wherePlaceholder": "Везде",
+    "noResultsFor": "Нет результатов по запросу «{term}» — нажмите Enter, чтобы найти всё равно",
+    "searching": "Поиск…",
+    "typeEvent": "Мероприятие",
+    "typeArtist": "Артист",
+    "typeVenue": "Площадка",
+    "typeCountry": "Страна",
+    "typeCity": "Город",
+    "search": "Поиск",
+    "anyDates": "Любые даты",
+    "fromDate": "С {date}",
+    "untilDate": "До {date}",
+    "start": "Начало",
+    "end": "Конец",
+    "clear": "Очистить",
+    "done": "Готово"
+  },
+  "Performer": {
+    "home": "Главная",
+    "artist": "Артист",
+    "upcomingEvents": "{count, plural, one {# ближайшее мероприятие} few {# ближайших мероприятия} many {# ближайших мероприятий} other {# ближайших мероприятия}}",
+    "noUpcomingEvents": "Пока нет ближайших мероприятий для {name} — заходите позже.",
+    "tickets": "Билеты",
+    "eventsTab": "Мероприятия",
+    "aboutTab": "О",
+    "source": "Источник: {source}",
+    "fromYoutube": "С YouTube",
+    "fansSaying": "Что говорят фанаты",
+    "metaTitle": "Билеты {name} — все ближайшие мероприятия",
+    "metaDescription": "{count, plural, one {# ближайшее мероприятие} few {# ближайших мероприятия} many {# ближайших мероприятий} other {# ближайших мероприятия}} для {name}. Проверенные билеты, каждое место гарантировано."
+  },
+  "Common": {
+    "loading": "Загрузка…"
+  },
+  "Checkout": {
+    "loadingOrder": "Загрузка вашего заказа…",
+    "lostOrderTitle": "Мы потеряли ваш заказ",
+    "lostOrderBody": "В этой ссылке для оплаты отсутствуют данные, либо у мероприятия больше нет цены.",
+    "browseEvents": "Смотреть мероприятия",
+    "backToEvent": "Назад к мероприятию",
+    "title": "Оформление заказа",
+    "heldNotice": "Вы почти у цели. Билеты удерживаются 10:00.",
+    "step1": "Ваши данные",
+    "fullName": "Полное имя",
+    "email": "Электронная почта",
+    "phone": "Телефон",
+    "step2": "Оплата",
+    "methodCard": "Карта",
+    "cardNumber": "Номер карты",
+    "expiry": "Срок действия",
+    "cvc": "CVC",
+    "securePayment": "Платежи защищены шифрованием. Это демо-версия — списание с карты не производится.",
+    "serviceFees": "Сервисный сбор",
+    "deliveryMobile": "Доставка · мобильная",
+    "free": "Бесплатно",
+    "total": "Итого",
+    "pay": "Оплатить {amount}"
+  },
+  "Confirmation": {
+    "finalising": "Завершаем оформление ваших билетов…",
+    "orderNotFound": "Заказ не найден",
+    "findEvents": "Найти мероприятия",
+    "goingTitle": "Вы идёте!",
+    "confirmationSent": "Подтверждение отправлено. Ваши билеты в кошельке, готовы к сканированию.",
+    "date": "Дата",
+    "time": "Время",
+    "venue": "Площадка",
+    "city": "Город",
+    "ticket": "Билет",
+    "quantity": "Количество",
+    "ticketsCount": "{count, plural, one {# билет} few {# билета} many {# билетов} other {# билета}}",
+    "order": "Заказ",
+    "backHome": "На главную",
+    "findMoreEvents": "Найти больше мероприятий"
+  },
+  "TicketTiers": {
+    "ga": "Общий доступ",
+    "prem": "Премиум",
+    "vip": "VIP-опыт"
+  },
+  "TicketPicker": {
+    "selectTickets": "Выберите билеты",
+    "notAvailable": "Билеты на это мероприятие сейчас недоступны. Пожалуйста, заходите позже.",
+    "noSeatPricing": "Для этого мероприятия недоступна цена по местам — перейдите на страницу нашего партнёра, чтобы увидеть варианты и оформить заказ.",
+    "getTickets": "Купить билеты",
+    "protectedGuarantee": "Защищено 100%-й гарантией neop",
+    "limited": "Ограничено",
+    "onlyLeft": "Осталось всего {count}",
+    "available": "Доступно {count}",
+    "fullSetOnly": "Только целым блоком",
+    "soldInPairs": "Продаётся парами",
+    "cantLeaveOne": "Нельзя оставить одно свободное место",
+    "noMatchFilters": "Нет билетов, соответствующих выбранным фильтрам.",
+    "maxPerOrder": "макс. {count} / заказ",
+    "ticketsSelected": "{count, plural, one {# билет выбран} few {# билета выбрано} many {# билетов выбрано} other {# билета выбрано}}",
+    "edit": "Изменить",
+    "buy": "Купить",
+    "removeSeatFrom": "Убрать место у {name}",
+    "addSeatTo": "Добавить место к {name}",
+    "perTicket": "/ билет",
+    "getNTickets": "{count, plural, one {Купить # билет} few {Купить # билета} many {Купить # билетов} other {Купить # билета}}",
+    "listingsCount": "{count, plural, one {# объявление} few {# объявления} many {# объявлений} other {# объявления}}"
+  },
+  "TicketFilters": {
+    "quantity": "Количество",
+    "category": "Категория",
+    "ticketType": "Тип билета",
+    "clearAll": "Очистить всё",
+    "ticketsCount": "{count, plural, one {# билет} few {# билета} many {# билетов} other {# билета}}"
+  },
+  "SeatingPlan": {
+    "heading": "Схема зала",
+    "block": "Блок {block}",
+    "from": "От"
+  },
+  "Venue": {
+    "home": "Главная",
+    "venue": "Площадка",
+    "upcomingEvents": "{count, plural, one {# ближайшее мероприятие} few {# ближайших мероприятия} many {# ближайших мероприятий} other {# ближайших мероприятия}}",
+    "noUpcomingShows": "Пока нет ближайших шоу на этой площадке — заходите позже.",
+    "tickets": "Билеты",
+    "metaTitle": "Билеты {name} — все ближайшие мероприятия",
+    "metaDescription": "{count, plural, one {# ближайшее мероприятие} few {# ближайших мероприятия} many {# ближайших мероприятий} other {# ближайших мероприятия}} на площадке {name}. Проверенные билеты, каждое место гарантировано."
+  },
+  "NotFound": {
+    "title": "Потеряна нить",
+    "body": "Мы не смогли найти эту страницу или мероприятие. Возможно, билеты закончились или страница была перемещена.",
+    "backHome": "На главную",
+    "browseEvents": "Смотреть мероприятия"
+  },
+  "Event": {
+    "keepExploring": "Продолжить изучение",
+    "moreLikeThis": "Похожие мероприятия",
+    "metaTitle": "Билеты {title} — {venue}, {city}"
+  }
+}

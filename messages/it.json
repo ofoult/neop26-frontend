@@ -1,0 +1,248 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Lingua e valuta",
+    "loadingSubcategories": "Caricamento…"
+  },
+  "Footer": {
+    "tagline": "Biglietti per i migliori eventi live al mondo. Venditori verificati, ogni posto garantito.",
+    "learnMore": "Scopri di più",
+    "aboutUs": "Chi siamo",
+    "sitemap": "Mappa del sito",
+    "partners": "Partner",
+    "support": "Assistenza",
+    "help": "Aiuto",
+    "faq": "FAQ",
+    "contactUs": "Contattaci",
+    "guarantee": "Garanzia al 100%",
+    "rights": "© {year} neop. Tutti i diritti riservati.",
+    "privacy": "Privacy",
+    "terms": "Termini",
+    "cookies": "Cookie"
+  },
+  "Hero": {
+    "featured": "In evidenza",
+    "getTickets": "Acquista i biglietti",
+    "from": "da",
+    "watchTrailer": "Guarda il trailer",
+    "pageTitle": "Biglietti per i migliori eventi live al mondo"
+  },
+  "Metadata": {
+    "title": "neop — biglietti per i migliori eventi al mondo",
+    "description": "Biglietti per i migliori eventi live al mondo. Venditori verificati, ogni posto garantito."
+  },
+  "Home": {
+    "trendingKicker": "Si vendono in fretta",
+    "trendingTitle": "Di tendenza ora",
+    "seeAll": "Vedi tutto",
+    "weekendKicker": "Da non perdere",
+    "weekendTitle": "Questo weekend",
+    "browseDates": "Sfoglia le date",
+    "festivalsKicker": "I momenti forti della stagione",
+    "festivalsTitle": "Festival che valgono il viaggio",
+    "allFestivals": "Tutti i festival",
+    "guaranteeTitle": "Ogni posto garantito",
+    "guaranteeBody": "Se il tuo evento viene annullato o i biglietti non arrivano, sei coperto — rimborso completo, senza domande.",
+    "countriesTitle": "Oltre 90 paesi",
+    "countriesBody": "Da Tokyo a Rio, sfoglia e prenota biglietti verificati per eventi in ogni continente.",
+    "instantTitle": "Ingresso mobile istantaneo",
+    "instantBody": "I biglietti arrivano nel tuo wallet pochi secondi dopo il pagamento. Scansiona ed entra direttamente.",
+    "noEventsTitle": "Nessun evento da mostrare",
+    "noEventsBody": "Il backend di neop non ha restituito alcun evento. Assicurati che sia in esecuzione su <code>{url}</code> e che i dati siano sincronizzate."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Preferenze di lingua e valuta",
+    "languageAndRegion": "Lingua e area geografica",
+    "currency": "Valuta"
+  },
+  "Categories": {
+    "music": "Musica",
+    "festivals": "Festival",
+    "sports": "Sport",
+    "arts": "Teatro e arti",
+    "comedy": "Comedy"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, one {# evento per questo artista} other {# eventi per questo artista}}",
+    "trending": "Di tendenza",
+    "viewTickets": "Vedi i biglietti",
+    "fromPrice": "da {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Si vendono in fretta:"
+  },
+  "Browse": {
+    "home": "Home",
+    "searchBreadcrumb": "Ricerca",
+    "resultsFor": "Risultati per",
+    "discoverEvents": "Scopri eventi",
+    "worldwide": "in tutto il mondo",
+    "allCategory": "Tutti",
+    "subcategorySelectLabel": "Sfoglia le sottocategorie di {category}",
+    "sort": "Ordina",
+    "sortTrending": "Tendenza",
+    "sortPrice": "Prezzo",
+    "sortDate": "Data",
+    "artistsCount": "{count, plural, one {# artista} other {# artisti}}",
+    "showingCount": "{count} mostrati",
+    "noEventsMatch": "Nessun evento corrisponde a \"{term}\".",
+    "noEventsInCategory": "Nessun evento trovato in questa categoria.",
+    "pagination": "Paginazione",
+    "prev": "Prec.",
+    "next": "Succ.",
+    "pageOf": "Pagina {page} di {total}",
+    "loadingMore": "Caricamento di altri eventi…",
+    "retryFailed": "Caricamento non riuscito — riprova",
+    "reachedEnd": "Hai raggiunto la fine.",
+    "inWhere": "a {where}"
+  },
+  "DateLabels": {
+    "today": "Oggi",
+    "tomorrow": "Domani",
+    "thisWeek": "Questa settimana",
+    "nextWeek": "La prossima settimana",
+    "thisMonth": "Questo mese",
+    "nextMonth": "Il prossimo mese",
+    "thisYear": "Quest'anno",
+    "nextYear": "L'anno prossimo"
+  },
+  "SearchBar": {
+    "what": "Cosa",
+    "where": "Dove",
+    "when": "Quando",
+    "searchPlaceholder": "Cerca eventi, artisti, sedi…",
+    "wherePlaceholder": "Ovunque",
+    "noResultsFor": "Nessun risultato per \"{term}\" — premi Invio per cercare comunque",
+    "searching": "Ricerca in corso…",
+    "typeEvent": "Evento",
+    "typeArtist": "Artista",
+    "typeVenue": "Sede",
+    "typeCountry": "Paese",
+    "typeCity": "Città",
+    "search": "Cerca",
+    "anyDates": "Qualsiasi data",
+    "fromDate": "Da {date}",
+    "untilDate": "Fino al {date}",
+    "start": "Inizio",
+    "end": "Fine",
+    "clear": "Cancella",
+    "done": "Fatto"
+  },
+  "Performer": {
+    "home": "Home",
+    "artist": "Artista",
+    "upcomingEvents": "{count, plural, one {# evento in programma} other {# eventi in programma}}",
+    "noUpcomingEvents": "Ancora nessun evento in programma per {name} — torna a controllare presto.",
+    "tickets": "Biglietti",
+    "eventsTab": "Eventi",
+    "aboutTab": "Info",
+    "source": "Fonte: {source}",
+    "fromYoutube": "Da YouTube",
+    "fansSaying": "Cosa dicono i fan",
+    "metaTitle": "Biglietti {name} — tutti gli eventi in programma",
+    "metaDescription": "{count, plural, one {# evento in programma} other {# eventi in programma}} per {name}. Biglietti verificati, ogni posto garantito."
+  },
+  "Common": {
+    "loading": "Caricamento…"
+  },
+  "Checkout": {
+    "loadingOrder": "Caricamento del tuo ordine…",
+    "lostOrderTitle": "Abbiamo perso il tuo ordine",
+    "lostOrderBody": "Il link di pagamento non contiene i dettagli necessari o l'evento non ha più un prezzo disponibile.",
+    "browseEvents": "Sfoglia gli eventi",
+    "backToEvent": "Torna all'evento",
+    "title": "Pagamento",
+    "heldNotice": "Ci sei quasi. I biglietti sono riservati per 10:00.",
+    "step1": "I tuoi dati",
+    "fullName": "Nome completo",
+    "email": "E-mail",
+    "phone": "Telefono",
+    "step2": "Pagamento",
+    "methodCard": "Carta",
+    "cardNumber": "Numero della carta",
+    "expiry": "Scadenza",
+    "cvc": "CVC",
+    "securePayment": "I pagamenti sono crittografati e protetti. Questa è una demo — nessuna carta viene addebitata.",
+    "serviceFees": "Costi di servizio",
+    "deliveryMobile": "Consegna · mobile",
+    "free": "Gratuito",
+    "total": "Totale",
+    "pay": "Paga {amount}"
+  },
+  "Confirmation": {
+    "finalising": "Finalizzazione dei tuoi biglietti…",
+    "orderNotFound": "Ordine non trovato",
+    "findEvents": "Trova eventi",
+    "goingTitle": "Ci vai!",
+    "confirmationSent": "Conferma inviata. I tuoi biglietti sono nel wallet, pronti per la scansione.",
+    "date": "Data",
+    "time": "Ora",
+    "venue": "Sede",
+    "city": "Città",
+    "ticket": "Biglietto",
+    "quantity": "Quantità",
+    "ticketsCount": "{count, plural, one {# biglietto} other {# biglietti}}",
+    "order": "Ordine",
+    "backHome": "Torna alla home",
+    "findMoreEvents": "Trova altri eventi"
+  },
+  "TicketTiers": {
+    "ga": "Ingresso generale",
+    "prem": "Premium",
+    "vip": "Esperienza VIP"
+  },
+  "TicketPicker": {
+    "selectTickets": "Seleziona i biglietti",
+    "notAvailable": "I biglietti per questo evento non sono al momento disponibili. Riprova più tardi.",
+    "noSeatPricing": "I prezzi posto per posto non sono disponibili per questo evento — continua sul sito del nostro partner per vedere le opzioni e completare l'acquisto.",
+    "getTickets": "Acquista i biglietti",
+    "protectedGuarantee": "Protetto dalla garanzia al 100% di neop",
+    "limited": "Limitato",
+    "onlyLeft": "Solo {count} rimasti",
+    "available": "{count} disponibili",
+    "fullSetOnly": "Solo blocco completo",
+    "soldInPairs": "Venduti in coppia",
+    "cantLeaveOne": "Non è possibile lasciare un solo posto",
+    "noMatchFilters": "Nessun biglietto corrisponde ai filtri selezionati.",
+    "maxPerOrder": "max {count} / ordine",
+    "ticketsSelected": "{count, plural, one {# biglietto selezionato} other {# biglietti selezionati}}",
+    "edit": "Modifica",
+    "buy": "Acquista",
+    "removeSeatFrom": "Rimuovi posto da {name}",
+    "addSeatTo": "Aggiungi posto a {name}",
+    "perTicket": "/ biglietto",
+    "getNTickets": "{count, plural, one {Acquista # biglietto} other {Acquista # biglietti}}",
+    "listingsCount": "{count, plural, one {# inserzione} other {# inserzioni}}"
+  },
+  "TicketFilters": {
+    "quantity": "Quantità",
+    "category": "Categoria",
+    "ticketType": "Tipo di biglietto",
+    "clearAll": "Cancella tutto",
+    "ticketsCount": "{count, plural, one {# biglietto} other {# biglietti}}"
+  },
+  "SeatingPlan": {
+    "heading": "Piantina dei posti",
+    "block": "Blocco {block}",
+    "from": "Da"
+  },
+  "Venue": {
+    "home": "Home",
+    "venue": "Sede",
+    "upcomingEvents": "{count, plural, one {# evento in programma} other {# eventi in programma}}",
+    "noUpcomingShows": "Ancora nessuno spettacolo in programma in questa sede — torna a controllare presto.",
+    "tickets": "Biglietti",
+    "metaTitle": "Biglietti {name} — tutti gli eventi in programma",
+    "metaDescription": "{count, plural, one {# evento in programma} other {# eventi in programma}} a {name}. Biglietti verificati, ogni posto garantito."
+  },
+  "NotFound": {
+    "title": "Filo perduto",
+    "body": "Non abbiamo trovato questa pagina o evento. Potrebbe essere sold out o essere stato spostato.",
+    "backHome": "Torna alla home",
+    "browseEvents": "Sfoglia gli eventi"
+  },
+  "Event": {
+    "keepExploring": "Continua a esplorare",
+    "moreLikeThis": "Altri eventi simili",
+    "metaTitle": "Biglietti {title} — {venue}, {city}"
+  }
+}

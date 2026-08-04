@@ -1,0 +1,248 @@
+{
+  "Nav": {
+    "languageAndCurrency": "اللغة والعملة",
+    "loadingSubcategories": "جارٍ التحميل…"
+  },
+  "Footer": {
+    "tagline": "تذاكر لأفضل الفعاليات الحية في العالم. بائعون موثقون، كل مقعد مضمون.",
+    "learnMore": "معرفة المزيد",
+    "aboutUs": "من نحن",
+    "sitemap": "خريطة الموقع",
+    "partners": "الشركاء",
+    "support": "الدعم",
+    "help": "المساعدة",
+    "faq": "الأسئلة الشائعة",
+    "contactUs": "تواصل معنا",
+    "guarantee": "ضمان 100%",
+    "rights": "© {year} neop. جميع الحقوق محفوظة.",
+    "privacy": "الخصوصية",
+    "terms": "الشروط",
+    "cookies": "ملفات تعريف الارتباط"
+  },
+  "Hero": {
+    "featured": "مميز",
+    "getTickets": "احصل على التذاكر",
+    "from": "من",
+    "watchTrailer": "مشاهدة العرض الترويجي",
+    "pageTitle": "تذاكر لأفضل الفعاليات الحية في العالم"
+  },
+  "Metadata": {
+    "title": "neop — تذاكر لأفضل فعاليات العالم",
+    "description": "تذاكر لأفضل الفعاليات الحية في العالم. بائعون موثقون، كل مقعد مضمون."
+  },
+  "Home": {
+    "trendingKicker": "تُباع بسرعة",
+    "trendingTitle": "الأكثر رواجًا الآن",
+    "seeAll": "عرض الكل",
+    "weekendKicker": "لا تفوّت الفرصة",
+    "weekendTitle": "في هذا الأسبوع",
+    "browseDates": "تصفح التواريخ",
+    "festivalsKicker": "أبرز فعاليات الموسم",
+    "festivalsTitle": "مهرجانات تستحق السفر",
+    "allFestivals": "جميع المهرجانات",
+    "guaranteeTitle": "كل مقعد مضمون",
+    "guaranteeBody": "إذا تم إلغاء فعاليتك أو لم تصل التذاكر، فأنت مغطى — استرداد كامل، دون أي أسئلة.",
+    "countriesTitle": "أكثر من 90 دولة",
+    "countriesBody": "من طوكيو إلى ريو، تصفح واحجز تذاكر موثقة لفعاليات في كل قارة.",
+    "instantTitle": "دخول فوري عبر الهاتف",
+    "instantBody": "تصل التذاكر إلى محفظتك في ثوانٍ بعد إتمام الشراء. اعرض الرمز وادخل مباشرة.",
+    "noEventsTitle": "لا توجد فعاليات لعرضها",
+    "noEventsBody": "لم يُرجع الخادم الخلفي لـ neop أي فعاليات. تأكد من أنه يعمل على <code>{url}</code> وأن البيانات متزامنة."
+  },
+  "LanguageSelect": {
+    "modalTitle": "تفضيلات اللغة والعملة",
+    "languageAndRegion": "اللغة والمنطقة",
+    "currency": "العملة"
+  },
+  "Categories": {
+    "music": "موسيقى",
+    "festivals": "مهرجانات",
+    "sports": "رياضة",
+    "arts": "المسرح والفنون",
+    "comedy": "كوميديا"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, zero {# فعاليات لهذا الفنان} one {فعالية واحدة لهذا الفنان} two {فعاليتان لهذا الفنان} few {# فعاليات لهذا الفنان} many {# فعالية لهذا الفنان} other {# فعالية لهذا الفنان}}",
+    "trending": "الأكثر رواجًا",
+    "viewTickets": "عرض التذاكر",
+    "fromPrice": "من {price}"
+  },
+  "Marquee": {
+    "sellingFast": "تُباع بسرعة:"
+  },
+  "Browse": {
+    "home": "الرئيسية",
+    "searchBreadcrumb": "البحث",
+    "resultsFor": "نتائج عن",
+    "discoverEvents": "اكتشف الفعاليات",
+    "worldwide": "حول العالم",
+    "allCategory": "الكل",
+    "subcategorySelectLabel": "تصفح الفئات الفرعية لـ {category}",
+    "sort": "ترتيب",
+    "sortTrending": "الأكثر رواجًا",
+    "sortPrice": "السعر",
+    "sortDate": "التاريخ",
+    "artistsCount": "{count, plural, zero {# فنانين} one {فنان واحد} two {فنانان} few {# فنانين} many {# فنان} other {# فنان}}",
+    "showingCount": "يُعرض {count}",
+    "noEventsMatch": "لا توجد فعاليات تطابق \"{term}\".",
+    "noEventsInCategory": "لم يتم العثور على فعاليات في هذه الفئة.",
+    "pagination": "ترقيم الصفحات",
+    "prev": "السابق",
+    "next": "التالي",
+    "pageOf": "صفحة {page} من {total}",
+    "loadingMore": "جارٍ تحميل المزيد من الفعاليات…",
+    "retryFailed": "فشل التحميل — إعادة المحاولة",
+    "reachedEnd": "لقد وصلت إلى النهاية.",
+    "inWhere": "في {where}"
+  },
+  "DateLabels": {
+    "today": "اليوم",
+    "tomorrow": "غدًا",
+    "thisWeek": "هذا الأسبوع",
+    "nextWeek": "الأسبوع القادم",
+    "thisMonth": "هذا الشهر",
+    "nextMonth": "الشهر القادم",
+    "thisYear": "هذا العام",
+    "nextYear": "العام القادم"
+  },
+  "SearchBar": {
+    "what": "ماذا",
+    "where": "أين",
+    "when": "متى",
+    "searchPlaceholder": "ابحث عن فعاليات، فنانين، أماكن…",
+    "wherePlaceholder": "أي مكان",
+    "noResultsFor": "لا توجد نتائج لـ \"{term}\" — اضغط Enter للبحث رغم ذلك",
+    "searching": "جارٍ البحث…",
+    "typeEvent": "فعالية",
+    "typeArtist": "فنان",
+    "typeVenue": "مكان",
+    "typeCountry": "دولة",
+    "typeCity": "مدينة",
+    "search": "بحث",
+    "anyDates": "أي تاريخ",
+    "fromDate": "من {date}",
+    "untilDate": "حتى {date}",
+    "start": "البداية",
+    "end": "النهاية",
+    "clear": "مسح",
+    "done": "تم"
+  },
+  "Performer": {
+    "home": "الرئيسية",
+    "artist": "فنان",
+    "upcomingEvents": "{count, plural, zero {# فعاليات قادمة} one {فعالية واحدة قادمة} two {فعاليتان قادمتان} few {# فعاليات قادمة} many {# فعالية قادمة} other {# فعالية قادمة}}",
+    "noUpcomingEvents": "لا توجد فعاليات قادمة لـ {name} حتى الآن — تابع معنا قريبًا.",
+    "tickets": "التذاكر",
+    "eventsTab": "الفعاليات",
+    "aboutTab": "نبذة",
+    "source": "المصدر: {source}",
+    "fromYoutube": "من YouTube",
+    "fansSaying": "ما يقوله المعجبون",
+    "metaTitle": "تذاكر {name} — جميع الفعاليات القادمة",
+    "metaDescription": "{count, plural, zero {# فعاليات قادمة} one {فعالية واحدة قادمة} two {فعاليتان قادمتان} few {# فعاليات قادمة} many {# فعالية قادمة} other {# فعالية قادمة}} لـ {name}. تذاكر موثقة، كل مقعد مضمون."
+  },
+  "Common": {
+    "loading": "جارٍ التحميل…"
+  },
+  "Checkout": {
+    "loadingOrder": "جارٍ تحميل طلبك…",
+    "lostOrderTitle": "فقدنا طلبك",
+    "lostOrderBody": "رابط الدفع هذا يفتقد بعض التفاصيل أو لم يعد للفعالية سعر متاح.",
+    "browseEvents": "تصفح الفعاليات",
+    "backToEvent": "الرجوع إلى الفعالية",
+    "title": "الدفع",
+    "heldNotice": "أنت على وشك الانتهاء. التذاكر محجوزة لمدة 10:00.",
+    "step1": "بياناتك",
+    "fullName": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "step2": "الدفع",
+    "methodCard": "بطاقة",
+    "cardNumber": "رقم البطاقة",
+    "expiry": "تاريخ الانتهاء",
+    "cvc": "CVC",
+    "securePayment": "المدفوعات مشفّرة ومؤمّنة. هذا عرض تجريبي — لن يتم خصم أي مبلغ من البطاقة.",
+    "serviceFees": "رسوم الخدمة",
+    "deliveryMobile": "التوصيل · عبر الهاتف",
+    "free": "مجاني",
+    "total": "الإجمالي",
+    "pay": "دفع {amount}"
+  },
+  "Confirmation": {
+    "finalising": "جارٍ إتمام تذاكرك…",
+    "orderNotFound": "الطلب غير موجود",
+    "findEvents": "البحث عن فعاليات",
+    "goingTitle": "أنت ستحضر!",
+    "confirmationSent": "تم إرسال التأكيد. تذاكرك في محفظتك، جاهزة للمسح.",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "venue": "المكان",
+    "city": "المدينة",
+    "ticket": "تذكرة",
+    "quantity": "الكمية",
+    "ticketsCount": "{count, plural, zero {# تذاكر} one {تذكرة واحدة} two {تذكرتان} few {# تذاكر} many {# تذكرة} other {# تذكرة}}",
+    "order": "الطلب",
+    "backHome": "الرجوع إلى الرئيسية",
+    "findMoreEvents": "البحث عن فعاليات أخرى"
+  },
+  "TicketTiers": {
+    "ga": "دخول عام",
+    "prem": "بريميوم",
+    "vip": "تجربة VIP"
+  },
+  "TicketPicker": {
+    "selectTickets": "اختر التذاكر",
+    "notAvailable": "تذاكر هذه الفعالية غير متاحة حاليًا. يُرجى المحاولة لاحقًا.",
+    "noSeatPricing": "التسعير حسب المقعد غير متاح لهذه الفعالية — تابع على صفحة شريكنا لرؤية الخيارات وإتمام الشراء.",
+    "getTickets": "احصل على التذاكر",
+    "protectedGuarantee": "محمي بضمان neop بنسبة 100%",
+    "limited": "محدود",
+    "onlyLeft": "تبقّى {count} فقط",
+    "available": "{count} متاحة",
+    "fullSetOnly": "المجموعة الكاملة فقط",
+    "soldInPairs": "تُباع في أزواج",
+    "cantLeaveOne": "لا يمكن ترك مقعد واحد بمفرده",
+    "noMatchFilters": "لا توجد تذاكر تطابق الفلاتر المحددة.",
+    "maxPerOrder": "الحد الأقصى {count} / طلب",
+    "ticketsSelected": "{count, plural, zero {# تذاكر محددة} one {تذكرة واحدة محددة} two {تذكرتان محددتان} few {# تذاكر محددة} many {# تذكرة محددة} other {# تذكرة محددة}}",
+    "edit": "تعديل",
+    "buy": "شراء",
+    "removeSeatFrom": "إزالة مقعد من {name}",
+    "addSeatTo": "إضافة مقعد إلى {name}",
+    "perTicket": "/ تذكرة",
+    "getNTickets": "{count, plural, zero {شراء # تذاكر} one {شراء تذكرة واحدة} two {شراء تذكرتين} few {شراء # تذاكر} many {شراء # تذكرة} other {شراء # تذكرة}}",
+    "listingsCount": "{count, plural, zero {# عروض} one {عرض واحد} two {عرضان} few {# عروض} many {# عرض} other {# عرض}}"
+  },
+  "TicketFilters": {
+    "quantity": "الكمية",
+    "category": "الفئة",
+    "ticketType": "نوع التذكرة",
+    "clearAll": "مسح الكل",
+    "ticketsCount": "{count, plural, zero {# تذاكر} one {تذكرة واحدة} two {تذكرتان} few {# تذاكر} many {# تذكرة} other {# تذكرة}}"
+  },
+  "SeatingPlan": {
+    "heading": "مخطط المقاعد",
+    "block": "القطاع {block}",
+    "from": "من"
+  },
+  "Venue": {
+    "home": "الرئيسية",
+    "venue": "المكان",
+    "upcomingEvents": "{count, plural, zero {# فعاليات قادمة} one {فعالية واحدة قادمة} two {فعاليتان قادمتان} few {# فعاليات قادمة} many {# فعالية قادمة} other {# فعالية قادمة}}",
+    "noUpcomingShows": "لا توجد عروض قادمة في هذا المكان حتى الآن — تابع معنا قريبًا.",
+    "tickets": "التذاكر",
+    "metaTitle": "تذاكر {name} — جميع الفعاليات القادمة",
+    "metaDescription": "{count, plural, zero {# فعاليات قادمة} one {فعالية واحدة قادمة} two {فعاليتان قادمتان} few {# فعاليات قادمة} many {# فعالية قادمة} other {# فعالية قادمة}} في {name}. تذاكر موثقة، كل مقعد مضمون."
+  },
+  "NotFound": {
+    "title": "ضاع الخيط",
+    "body": "لم نتمكن من العثور على هذه الصفحة أو الفعالية. قد تكون نفدت تذاكرها أو تم نقلها.",
+    "backHome": "الرجوع إلى الرئيسية",
+    "browseEvents": "تصفح الفعاليات"
+  },
+  "Event": {
+    "keepExploring": "استمر في الاستكشاف",
+    "moreLikeThis": "المزيد مثل هذا",
+    "metaTitle": "تذاكر {title} — {venue}، {city}"
+  }
+}

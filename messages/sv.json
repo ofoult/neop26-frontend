@@ -1,0 +1,248 @@
+{
+  "Nav": {
+    "languageAndCurrency": "Språk och valuta",
+    "loadingSubcategories": "Läser in…"
+  },
+  "Footer": {
+    "tagline": "Biljetter till världens bästa liveevenemang. Verifierade säljare, varje plats garanterad.",
+    "learnMore": "Läs mer",
+    "aboutUs": "Om oss",
+    "sitemap": "Sitemap",
+    "partners": "Partners",
+    "support": "Support",
+    "help": "Hjälp",
+    "faq": "Vanliga frågor",
+    "contactUs": "Kontakta oss",
+    "guarantee": "100 % garanti",
+    "rights": "© {year} neop. Alla rättigheter förbehålls.",
+    "privacy": "Sekretess",
+    "terms": "Villkor",
+    "cookies": "Cookies"
+  },
+  "Hero": {
+    "featured": "I fokus",
+    "getTickets": "Köp biljetter",
+    "from": "från",
+    "watchTrailer": "Se trailer",
+    "pageTitle": "Biljetter till världens bästa liveevenemang"
+  },
+  "Metadata": {
+    "title": "neop — biljetter till världens bästa evenemang",
+    "description": "Biljetter till världens bästa liveevenemang. Verifierade säljare, varje plats garanterad."
+  },
+  "Home": {
+    "trendingKicker": "Går snabbt åt",
+    "trendingTitle": "Populärt just nu",
+    "seeAll": "Visa alla",
+    "weekendKicker": "Missa inte",
+    "weekendTitle": "Denna helg",
+    "browseDates": "Bläddra bland datum",
+    "festivalsKicker": "Säsongens höjdpunkter",
+    "festivalsTitle": "Festivaler värda resan",
+    "allFestivals": "Alla festivaler",
+    "guaranteeTitle": "Varje plats garanterad",
+    "guaranteeBody": "Om ditt evenemang ställs in eller biljetterna inte kommer fram är du skyddad — full återbetalning, inga frågor.",
+    "countriesTitle": "90+ länder",
+    "countriesBody": "Från Tokyo till Rio — bläddra och boka verifierade biljetter till evenemang på alla kontinenter.",
+    "instantTitle": "Direkt mobil entré",
+    "instantBody": "Biljetterna hamnar i din plånbok sekunder efter köpet. Skanna och gå rakt in.",
+    "noEventsTitle": "Inga evenemang att visa",
+    "noEventsBody": "neop-backend returnerade inga evenemang. Kontrollera att den körs på <code>{url}</code> och att data har synkroniserats."
+  },
+  "LanguageSelect": {
+    "modalTitle": "Inställningar för språk och valuta",
+    "languageAndRegion": "Språk och region",
+    "currency": "Valuta"
+  },
+  "Categories": {
+    "music": "Musik",
+    "festivals": "Festivaler",
+    "sports": "Sport",
+    "arts": "Teater och konst",
+    "comedy": "Komedi"
+  },
+  "EventCard": {
+    "eventsForArtist": "{count, plural, one {# evenemang för denna artist} other {# evenemang för denna artist}}",
+    "trending": "Populärt",
+    "viewTickets": "Visa biljetter",
+    "fromPrice": "från {price}"
+  },
+  "Marquee": {
+    "sellingFast": "Går snabbt åt:"
+  },
+  "Browse": {
+    "home": "Hem",
+    "searchBreadcrumb": "Sök",
+    "resultsFor": "Resultat för",
+    "discoverEvents": "Upptäck evenemang",
+    "worldwide": "över hela världen",
+    "allCategory": "Alla",
+    "subcategorySelectLabel": "Bläddra bland underkategorier till {category}",
+    "sort": "Sortera",
+    "sortTrending": "Populärt",
+    "sortPrice": "Pris",
+    "sortDate": "Datum",
+    "artistsCount": "{count, plural, one {# artist} other {# artister}}",
+    "showingCount": "visar {count}",
+    "noEventsMatch": "Inga evenemang matchar \"{term}\".",
+    "noEventsInCategory": "Inga evenemang hittades i denna kategori.",
+    "pagination": "Sidnumrering",
+    "prev": "Föreg.",
+    "next": "Nästa",
+    "pageOf": "Sida {page} av {total}",
+    "loadingMore": "Läser in fler evenemang…",
+    "retryFailed": "Kunde inte läsa in mer — försök igen",
+    "reachedEnd": "Du har nått slutet.",
+    "inWhere": "i {where}"
+  },
+  "DateLabels": {
+    "today": "Idag",
+    "tomorrow": "Imorgon",
+    "thisWeek": "Denna vecka",
+    "nextWeek": "Nästa vecka",
+    "thisMonth": "Denna månad",
+    "nextMonth": "Nästa månad",
+    "thisYear": "Detta år",
+    "nextYear": "Nästa år"
+  },
+  "SearchBar": {
+    "what": "Vad",
+    "where": "Var",
+    "when": "När",
+    "searchPlaceholder": "Sök evenemang, artister, arenor…",
+    "wherePlaceholder": "Var som helst",
+    "noResultsFor": "Inga resultat för \"{term}\" — tryck på Enter för att söka trots det",
+    "searching": "Söker…",
+    "typeEvent": "Evenemang",
+    "typeArtist": "Artist",
+    "typeVenue": "Arena",
+    "typeCountry": "Land",
+    "typeCity": "Stad",
+    "search": "Sök",
+    "anyDates": "Alla datum",
+    "fromDate": "Från {date}",
+    "untilDate": "Till {date}",
+    "start": "Start",
+    "end": "Slut",
+    "clear": "Rensa",
+    "done": "Klar"
+  },
+  "Performer": {
+    "home": "Hem",
+    "artist": "Artist",
+    "upcomingEvents": "{count, plural, one {# kommande evenemang} other {# kommande evenemang}}",
+    "noUpcomingEvents": "Inga kommande evenemang för {name} än — kom tillbaka snart.",
+    "tickets": "Biljetter",
+    "eventsTab": "Evenemang",
+    "aboutTab": "Om",
+    "source": "Källa: {source}",
+    "fromYoutube": "Från YouTube",
+    "fansSaying": "Vad fans säger",
+    "metaTitle": "{name} biljetter — alla kommande evenemang",
+    "metaDescription": "{count, plural, one {# kommande evenemang} other {# kommande evenemang}} för {name}. Verifierade biljetter, varje plats garanterad."
+  },
+  "Common": {
+    "loading": "Läser in…"
+  },
+  "Checkout": {
+    "loadingOrder": "Läser in din beställning…",
+    "lostOrderTitle": "Vi tappade bort din beställning",
+    "lostOrderBody": "Den betalningslänken saknar uppgifter eller evenemanget har inte längre ett pris.",
+    "browseEvents": "Bläddra bland evenemang",
+    "backToEvent": "Tillbaka till evenemanget",
+    "title": "Kassa",
+    "heldNotice": "Du är nästan där. Biljetterna hålls i 10:00.",
+    "step1": "Dina uppgifter",
+    "fullName": "Fullständigt namn",
+    "email": "E-post",
+    "phone": "Telefon",
+    "step2": "Betalning",
+    "methodCard": "Kort",
+    "cardNumber": "Kortnummer",
+    "expiry": "Utgångsdatum",
+    "cvc": "CVC",
+    "securePayment": "Betalningar är krypterade och säkra. Detta är en demo — inget kort debiteras.",
+    "serviceFees": "Serviceavgifter",
+    "deliveryMobile": "Leverans · mobil",
+    "free": "Gratis",
+    "total": "Totalt",
+    "pay": "Betala {amount}"
+  },
+  "Confirmation": {
+    "finalising": "Slutför dina biljetter…",
+    "orderNotFound": "Beställningen hittades inte",
+    "findEvents": "Hitta evenemang",
+    "goingTitle": "Du ska dit!",
+    "confirmationSent": "Bekräftelse skickad. Dina biljetter finns i din plånbok, redo att skannas.",
+    "date": "Datum",
+    "time": "Tid",
+    "venue": "Arena",
+    "city": "Stad",
+    "ticket": "Biljett",
+    "quantity": "Antal",
+    "ticketsCount": "{count, plural, one {# biljett} other {# biljetter}}",
+    "order": "Beställning",
+    "backHome": "Tillbaka till hem",
+    "findMoreEvents": "Hitta fler evenemang"
+  },
+  "TicketTiers": {
+    "ga": "Allmän entré",
+    "prem": "Premium",
+    "vip": "VIP-upplevelse"
+  },
+  "TicketPicker": {
+    "selectTickets": "Välj biljetter",
+    "notAvailable": "Biljetter till detta evenemang är inte tillgängliga just nu. Kom tillbaka senare.",
+    "noSeatPricing": "Prissättning per plats är inte tillgänglig för detta evenemang — fortsätt på vår partners sida för att se alternativ och slutföra köpet.",
+    "getTickets": "Köp biljetter",
+    "protectedGuarantee": "Skyddad av neops 100 % garanti",
+    "limited": "Begränsat",
+    "onlyLeft": "Endast {count} kvar",
+    "available": "{count} tillgängliga",
+    "fullSetOnly": "Endast hela set",
+    "soldInPairs": "Säljs i par",
+    "cantLeaveOne": "Kan inte lämna en enda plats",
+    "noMatchFilters": "Inga biljetter matchar de valda filtren.",
+    "maxPerOrder": "max {count} / beställning",
+    "ticketsSelected": "{count, plural, one {# biljett vald} other {# biljetter valda}}",
+    "edit": "Redigera",
+    "buy": "Köp",
+    "removeSeatFrom": "Ta bort plats från {name}",
+    "addSeatTo": "Lägg till plats till {name}",
+    "perTicket": "/ biljett",
+    "getNTickets": "{count, plural, one {Köp # biljett} other {Köp # biljetter}}",
+    "listingsCount": "{count, plural, one {# annons} other {# annonser}}"
+  },
+  "TicketFilters": {
+    "quantity": "Antal",
+    "category": "Kategori",
+    "ticketType": "Biljettyp",
+    "clearAll": "Rensa allt",
+    "ticketsCount": "{count, plural, one {# biljett} other {# biljetter}}"
+  },
+  "SeatingPlan": {
+    "heading": "Sittplansskiss",
+    "block": "Sektion {block}",
+    "from": "Från"
+  },
+  "Venue": {
+    "home": "Hem",
+    "venue": "Arena",
+    "upcomingEvents": "{count, plural, one {# kommande evenemang} other {# kommande evenemang}}",
+    "noUpcomingShows": "Inga kommande shower på denna arena än — kom tillbaka snart.",
+    "tickets": "Biljetter",
+    "metaTitle": "{name} biljetter — alla kommande evenemang",
+    "metaDescription": "{count, plural, one {# kommande evenemang} other {# kommande evenemang}} på {name}. Verifierade biljetter, varje plats garanterad."
+  },
+  "NotFound": {
+    "title": "Tappade tråden",
+    "body": "Vi kunde inte hitta den sidan eller det evenemanget. Det kan ha sålt slut eller flyttats.",
+    "backHome": "Tillbaka till hem",
+    "browseEvents": "Bläddra bland evenemang"
+  },
+  "Event": {
+    "keepExploring": "Fortsätt utforska",
+    "moreLikeThis": "Mer i samma stil",
+    "metaTitle": "{title} biljetter — {venue}, {city}"
+  }
+}
