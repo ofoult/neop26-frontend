@@ -16,10 +16,11 @@ export async function loadMoreEvents(
   where?: string,
   dateFrom?: string,
   dateTo?: string,
+  subtypeId?: number | null,
 ): Promise<{ events: NeopEvent[]; total: number; page: number }> {
   const catObj = cat ? categoryById(cat) : undefined;
   // Safeguard: an unmapped category (no Gigsberg type) must never fall through
-  // to an unfiltered fetch. Mirrors the guard in browse/page.tsx.
+  // to an unfiltered fetch. Mirrors the guard in browse/[slug]/page.tsx.
   if (catObj && catObj.typeId == null) {
     return { events: [], total: 0, page };
   }
@@ -29,6 +30,7 @@ export async function loadMoreEvents(
     dateFrom: dateFrom || undefined,
     dateTo: dateTo || undefined,
     typeId: catObj?.typeId ?? undefined,
+    subtypeId: subtypeId ?? undefined,
     page,
     perPage: BROWSE_PER_PAGE,
     revalidate: 120,

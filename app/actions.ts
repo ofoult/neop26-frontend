@@ -1,6 +1,7 @@
 'use server';
 
-import { API_BASE } from '@/lib/api';
+import { API_BASE, fetchSubtypes } from '@/lib/api';
+import { toSubcategories, type Subcategory } from '@/lib/subcategories';
 import type { LocationSuggestion, SearchSuggestion } from '@/lib/types';
 
 /**
@@ -38,4 +39,13 @@ export async function suggestSearch(q: string): Promise<SearchSuggestion[]> {
   } catch {
     return [];
   }
+}
+
+/**
+ * The full subcategory taxonomy, for client components that need it on
+ * demand — the Nav category submenu calls this lazily on first hover rather
+ * than fetching it on every page load (see components/Nav.tsx).
+ */
+export async function getSubcategories(): Promise<Subcategory[]> {
+  return toSubcategories(await fetchSubtypes());
 }

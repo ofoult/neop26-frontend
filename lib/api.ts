@@ -8,6 +8,7 @@ import type {
   ApiEventsResponse,
   ApiListingCategory,
   ApiPerformerResponse,
+  ApiSubtype,
   ApiVenueResponse,
   CategoryId,
   NeopEvent,
@@ -117,6 +118,7 @@ export interface EventQuery {
   city?: string;
   country?: string;
   typeId?: number | null;
+  subtypeId?: number | null;
   page?: number;
   perPage?: number;
   /** ISR revalidation window in seconds (server components only). */
@@ -147,6 +149,7 @@ export async function fetchEvents(q: EventQuery = {}): Promise<EventsResult> {
     city: q.city,
     country: q.country,
     type_id: q.typeId ?? undefined,
+    subtype_id: q.subtypeId ?? undefined,
     page: q.page ?? 1,
     per_page: q.perPage ?? 24,
   });
@@ -167,6 +170,24 @@ export async function fetchEvents(q: EventQuery = {}): Promise<EventsResult> {
 //   const res = await fetchEvents({ perPage: 50, revalidate });
 //   return res.events.filter((event) => event.hot).slice(0, 12);
 // }
+
+/**
+ * The subcategory taxonomy (Gigsberg's "subtype"), used to resolve
+ * `/browse/{slug}` and to populate the browse page's subcategory select and
+ * the Nav category submenu. Rarely changes (only via the daily sync), so it's
+ * cached far longer than event listings. Returns [] on any failure so callers
+ * can degrade to "no subcategories" rather than erroring.
+ */
+export async function fetchSubtypes(revalidate = 3600): Promise<ApiSubtype[]> {
+  try {
+    const res = await fetch(buildUrl('/subtypes', {}), { next: { revalidate } });
+    if (!res.ok) return [];
+    const data = (await res.json()) as { items?: ApiSubtype[] };
+    return data.items ?? [];
+  } catch {
+    return [];
+  }
+}
 
 export async function fetchEvent(id: string, revalidate = 60): Promise<NeopEvent | null> {
   const res = await fetch(buildUrl(`/events/${id}`, {}), { next: { revalidate } });

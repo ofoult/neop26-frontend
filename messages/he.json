@@ -1,6 +1,7 @@
 {
   "Nav": {
-    "languageAndCurrency": "שפה ומטבע"
+    "languageAndCurrency": "שפה ומטבע",
+    "loadingSubcategories": "טוען…"
   },
   "Footer": {
     "tagline": "כרטיסים לאירועים החיים הטובים בעולם. מוכרים מאומתים, כל מושב מובטח.",
@@ -75,6 +76,8 @@
     "resultsFor": "תוצאות עבור",
     "discoverEvents": "גלו אירועים",
     "worldwide": "בכל העולם",
+    "allCategory": "הכול",
+    "subcategorySelectLabel": "עיון בתת-קטגוריות של {category}",
     "sort": "מיון",
     "sortTrending": "פופולרי",
     "sortPrice": "מחיר",

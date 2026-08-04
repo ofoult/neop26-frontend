@@ -5,10 +5,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from '@/i18n/navigation';
 import { loadMoreEvents } from '@/app/[locale]/browse/actions';
 import { EventCard } from '@/components/EventCard';
+import { Icon } from '@/components/Icon';
 import { SearchBar } from '@/components/SearchBar';
 import { BROWSE_PER_PAGE } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
 import { parseDate } from '@/lib/format';
+import type { Subcategory } from '@/lib/subcategories';
 import type { CategoryId, NeopEvent } from '@/lib/types';
 
 type SortKey = 'trending' | 'price' | 'date';
@@ -34,18 +36,19 @@ function formatWhenLabel(from: string | undefined, to: string | undefined, local
   return '';
 }
 
-// Builds a /browse URL for a given page, preserving the active filters —
-// used both by the infinite-scroll fetch and the crawlable pagination links.
-function pageHref(page: number, activeCat: CategoryId | null, query?: string, where?: string, dateFrom?: string, dateTo?: string): string {
+// Builds a /browse or /browse/{slug} URL, preserving the active search
+// filters — used both by the infinite-scroll fetch, the crawlable pagination
+// links, and the subcategory select's navigation.
+function browseHref(slug: string | null, { page, query, where, dateFrom, dateTo }: { page?: number; query?: string; where?: string; dateFrom?: string; dateTo?: string } = {}): string {
+  const base = slug ? `/browse/${slug}` : '/browse';
   const params = new URLSearchParams();
-  if (activeCat) params.set('cat', activeCat);
   if (query) params.set('q', query);
   if (where) params.set('where', where);
   if (dateFrom) params.set('from', dateFrom);
   if (dateTo) params.set('to', dateTo);
-  if (page > 1) params.set('page', String(page));
+  if (page && page > 1) params.set('page', String(page));
   const qs = params.toString();
-  return qs ? `/browse?${qs}` : '/browse';
+  return qs ? `${base}?${qs}` : base;
 }
 
 export function BrowseClient({
@@ -53,6 +56,8 @@ export function BrowseClient({
   total,
   page: initialPage,
   activeCat,
+  activeSubcat,
+  subcategories,
   query,
   where,
   dateFrom,
@@ -63,6 +68,10 @@ export function BrowseClient({
   total: number;
   page: number;
   activeCat: CategoryId | null;
+  /** The active subcategory, when the current page is /browse/{subcategorySlug}. */
+  activeSubcat: Subcategory | null;
+  /** Sibling subcategories of activeCat, for the select — [] when activeCat is null. */
+  subcategories: Subcategory[];
   query?: string;
   where?: string;
   dateFrom?: string;
@@ -75,6 +84,10 @@ export function BrowseClient({
   const tCat = useTranslations('Categories');
   const [sort, setSort] = useState<SortKey>('trending');
   const catObj = activeCat ? categoryById(activeCat) : undefined;
+  // The path segment for the current page — a subcategory slug, a category
+  // id, or null on bare /browse. Used for pagination links, the select, and
+  // to keep the search bar scoped to whatever's currently active.
+  const activeSlug = activeSubcat?.slug ?? activeCat;
 
 // Pagination state. `items` starts from the server-rendered page (page 1 by
 // default, or whichever page a direct ?page=N visit loads). Additional pages
@@ -105,7 +118,7 @@ export function BrowseClient({
     setLoading(true);
     try {
       const next = page + 1;
-      const res = await loadMoreEvents(activeCat, next, query, where, dateFrom, dateTo);
+      const res = await loadMoreEvents(activeCat, next, query, where, dateFrom, dateTo, activeSubcat?.id ?? null);
       setItems((prev) => {
         const seen = new Set(prev.map((e) => e.id));
         return [...prev, ...res.events.filter((e) => !seen.has(e.id))];
@@ -118,7 +131,7 @@ export function BrowseClient({
       loadingRef.current = false;
       setLoading(false);
     }
-  }, [activeCat, page, done, errored, query, where, dateFrom, dateTo]);
+  }, [activeCat, activeSubcat, page, done, errored, query, where, dateFrom, dateTo]);
 
   const sorted = useMemo(() => {
     const list = [...items];
@@ -156,7 +169,23 @@ export function BrowseClient({
           <Link href="/" style={{ color: "var(--dim)" }}>
             {t('home')}
           </Link>{" "}
-          {searching ? ` / ${t('searchBreadcrumb')}` : catObj ? ` / ${tCat(catObj.id)}` : ""}
+          {searching
+            ? ` / ${t('searchBreadcrumb')}`
+            : catObj
+              ? (
+                <>
+                  {" / "}
+                  {activeSubcat ? (
+                    <Link href={`/browse/${catObj.id}`} style={{ color: "var(--dim)" }}>
+                      {tCat(catObj.id)}
+                    </Link>
+                  ) : (
+                    tCat(catObj.id)
+                  )}
+                  {activeSubcat ? ` / ${activeSubcat.name}` : ""}
+                </>
+              )
+              : ""}
         </div>
         <h1
           className="serif"
@@ -169,6 +198,8 @@ export function BrowseClient({
                 “{searchLabel}”
               </span>
             </>
+          ) : activeSubcat ? (
+            activeSubcat.name
           ) : catObj ? (
             tCat(catObj.id)
           ) : (
@@ -182,9 +213,28 @@ export function BrowseClient({
         </h1>
       </div>
 
+      {catObj && subcategories.length > 0 && (
+        <div style={{ marginBottom: 18 }}>
+          <CategorySelect
+            label={activeSubcat ? activeSubcat.name : t('allCategory')}
+            ariaLabel={t('subcategorySelectLabel', { category: tCat(catObj.id) })}
+            activeValue={activeSlug ?? catObj.id}
+            options={[
+              { value: catObj.id, label: t('allCategory'), href: browseHref(catObj.id, { query, where, dateFrom, dateTo }) },
+              ...subcategories.map((s) => ({
+                value: s.slug,
+                label: s.name,
+                href: browseHref(s.slug, { query, where, dateFrom, dateTo }),
+              })),
+            ]}
+          />
+        </div>
+      )}
+
       <div style={{ marginBottom: 22 }}>
         <SearchBar
           compact
+          activeSlug={activeSlug}
           defaultQuery={query ?? ""}
           defaultWhere={where ?? ""}
           defaultFrom={dateFrom ?? ""}
@@ -262,7 +312,7 @@ export function BrowseClient({
               style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14, padding: '38px 0 12px', fontSize: 16, flexWrap: 'wrap', textAlign: 'center' }}
             >
               {initialPage > 1 ? (
-                <Link href={pageHref(initialPage - 1, activeCat, query, where, dateFrom, dateTo)} className="focus-ring" style={{ color: 'var(--dim)' }}>
+                <Link href={browseHref(activeSlug, { page: initialPage - 1, query, where, dateFrom, dateTo })} className="focus-ring" style={{ color: 'var(--dim)' }}>
                   ← {t('prev')}
                 </Link>
               ) : (
@@ -272,7 +322,7 @@ export function BrowseClient({
                 {t('pageOf', { page: initialPage, total: totalPages })}
               </span>
               {initialPage < totalPages ? (
-                <Link href={pageHref(initialPage + 1, activeCat, query, where, dateFrom, dateTo)} className="focus-ring" style={{ color: 'var(--dim)' }}>
+                <Link href={browseHref(activeSlug, { page: initialPage + 1, query, where, dateFrom, dateTo })} className="focus-ring" style={{ color: 'var(--dim)' }}>
                   {t('next')} →
                 </Link>
               ) : (
@@ -315,6 +365,155 @@ export function BrowseClient({
             ) : null}
           </div>
         </>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Trigger + hover-open panel for switching between a category and its
+ * subcategories — same interaction and visual language as the Nav's category
+ * submenu and the search bar's autosuggest dropdown (dark floating panel,
+ * row-highlight on hover), rather than a native <select>'s browser chrome.
+ */
+function CategorySelect({
+  label,
+  ariaLabel,
+  activeValue,
+  options,
+}: {
+  label: string;
+  ariaLabel: string;
+  activeValue: string;
+  options: { value: string; label: string; href: string }[];
+}) {
+  const [open, setOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  function openNow() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpen(true);
+  }
+  // Small delay so moving the mouse from the trigger into the panel doesn't
+  // flicker it closed — same pattern as FilterDropdown in TicketFilters.tsx.
+  function closeSoon() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpen(false), 150);
+  }
+  // Closing immediately on click (rather than waiting for closeSoon) means
+  // the panel doesn't stay stuck open over whatever page the link navigates to.
+  function closeNow() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    function onDocClick(e: MouseEvent) {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('mousedown', onDocClick);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDocClick);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  }, []);
+
+  return (
+    <div ref={rootRef} onMouseEnter={openNow} onMouseLeave={closeSoon} style={{ position: 'relative', display: 'inline-block' }}>
+      <button
+        type="button"
+        onClick={() => (open ? setOpen(false) : openNow())}
+        aria-expanded={open}
+        aria-label={ariaLabel}
+        className="focus-ring"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 9,
+          padding: '10px 14px',
+          borderRadius: 12,
+          border: `1px solid ${open ? 'var(--border-2)' : 'var(--border)'}`,
+          background: 'var(--surface)',
+          color: 'var(--text)',
+          fontSize: 14.5,
+          fontWeight: 600,
+          cursor: 'pointer',
+        }}
+      >
+        {label}
+        <Icon name="chevronDown" size={14} style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .15s', opacity: 0.7 }} />
+      </button>
+
+      {open && (
+        <div
+          onMouseEnter={openNow}
+          onMouseLeave={closeSoon}
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 10px)',
+            insetInlineStart: 0,
+            minWidth: 220,
+            maxHeight: 320,
+            overflowY: 'auto',
+            padding: 8,
+            background: '#12121b',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid var(--border-2)',
+            borderRadius: 16,
+            boxShadow: '0 24px 60px -20px rgba(0,0,0,.7)',
+            // Above SearchBar's form (200) and its dropdowns (210) — same
+            // reasoning as the Nav header's z-index — so this panel doesn't
+            // render underneath the search bar just below it on the page.
+            zIndex: 220,
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {options.map((opt) => {
+              const active = opt.value === activeValue;
+              return (
+                <Link
+                  key={opt.value}
+                  href={opt.href}
+                  prefetch={false}
+                  onClick={closeNow}
+                  className="focus-ring"
+                  style={{
+                    padding: '8px 10px',
+                    borderRadius: 9,
+                    fontSize: 13.5,
+                    fontWeight: active ? 700 : 400,
+                    color: active ? 'var(--text)' : 'var(--dim)',
+                    background: active ? 'var(--surface-2)' : 'transparent',
+                    whiteSpace: 'nowrap',
+                    transition: 'background .12s, color .12s',
+                  }}
+                  // Same hover-highlight pattern as the Nav submenu and the
+                  // search bar's autosuggest rows.
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'var(--surface-2)';
+                    e.currentTarget.style.color = 'var(--text)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = active ? 'var(--surface-2)' : 'transparent';
+                    e.currentTarget.style.color = active ? 'var(--text)' : 'var(--dim)';
+                  }}
+                >
+                  {opt.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       )}
     </div>
   );

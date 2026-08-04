@@ -1,6 +1,7 @@
 {
   "Nav": {
-    "languageAndCurrency": "Sprache und Währung"
+    "languageAndCurrency": "Sprache und Währung",
+    "loadingSubcategories": "Wird geladen…"
   },
   "Footer": {
     "tagline": "Tickets für die besten Live-Events der Welt. Verifizierte Verkäufer, jeder Platz garantiert.",
@@ -75,6 +76,8 @@
     "resultsFor": "Ergebnisse für",
     "discoverEvents": "Events entdecken",
     "worldwide": "weltweit",
+    "allCategory": "Alle",
+    "subcategorySelectLabel": "Unterkategorien von {category} durchsuchen",
     "sort": "Sortieren",
     "sortTrending": "Trend",
     "sortPrice": "Preis",

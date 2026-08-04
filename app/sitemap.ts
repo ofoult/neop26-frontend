@@ -5,6 +5,8 @@ import { hreflangAlternatesAbsolute } from '@/lib/hreflang';
 import { eventHref, performerHref, venueHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
 import { CHUNK_SIZE, chunkCount, safeCount, type SitemapCounts } from '@/lib/sitemap';
+import { toSubcategories, type Subcategory } from '@/lib/subcategories';
+import type { ApiSubtype } from '@/lib/types';
 
 // Prerendered at build time and only regenerated on-demand (see
 // app/api/revalidate-sitemap/route.ts, called by the daily sync job once new
@@ -69,13 +71,27 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   const performerChunks = chunkCount(performers);
   const venueChunks = chunkCount(venues);
 
-  if (id === 0) return staticEntries();
+  if (id === 0) return staticEntries(await getSubcategories());
   if (id <= performerChunks) return performerEntries(id - 1);
   if (id <= performerChunks + venueChunks) return venueEntries(id - 1 - performerChunks);
   return eventEntries(id - 1 - performerChunks - venueChunks);
 }
 
-function staticEntries(): MetadataRoute.Sitemap {
+// The subcategory taxonomy — a curated, bounded genre list (tens, not
+// thousands), so unlike performers/venues/events it doesn't need its own
+// CHUNK_SIZE-paginated group; it's folded straight into the id-0 static file.
+async function getSubcategories(): Promise<Subcategory[]> {
+  try {
+    const res = await fetch(`${API_BASE}/subtypes`, { next: { revalidate: false, tags: [SITEMAP_TAG] } });
+    if (!res.ok) return [];
+    const { items } = (await res.json()) as { items: ApiSubtype[] };
+    return toSubcategories(items);
+  } catch {
+    return [];
+  }
+}
+
+function staticEntries(subcategories: Subcategory[]): MetadataRoute.Sitemap {
   const now = new Date();
   return [
     { url: `${SITE_URL}/`, lastModified: now, changeFrequency: 'hourly', priority: 1, alternates: { languages: hreflangAlternatesAbsolute('/') } },
@@ -87,11 +103,18 @@ function staticEntries(): MetadataRoute.Sitemap {
       alternates: { languages: hreflangAlternatesAbsolute('/browse') },
     },
     ...CATEGORIES.map((c) => ({
-      url: `${SITE_URL}/browse?cat=${c.id}`,
+      url: `${SITE_URL}/browse/${c.id}`,
       lastModified: now,
       changeFrequency: 'hourly' as const,
       priority: 0.8,
-      alternates: { languages: hreflangAlternatesAbsolute(`/browse?cat=${c.id}`) },
+      alternates: { languages: hreflangAlternatesAbsolute(`/browse/${c.id}`) },
+    })),
+    ...subcategories.map((s) => ({
+      url: `${SITE_URL}/browse/${s.slug}`,
+      lastModified: now,
+      changeFrequency: 'hourly' as const,
+      priority: 0.7,
+      alternates: { languages: hreflangAlternatesAbsolute(`/browse/${s.slug}`) },
     })),
   ];
 }

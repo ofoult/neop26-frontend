@@ -98,7 +98,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
       {/* festivals spotlight */}
       {fests.length > 0 && (
         <section className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
-          <SecHead kicker={t('festivalsKicker')} title={t('festivalsTitle')} action={t('allFestivals')} actionHref="/browse?cat=festivals" />
+          <SecHead kicker={t('festivalsKicker')} title={t('festivalsTitle')} action={t('allFestivals')} actionHref="/browse/festivals" />
           <div className="event-grid">
             {fests.map((e, i) => (
               <EventCard key={e.id} ev={e} i={i}  />

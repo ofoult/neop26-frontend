@@ -117,7 +117,7 @@ export default async function EventPage({ params }: { params: { locale: string; 
         </div>
         <div style={{ position: 'relative', maxWidth: 'var(--maxw)', margin: '0 auto', padding: '112px 28px 40px' }}>
           <Link
-            href={ev.performerId ? performerHref(ev.performerId, ev.artist) : `/browse?cat=${ev.category}`}
+            href={ev.performerId ? performerHref(ev.performerId, ev.artist) : `/browse/${ev.category}`}
             className="focus-ring"
             style={{
               display: 'inline-flex',

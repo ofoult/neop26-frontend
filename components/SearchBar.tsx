@@ -20,6 +20,7 @@ function Divider(): ReactNode {
  */
 export function SearchBar({
   compact,
+  activeSlug = null,
   defaultQuery = '',
   defaultWhere = '',
   defaultFrom = '',
@@ -27,6 +28,10 @@ export function SearchBar({
   autoFocus = false,
 }: {
   compact?: boolean;
+  /** The current /browse/{slug} category or subcategory, so search stays
+   * scoped to it instead of always searching everything. Null on the bare
+   * /browse page (and the home page's own search bar). */
+  activeSlug?: string | null;
   defaultQuery?: string;
   defaultWhere?: string;
   defaultFrom?: string;
@@ -66,7 +71,10 @@ export function SearchBar({
     if (from) params.set('from', from);
     if (to) params.set('to', to);
     const qs = params.toString();
-    router.push(qs ? `/browse?${qs}` : '/browse');
+    // Stays within the current category/subcategory (if any) rather than
+    // always searching everything — see the `activeSlug` prop doc above.
+    const base = activeSlug ? `/browse/${activeSlug}` : '/browse';
+    router.push(qs ? `${base}?${qs}` : base);
   }
 
   // The suggest API returns the name(s) needed to build each result's

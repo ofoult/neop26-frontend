@@ -1,6 +1,7 @@
 {
   "Nav": {
-    "languageAndCurrency": "Langue et devise"
+    "languageAndCurrency": "Langue et devise",
+    "loadingSubcategories": "Chargement…"
   },
   "Footer": {
     "tagline": "Billets pour les meilleurs évènements en direct au monde. Vendeurs vérifiés, chaque place garantie.",
@@ -75,6 +76,8 @@
     "resultsFor": "Résultats pour",
     "discoverEvents": "Découvrez des évènements",
     "worldwide": "dans le monde entier",
+    "allCategory": "Tout",
+    "subcategorySelectLabel": "Parcourir les sous-catégories de {category}",
     "sort": "Trier",
     "sortTrending": "Tendance",
     "sortPrice": "Prix",

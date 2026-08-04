@@ -1,6 +1,7 @@
 {
   "Nav": {
-    "languageAndCurrency": "Idioma y moneda"
+    "languageAndCurrency": "Idioma y moneda",
+    "loadingSubcategories": "Cargando…"
   },
   "Footer": {
     "tagline": "Entradas para los mejores eventos en vivo del mundo. Vendedores verificados, cada asiento garantizado.",
@@ -75,6 +76,8 @@
     "resultsFor": "Resultados para",
     "discoverEvents": "Descubre eventos",
     "worldwide": "en todo el mundo",
+    "allCategory": "Todo",
+    "subcategorySelectLabel": "Explorar subcategorías de {category}",
     "sort": "Ordenar",
     "sortTrending": "Tendencia",
     "sortPrice": "Precio",

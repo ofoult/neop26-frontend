@@ -1,6 +1,7 @@
 {
   "Nav": {
-    "languageAndCurrency": "Language and currency"
+    "languageAndCurrency": "Language and currency",
+    "loadingSubcategories": "Loading…"
   },
   "Footer": {
     "tagline": "Tickets to the world's best live events. Verified sellers, every seat guaranteed.",
@@ -75,6 +76,8 @@
     "resultsFor": "Results for",
     "discoverEvents": "Discover events",
     "worldwide": "worldwide",
+    "allCategory": "All",
+    "subcategorySelectLabel": "Browse subcategories of {category}",
     "sort": "Sort",
     "sortTrending": "Trending",
     "sortPrice": "Price",

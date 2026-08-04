@@ -42,6 +42,14 @@ export interface ApiEventsResponse {
   items: ApiEventListItem[];
 }
 
+/** A row from `GET /subtypes` — Gigsberg's subcategory taxonomy. */
+export interface ApiSubtype {
+  id: number;
+  name: string;
+  type_id: number;
+  type_name: string;
+}
+
 /** One ticket category with aggregated pricing, from `GET /events/:id/listings`. */
 export interface ApiListingCategory {
   id: string;
