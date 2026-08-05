@@ -60,33 +60,43 @@ function isResourceType(value: string): value is SitemapResourceType {
   return (SITEMAP_RESOURCE_TYPES as string[]).includes(value);
 }
 
-async function performerEntries(offset: number, lang: string): Promise<SitemapUrlEntry[]> {
+async function performerEntries(offset: number, lang: string, lastmod: string): Promise<SitemapUrlEntry[]> {
   try {
     const res = await fetch(`${API_BASE}/sitemap/performers?offset=${offset}&limit=${CHUNK_SIZE}`, {
       next: { revalidate: false, tags: [SITEMAP_TAG] },
     });
     if (!res.ok) return [];
     const { items } = (await res.json()) as { items: SitemapPerformerRow[] };
-    return items.map((p) => ({ loc: `${SITE_URL}${localePath(performerHref(p.id, p.name), lang)}` }));
+    return items.map((p) => ({
+      loc: `${SITE_URL}${localePath(performerHref(p.id, p.name), lang)}`,
+      lastmod,
+      changefreq: 'daily',
+      priority: 1,
+    }));
   } catch {
     return [];
   }
 }
 
-async function venueEntries(offset: number, lang: string): Promise<SitemapUrlEntry[]> {
+async function venueEntries(offset: number, lang: string, lastmod: string): Promise<SitemapUrlEntry[]> {
   try {
     const res = await fetch(`${API_BASE}/sitemap/venues?offset=${offset}&limit=${CHUNK_SIZE}`, {
       next: { revalidate: false, tags: [SITEMAP_TAG] },
     });
     if (!res.ok) return [];
     const { items } = (await res.json()) as { items: SitemapVenueRow[] };
-    return items.map((v) => ({ loc: `${SITE_URL}${localePath(venueHref(v.id, v.name), lang)}` }));
+    return items.map((v) => ({
+      loc: `${SITE_URL}${localePath(venueHref(v.id, v.name), lang)}`,
+      lastmod,
+      changefreq: 'daily',
+      priority: 1,
+    }));
   } catch {
     return [];
   }
 }
 
-async function eventEntries(offset: number, lang: string): Promise<SitemapUrlEntry[]> {
+async function eventEntries(offset: number, lang: string, buildLastmod: string): Promise<SitemapUrlEntry[]> {
   try {
     const res = await fetch(`${API_BASE}/sitemap/events?offset=${offset}&limit=${CHUNK_SIZE}`, {
       next: { revalidate: false, tags: [SITEMAP_TAG] },
@@ -99,7 +109,9 @@ async function eventEntries(offset: number, lang: string): Promise<SitemapUrlEnt
       const path = eventHref({ id: e.id, title, artist, city: e.city || '' });
       return {
         loc: `${SITE_URL}${localePath(path, lang)}`,
-        lastmod: e.source_updated_at ? new Date(e.source_updated_at).toISOString() : undefined,
+        lastmod: e.source_updated_at ? new Date(e.source_updated_at).toISOString() : buildLastmod,
+        changefreq: 'daily',
+        priority: 1,
       };
     });
   } catch {
@@ -115,12 +127,13 @@ export async function GET(_request: Request, { params }: { params: Params }) {
   }
 
   const offset = (chunkOneBased - 1) * CHUNK_SIZE;
+  const lastmod = new Date().toISOString();
   const entries =
     type === 'performer'
-      ? await performerEntries(offset, lang)
+      ? await performerEntries(offset, lang, lastmod)
       : type === 'venue'
-        ? await venueEntries(offset, lang)
-        : await eventEntries(offset, lang);
+        ? await venueEntries(offset, lang, lastmod)
+        : await eventEntries(offset, lang, lastmod);
 
   return xmlResponse(renderUrlset(entries));
 }
