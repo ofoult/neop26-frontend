@@ -34,8 +34,13 @@ export function renderUrlset(entries: SitemapUrlEntry[]): string {
   return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${body}</urlset>`;
 }
 
-export function renderSitemapIndex(locs: string[]): string {
-  const body = locs.map((loc) => `<sitemap><loc>${escapeXml(loc)}</loc></sitemap>`).join('');
+/** `lastmod` is a single build-time timestamp shared by every listed child file — they're all
+ * (re)generated together in the same revalidation cycle, so there's no more precise per-file
+ * value to give Google. */
+export function renderSitemapIndex(locs: string[], lastmod: string): string {
+  const body = locs
+    .map((loc) => `<sitemap><loc>${escapeXml(loc)}</loc><lastmod>${lastmod}</lastmod></sitemap>`)
+    .join('');
   return `<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${body}</sitemapindex>`;
 }
 

@@ -14,5 +14,5 @@ export async function GET() {
     (c) => `${SITE_URL}/${sitemapFilename(c.type, c.lang, c.chunkOneBased)}`,
   );
   const locs = [`${SITE_URL}/sitemap-static.xml`, ...chunkUrls];
-  return xmlResponse(renderSitemapIndex(locs));
+  return xmlResponse(renderSitemapIndex(locs, new Date().toISOString()));
 }
