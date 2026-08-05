@@ -27,11 +27,11 @@ export function renderUrlset(entries: SitemapUrlEntry[]): string {
       const parts = [`<loc>${escapeXml(e.loc)}</loc>`];
       if (e.lastmod) parts.push(`<lastmod>${e.lastmod}</lastmod>`);
       if (e.changefreq) parts.push(`<changefreq>${e.changefreq}</changefreq>`);
-      if (e.priority !== undefined) parts.push(`<priority>${e.priority}</priority>`);
+      if (e.priority !== undefined) parts.push(`<priority>${e.priority.toFixed(1)}</priority>`);
       return `<url>${parts.join('')}</url>`;
     })
     .join('');
-  return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${body}</urlset>`;
+  return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${body}</urlset>`;
 }
 
 export function renderSitemapIndex(locs: string[]): string {
