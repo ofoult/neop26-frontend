@@ -244,5 +244,20 @@
     "keepExploring": "Fedezz fel továbbiakat",
     "moreLikeThis": "Hasonlók",
     "metaTitle": "{title} jegyek — {venue}, {city}"
+  },
+  "StaticPages": {
+    "aboutBody": "A neop egy piactér a világ legjobb élő eseményeire szóló jegyekhez — koncertek, fesztiválok, sport és színház. Kizárólag ellenőrzött eladókkal dolgozunk, és minden rendelésre érvényes a 100%-os garanciánk.",
+    "partnersBody": "Ellenőrzött eladók, helyszínek és eseményszervezők globális hálózatával dolgozunk együtt, hogy megbízható jegyeket kínáljunk a rajongóknak mindenhol. Érdekli a partnerség? Írjon nekünk: <email>contact@neop.events</email>.",
+    "helpBody": "A jegyeit keresi? Ezeket elküldjük a visszaigazoló e-mail címére, és röviddel a fizetés után megjelennek a mobiltárcájában. Bármi másban is szívesen segítünk: <email>contact@neop.events</email>.",
+    "faqQ1": "Garantáltak a jegyeim?",
+    "faqA1": "Igen. Minden rendelésre érvényes a neop 100%-os garanciája — ha egy eseményt lemondanak, vagy a jegyek nem érkeznek meg, teljes visszatérítést kap.",
+    "faqQ2": "Hogyan kapom meg a jegyeimet?",
+    "faqA2": "A jegyek röviddel a fizetés után megérkeznek a mobiltárcájába, készen állva a bejáratnál történő beolvasásra.",
+    "faqQ3": "Kihez fordulhatok segítségért?",
+    "faqA3": "Írjon nekünk bármikor a <email>contact@neop.events</email> címre — szívesen segítünk.",
+    "privacyBody": "Csak a foglalások feldolgozásához, a fiókja biztonságához és a neop fejlesztéséhez szükséges adatokat gyűjtjük. Személyes adatait soha nem adjuk el. Kérdése van az adataival kapcsolatban? Írjon a <email>contact@neop.events</email> címre.",
+    "termsBody": "A neop használatával elfogadja, hogy jóhiszeműen foglal eseményeket, és pontos adatokat ad meg fizetéskor. A jegyértékesítés végleges, kivéve, ha a 100%-os garanciánk vonatkozik rá. Kérdése van? Írjon a <email>contact@neop.events</email> címre.",
+    "cookiesBody": "Sütiket használunk, hogy bejelentkezve tartsuk Önt, megjegyezzük a nyelvi és pénznembeli beállításait, és megértsük, hogyan használják a neopot. A sütiket bármikor kezelheti a böngésző beállításaiban.",
+    "sitemapIntro": "A neop gyors térképe — ugorjon egyenesen bármelyik részhez."
   }
 }

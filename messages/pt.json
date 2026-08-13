@@ -244,5 +244,20 @@
     "keepExploring": "Continuar a explorar",
     "moreLikeThis": "Mais como este",
     "metaTitle": "Bilhetes para {title} — {venue}, {city}"
+  },
+  "StaticPages": {
+    "aboutBody": "A neop é um marketplace de bilhetes para os melhores eventos ao vivo do mundo — concertos, festivais, desporto e teatro. Trabalhamos apenas com vendedores verificados, e todos os pedidos estão cobertos pela nossa garantia de 100%.",
+    "partnersBody": "Trabalhamos com uma rede global de vendedores verificados, recintos e organizadores de eventos para oferecer bilhetes fiáveis a fãs em todo o mundo. Interessado numa parceria? Contacte-nos em <email>contact@neop.events</email>.",
+    "helpBody": "À procura dos seus bilhetes? São enviados para o seu e-mail de confirmação e chegam à sua carteira digital pouco depois da compra. Para tudo o resto, a nossa equipa está a um e-mail de distância em <email>contact@neop.events</email>.",
+    "faqQ1": "Os meus bilhetes estão garantidos?",
+    "faqA1": "Sim. Todos os pedidos estão cobertos pela garantia de 100% da neop — se um evento for cancelado ou os bilhetes não chegarem, recebe um reembolso total.",
+    "faqQ2": "Como recebo os meus bilhetes?",
+    "faqA2": "Os bilhetes são entregues na sua carteira digital pouco depois da compra, prontos a serem digitalizados à entrada.",
+    "faqQ3": "Com quem devo contactar para obter ajuda?",
+    "faqA3": "Escreva-nos a qualquer momento para <email>contact@neop.events</email> — teremos todo o gosto em ajudar.",
+    "privacyBody": "Recolhemos apenas as informações necessárias para processar as suas reservas, proteger a sua conta e melhorar a neop. Nunca vendemos os seus dados pessoais. Tem dúvidas sobre os seus dados? Escreva para <email>contact@neop.events</email>.",
+    "termsBody": "Ao utilizar a neop, concorda em reservar eventos de boa-fé e fornecer dados precisos no pagamento. As vendas de bilhetes são finais, exceto quando cobertas pela nossa garantia de 100%. Tem dúvidas? Escreva para <email>contact@neop.events</email>.",
+    "cookiesBody": "Utilizamos cookies para o manter com sessão iniciada, memorizar o seu idioma e moeda, e compreender como a neop é utilizada. Pode gerir as cookies a qualquer momento nas definições do seu navegador.",
+    "sitemapIntro": "Um mapa rápido da neop — vá diretamente a qualquer secção."
   }
 }

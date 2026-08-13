@@ -244,5 +244,20 @@
     "keepExploring": "Nastavite istraživati",
     "moreLikeThis": "Više ovakvih",
     "metaTitle": "Ulaznice za {title} — {venue}, {city}"
+  },
+  "StaticPages": {
+    "aboutBody": "neop je tržnica za ulaznice za najbolje uživo događaje na svijetu — koncerte, festivale, sport i kazalište. Surađujemo isključivo s provjerenim prodavačima, a svaka narudžba pokrivena je našom 100%-tnom garancijom.",
+    "partnersBody": "Surađujemo s globalnom mrežom provjerenih prodavača, dvorana i organizatora događaja kako bismo obožavateljima diljem svijeta ponudili pouzdane ulaznice. Zanima vas suradnja? Javite nam se na <email>contact@neop.events</email>.",
+    "helpBody": "Tražite svoje ulaznice? Šalju se na vašu e-adresu za potvrdu i stižu u vaš mobilni novčanik ubrzo nakon plaćanja. Za sve ostalo, naš je tim udaljen jednu poruku e-pošte na <email>contact@neop.events</email>.",
+    "faqQ1": "Jesu li moje ulaznice zagarantirane?",
+    "faqA1": "Da. Svaka narudžba pokrivena je 100%-tnom garancijom tvrtke neop — ako se događaj otkaže ili vaše ulaznice ne stignu, dobivate potpuni povrat novca.",
+    "faqQ2": "Kako ću dobiti svoje ulaznice?",
+    "faqA2": "Ulaznice se dostavljaju u vaš mobilni novčanik ubrzo nakon plaćanja, spremne za skeniranje na ulazu.",
+    "faqQ3": "Koga kontaktirati za pomoć?",
+    "faqA3": "Pišite nam u bilo kojem trenutku na <email>contact@neop.events</email> — rado ćemo pomoći.",
+    "privacyBody": "Prikupljamo samo podatke potrebne za obradu vaših rezervacija, zaštitu vašeg računa i poboljšanje neop-a. Nikada ne prodajemo vaše osobne podatke. Imate pitanje o svojim podacima? Pišite na <email>contact@neop.events</email>.",
+    "termsBody": "Korištenjem neop-a pristajete rezervirati događaje u dobroj vjeri i pri plaćanju navesti točne podatke. Prodaja ulaznica je konačna, osim ako je pokrivena našom 100%-tnom garancijom. Imate pitanja? Pišite na <email>contact@neop.events</email>.",
+    "cookiesBody": "Kolačiće koristimo kako bismo vas održali prijavljenima, zapamtili vaš jezik i valutu te razumjeli kako se neop koristi. Kolačićima možete upravljati u bilo kojem trenutku putem postavki preglednika.",
+    "sitemapIntro": "Brza karta neop-a — skočite izravno na bilo koji odjeljak."
   }
 }

@@ -244,5 +244,20 @@
     "keepExploring": "Fortsätt utforska",
     "moreLikeThis": "Mer i samma stil",
     "metaTitle": "{title} biljetter — {venue}, {city}"
+  },
+  "StaticPages": {
+    "aboutBody": "neop är en marknadsplats för biljetter till världens bästa liveevenemang — konserter, festivaler, sport och teater. Vi arbetar bara med verifierade säljare, och varje beställning täcks av vår 100 % garanti.",
+    "partnersBody": "Vi samarbetar med ett globalt nätverk av verifierade säljare, arenor och evenemangsarrangörer för att erbjuda pålitliga biljetter till fans överallt. Intresserad av ett samarbete? Hör av dig till <email>contact@neop.events</email>.",
+    "helpBody": "Letar du efter dina biljetter? De skickas till din bekräftelsemejl och hamnar i din mobila plånbok strax efter köpet. För allt annat är vårt team bara ett mejl bort på <email>contact@neop.events</email>.",
+    "faqQ1": "Är mina biljetter garanterade?",
+    "faqA1": "Ja. Varje beställning täcks av neops 100 % garanti — om ett evenemang ställs in eller dina biljetter inte kommer fram får du full återbetalning.",
+    "faqQ2": "Hur får jag mina biljetter?",
+    "faqA2": "Biljetterna levereras till din mobila plånbok strax efter köpet, redo att skannas vid entrén.",
+    "faqQ3": "Vem kontaktar jag för hjälp?",
+    "faqA3": "Mejla oss när som helst på <email>contact@neop.events</email> — vi hjälper gärna till.",
+    "privacyBody": "Vi samlar bara in den information som behövs för att hantera dina bokningar, skydda ditt konto och förbättra neop. Vi säljer aldrig dina personuppgifter. Frågor om dina uppgifter? Skriv till <email>contact@neop.events</email>.",
+    "termsBody": "Genom att använda neop går du med på att boka evenemang i god tro och lämna korrekta uppgifter vid köpet. Biljettförsäljning är slutgiltig, förutom där vår 100 % garanti gäller. Frågor? Skriv till <email>contact@neop.events</email>.",
+    "cookiesBody": "Vi använder cookies för att hålla dig inloggad, komma ihåg ditt språk och din valuta samt förstå hur neop används. Du kan hantera cookies när som helst i din webbläsares inställningar.",
+    "sitemapIntro": "En snabb överblick av neop — hoppa direkt till valfri sektion."
   }
 }

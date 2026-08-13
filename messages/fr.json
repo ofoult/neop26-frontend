@@ -244,5 +244,20 @@
     "keepExploring": "Continuez à explorer",
     "moreLikeThis": "Vous aimerez aussi",
     "metaTitle": "Billets {title} — {venue}, {city}"
+  },
+  "StaticPages": {
+    "aboutBody": "neop est une place de marché pour les billets des meilleurs évènements en direct au monde — concerts, festivals, sport et théâtre. Nous travaillons uniquement avec des vendeurs vérifiés, et chaque commande est couverte par notre garantie à 100 %.",
+    "partnersBody": "Nous collaborons avec un réseau mondial de vendeurs vérifiés, de salles et d'organisateurs d'évènements pour proposer des billets fiables aux fans du monde entier. Intéressé par un partenariat ? Contactez-nous à <email>contact@neop.events</email>.",
+    "helpBody": "Vous cherchez vos billets ? Ils sont envoyés à l'adresse e-mail de votre confirmation et arrivent dans votre portefeuille mobile peu après le paiement. Pour toute autre question, notre équipe est à un e-mail de vous à <email>contact@neop.events</email>.",
+    "faqQ1": "Mes billets sont-ils garantis ?",
+    "faqA1": "Oui. Chaque commande est couverte par la garantie à 100 % de neop — si un évènement est annulé ou si vos billets n'arrivent pas, vous êtes intégralement remboursé.",
+    "faqQ2": "Comment vais-je recevoir mes billets ?",
+    "faqA2": "Les billets sont livrés dans votre portefeuille mobile peu après le paiement, prêts à être scannés à l'entrée.",
+    "faqQ3": "Qui contacter en cas de besoin ?",
+    "faqA3": "Écrivez-nous à tout moment à <email>contact@neop.events</email> — nous serons ravis de vous aider.",
+    "privacyBody": "Nous ne collectons que les informations nécessaires au traitement de vos réservations, à la sécurité de votre compte et à l'amélioration de neop. Nous ne vendons jamais vos données personnelles. Une question sur vos données ? Écrivez à <email>contact@neop.events</email>.",
+    "termsBody": "En utilisant neop, vous vous engagez à réserver des évènements de bonne foi et à fournir des informations exactes lors du paiement. Les ventes de billets sont définitives, sauf couverture par notre garantie à 100 %. Des questions ? Écrivez à <email>contact@neop.events</email>.",
+    "cookiesBody": "Nous utilisons des cookies pour vous garder connecté, mémoriser votre langue et votre devise, et comprendre comment neop est utilisé. Vous pouvez gérer les cookies à tout moment dans les paramètres de votre navigateur.",
+    "sitemapIntro": "Un aperçu rapide de neop — accédez directement à n'importe quelle section."
   }
 }
