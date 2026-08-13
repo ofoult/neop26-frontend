@@ -244,5 +244,20 @@
     "keepExploring": "Continua a esplorare",
     "moreLikeThis": "Altri eventi simili",
     "metaTitle": "Biglietti {title} — {venue}, {city}"
+  },
+  "StaticPages": {
+    "aboutBody": "neop è un marketplace per biglietti ai migliori eventi live del mondo — concerti, festival, sport e teatro. Lavoriamo solo con venditori verificati e ogni ordine è coperto dalla nostra garanzia al 100%.",
+    "partnersBody": "Collaboriamo con una rete globale di venditori verificati, sedi e organizzatori di eventi per offrire biglietti affidabili ai fan di tutto il mondo. Interessato a una partnership? Scrivici a <email>contact@neop.events</email>.",
+    "helpBody": "Cerchi i tuoi biglietti? Vengono inviati alla tua email di conferma e arrivano nel tuo wallet mobile poco dopo il checkout. Per tutto il resto, il nostro team è a un'email di distanza: <email>contact@neop.events</email>.",
+    "faqQ1": "I miei biglietti sono garantiti?",
+    "faqA1": "Sì. Ogni ordine è coperto dalla garanzia al 100% di neop — se un evento viene cancellato o i biglietti non arrivano, ricevi un rimborso completo.",
+    "faqQ2": "Come ricevo i miei biglietti?",
+    "faqA2": "I biglietti vengono consegnati nel tuo wallet mobile poco dopo il checkout, pronti per essere scansionati all'ingresso.",
+    "faqQ3": "Chi contatto per assistenza?",
+    "faqA3": "Scrivici in qualsiasi momento a <email>contact@neop.events</email> — siamo felici di aiutarti.",
+    "privacyBody": "Raccogliamo solo le informazioni necessarie per gestire le tue prenotazioni, proteggere il tuo account e migliorare neop. Non vendiamo mai i tuoi dati personali. Domande sui tuoi dati? Scrivi a <email>contact@neop.events</email>.",
+    "termsBody": "Utilizzando neop accetti di prenotare eventi in buona fede e di fornire dati corretti al checkout. Le vendite di biglietti sono definitive, salvo quanto coperto dalla nostra garanzia al 100%. Domande? Scrivi a <email>contact@neop.events</email>.",
+    "cookiesBody": "Utilizziamo i cookie per mantenerti connesso, ricordare la tua lingua e valuta e capire come viene utilizzato neop. Puoi gestire i cookie in qualsiasi momento dalle impostazioni del browser.",
+    "sitemapIntro": "Una mappa rapida di neop — vai direttamente a qualsiasi sezione."
   }
 }

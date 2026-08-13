@@ -1,13 +1,28 @@
 import { useTranslations } from 'next-intl';
 import { Icon } from './Icon';
 import { Logo } from './ui';
+import { Link } from '@/i18n/navigation';
 
 export function Footer() {
   const t = useTranslations('Footer');
 
-  const COLS: [string, string[]][] = [
-    [t('learnMore'), [t('aboutUs'), t('sitemap'), t('partners')]],
-    [t('support'), [t('help'), t('faq'), t('contactUs')]],
+  const COLS: [string, [string, string][]][] = [
+    [
+      t('learnMore'),
+      [
+        [t('aboutUs'), '/about'],
+        [t('sitemap'), '/sitemap'],
+        [t('partners'), '/partners'],
+      ],
+    ],
+    [
+      t('support'),
+      [
+        [t('help'), '/help'],
+        [t('faq'), '/faq'],
+        [t('contactUs'), 'mailto:contact@neop.events'],
+      ],
+    ],
   ];
 
   return (
@@ -58,11 +73,17 @@ export function Footer() {
               {h}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
-              {items.map((it) => (
-                <a key={it} href="#" style={{ fontSize: 14.5, color: 'var(--dim)' }}>
-                  {it}
-                </a>
-              ))}
+              {items.map(([label, href]) =>
+                href.startsWith('mailto:') ? (
+                  <a key={label} href={href} style={{ fontSize: 14.5, color: 'var(--dim)' }}>
+                    {label}
+                  </a>
+                ) : (
+                  <Link key={label} href={href} style={{ fontSize: 14.5, color: 'var(--dim)' }}>
+                    {label}
+                  </Link>
+                ),
+              )}
             </div>
           </div>
         ))}
@@ -80,9 +101,9 @@ export function Footer() {
       >
         <span>{t('rights', { year: new Date().getFullYear() })}</span>
         <span style={{ display: 'flex', gap: 22 }}>
-          <a href="#">{t('privacy')}</a>
-          <a href="#">{t('terms')}</a>
-          <a href="#">{t('cookies')}</a>
+          <Link href="/privacy">{t('privacy')}</Link>
+          <Link href="/terms">{t('terms')}</Link>
+          <Link href="/cookies">{t('cookies')}</Link>
         </span>
       </div>
     </footer>

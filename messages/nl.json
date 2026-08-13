@@ -244,5 +244,20 @@
     "keepExploring": "Blijf ontdekken",
     "moreLikeThis": "Meer zoals dit",
     "metaTitle": "{title} tickets — {venue}, {city}"
+  },
+  "StaticPages": {
+    "aboutBody": "neop is een marktplaats voor tickets voor de beste live-evenementen ter wereld — concerten, festivals, sport en theater. We werken uitsluitend met geverifieerde verkopers en elke bestelling valt onder onze 100% garantie.",
+    "partnersBody": "We werken samen met een wereldwijd netwerk van geverifieerde verkopers, locaties en organisatoren om fans overal betrouwbare tickets te bieden. Interesse in een samenwerking? Neem contact op via <email>contact@neop.events</email>.",
+    "helpBody": "Op zoek naar je tickets? Ze worden naar je bevestigingsmail gestuurd en verschijnen kort na het afrekenen in je mobiele wallet. Voor al het overige staat ons team klaar via <email>contact@neop.events</email>.",
+    "faqQ1": "Zijn mijn tickets gegarandeerd?",
+    "faqA1": "Ja. Elke bestelling valt onder de 100% garantie van neop — als een evenement wordt geannuleerd of je tickets niet aankomen, krijg je een volledige terugbetaling.",
+    "faqQ2": "Hoe ontvang ik mijn tickets?",
+    "faqA2": "Tickets worden kort na het afrekenen bezorgd in je mobiele wallet, klaar om bij de ingang te scannen.",
+    "faqQ3": "Bij wie kan ik terecht voor hulp?",
+    "faqA3": "Mail ons op elk moment via <email>contact@neop.events</email> — we helpen je graag.",
+    "privacyBody": "We verzamelen alleen de gegevens die nodig zijn om je boekingen te verwerken, je account te beveiligen en neop te verbeteren. We verkopen je persoonsgegevens nooit. Vragen over je gegevens? Mail naar <email>contact@neop.events</email>.",
+    "termsBody": "Door neop te gebruiken, ga je ermee akkoord evenementen te goeder trouw te boeken en juiste gegevens op te geven bij het afrekenen. Ticketverkoop is definitief, behalve voor zover gedekt door onze 100% garantie. Vragen? Mail naar <email>contact@neop.events</email>.",
+    "cookiesBody": "We gebruiken cookies om je ingelogd te houden, je taal- en valutavoorkeur te onthouden en te begrijpen hoe neop wordt gebruikt. Je kunt cookies op elk moment beheren via je browserinstellingen.",
+    "sitemapIntro": "Een snel overzicht van neop — spring direct naar elk onderdeel."
   }
 }

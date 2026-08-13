@@ -244,5 +244,20 @@
     "keepExploring": "Keep exploring",
     "moreLikeThis": "More like this",
     "metaTitle": "{title} tickets — {venue}, {city}"
+  },
+  "StaticPages": {
+    "aboutBody": "neop is a marketplace for tickets to the world's best live events — concerts, festivals, sports, and theatre. We work only with verified sellers, and every order is covered by our 100% guarantee.",
+    "partnersBody": "We work with a global network of verified sellers, venues, and event organisers to bring reliable ticket inventory to fans everywhere. Interested in partnering with us? Get in touch at <email>contact@neop.events</email>.",
+    "helpBody": "Looking for your tickets? They're sent to your confirmation email and land in your mobile wallet shortly after checkout. For anything else, our team is one email away at <email>contact@neop.events</email>.",
+    "faqQ1": "Are my tickets guaranteed?",
+    "faqA1": "Yes. Every order is covered by neop's 100% guarantee — if an event is cancelled or your tickets don't arrive, you get a full refund.",
+    "faqQ2": "How do I receive my tickets?",
+    "faqA2": "Tickets are delivered to your mobile wallet shortly after checkout, ready to scan at the door.",
+    "faqQ3": "Who do I contact for help?",
+    "faqA3": "Email us any time at <email>contact@neop.events</email> — we're happy to help.",
+    "privacyBody": "We collect only the information needed to process your bookings, keep your account secure, and improve neop. We never sell your personal data. Questions about your data? Write to <email>contact@neop.events</email>.",
+    "termsBody": "By using neop you agree to book events in good faith and to provide accurate details at checkout. Ticket sales are final except where covered by our 100% guarantee. Questions? Email <email>contact@neop.events</email>.",
+    "cookiesBody": "We use cookies to keep you signed in, remember your language and currency, and understand how neop is used. You can manage cookies at any time in your browser settings.",
+    "sitemapIntro": "A quick map of neop — jump straight to any section."
   }
 }

@@ -244,5 +244,20 @@
     "keepExploring": "Odkrywaj dalej",
     "moreLikeThis": "Więcej podobnych",
     "metaTitle": "Bilety {title} — {venue}, {city}"
+  },
+  "StaticPages": {
+    "aboutBody": "neop to platforma z biletami na najlepsze wydarzenia na żywo na świecie — koncerty, festiwale, sport i teatr. Współpracujemy wyłącznie ze zweryfikowanymi sprzedawcami, a każde zamówienie objęte jest naszą gwarancją 100%.",
+    "partnersBody": "Współpracujemy z globalną siecią zweryfikowanych sprzedawców, obiektów i organizatorów wydarzeń, aby zapewnić fanom na całym świecie wiarygodne bilety. Chcesz zostać partnerem? Napisz do nas na <email>contact@neop.events</email>.",
+    "helpBody": "Szukasz swoich biletów? Są wysyłane na adres e-mail podany przy potwierdzeniu i pojawiają się w Twoim portfelu mobilnym wkrótce po dokonaniu płatności. W innych sprawach nasz zespół jest o jeden e-mail od Ciebie: <email>contact@neop.events</email>.",
+    "faqQ1": "Czy moje bilety są gwarantowane?",
+    "faqA1": "Tak. Każde zamówienie jest objęte gwarancją 100% neop — jeśli wydarzenie zostanie odwołane lub bilety nie dotrą, otrzymasz pełny zwrot środków.",
+    "faqQ2": "Jak otrzymam swoje bilety?",
+    "faqA2": "Bilety trafiają do Twojego portfela mobilnego wkrótce po dokonaniu płatności, gotowe do zeskanowania przy wejściu.",
+    "faqQ3": "Z kim się skontaktować w razie potrzeby?",
+    "faqA3": "Napisz do nas w dowolnym momencie na <email>contact@neop.events</email> — chętnie pomożemy.",
+    "privacyBody": "Zbieramy wyłącznie informacje niezbędne do obsługi Twoich rezerwacji, zabezpieczenia konta i ulepszania neop. Nigdy nie sprzedajemy Twoich danych osobowych. Masz pytania dotyczące swoich danych? Napisz na <email>contact@neop.events</email>.",
+    "termsBody": "Korzystając z neop, zgadzasz się rezerwować wydarzenia w dobrej wierze i podawać dokładne dane podczas płatności. Sprzedaż biletów jest ostateczna, z wyjątkiem przypadków objętych naszą gwarancją 100%. Masz pytania? Napisz na <email>contact@neop.events</email>.",
+    "cookiesBody": "Używamy plików cookie, aby utrzymać Twoje logowanie, zapamiętać język i walutę oraz rozumieć, jak korzysta się z neop. Możesz zarządzać plikami cookie w dowolnym momencie w ustawieniach przeglądarki.",
+    "sitemapIntro": "Szybka mapa neop — przejdź od razu do dowolnej sekcji."
   }
 }
