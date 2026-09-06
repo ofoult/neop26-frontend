@@ -176,8 +176,29 @@ chunk against a dev server, not just `pnpm build && pnpm start`.
 
 ## Deployment
 
-- **Hosting**: [Vercel](https://vercel.com) (`vercel.json` sets `framework: nextjs`).
-- **Backend API**: consumes the neop-backend service hosted on Render via `NEXT_PUBLIC_API_BASE_URL`.
+- **Hosting**: self-hosted [Coolify](https://coolify.io) instance on an Oracle Cloud VM (ARM64),
+  domain `neop.events` (+ `www.neop.events`) via Gandi LiveDNS pointing at the server IP. Migrated
+  off Vercel — `vercel.json` is leftover from the old host. Runs from a prebuilt Docker image; see
+  `Dockerfile` (multi-stage, relies on `output: 'standalone'` in `next.config.mjs`).
+- **Image build & publish**: `.github/workflows/docker-publish.yml` builds a multi-arch
+  (`linux/amd64` + `linux/arm64` — the Coolify host is ARM) image on every push to `main` and
+  pushes it to `ghcr.io/ofoult/neop26-frontend` (private GHCR package). `NEXT_PUBLIC_SITE_URL` and
+  `NEXT_PUBLIC_API_BASE_URL` are inlined into the client bundle at *build* time via Docker
+  build-args, sourced from GitHub Actions repo **variables** (not secrets — they're public values
+  anyway) — changing either requires re-running the workflow, not just a Coolify redeploy.
+  `packageManager`/`pnpm.onlyBuiltDependencies` in `package.json` pin pnpm to 9.x and allow
+  `@swc/core`/`@parcel/watcher`'s native postinstall scripts — pnpm 10+ blocks these by default,
+  which otherwise fails the Docker install step with `ERR_PNPM_IGNORED_BUILDS`.
+- **Auto-deploy**: the last workflow step calls a Coolify deploy webhook
+  (`COOLIFY_WEBHOOK_URL` + `COOLIFY_API_TOKEN` GitHub Actions secrets, bearer-token POST).
+- **Private registry auth**: same one-time `docker login ghcr.io` on the Coolify host as the
+  backend (see backend `CLAUDE.md`) — both images pull through the host's shared Docker credential
+  store; Coolify itself has no UI for this.
+- **Backend API**: consumes the neop-backend service at `https://api.neop.events` via
+  `NEXT_PUBLIC_API_BASE_URL`. Every backend call happens server-side — RSC data fetching on the
+  page, plus `app/actions.ts`'s `'use server'` actions for the search bar's autosuggest — never
+  directly from the browser, so the backend doesn't need to be reachable by end-user clients
+  except through this frontend.
 - **Database**: none directly — all data comes through the backend API, which is backed by
   [Supabase](https://supabase.com) Postgres.
 - **Repository**: GitHub.
