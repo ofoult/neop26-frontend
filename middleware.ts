@@ -17,6 +17,8 @@ const intlMiddleware = createMiddleware(routing);
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  console.log(`${new Date().toISOString()} ${request.method} ${pathname}`);
+
   if (pathname === '/sitemap.xml') {
     return NextResponse.rewrite(new URL('/api/sitemap/index', request.url));
   }
