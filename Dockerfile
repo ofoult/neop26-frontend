@@ -12,6 +12,11 @@ RUN pnpm install --frozen-lockfile
 # ---- builder: build the Next.js standalone output ----
 FROM base AS builder
 WORKDIR /app
+# Under QEMU (cross-building linux/arm64 on an amd64 runner), @swc/core's native
+# binary auto-detects ARMv8.1 atomics that QEMU's default CPU model doesn't
+# emulate, crashing with "Illegal instruction". QEMU_CPU=max fixes it; it's a
+# no-op on a native (non-emulated) build.
+ENV QEMU_CPU=max
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
