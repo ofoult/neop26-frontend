@@ -2,6 +2,10 @@
   "name": "neop-frontend",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "onlyBuiltDependencies": ["@swc/core", "@parcel/watcher"]
+  },
   "scripts": {
     "dev": "next dev -p 4000",
     "build": "next build",
