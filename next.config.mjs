@@ -15,6 +15,9 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.gigsberg.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
     ],
+    // AVIF first (smaller than WebP at equal quality); browsers without AVIF
+    // support fall back to WebP automatically via content negotiation.
+    formats: ['image/avif', 'image/webp'],
   },
 };
 
