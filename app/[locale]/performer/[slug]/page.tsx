@@ -5,7 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { Img } from '@/components/Img';
 import { PerformerTabs } from '@/components/PerformerTabs';
 import { fetchPerformerEvents } from '@/lib/api';
-import { jsonLdScript, performerItemListJsonLd } from '@/lib/jsonld';
+import { breadcrumbJsonLd, jsonLdScript, performerItemListJsonLd } from '@/lib/jsonld';
 import { hreflangAlternates, localePath, ogAlternateLocales, ogLocale } from '@/lib/hreflang';
 import { eventHref, parseIdFromSlugParam, performerHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
@@ -74,6 +74,10 @@ export default async function PerformerPage({ params }: { params: { locale: stri
     })),
     params.locale,
   );
+  const breadcrumb = breadcrumbJsonLd([
+    { name: tPerf('home'), url: `${SITE_URL}${localePath('/', params.locale)}` },
+    { name },
+  ]);
 
   return (
     <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '48px 28px 100px' }}>
@@ -81,6 +85,11 @@ export default async function PerformerPage({ params }: { params: { locale: stri
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: jsonLdScript(itemList) }}
+      />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }}
       />
       <div style={{ fontSize: 13.5, color: 'var(--faint)', marginBottom: 24 }}>
         <Link href="/" style={{ color: 'var(--dim)' }}>

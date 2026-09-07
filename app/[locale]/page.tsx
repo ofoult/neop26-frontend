@@ -6,6 +6,7 @@ import { Icon, type IconName } from '@/components/Icon';
 import { SecHead } from '@/components/SecHead';
 import { fetchEvents } from '@/lib/api';
 import { hreflangAlternates, localePath } from '@/lib/hreflang';
+import { jsonLdScript, organizationJsonLd } from '@/lib/jsonld';
 import type { NeopEvent } from '@/lib/types';
 
 export const revalidate = 120;
@@ -30,6 +31,14 @@ export default async function HomePage({ params }: { params: { locale: string } 
   // independently. See https://next-intl.dev/docs/routing/setup#static-rendering.
   setRequestLocale(params.locale);
   const t = await getTranslations('Home');
+  const tFooter = await getTranslations('Footer');
+  const orgJsonLdScript = (
+    <script
+      type="application/ld+json"
+      suppressHydrationWarning
+      dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd(tFooter('tagline'))) }}
+    />
+  );
 
   const GUARANTEES: [IconName, string, string][] = [
     ['lock', t('guaranteeTitle'), t('guaranteeBody')],
@@ -48,6 +57,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
   if (events.length === 0) {
     return (
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '120px 28px', textAlign: 'center' }}>
+        {orgJsonLdScript}
         <h1 className="serif" style={{ fontSize: 44, margin: '0 0 14px' }}>{t('noEventsTitle')}</h1>
         <p style={{ color: 'var(--dim)', fontSize: 16, lineHeight: 1.6 }}>
           {t.rich('noEventsBody', {
@@ -71,6 +81,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
 
   return (
     <div>
+      {orgJsonLdScript}
       <Hero events={heroEvents} />
 
       {/* trending */}

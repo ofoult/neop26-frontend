@@ -7,7 +7,7 @@ import { Icon } from '@/components/Icon';
 import { combineDateTime, fetchVenue } from '@/lib/api';
 import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime, relativeDayBucket, type RelativeDayBucket } from '@/lib/format';
-import { jsonLdScript, performerItemListJsonLd } from '@/lib/jsonld';
+import { breadcrumbJsonLd, jsonLdScript, performerItemListJsonLd } from '@/lib/jsonld';
 import { hreflangAlternates, localePath, ogAlternateLocales, ogLocale } from '@/lib/hreflang';
 import { eventHref, parseIdFromSlugParam, performerHref, venueHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
@@ -79,6 +79,10 @@ export default async function VenuePage({ params }: { params: { locale: string; 
     })),
     params.locale,
   );
+  const breadcrumb = breadcrumbJsonLd([
+    { name: t('home'), url: `${SITE_URL}${localePath('/', params.locale)}` },
+    { name },
+  ]);
 
   return (
     <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '48px 28px 100px' }}>
@@ -86,6 +90,11 @@ export default async function VenuePage({ params }: { params: { locale: string; 
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: jsonLdScript(itemList) }}
+      />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }}
       />
       <div style={{ fontSize: 13.5, color: 'var(--faint)', marginBottom: 24 }}>
         <Link href="/" style={{ color: 'var(--dim)' }}>

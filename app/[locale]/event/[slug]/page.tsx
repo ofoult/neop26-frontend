@@ -14,7 +14,7 @@ import { fetchEvent, fetchEventListings, fetchEvents, fetchEventSeatingPlan, fet
 import { CATEGORIES, categoryById } from '@/lib/categories';
 import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime } from '@/lib/format';
-import { eventJsonLd, jsonLdScript } from '@/lib/jsonld';
+import { breadcrumbJsonLd, eventJsonLd, jsonLdScript } from '@/lib/jsonld';
 import { hreflangAlternates, localePath, ogAlternateLocales, ogLocale } from '@/lib/hreflang';
 import { eventHref, parseIdFromSlugParam, performerHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
@@ -95,6 +95,11 @@ export default async function EventPage({ params }: { params: { locale: string; 
   const cat = categoryById(ev.category);
   const countryCode = countryCodeFor(ev.country);
   const canonicalUrl = `${SITE_URL}${eventHref(ev)}`;
+  const breadcrumb = breadcrumbJsonLd([
+    { name: 'neop', url: `${SITE_URL}${localePath('/', params.locale)}` },
+    ...(cat ? [{ name: tCat(cat.id), url: `${SITE_URL}${localePath(`/browse/${cat.id}`, params.locale)}` }] : []),
+    { name: ev.title },
+  ]);
 
   return (
     <div>
@@ -102,6 +107,11 @@ export default async function EventPage({ params }: { params: { locale: string; 
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: jsonLdScript(eventJsonLd(ev, canonicalUrl, params.locale)) }}
+      />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }}
       />
       {/* hero */}
       <div style={{ position: 'relative', marginTop: '-88px' }}>

@@ -10,6 +10,9 @@ import { SearchBar } from '@/components/SearchBar';
 import { BROWSE_PER_PAGE } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
 import { parseDate } from '@/lib/format';
+import { localePath } from '@/lib/hreflang';
+import { breadcrumbJsonLd, jsonLdScript } from '@/lib/jsonld';
+import { SITE_URL } from '@/lib/site';
 import type { Subcategory } from '@/lib/subcategories';
 import type { CategoryId, NeopEvent } from '@/lib/types';
 
@@ -146,6 +149,19 @@ export function BrowseClient({
   }, [items, sort]);
 
   const searching = Boolean(query || where || dateFrom || dateTo);
+  // Mirrors the visible breadcrumb below — only emitted for a stable
+  // category/subcategory page, not the free-text search state (which isn't
+  // a real indexable page; see browse/page.tsx's canonicalBrowsePath).
+  const breadcrumb = useMemo(() => {
+    if (searching || !catObj) return null;
+    return breadcrumbJsonLd([
+      { name: t('home'), url: `${SITE_URL}${localePath('/', locale)}` },
+      activeSubcat
+        ? { name: tCat(catObj.id), url: `${SITE_URL}${localePath(`/browse/${catObj.id}`, locale)}` }
+        : { name: tCat(catObj.id) },
+      ...(activeSubcat ? [{ name: activeSubcat.name }] : []),
+    ]);
+  }, [searching, catObj, activeSubcat, locale, t, tCat]);
   const searchLabel = [
     query,
     where && t('inWhere', { where }),
@@ -162,6 +178,13 @@ export function BrowseClient({
         margin: "0 auto",
       }}
     >
+      {breadcrumb && (
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }}
+        />
+      )}
       <div style={{ marginBottom: 28 }}>
         <div
           style={{ fontSize: 13.5, color: "var(--faint)", marginBottom: 10 }}

@@ -64,6 +64,36 @@ export function eventJsonLd(ev: NeopEvent, canonicalUrl: string, locale: string)
   };
 }
 
+/** Builds schema.org Organization JSON-LD identifying neop as a brand entity. */
+export function organizationJsonLd(description: string): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'neop',
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo.png`,
+    description,
+  };
+}
+
+/**
+ * Builds a schema.org BreadcrumbList from an ordered list of crumbs. Per
+ * Google's guidelines, `url` is optional on the last entry since it
+ * represents the current page.
+ */
+export function breadcrumbJsonLd(items: { name: string; url?: string }[]): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
 /** Builds a schema.org ItemList JSON-LD for a performer's upcoming events. */
 export function performerItemListJsonLd(
   performerName: string,
