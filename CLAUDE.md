@@ -176,9 +176,11 @@ chunk against a dev server, not just `pnpm build && pnpm start`.
 
 ## Deployment
 
-- **Hosting**: self-hosted [Coolify](https://coolify.io) instance on an Oracle Cloud VM (ARM64),
-  domain `neop.events` (+ `www.neop.events`) via Gandi LiveDNS pointing at the server IP. Migrated
-  off Vercel — `vercel.json` is leftover from the old host. Runs from a prebuilt Docker image; see
+- **Hosting**: self-hosted [Coolify](https://coolify.io) instance on an Oracle Cloud VM (ARM64;
+  Oracle Cloud account `olivier.foult@gmail.com`, see `oracle/CLAUDE.md`), domain `neop.events`
+  (+ `www.neop.events`) via Gandi LiveDNS (Gandi account `patrick_26`, see `gandi/CLAUDE.md`)
+  pointing at the server IP. Migrated off Vercel — `vercel.json` is leftover from the old host.
+  Runs from a prebuilt Docker image; see
   `Dockerfile` (multi-stage, relies on `output: 'standalone'` in `next.config.mjs`).
 - **Image build & publish**: `.github/workflows/docker-publish.yml` builds a multi-arch
   (`linux/amd64` + `linux/arm64` — the Coolify host is ARM) image on every push to `main` and
