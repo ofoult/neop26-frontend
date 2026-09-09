@@ -106,11 +106,6 @@ export default async function EventPage({ params }: { params: { locale: string; 
       <script
         type="application/ld+json"
         suppressHydrationWarning
-        dangerouslySetInnerHTML={{ __html: jsonLdScript(eventJsonLd(ev, canonicalUrl, params.locale)) }}
-      />
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }}
       />
       {/* hero */}
@@ -221,7 +216,7 @@ export default async function EventPage({ params }: { params: { locale: string; 
       <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '40px 28px 0' }}>
         {/* tickets (left) + seating plan (right) */}
         <Suspense fallback={<TicketsAndSeatingPlanSkeleton />}>
-          <TicketsAndSeatingPlanData ev={ev} eventId={ev.id} />
+          <TicketsAndSeatingPlanData ev={ev} eventId={ev.id} canonicalUrl={canonicalUrl} locale={params.locale} />
         </Suspense>
       </div>
 
@@ -233,14 +228,40 @@ export default async function EventPage({ params }: { params: { locale: string; 
   );
 }
 
-/** Fetches + renders the ticket picker and seating plan; streamed in via Suspense above. */
-async function TicketsAndSeatingPlanData({ ev, eventId }: { ev: NeopEvent; eventId: string }) {
+/**
+ * Fetches + renders the ticket picker and seating plan; streamed in via
+ * Suspense above. Also emits the event's Offer/AggregateOffer JSON-LD here
+ * (rather than synchronously in EventPage) since it's the same `categories`
+ * fetch that feeds the ticket picker's own price display — reusing it keeps
+ * the structured data in sync with what's on the page and avoids a second
+ * blocking fetch just for SEO markup.
+ */
+async function TicketsAndSeatingPlanData({
+  ev,
+  eventId,
+  canonicalUrl,
+  locale,
+}: {
+  ev: NeopEvent;
+  eventId: string;
+  canonicalUrl: string;
+  locale: string;
+}) {
   const [categories, seatingPlan] = await Promise.all([
     fetchEventListings(eventId, revalidate),
     fetchEventSeatingPlan(eventId),
   ]);
   const svgMarkup = seatingPlan ? await fetchSeatingPlanSvgMarkup(seatingPlan.svgUrl) : null;
-  return <TicketsAndSeatingPlan ev={ev} categories={categories} seatingPlan={seatingPlan} svgMarkup={svgMarkup} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(eventJsonLd(ev, canonicalUrl, locale, categories)) }}
+      />
+      <TicketsAndSeatingPlan ev={ev} categories={categories} seatingPlan={seatingPlan} svgMarkup={svgMarkup} />
+    </>
+  );
 }
 
 /** Roughly matches TicketsAndSeatingPlan's 400px + 1fr layout to minimize shift when it swaps in. */
