@@ -14,10 +14,15 @@ const intlMiddleware = createMiddleware(routing);
 // contain a dot, so they're otherwise excluded by this file's own matcher
 // below (the same exclusion that keeps middleware off every other static
 // asset) — the extra matcher entries opt them back in.
+//
+// Structured, per-request access logging (IP, UA, bot detection, status,
+// response bytes, duration, ...) lives in server/request-logger.js, patched
+// in at the raw http.Server layer rather than here — this middleware's own
+// matcher below excludes _next assets and anything with a dot in the path,
+// which would hide most of what crawlers actually fetch. See that file's
+// header comment for the full rationale.
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  console.log(`${new Date().toISOString()} ${request.method} ${pathname}`);
 
   if (pathname === '/sitemap.xml') {
     return NextResponse.rewrite(new URL('/api/sitemap/index', request.url));

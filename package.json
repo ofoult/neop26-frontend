@@ -7,9 +7,9 @@
     "onlyBuiltDependencies": ["@swc/core", "@parcel/watcher", "sharp"]
   },
   "scripts": {
-    "dev": "next dev -p 4000",
+    "dev": "NODE_OPTIONS='-r ./server/request-logger.js' next dev -p 4000",
     "build": "next build",
-    "start": "next start -p 3000",
+    "start": "NODE_OPTIONS='-r ./server/request-logger.js' next start -p 3000",
     "lint": "next lint"
   },
   "dependencies": {

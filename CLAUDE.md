@@ -204,3 +204,58 @@ chunk against a dev server, not just `pnpm build && pnpm start`.
 - **Database**: none directly — all data comes through the backend API, which is backed by
   [Supabase](https://supabase.com) Postgres.
 - **Repository**: GitHub.
+
+## Logging
+
+`server/request-logger.js` writes one structured JSON line per HTTP request to stdout (so it
+lands in `docker logs`/Coolify's log viewer with no extra shipping setup) — the goal is being
+able to answer "how many of today's outbound bytes came from Googlebot vs. Bingbot vs. real
+users." It's loaded via `NODE_OPTIONS=-r ./server/request-logger.js` (set in `package.json`'s
+`dev`/`start` scripts and in the Dockerfile's runner stage), and works by patching
+`http.createServer` itself rather than through Next.js middleware: middleware runs before
+routing and never sees the final status/body, and its own matcher excludes `_next` assets and
+any dotted path — exactly the requests (images, JS/CSS chunks) that dominate crawler egress.
+Patching `http.createServer` catches every request this process serves, standalone build and
+`next dev`/`next start` alike, no framework hook needed. `server/bot-detection.js` and
+`server/ip-utils.js` are the two other pieces — deliberately plain CommonJS (not part of the
+Next.js/SWC build) so `NODE_OPTIONS` can require them before Next.js itself starts.
+
+- **Log fields**: `timestamp`, `type` (`"http_request"`), `method`, `path`, `status`,
+  `response_bytes`, `duration_ms`, `client_ip`, `user_agent`, `is_bot`, `bot_name`,
+  `bot_detection_method` (`"known_signature"` | `"heuristic"` | `null`), `bot_verified` (always
+  `false` today — see below), `referer`, `host`, `protocol`, `country`.
+- **`response_bytes`**: the sum of every chunk passed to `res.write()`/`res.end()` — i.e. body
+  bytes handed to the socket by this Node process. This app runs no compression itself (no
+  `compression` middleware, no custom server), so it's exactly what leaves the container. If
+  Coolify's Traefik or Cloudflare re-compresses the response afterwards, real internet-egress
+  bytes can be smaller — there's no later in-process hook to measure that, so this is the most
+  accurate figure available at the app layer. Byte-summation is used instead of a
+  `Content-Length` header because the App Router streams most responses (per this file's UX
+  principles), and streamed/chunked responses often have no `Content-Length` at all.
+- **Bot detection**: `server/bot-detection.js`'s `KNOWN_BOTS` table matches ~30 named crawlers
+  (Googlebot, Google-InspectionTool, Bingbot, YandexBot, Baiduspider, DuckDuckBot, Applebot,
+  Facebook/Twitter/LinkedIn crawlers, AhrefsBot, SemrushBot, MJ12bot, DotBot, GPTBot, ClaudeBot,
+  Bytespider, PerplexityBot, and others) by User-Agent substring/regex; anything else matching a
+  generic `bot|crawler|spider|...` pattern gets `bot_name: "unknown"`. Detection is UA-based only
+  (`bot_detection_method: "known_signature"` vs. `"heuristic"`) — `bot_verified` is a stub that
+  always returns `false`; real verification (reverse DNS or matching the peer IP against an
+  operator's published ranges) needs a network round trip or an out-of-band IP-range table and
+  isn't implemented yet. `verifyBot()` in that file is the extension point.
+- **Trusted-proxy IP/host/protocol/country resolution** (`server/ip-utils.js`): Coolify's Traefik
+  is only ever reached over Docker's internal network, so a legitimate request's TCP peer is
+  always a private address (`10/8`, `172.16/12`, `192.168/16`, loopback, or their IPv6
+  equivalents). Only when the peer is one of those ranges are `CF-Connecting-IP` (preferred),
+  `X-Forwarded-For` (client IP), `X-Forwarded-Host` (host), `X-Forwarded-Proto` (protocol), and
+  `CF-IPCountry` (country — present only when Cloudflare fronts the app; no GeoIP database is
+  added) trusted at all; a direct hit from a public IP falls back to the raw socket address and
+  ignores its headers entirely, since a client can set those headers to anything.
+- **Privacy**: only the headers named above are ever read — cookies, `Authorization`, and request
+  bodies are never touched, so there's nothing to filter out.
+- **Performance**: everything is synchronous, local, and in-memory — no DNS lookups, no network
+  calls, no SQL queries per request.
+- **Aggregation**: `scripts/traffic-report.sh` (`jq` + `column`, both already on the Coolify VM —
+  no new dependency) turns a stream of these log lines (`docker logs <container> --since 24h`, or
+  a saved file) into total/bot/human requests and GB, a per-bot requests/bytes/avg-response table,
+  and top-20 URLs and top-20 client IPs by bytes. Pre-filter with
+  `jq -c 'select(.timestamp | startswith("2026-09-14"))'` for a single calendar day, or
+  `startswith("2026-09-14T10")` for one hour.
