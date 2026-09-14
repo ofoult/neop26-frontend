@@ -41,10 +41,15 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Plain CommonJS, not part of the Next.js build (no TS/SWC step) — loaded
+# via NODE_OPTIONS below, before server.js ever calls http.createServer().
+# See server/request-logger.js for why.
+COPY --chown=nextjs:nodejs server ./server
 
 USER nextjs
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
+ENV NODE_OPTIONS="-r ./server/request-logger.js"
 EXPOSE 3000
 
 CMD ["node", "server.js"]
