@@ -17,7 +17,17 @@ set -euo pipefail
 
 INPUT="${1:-/dev/stdin}"
 
-jq -s -r '
+# Read line-by-line and drop anything that isn't valid JSON before the real
+# aggregation below. Without this, a single non-JSON line anywhere in the
+# input — Next.js's own startup banner sharing this stdout stream, a blank
+# line, etc. — aborts the whole `jq -s` slurp with a parse error instead of
+# just being skipped. Also handles the common case of a leading timestamp
+# prefix (e.g. `docker logs -t`, or a log viewer that adds one) by retrying
+# with that first whitespace-delimited token stripped, rather than just
+# dropping otherwise-valid log lines.
+jq -R -c '
+  (fromjson?) // ((sub("^\\S+\\s+"; "")) | fromjson?) // empty
+' "$INPUT" | jq -s -r '
   def gb: (. / 1000000000 * 100 | round) / 100;
 
   [.[] | select(.type == "http_request")] as $logs
@@ -66,4 +76,4 @@ jq -s -r '
     "",
     "TOP 20 CLIENT IPs BY DATA OUT\tREQUESTS\tDATA OUT",
     ($top_ips[] | "\(.ip)\t\(.requests)\t\(.bytes | gb) GB")
-' "$INPUT" | column -t -s $'\t'
+' | column -t -s $'\t'
