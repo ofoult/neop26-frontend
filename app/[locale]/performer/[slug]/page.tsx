@@ -17,7 +17,7 @@ export const revalidate = 120;
 async function loadPerformer(slug: string): Promise<{ id: string; data: ApiPerformerResponse }> {
   const id = parseIdFromSlugParam(slug);
   if (!id) notFound();
-  const data = await fetchPerformerEvents(id, revalidate).catch(() => null);
+  const data = await fetchPerformerEvents(id, revalidate); // null only on a real 404; API errors throw
   if (!data) notFound();
 
   const canonical = performerHref(id, data.performer.name);

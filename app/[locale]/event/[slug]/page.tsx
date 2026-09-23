@@ -25,7 +25,7 @@ export const revalidate = 120;
 async function loadEvent(slug: string): Promise<NeopEvent> {
   const id = parseIdFromSlugParam(slug);
   if (!id) notFound();
-  const ev = await fetchEvent(id, revalidate).catch(() => null);
+  const ev = await fetchEvent(id, revalidate); // null only on a real 404; API errors throw
   if (!ev) notFound();
 
   // Note: because this route has a loading.tsx, Next.js starts streaming the

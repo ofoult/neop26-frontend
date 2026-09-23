@@ -107,6 +107,21 @@ export function adaptDetail(item: ApiEventDetail): NeopEvent {
 
 // ---------- fetchers ----------
 
+/**
+ * Pages are ISR-cached, so a failed API call must not be swallowed into an
+ * empty/404 render: that render would be cached as if valid (an empty home, a
+ * 404 for a real event) until the next revalidation. Let the error propagate
+ * instead — Next.js then keeps serving the last good page and retries.
+ *
+ * The one exception is `next build`, which prerenders the home page: an API
+ * that isn't reachable from the build container must not fail the build, so
+ * there (and only there) fall back to `fallback`.
+ */
+export function orFallbackAtBuild<T>(promise: Promise<T>, fallback: T): Promise<T> {
+  if (process.env.NEXT_PHASE !== 'phase-production-build') return promise;
+  return promise.catch(() => fallback);
+}
+
 export interface EventQuery {
   /** Free-text search (full-text + typo-tolerant fallback, server-side). */
   q?: string;

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { BrowseClient } from '@/components/BrowseClient';
-import { BROWSE_PER_PAGE, fetchEvents } from '@/lib/api';
+import { BROWSE_PER_PAGE, fetchEvents, orFallbackAtBuild } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
 import { hreflangAlternates, localePath } from '@/lib/hreflang';
 
@@ -82,15 +82,18 @@ export default async function BrowsePage({
   // No category filter here — this is the "search everything" page.
   // Category/subcategory-scoped browsing lives at /browse/{slug} (see
   // browse/[slug]/page.tsx), which is also where a legacy ?cat= redirects to.
-  const result = await fetchEvents({
-    q: query,
-    where,
-    dateFrom,
-    dateTo,
-    page,
-    perPage: BROWSE_PER_PAGE,
-    revalidate,
-  }).catch(() => ({ events: [], total: 0, page, perPage: BROWSE_PER_PAGE }));
+  const result = await orFallbackAtBuild(
+    fetchEvents({
+      q: query,
+      where,
+      dateFrom,
+      dateTo,
+      page,
+      perPage: BROWSE_PER_PAGE,
+      revalidate,
+    }),
+    { events: [], total: 0, page, perPage: BROWSE_PER_PAGE },
+  );
 
   return (
     <BrowseClient

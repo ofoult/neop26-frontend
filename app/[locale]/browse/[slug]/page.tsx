@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { BrowseClient } from '@/components/BrowseClient';
-import { BROWSE_PER_PAGE, fetchEvents, fetchSubtypes } from '@/lib/api';
+import { BROWSE_PER_PAGE, fetchEvents, fetchSubtypes, orFallbackAtBuild } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
 import { findSubcategory, subcategoriesByCategory, toSubcategories, type Subcategory } from '@/lib/subcategories';
 import { hreflangAlternates, localePath } from '@/lib/hreflang';
@@ -89,17 +89,20 @@ export default async function BrowseSlugPage({
 
   const result = unmapped
     ? { events: [], total: 0, page, perPage: BROWSE_PER_PAGE }
-    : await fetchEvents({
-        q: query,
-        where,
-        dateFrom,
-        dateTo,
-        typeId,
-        subtypeId: activeSubcat?.id ?? undefined,
-        page,
-        perPage: BROWSE_PER_PAGE,
-        revalidate,
-      }).catch(() => ({ events: [], total: 0, page, perPage: BROWSE_PER_PAGE }));
+    : await orFallbackAtBuild(
+        fetchEvents({
+          q: query,
+          where,
+          dateFrom,
+          dateTo,
+          typeId,
+          subtypeId: activeSubcat?.id ?? undefined,
+          page,
+          perPage: BROWSE_PER_PAGE,
+          revalidate,
+        }),
+        { events: [], total: 0, page, perPage: BROWSE_PER_PAGE },
+      );
 
   return (
     <BrowseClient

@@ -19,7 +19,7 @@ export const revalidate = 120;
 async function loadVenue(slug: string): Promise<{ id: string; data: ApiVenueResponse }> {
   const id = parseIdFromSlugParam(slug);
   if (!id) notFound();
-  const data = await fetchVenue(id, revalidate).catch(() => null);
+  const data = await fetchVenue(id, revalidate); // null only on a real 404; API errors throw
   if (!data) notFound();
 
   const canonical = venueHref(id, data.venue.name);

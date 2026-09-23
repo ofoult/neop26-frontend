@@ -4,7 +4,7 @@ import { EventCard } from '@/components/EventCard';
 import { Hero } from '@/components/Hero';
 import { Icon, type IconName } from '@/components/Icon';
 import { SecHead } from '@/components/SecHead';
-import { fetchEvents } from '@/lib/api';
+import { fetchEvents, orFallbackAtBuild } from '@/lib/api';
 import { hreflangAlternates, localePath } from '@/lib/hreflang';
 import { jsonLdScript, organizationJsonLd } from '@/lib/jsonld';
 import type { NeopEvent } from '@/lib/types';
@@ -48,8 +48,8 @@ export default async function HomePage({ params }: { params: { locale: string } 
 
   // Pull a pool of upcoming events plus a festival-specific set, in parallel.
   const [pool, festPool] = await Promise.all([
-    fetchEvents({ perPage: 80, revalidate }).catch(() => null),
-    fetchEvents({ typeId: 4, perPage: 12, revalidate }).catch(() => null),
+    orFallbackAtBuild(fetchEvents({ perPage: 80, revalidate }), null),
+    orFallbackAtBuild(fetchEvents({ typeId: 4, perPage: 12, revalidate }), null),
   ]);
 
   const events: NeopEvent[] = pool?.events ?? [];
