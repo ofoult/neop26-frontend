@@ -124,7 +124,8 @@ export function LanguageCurrencySelect() {
           <Icon name="globe" size={18} />
           <span className="nav-lang-label">
             {activeLanguage.code.toUpperCase()}
-            {currency ? ` · ${currency}` : ""}
+            {/* No currency picked yet: show the (translated) word so it's clear one can be chosen. */}
+            {` · ${currency ?? t("currency")}`}
           </span>
           {currency && status === "loading" && <span className="spinner" aria-hidden />}
         </button>
