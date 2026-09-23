@@ -22,7 +22,7 @@ export function Chrome({ children }: { children: ReactNode }) {
 
   return (
     <>
-      {!hideChrome && <Nav hideMarquee={hideMarquee} />}
+      {!hideChrome && <Nav hideMarquee={hideMarquee} scrollAwayOnMobile={isEvent} />}
       <main style={{ minHeight: '60vh' }}>{children}</main>
       {!hideChrome && !hideFooter ? <Footer /> : <div style={{ height: isEvent ? 0 : 80 }} />}
     </>

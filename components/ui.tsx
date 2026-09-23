@@ -52,6 +52,8 @@ interface BtnProps {
   type?: 'button' | 'submit';
   /** Open the href in a new tab (for external links like checkout). */
   newTab?: boolean;
+  /** Greys the button out and makes it inert (a disabled `href` button renders as a plain `<button>`). */
+  disabled?: boolean;
 }
 
 export function Btn({
@@ -66,6 +68,7 @@ export function Btn({
   style,
   type = 'button',
   newTab,
+  disabled,
 }: BtnProps) {
   const [h, setH] = useState(false);
   const sizes: Record<BtnSize, { p: string; f: number }> = {
@@ -108,6 +111,18 @@ export function Btn({
   );
   const styleAll = { ...base, ...variants[variant], ...style };
 
+  if (disabled) {
+    return (
+      <button
+        type={type}
+        disabled
+        className="focus-ring"
+        style={{ ...styleAll, transform: 'none', boxShadow: 'none', opacity: 0.4, cursor: 'not-allowed' }}
+      >
+        {content}
+      </button>
+    );
+  }
   if (href) {
     return (
       <Link

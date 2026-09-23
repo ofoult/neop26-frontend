@@ -191,7 +191,6 @@
     "vip": "VIP-upplevelse"
   },
   "TicketPicker": {
-    "selectTickets": "Välj biljetter",
     "notAvailable": "Biljetter till detta evenemang är inte tillgängliga just nu. Kom tillbaka senare.",
     "noSeatPricing": "Prissättning per plats är inte tillgänglig för detta evenemang — fortsätt på vår partners sida för att se alternativ och slutföra köpet.",
     "getTickets": "Köp biljetter",
@@ -204,13 +203,8 @@
     "cantLeaveOne": "Kan inte lämna en enda plats",
     "noMatchFilters": "Inga biljetter matchar de valda filtren.",
     "maxPerOrder": "max {count} / beställning",
-    "ticketsSelected": "{count, plural, one {# biljett vald} other {# biljetter valda}}",
-    "edit": "Redigera",
     "buy": "Köp",
-    "removeSeatFrom": "Ta bort plats från {name}",
-    "addSeatTo": "Lägg till plats till {name}",
-    "perTicket": "/ biljett",
-    "getNTickets": "{count, plural, one {Köp # biljett} other {Köp # biljetter}}",
+    "quantityFor": "Antal för {name}",
     "listingsCount": "{count, plural, one {# annons} other {# annonser}}"
   },
   "TicketFilters": {

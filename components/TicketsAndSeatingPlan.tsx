@@ -27,10 +27,6 @@ export function TicketsAndSeatingPlan({
   // Owned here (not inside TicketPicker) so a seat click on the plan — a
   // sibling component — can drive the same "add a seat" state.
   const seatSelection = useSeatSelection();
-  // Also owned here so a seat click can open the drawer the same way a "Buy"
-  // button click does.
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
   // Quantity / category / ticket-type filters shown above the seating plan.
   // Owned here (not TicketPicker) since they narrow which rows it displays
   // while the seat click / active-selection logic above still needs the full,
@@ -41,17 +37,15 @@ export function TicketsAndSeatingPlan({
     [categories, filters],
   );
 
-  // Fresh "Buy"/seat clicks start at the quantity filter's value, or 1 if unset.
+  // Fresh seat clicks start at the quantity filter's value, or 1 if unset.
   const defaultQuantity = filters.quantity ?? 1;
 
   function handleSeatClick(categoryName: string) {
     const cat = categories?.find((c) => c.name.trim().toLowerCase() === categoryName.trim().toLowerCase());
     if (!cat) return;
-    // Mirrors the "Buy" button: switch to this category (resetting to the
-    // quantity filter's seat count) unless it's already the active one, then
-    // open the drawer either way — every seat click should surface it.
-    if (seatSelection.activeId !== cat.id) seatSelection.inc(cat, defaultQuantity);
-    setDrawerOpen(true);
+    // Selects this category (starting at the quantity filter's seat count)
+    // unless it's already the active one, so its row's select reflects the click.
+    seatSelection.start(cat, defaultQuantity);
   }
 
   return (
@@ -63,11 +57,7 @@ export function TicketsAndSeatingPlan({
           onHoverCategory={setHoveredCategory}
           highlightedCategory={hoveredSeatCategory}
           seatSelection={seatSelection}
-          drawerOpen={drawerOpen}
-          onOpenDrawer={() => setDrawerOpen(true)}
-          onCloseDrawer={() => setDrawerOpen(false)}
           visibleCategoryIds={visibleCategoryIds}
-          defaultQuantity={defaultQuantity}
         />
       </div>
 

@@ -191,7 +191,6 @@
     "vip": "VIP élmény"
   },
   "TicketPicker": {
-    "selectTickets": "Válassz jegyeket",
     "notAvailable": "Ehhez az eseményhez jelenleg nem elérhetők jegyek. Nézz vissza később.",
     "noSeatPricing": "Ehhez az eseményhez nem érhető el helyenkénti árazás — folytasd partnerünk oldalán, hogy megnézd a lehetőségeket és fizess.",
     "getTickets": "Jegyvásárlás",
@@ -204,13 +203,8 @@
     "cantLeaveOne": "Nem hagyható egyetlen szabad hely",
     "noMatchFilters": "Nincs a kiválasztott szűrőknek megfelelő jegy.",
     "maxPerOrder": "max {count} / rendelés",
-    "ticketsSelected": "{count, plural, one {# jegy kiválasztva} other {# jegy kiválasztva}}",
-    "edit": "Szerkesztés",
     "buy": "Vásárlás",
-    "removeSeatFrom": "Hely eltávolítása innen: {name}",
-    "addSeatTo": "Hely hozzáadása ide: {name}",
-    "perTicket": "/ jegy",
-    "getNTickets": "{count, plural, one {# jegy megvásárlása} other {# jegy megvásárlása}}",
+    "quantityFor": "Mennyiség: {name}",
     "listingsCount": "{count, plural, one {# hirdetés} other {# hirdetés}}"
   },
   "TicketFilters": {

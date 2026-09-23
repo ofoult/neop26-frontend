@@ -191,7 +191,6 @@
     "vip": "חוויית VIP"
   },
   "TicketPicker": {
-    "selectTickets": "בחירת כרטיסים",
     "notAvailable": "הכרטיסים לאירוע זה אינם זמינים כרגע. בדקו שוב בקרוב.",
     "noSeatPricing": "תמחור לפי מושב אינו זמין לאירוע זה — המשיכו לדף השותף שלנו כדי לראות אפשרויות ולהשלים את התשלום.",
     "getTickets": "רכישת כרטיסים",
@@ -204,13 +203,8 @@
     "cantLeaveOne": "לא ניתן להשאיר מושב בודד",
     "noMatchFilters": "אין כרטיסים התואמים את הסינון שנבחר.",
     "maxPerOrder": "מקסימום {count} להזמנה",
-    "ticketsSelected": "{count, plural, one {כרטיס אחד נבחר} other {# כרטיסים נבחרו}}",
-    "edit": "עריכה",
     "buy": "קנייה",
-    "removeSeatFrom": "הסרת מושב מ-{name}",
-    "addSeatTo": "הוספת מושב ל-{name}",
-    "perTicket": "/ כרטיס",
-    "getNTickets": "{count, plural, one {רכישת כרטיס אחד} other {רכישת # כרטיסים}}",
+    "quantityFor": "כמות עבור {name}",
     "listingsCount": "{count, plural, one {מודעה אחת} other {# מודעות}}"
   },
   "TicketFilters": {

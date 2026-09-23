@@ -191,7 +191,6 @@
     "vip": "تجربة VIP"
   },
   "TicketPicker": {
-    "selectTickets": "اختر التذاكر",
     "notAvailable": "تذاكر هذه الفعالية غير متاحة حاليًا. يُرجى المحاولة لاحقًا.",
     "noSeatPricing": "التسعير حسب المقعد غير متاح لهذه الفعالية — تابع على صفحة شريكنا لرؤية الخيارات وإتمام الشراء.",
     "getTickets": "احصل على التذاكر",
@@ -204,13 +203,8 @@
     "cantLeaveOne": "لا يمكن ترك مقعد واحد بمفرده",
     "noMatchFilters": "لا توجد تذاكر تطابق الفلاتر المحددة.",
     "maxPerOrder": "الحد الأقصى {count} / طلب",
-    "ticketsSelected": "{count, plural, zero {# تذاكر محددة} one {تذكرة واحدة محددة} two {تذكرتان محددتان} few {# تذاكر محددة} many {# تذكرة محددة} other {# تذكرة محددة}}",
-    "edit": "تعديل",
     "buy": "شراء",
-    "removeSeatFrom": "إزالة مقعد من {name}",
-    "addSeatTo": "إضافة مقعد إلى {name}",
-    "perTicket": "/ تذكرة",
-    "getNTickets": "{count, plural, zero {شراء # تذاكر} one {شراء تذكرة واحدة} two {شراء تذكرتين} few {شراء # تذاكر} many {شراء # تذكرة} other {شراء # تذكرة}}",
+    "quantityFor": "الكمية لـ {name}",
     "listingsCount": "{count, plural, zero {# عروض} one {عرض واحد} two {عرضان} few {# عروض} many {# عرض} other {# عرض}}"
   },
   "TicketFilters": {

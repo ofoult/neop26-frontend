@@ -191,7 +191,6 @@
     "vip": "VIP iskustvo"
   },
   "TicketPicker": {
-    "selectTickets": "Odaberite ulaznice",
     "notAvailable": "Ulaznice za ovaj događaj trenutno nisu dostupne. Navratite ponovno kasnije.",
     "noSeatPricing": "Cijene po sjedalu nisu dostupne za ovaj događaj — nastavite na stranici našeg partnera da vidite opcije i dovršite kupnju.",
     "getTickets": "Kupi ulaznice",
@@ -204,13 +203,8 @@
     "cantLeaveOne": "Nije moguće ostaviti jedno slobodno mjesto",
     "noMatchFilters": "Nema ulaznica koje odgovaraju odabranim filtrima.",
     "maxPerOrder": "maks. {count} / narudžba",
-    "ticketsSelected": "{count, plural, one {# ulaznica odabrana} few {# ulaznice odabrane} other {# ulaznica odabrano}}",
-    "edit": "Uredi",
     "buy": "Kupi",
-    "removeSeatFrom": "Ukloni mjesto od {name}",
-    "addSeatTo": "Dodaj mjesto k {name}",
-    "perTicket": "/ ulaznica",
-    "getNTickets": "{count, plural, one {Kupi # ulaznicu} few {Kupi # ulaznice} other {Kupi # ulaznica}}",
+    "quantityFor": "Količina za {name}",
     "listingsCount": "{count, plural, one {# oglas} few {# oglasa} other {# oglasa}}"
   },
   "TicketFilters": {

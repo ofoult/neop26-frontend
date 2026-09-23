@@ -312,19 +312,50 @@ img {
   }
 }
 
-/* Responsive: the page scrolls until the plan reaches the header, then it stays
-   pinned (about half the window) and only the ticket list scrolls under it. */
+/* Responsive: the header scrolls away with the page (event pages only), then the
+   plan *card* pins at the top of the window (about half its height) while only
+   the ticket list scrolls under it. The filters row above the card is not part
+   of the pinned block — it scrolls off with the page. To let the card stick
+   relative to the whole grid (not just its own wrapper), the wrapper is
+   dissolved with display: contents so the filters row and the card become
+   direct grid items, still ordered above the tickets. */
 @media (max-width: 900px) {
-  /* Pinned flush against the header (1px tucked under it): a gap here would let
-     the scrolling tickets show through between the header and the filters. The
-     breathing room is opaque padding instead. */
+  /* relative (not static) so its z-index still applies: the event hero has a
+     negative top margin and would otherwise paint over the header. */
+  .nav-scroll-away {
+    position: relative !important;
+  }
   .tickets-plan-seatmap {
-    top: calc(var(--header-h, 69px) - 1px);
-    height: calc((100vh - var(--header-h, 69px)) * 0.55);
+    display: contents;
+  }
+  .tickets-plan-seatmap-box {
+    order: 1;
+    position: sticky;
+    top: 8px;
     z-index: 5;
-    background: var(--bg);
-    padding-top: 8px;
-    padding-bottom: 8px;
+    flex: none;
+    /* Fits the plan's own aspect ratio (no empty bands above/below it), capped
+       at about half the window so the ticket list keeps room to scroll. */
+    height: auto;
+    max-height: 55vh;
+    /* Opaque strip above the card so scrolling tickets never show through
+       between it and the top of the window. */
+    box-shadow: 0 -30px 0 0 var(--bg);
+    /* --surface is translucent; layer it over --bg so the tickets don't show through. */
+    background: linear-gradient(var(--surface), var(--surface)), var(--bg) !important;
+  }
+  .tickets-plan-seatmap-box .seatmap-svg > div[data-nosnippet],
+  .tickets-plan-seatmap-box .seatmap-svg svg {
+    height: auto;
+    max-height: calc(55vh - 24px);
+  }
+  /* Opens its dropdowns over the pinned card (which is z-index 5). */
+  .ticket-filters-row {
+    order: 1;
+    position: relative;
+    z-index: 6;
+    /* Cancels the grid gap so the row sits just above the card as before. */
+    margin-bottom: -16px !important;
   }
   /* The 3 filters share the row's width so they stay on one line. */
   .ticket-filter {

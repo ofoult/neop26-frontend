@@ -191,7 +191,6 @@
     "vip": "VIP Experience"
   },
   "TicketPicker": {
-    "selectTickets": "Select tickets",
     "notAvailable": "Tickets for this event are not available right now. Please check back later.",
     "noSeatPricing": "Seat-by-seat pricing isn't available for this event — continue on our partner's page to see options and check out.",
     "getTickets": "Get tickets",
@@ -204,13 +203,8 @@
     "cantLeaveOne": "Can't leave a single seat",
     "noMatchFilters": "No tickets match the selected filters.",
     "maxPerOrder": "max {count} / order",
-    "ticketsSelected": "{count, plural, one {# ticket selected} other {# tickets selected}}",
-    "edit": "Edit",
     "buy": "Buy",
-    "removeSeatFrom": "Remove seat from {name}",
-    "addSeatTo": "Add seat to {name}",
-    "perTicket": "/ ticket",
-    "getNTickets": "{count, plural, one {Get # ticket} other {Get # tickets}}",
+    "quantityFor": "Quantity for {name}",
     "listingsCount": "{count, plural, one {# listing} other {# listings}}"
   },
   "TicketFilters": {

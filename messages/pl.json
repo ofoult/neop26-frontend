@@ -191,7 +191,6 @@
     "vip": "Wrażenia VIP"
   },
   "TicketPicker": {
-    "selectTickets": "Wybierz bilety",
     "notAvailable": "Bilety na to wydarzenie są obecnie niedostępne. Zajrzyj później.",
     "noSeatPricing": "Wycena miejsc nie jest dostępna dla tego wydarzenia — przejdź na stronę naszego partnera, aby zobaczyć opcje i dokończyć zakup.",
     "getTickets": "Kup bilety",
@@ -204,13 +203,8 @@
     "cantLeaveOne": "Nie można pozostawić jednego wolnego miejsca",
     "noMatchFilters": "Brak biletów odpowiadających wybranym filtrom.",
     "maxPerOrder": "maks. {count} / zamówienie",
-    "ticketsSelected": "{count, plural, one {# bilet wybrany} few {# bilety wybrane} many {# biletów wybranych} other {# biletów wybranych}}",
-    "edit": "Edytuj",
     "buy": "Kup",
-    "removeSeatFrom": "Usuń miejsce z {name}",
-    "addSeatTo": "Dodaj miejsce do {name}",
-    "perTicket": "/ bilet",
-    "getNTickets": "{count, plural, one {Kup # bilet} few {Kup # bilety} many {Kup # biletów} other {Kup # biletów}}",
+    "quantityFor": "Liczba biletów: {name}",
     "listingsCount": "{count, plural, one {# ogłoszenie} few {# ogłoszenia} many {# ogłoszeń} other {# ogłoszeń}}"
   },
   "TicketFilters": {

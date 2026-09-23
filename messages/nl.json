@@ -191,7 +191,6 @@
     "vip": "VIP-ervaring"
   },
   "TicketPicker": {
-    "selectTickets": "Selecteer tickets",
     "notAvailable": "Tickets voor dit evenement zijn momenteel niet beschikbaar. Kom later terug.",
     "noSeatPricing": "Prijzen per stoel zijn niet beschikbaar voor dit evenement — ga verder op de pagina van onze partner om opties te bekijken en af te rekenen.",
     "getTickets": "Tickets kopen",
@@ -204,13 +203,8 @@
     "cantLeaveOne": "Kan geen enkele stoel achterlaten",
     "noMatchFilters": "Geen tickets komen overeen met de geselecteerde filters.",
     "maxPerOrder": "max {count} / bestelling",
-    "ticketsSelected": "{count, plural, one {# ticket geselecteerd} other {# tickets geselecteerd}}",
-    "edit": "Bewerken",
     "buy": "Kopen",
-    "removeSeatFrom": "Verwijder stoel van {name}",
-    "addSeatTo": "Voeg stoel toe aan {name}",
-    "perTicket": "/ ticket",
-    "getNTickets": "{count, plural, one {Koop # ticket} other {Koop # tickets}}",
+    "quantityFor": "Aantal voor {name}",
     "listingsCount": "{count, plural, one {# aanbieding} other {# aanbiedingen}}"
   },
   "TicketFilters": {

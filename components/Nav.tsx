@@ -12,7 +12,7 @@ import type { Category } from "@/lib/types";
 import { BestSalesMarquee } from "./BestSalesMarquee";
 import { LanguageCurrencySelect } from "./LanguageCurrencySelect";
 
-export function Nav({ hideMarquee = false }: { hideMarquee?: boolean }) {
+export function Nav({ hideMarquee = false, scrollAwayOnMobile = false }: { hideMarquee?: boolean; scrollAwayOnMobile?: boolean }) {
   // const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const tCat = useTranslations("Categories");
@@ -60,6 +60,9 @@ export function Nav({ hideMarquee = false }: { hideMarquee?: boolean }) {
   return (
     <header
       ref={headerRef}
+      // Event pages: below the responsive breakpoint the header scrolls away
+      // (globals.css) so the pinned seating plan can sit at the very top.
+      className={scrollAwayOnMobile ? "nav-scroll-away" : undefined}
       style={{
         position: "sticky",
         top: 0,
