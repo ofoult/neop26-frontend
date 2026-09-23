@@ -131,6 +131,7 @@ export function Btn({
         target={newTab ? '_blank' : undefined}
         // Gigsberg needs the referer to attribute checkout traffic back to neop; keep noopener for tabnabbing protection.
         rel={newTab ? 'noopener' : undefined}
+        onClick={onClick}
         onMouseEnter={() => setH(true)}
         onMouseLeave={() => setH(false)}
         style={styleAll}

@@ -2,6 +2,7 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 import { useState, type CSSProperties, type ReactNode } from 'react';
+import { trackGigsbergRedirect } from '@/lib/analytics';
 import { Price, useCurrency } from '@/lib/currency';
 import type { ApiListingCategory, NeopEvent } from '@/lib/types';
 import { Icon } from './Icon';
@@ -134,7 +135,14 @@ export function TicketPicker({
         </p>
       </div>
       <div style={{ padding: '20px 22px 22px' }}>
-        <Btn full size="lg" iconR="arrow" href={localizeGigsbergUrl(ev.url, locale, currency)} newTab>
+        <Btn
+          full
+          size="lg"
+          iconR="arrow"
+          href={localizeGigsbergUrl(ev.url, locale, currency)}
+          newTab
+          onClick={() => trackGigsbergRedirect({ eventName: ev.title, price: ev.priceFrom, currency: ev.currencyCode })}
+        >
           {t('getTickets')}
         </Btn>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 14, fontSize: 13, color: 'var(--faint)' }}>
@@ -365,7 +373,21 @@ function RealTickets({
                     </span>
                   )}
                 </div>
-                <Btn size="sm" href={rowQty > 0 ? href : undefined} disabled={rowQty === 0} newTab>
+                <Btn
+                  size="sm"
+                  href={rowQty > 0 ? href : undefined}
+                  disabled={rowQty === 0}
+                  newTab
+                  onClick={() =>
+                    trackGigsbergRedirect({
+                      eventName: ev.title,
+                      category: cat.name,
+                      price: cat.fromPrice,
+                      quantity: rowQty,
+                      currency: priceCurrency,
+                    })
+                  }
+                >
                   {t('buy')}
                 </Btn>
               </div>
