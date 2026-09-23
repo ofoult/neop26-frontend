@@ -259,3 +259,25 @@ Next.js/SWC build) so `NODE_OPTIONS` can require them before Next.js itself star
   and top-20 URLs and top-20 client IPs by bytes. Pre-filter with
   `jq -c 'select(.timestamp | startswith("2026-09-14"))'` for a single calendar day, or
   `startswith("2026-09-14T10")` for one hour.
+- **Running it against production** — one line, from this directory:
+
+  ```
+  ssh -i ../oracle/neop/ssh-key-2026-09-06.key ubuntu@145.241.173.102 'sudo docker logs $(sudo docker ps -q --filter name=icez0zbj89mx8kvoavgavciz) --since 24h 2>&1 | grep "^{"' | ./scripts/traffic-report.sh
+  ```
+
+  Three details that make this work where the obvious version doesn't:
+  - **Resolve the container by app UUID, not by name.** Coolify appends a fresh suffix on every
+    deploy (`icez0zbj89mx8kvoavgavciz-130803075923` → `…-102102956182`), so a pasted container
+    name goes stale the next time you ship. `icez0zbj89mx8kvoavgavciz` is the frontend
+    application's Coolify UUID and never changes (`…-backend` is `cfccu9uaeem2ztunihehjxbj`).
+  - **`grep "^{"` is required**, not cosmetic: Next.js prints its own startup banner to the same
+    stdout, and `jq -s` aborts on the first non-JSON line.
+  - **Aggregate locally** (jq/column run on the Mac) so there's nothing to upload to the VM first.
+    Pipe into `ssh … 'cat > /tmp/traffic-report.sh' && ssh … '… | bash /tmp/traffic-report.sh'`
+    instead if you ever need it to run host-side.
+
+  **`--since 24h` is capped by the container's age.** `docker logs` only reads the *current*
+  container, and a deploy replaces it — so right after shipping, `--since 24h` silently returns
+  just the minutes since the swap. Check the span before trusting the numbers
+  (`… | head -1` / `… | tail -1` on the timestamps), and expect no cross-deploy history at all;
+  nothing ships these logs anywhere durable.
