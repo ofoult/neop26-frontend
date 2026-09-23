@@ -59,17 +59,11 @@ function localizeGigsbergUrl(url: string, locale: string): string {
   }
 }
 
-/** Shared sticky card chrome + "Select tickets" header. */
+/** Shared sticky card chrome. */
 export function Panel({ children }: { children: ReactNode }) {
-  const t = useTranslations('TicketPicker');
   return (
     <aside style={{ position: 'sticky', top: 104 }}>
       <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)', overflow: 'hidden' }}>
-        <div style={{ padding: '22px 22px 6px' }}>
-          <div style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--faint)' }}>
-            {t('selectTickets')}
-          </div>
-        </div>
         {children}
       </div>
     </aside>

@@ -104,9 +104,9 @@ function CheckoutInner() {
       <Link
         href={eventHref(ev)}
         className="focus-ring"
-        style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--dim)', fontSize: 14.5, fontWeight: 600, marginBottom: 20 }}
+        style={{ display: 'inline-block', color: 'var(--dim)', fontSize: 14.5, fontWeight: 600, marginBottom: 20 }}
       >
-        <Icon name="arrowL" size={16} /> {t('backToEvent')}
+        {ev.artist}
       </Link>
       <h1 className="serif" style={{ fontSize: 'clamp(34px,5vw,52px)', margin: '0 0 8px', lineHeight: 1 }}>
         {t('title')}

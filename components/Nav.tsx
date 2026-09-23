@@ -12,7 +12,7 @@ import type { Category } from "@/lib/types";
 import { BestSalesMarquee } from "./BestSalesMarquee";
 import { LanguageCurrencySelect } from "./LanguageCurrencySelect";
 
-export function Nav() {
+export function Nav({ hideMarquee = false }: { hideMarquee?: boolean }) {
   // const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const tCat = useTranslations("Categories");
@@ -26,6 +26,7 @@ export function Nav() {
   const [subcatsByCategory, setSubcatsByCategory] = useState<Partial<Record<Category["id"], Subcategory[]>> | null>(null);
   const [subcatsLoading, setSubcatsLoading] = useState(false);
   const fetchStarted = useRef(false);
+  const headerRef = useRef<HTMLElement>(null);
 
   function ensureSubcategoriesLoaded() {
     if (fetchStarted.current) return;
@@ -37,6 +38,18 @@ export function Nav() {
       .finally(() => setSubcatsLoading(false));
   }
 
+  // Publish the header's height so sticky content below it (the seating plan on
+  // event pages) can pin itself right under it, whatever the viewport.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const publish = () => document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
+    publish();
+    const ro = new ResizeObserver(publish);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 24);
     f();
@@ -46,6 +59,7 @@ export function Nav() {
 
   return (
     <header
+      ref={headerRef}
       style={{
         position: "sticky",
         top: 0,
@@ -98,7 +112,7 @@ export function Nav() {
         </button> */}
         <LanguageCurrencySelect />
       </div>
-      <BestSalesMarquee />
+      {!hideMarquee && <BestSalesMarquee />}
     </header>
   );
 }

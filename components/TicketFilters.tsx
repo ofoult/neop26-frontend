@@ -139,7 +139,7 @@ function FilterDropdown({
   }, []);
 
   return (
-    <div ref={rootRef} onMouseEnter={openNow} onMouseLeave={closeSoon} style={{ position: 'relative' }}>
+    <div ref={rootRef} className="ticket-filter" onMouseEnter={openNow} onMouseLeave={closeSoon} style={{ position: 'relative', minWidth: 0 }}>
       <button
         type="button"
         onClick={() => (open ? setOpen(false) : openNow())}
@@ -158,10 +158,11 @@ function FilterDropdown({
           fontWeight: 600,
           cursor: 'pointer',
           whiteSpace: 'nowrap',
+          maxWidth: '100%',
           transition: 'border-color .15s, background .15s',
         }}
       >
-        {label}
+        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0 }}>{label}</span>
         {active && badge !== undefined && (
           <span
             style={{
@@ -257,7 +258,8 @@ export function TicketFilters({
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 18 }}>
+    // flexWrap nowrap: the filters must always stay on a single line
+    <div className="ticket-filters-row" style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap', gap: 10, marginBottom: 12 }}>
       {showQuantity && (
         <FilterDropdown
           label={filters.quantity !== null ? t('ticketsCount', { count: filters.quantity }) : t('quantity')}
@@ -334,6 +336,8 @@ export function TicketFilters({
             fontWeight: 600,
             cursor: 'pointer',
             padding: '11px 4px',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
           }}
         >
           {t('clearAll')}

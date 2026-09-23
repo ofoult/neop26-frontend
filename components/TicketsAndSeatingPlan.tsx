@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import type { ApiEventSeatingPlan, ApiListingCategory, NeopEvent } from '@/lib/types';
 import { SeatingPlanSvg } from './SeatingPlanSvg';
@@ -18,7 +17,6 @@ export function TicketsAndSeatingPlan({
   seatingPlan: ApiEventSeatingPlan | null;
   svgMarkup: string | null;
 }) {
-  const t = useTranslations('SeatingPlan');
   // Row -> seatmap: hovering a price row highlights every seat in that category.
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   // Seat -> row: hovering one seat effects only its matching price row, kept
@@ -74,19 +72,17 @@ export function TicketsAndSeatingPlan({
       </div>
 
       {hasSeatingPlan && (
-        <div className="tickets-plan-seatmap" style={{ position: 'sticky', top: 104 }}>
+        <div className="tickets-plan-seatmap">
           {categories && categories.length > 0 && (
             <TicketFilters categories={categories} filters={filters} onChange={setFilters} />
           )}
-          <h3 className="serif" style={{ fontSize: 26, margin: '0 0 18px' }}>
-            {t('heading')}
-          </h3>
           <div
+            className="tickets-plan-seatmap-box"
             style={{
               borderRadius: 18,
               border: '1px solid var(--border)',
               background: 'var(--surface)',
-              padding: 20,
+              padding: 12,
             }}
           >
             <SeatingPlanSvg

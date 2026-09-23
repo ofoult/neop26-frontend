@@ -260,15 +260,85 @@ img {
 @media (max-width: 900px) {
   .tickets-plan-grid.no-plan,
   .tickets-plan-grid.has-plan {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 28px;
   }
   .tickets-plan-tickets {
     order: 2;
+    padding-bottom: 40px;
   }
   .tickets-plan-seatmap {
     order: 1;
-    position: static !important;
+  }
+}
+
+/* Seating plan (+ its filters row) is pinned under the sticky header, so only
+   the ticket categories scroll past it. --header-h is published by Nav.tsx. */
+.tickets-plan-grid.has-plan {
+  --plan-top: calc(var(--header-h, 69px) + 7px);
+}
+.tickets-plan-seatmap {
+  position: sticky;
+  top: var(--plan-top);
+  display: flex;
+  flex-direction: column;
+}
+.tickets-plan-seatmap-box {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+.tickets-plan-seatmap-box .seatmap-svg {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+.tickets-plan-seatmap-box .seatmap-svg > div[data-nosnippet] {
+  height: 100%;
+}
+.tickets-plan-seatmap-box .seatmap-svg svg {
+  height: 100%;
+}
+
+/* Desktop: plan sized to the window (5px gap at the bottom). The grid's
+   min-height lets the page scroll far enough to bring the "select tickets"
+   block / the filters row up to the top even when the list is short. */
+@media (min-width: 901px) {
+  .tickets-plan-grid.has-plan {
+    min-height: calc(100vh - var(--plan-top));
+  }
+  .tickets-plan-seatmap {
+    height: calc(100vh - var(--plan-top) - 5px);
+  }
+}
+
+/* Responsive: the page scrolls until the plan reaches the header, then it stays
+   pinned (about half the window) and only the ticket list scrolls under it. */
+@media (max-width: 900px) {
+  /* Pinned flush against the header (1px tucked under it): a gap here would let
+     the scrolling tickets show through between the header and the filters. The
+     breathing room is opaque padding instead. */
+  .tickets-plan-seatmap {
+    top: calc(var(--header-h, 69px) - 1px);
+    height: calc((100vh - var(--header-h, 69px)) * 0.55);
+    z-index: 5;
+    background: var(--bg);
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  /* The 3 filters share the row's width so they stay on one line. */
+  .ticket-filter {
+    flex: 1 1 auto;
+  }
+  .ticket-filter > button {
+    width: 100%;
+    justify-content: space-between;
+    padding: 11px 8px !important;
+    gap: 4px !important;
+    font-size: 12.5px !important;
+  }
+  .ticket-filters-row {
+    gap: 6px !important;
   }
 }
 
@@ -530,4 +600,17 @@ img {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+/* Event page hero meta line (see app/[locale]/event/[slug]/page.tsx): on small
+   screens the country shows as a flag only, next to the date and time, and the
+   venue drops to its own line below. */
+@media (max-width: 900px) {
+  .event-meta-country-name {
+    display: none;
+  }
+  .event-meta-venue {
+    order: 1;
+    flex-basis: 100%;
+  }
 }

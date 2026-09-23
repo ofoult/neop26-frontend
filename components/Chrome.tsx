@@ -12,11 +12,19 @@ export function Chrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const hideChrome = pathname?.startsWith('/confirmation') ?? false;
 
+  // Checkout and event pages are focused purchase screens: no marquee, no footer.
+  const isPurchaseFlow = (pathname?.startsWith('/checkout') || pathname?.startsWith('/event/')) ?? false;
+  // No bottom spacer on event pages: the sticky seating plan needs the page to
+  // end flush with the ticket list, or it gets pushed up at the end of the scroll.
+  const isEvent = pathname?.startsWith('/event/') ?? false;
+  const hideMarquee = isPurchaseFlow;
+  const hideFooter = isPurchaseFlow;
+
   return (
     <>
-      {!hideChrome && <Nav />}
+      {!hideChrome && <Nav hideMarquee={hideMarquee} />}
       <main style={{ minHeight: '60vh' }}>{children}</main>
-      {!hideChrome ? <Footer /> : <div style={{ height: 80 }} />}
+      {!hideChrome && !hideFooter ? <Footer /> : <div style={{ height: isEvent ? 0 : 80 }} />}
     </>
   );
 }

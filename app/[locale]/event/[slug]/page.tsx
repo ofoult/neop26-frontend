@@ -2,21 +2,20 @@ import type { Metadata } from 'next';
 import { Link } from '@/i18n/navigation';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Suspense } from 'react';
+import { Suspense, type CSSProperties } from 'react';
 import { CountryFlag } from '@/components/Flag';
-import { EventCard } from '@/components/EventCard';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
-import { SecHead } from '@/components/SecHead';
 import { Skeleton } from '@/components/Skeleton';
 import { TicketsAndSeatingPlan } from '@/components/TicketsAndSeatingPlan';
-import { fetchEvent, fetchEventListings, fetchEvents, fetchEventSeatingPlan, fetchSeatingPlanSvgMarkup } from '@/lib/api';
-import { CATEGORIES, categoryById } from '@/lib/categories';
+import { fetchEvent, fetchEventListings, fetchEventSeatingPlan, fetchSeatingPlanSvgMarkup, fetchSubtypes } from '@/lib/api';
+import { categoryById } from '@/lib/categories';
 import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime } from '@/lib/format';
 import { breadcrumbJsonLd, eventJsonLd, jsonLdScript } from '@/lib/jsonld';
 import { hreflangAlternates, localePath, ogAlternateLocales, ogLocale } from '@/lib/hreflang';
-import { eventHref, parseIdFromSlugParam, performerHref } from '@/lib/slug';
+import { eventHref, parseIdFromSlugParam, performerHref, slugify } from '@/lib/slug';
+import { findSubcategory, toSubcategories } from '@/lib/subcategories';
 import { SITE_URL } from '@/lib/site';
 import type { NeopEvent } from '@/lib/types';
 
@@ -101,6 +100,19 @@ export default async function EventPage({ params }: { params: { locale: string; 
     { name: ev.title },
   ]);
 
+  // Link the "Category · Genre" pill to the genre's subcategory page when it
+  // resolves to one (same slug rules as /browse/[slug]); else the category.
+  const subcat = findSubcategory(toSubcategories(await fetchSubtypes()), slugify(ev.genre));
+  const categoryHref = `/browse/${subcat && subcat.categoryId === ev.category ? subcat.slug : ev.category}`;
+  const pillStyle: CSSProperties = {
+    padding: '6px 12px',
+    borderRadius: 999,
+    background: 'rgba(255,255,255,.12)',
+    backdropFilter: 'blur(10px)',
+    fontSize: 12.5,
+    fontWeight: 600,
+  };
+
   return (
     <div>
       <script
@@ -110,7 +122,7 @@ export default async function EventPage({ params }: { params: { locale: string; 
       />
       {/* hero */}
       <div style={{ position: 'relative', marginTop: '-88px' }}>
-        <div style={{ position: 'absolute', inset: 0, height: 'clamp(340px,46vh,460px)' }}>
+        <div style={{ position: 'absolute', inset: 0 }}>
           <Img src={ev.image} alt={ev.title} priority style={{ width: '100%', height: '100%' }} />
           <div
             style={{
@@ -120,27 +132,8 @@ export default async function EventPage({ params }: { params: { locale: string; 
             }}
           />
         </div>
-        <div style={{ position: 'relative', maxWidth: 'var(--maxw)', margin: '0 auto', padding: '112px 28px 40px' }}>
-          <Link
-            href={ev.performerId ? performerHref(ev.performerId, ev.artist) : `/browse/${ev.category}`}
-            className="focus-ring"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '9px 16px',
-              borderRadius: 999,
-              background: 'rgba(255,255,255,.12)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,.2)',
-              fontSize: 14,
-              fontWeight: 600,
-              marginBottom: 28,
-            }}
-          >
-            <Icon name="arrowL" size={16} /> Back
-          </Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+        <div style={{ position: 'relative', maxWidth: 'var(--maxw)', margin: '0 auto', padding: '104px 28px 4px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
             {ev.hot && (
               <span
                 style={{
@@ -157,48 +150,44 @@ export default async function EventPage({ params }: { params: { locale: string; 
                 <Icon name="bolt" size={13} /> Trending
               </span>
             )}
-            <span
-              style={{
-                padding: '6px 12px',
-                borderRadius: 999,
-                background: 'rgba(255,255,255,.12)',
-                backdropFilter: 'blur(10px)',
-                fontSize: 12.5,
-                fontWeight: 600,
-              }}
-            >
+            <Link href={categoryHref} className="focus-ring" style={pillStyle}>
               {cat && tCat(cat.id)} · {ev.genre}
-            </span>
+            </Link>
+            <Link
+              href={ev.performerId ? performerHref(ev.performerId, ev.artist) : `/browse/${ev.category}`}
+              className="focus-ring"
+              style={pillStyle}
+            >
+              {ev.artist}
+            </Link>
           </div>
-          <div
-            style={{
-              fontSize: 16,
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.12em',
-              color: 'rgba(255,255,255,.8)',
-              marginBottom: 10,
-            }}
-          >
-            {ev.artist}
-          </div>
-          <h1 className="serif" style={{ fontSize: 'clamp(48px,8vw,108px)', margin: 0, lineHeight: 0.92, letterSpacing: '-0.02em' }}>
+          <h1 className="serif" style={{ fontSize: 'clamp(26px,3.6vw,44px)', margin: 0, lineHeight: 1.05, letterSpacing: '-0.01em' }}>
             {ev.title}
           </h1>
-          <div style={{ display: 'flex', gap: 26, marginTop: 24, flexWrap: 'wrap', color: 'rgba(255,255,255,.9)', fontSize: 16 }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <Icon name="cal" size={19} /> {fmtDateLong(ev.date, params.locale)}
+          <div
+            style={{
+              display: 'flex',
+              gap: '6px 18px',
+              marginTop: 10,
+              flexWrap: 'wrap',
+              color: 'rgba(255,255,255,.9)',
+              fontSize: 13,
+            }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="cal" size={14} /> {fmtDateLong(ev.date, params.locale)}
             </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <Icon name="clock" size={19} /> {fmtTime(ev.date, params.locale)}
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="clock" size={14} /> {fmtTime(ev.date, params.locale)}
             </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <Icon name="pin" size={19} /> {ev.venue}, {ev.city}
+            <span className="event-meta-venue" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="pin" size={14} /> {ev.venue}, {ev.city}
             </span>
             {ev.country && (
-              <span style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                {countryCode && <CountryFlag code={countryCode} width={19} />}
-                {ev.country}
+              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                {countryCode && <CountryFlag code={countryCode} width={14} />}
+                {/* Responsive: flag only (the name is hidden) to save room. */}
+                <span className={countryCode ? 'event-meta-country-name' : undefined}>{ev.country}</span>
               </span>
             )}
           </div>
@@ -206,24 +195,19 @@ export default async function EventPage({ params }: { params: { locale: string; 
               having it appear verbatim on the page, not just in <meta>,
               gives Google real on-page text to match against so it doesn't
               fall back to unrelated content further down the page. */}
-          <p style={{ marginTop: 22, maxWidth: 640, color: 'rgba(255,255,255,.85)', fontSize: 16, lineHeight: 1.6 }}>
+          <p style={{ margin: '8px 0 0', maxWidth: 640, color: 'rgba(255,255,255,.8)', fontSize: 13, lineHeight: 1.45 }}>
             {ev.blurb}
           </p>
         </div>
       </div>
 
       {/* body */}
-      <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '40px 28px 0' }}>
+      <div style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '4px 28px 0' }}>
         {/* tickets (left) + seating plan (right) */}
         <Suspense fallback={<TicketsAndSeatingPlanSkeleton />}>
           <TicketsAndSeatingPlanData ev={ev} eventId={ev.id} canonicalUrl={canonicalUrl} locale={params.locale} />
         </Suspense>
       </div>
-
-      {/* more like this */}
-      <Suspense fallback={<MoreLikeThisSkeleton />}>
-        <MoreLikeThis ev={ev} />
-      </Suspense>
     </div>
   );
 }
@@ -268,15 +252,17 @@ async function TicketsAndSeatingPlanData({
 function TicketsAndSeatingPlanSkeleton() {
   return (
     <div className="tickets-plan-grid has-plan">
-      <div className="tickets-plan-tickets" style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)', padding: 22 }}>
-        <Skeleton style={{ height: 13, width: 110, marginBottom: 18 }} />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {[0, 1, 2].map((i) => (
-            <div key={i} style={{ borderRadius: 16, border: '1px solid var(--border)', padding: '16px 18px' }}>
-              <Skeleton style={{ height: 16, width: '55%', marginBottom: 10 }} />
-              <Skeleton style={{ height: 12, width: '35%' }} />
-            </div>
-          ))}
+      <div className="tickets-plan-tickets">
+        <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)', padding: 22 }}>
+          <Skeleton style={{ height: 13, width: 110, marginBottom: 18 }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {[0, 1, 2].map((i) => (
+              <div key={i} style={{ borderRadius: 16, border: '1px solid var(--border)', padding: '16px 18px' }}>
+                <Skeleton style={{ height: 16, width: '55%', marginBottom: 10 }} />
+                <Skeleton style={{ height: 12, width: '35%' }} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="tickets-plan-seatmap">
@@ -284,39 +270,5 @@ function TicketsAndSeatingPlanSkeleton() {
         <Skeleton style={{ height: 520, borderRadius: 18 }} />
       </div>
     </div>
-  );
-}
-
-/** Fetches + renders the "more like this" strip; streamed in via Suspense above. */
-async function MoreLikeThis({ ev }: { ev: NeopEvent }) {
-  const typeId = CATEGORIES.find((c) => c.id === ev.category)?.typeId ?? undefined;
-  const moreRes = await fetchEvents({ typeId, perPage: 8, revalidate }).catch(() => null);
-  const more = (moreRes?.events ?? []).filter((e) => e.id !== ev.id).slice(0, 3);
-  if (more.length === 0) return null;
-  const t = await getTranslations('Event');
-
-  return (
-    <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
-      <SecHead kicker={t('keepExploring')} title={t('moreLikeThis')} />
-      <div className="more-like-this-grid">
-        {more.map((e, i) => (
-          <EventCard key={e.id} ev={e} i={i} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-async function MoreLikeThisSkeleton() {
-  const t = await getTranslations('Event');
-  return (
-    <section style={{ maxWidth: 'var(--maxw)', margin: '0 auto', padding: '72px 28px 0' }}>
-      <SecHead kicker={t('keepExploring')} title={t('moreLikeThis')} />
-      <div className="more-like-this-grid">
-        {[0, 1, 2].map((i) => (
-          <Skeleton key={i} style={{ aspectRatio: '4/5', borderRadius: 18 }} />
-        ))}
-      </div>
-    </section>
   );
 }
