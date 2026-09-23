@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Preferencje języka i waluty",
     "languageAndRegion": "Język i region",
-    "currency": "Waluta"
+    "currency": "Waluta",
+    "tabLanguages": "Języki",
+    "tabCurrencies": "Waluty",
+    "eventCurrency": "Waluta wydarzenia",
+    "eventCurrencyHint": "Pokazuj każdą cenę w walucie oryginalnej",
+    "ratesUpdated": "Kursy walut zaktualizowano o {time}",
+    "ratesError": "Kursy walut niedostępne – wyświetlane są ceny oryginalne",
+    "ratesLoading": "Aktualizowanie kursów walut…",
+    "closeLabel": "Zamknij",
+    "approxHint": "Kwoty oznaczone ≈ to przeliczenia orientacyjne. Dokładna cena i waluta płatności są widoczne przy finalizacji zamówienia."
   },
   "Categories": {
     "music": "Muzyka",
@@ -249,6 +258,8 @@
     "faqA2": "Bilety trafiają do Twojego portfela mobilnego wkrótce po dokonaniu płatności, gotowe do zeskanowania przy wejściu.",
     "faqQ3": "Z kim się skontaktować w razie potrzeby?",
     "faqA3": "Napisz do nas w dowolnym momencie na <email>contact@neop.events</email> — chętnie pomożemy.",
+    "faqQ4": "W jakiej walucie zostanie pobrana płatność?",
+    "faqA4": "Ceny możesz przeglądać w wybranej walucie. Kwoty oznaczone „≈” to przeliczenia orientacyjne; dokładna kwota i waluta płatności są zawsze widoczne na bezpiecznej stronie płatności, zanim zapłacisz.",
     "privacyBody": "Zbieramy wyłącznie informacje niezbędne do obsługi Twoich rezerwacji, zabezpieczenia konta i ulepszania neop. Nigdy nie sprzedajemy Twoich danych osobowych. Masz pytania dotyczące swoich danych? Napisz na <email>contact@neop.events</email>.",
     "termsBody": "Korzystając z neop, zgadzasz się rezerwować wydarzenia w dobrej wierze i podawać dokładne dane podczas płatności. Sprzedaż biletów jest ostateczna, z wyjątkiem przypadków objętych naszą gwarancją 100%. Masz pytania? Napisz na <email>contact@neop.events</email>.",
     "cookiesBody": "Używamy plików cookie, aby utrzymać Twoje logowanie, zapamiętać język i walutę oraz rozumieć, jak korzysta się z neop. Możesz zarządzać plikami cookie w dowolnym momencie w ustawieniach przeglądarki.",

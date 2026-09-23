@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Language and Currency preferences",
     "languageAndRegion": "Language and Region",
-    "currency": "Currency"
+    "currency": "Currency",
+    "tabLanguages": "Languages",
+    "tabCurrencies": "Currencies",
+    "eventCurrency": "Event currency",
+    "eventCurrencyHint": "Show each price in its original currency",
+    "ratesUpdated": "Exchange rates updated at {time}",
+    "ratesError": "Exchange rates unavailable — showing original prices",
+    "ratesLoading": "Updating exchange rates…",
+    "closeLabel": "Close",
+    "approxHint": "Amounts marked ≈ are indicative conversions. The exact price and currency of your payment are shown at checkout."
   },
   "Categories": {
     "music": "Music",
@@ -249,6 +258,8 @@
     "faqA2": "Tickets are delivered to your mobile wallet shortly after checkout, ready to scan at the door.",
     "faqQ3": "Who do I contact for help?",
     "faqA3": "Email us any time at <email>contact@neop.events</email> — we're happy to help.",
+    "faqQ4": "In which currency am I charged?",
+    "faqA4": "You can browse prices in the currency of your choice. Amounts marked “≈” are indicative conversions; the exact amount and currency of your payment are always shown on the secure checkout page before you pay.",
     "privacyBody": "We collect only the information needed to process your bookings, keep your account secure, and improve neop. We never sell your personal data. Questions about your data? Write to <email>contact@neop.events</email>.",
     "termsBody": "By using neop you agree to book events in good faith and to provide accurate details at checkout. Ticket sales are final except where covered by our 100% guarantee. Questions? Email <email>contact@neop.events</email>.",
     "cookiesBody": "We use cookies to keep you signed in, remember your language and currency, and understand how neop is used. You can manage cookies at any time in your browser settings.",

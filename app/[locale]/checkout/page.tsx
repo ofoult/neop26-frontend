@@ -8,6 +8,7 @@ import { Field } from '@/components/Field';
 import { Icon } from '@/components/Icon';
 import { Img } from '@/components/Img';
 import { Btn } from '@/components/ui';
+import { useFormatPrice } from '@/lib/currency';
 import { fetchEvent } from '@/lib/api';
 import { fmtDateLong } from '@/lib/format';
 import { eventHref } from '@/lib/slug';
@@ -43,6 +44,7 @@ function CheckoutInner() {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations('Checkout');
+  const formatPrice = useFormatPrice();
   const tTier = useTranslations('TicketTiers');
   const params = useSearchParams();
   const eventId = params.get('event');
@@ -207,8 +209,8 @@ function CheckoutInner() {
                 fontSize: 14.5,
               }}
             >
-              <Row l={`${tTier(tier.id)} × ${qty}`} r={`${ev.currency}${sub}`} />
-              <Row l={t('serviceFees')} r={`${ev.currency}${fees}`} dim />
+              <Row l={`${tTier(tier.id)} × ${qty}`} r={formatPrice(sub, ev.currencyCode)} />
+              <Row l={t('serviceFees')} r={formatPrice(fees, ev.currencyCode)} dim />
               <Row l={t('deliveryMobile')} r={t('free')} dim />
             </div>
             <div
@@ -222,13 +224,12 @@ function CheckoutInner() {
             >
               <span style={{ fontSize: 16, fontWeight: 600 }}>{t('total')}</span>
               <span style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.02em' }}>
-                {ev.currency}
-                {total}
+                {formatPrice(total, ev.currencyCode)}
               </span>
             </div>
             <div style={{ marginTop: 18 }}>
               <Btn full size="lg" icon="lock" onClick={pay}>
-                {t('pay', { amount: `${ev.currency}${total}` })}
+                {t('pay', { amount: formatPrice(total, ev.currencyCode) })}
               </Btn>
             </div>
           </div>

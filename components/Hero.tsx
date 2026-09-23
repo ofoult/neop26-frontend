@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { countryCodeFor } from '@/lib/countryCodes';
+import { useFormatPrice } from '@/lib/currency';
 import { fmtDate } from '@/lib/format';
 import { eventHref } from '@/lib/slug';
 import type { NeopEvent } from '@/lib/types';
@@ -19,6 +20,7 @@ const ROTATE_MS = 10000;
 // the dots at the bottom jump straight to a given event.
 export function Hero({ events }: { events: NeopEvent[] }) {
   const t = useTranslations('Hero');
+  const formatPrice = useFormatPrice();
   const locale = useLocale();
   const count = events.length;
   const [index, setIndex] = useState(0);
@@ -136,7 +138,7 @@ export function Hero({ events }: { events: NeopEvent[] }) {
           </p>
           <div className="up" style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap', animationDelay: '140ms' }}>
             <Btn size="lg" iconR="arrow" href={eventHref(feat)}>
-              {t('getTickets')}{feat.priceFrom != null ? ` · ${t('from')} ${feat.currency}${feat.priceFrom}` : ''}
+              {t('getTickets')}{feat.priceFrom != null ? ` · ${t('from')} ${formatPrice(feat.priceFrom, feat.currencyCode)}` : ''}
             </Btn>
             <Btn size="lg" variant="ghost" icon="play">
               {t('watchTrailer')}

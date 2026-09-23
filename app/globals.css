@@ -582,8 +582,8 @@ img {
   }
 }
 
-/* Language/currency modal (see LanguageCurrencySelect.tsx) — fixed 620px
-   card and 260px option tiles overflow small phone viewports. */
+/* Language/currency modal (see LanguageCurrencySelect.tsx) — compact tiles in a
+   2-column grid so all 14 languages / 11 currencies fit without scrolling. */
 .lang-modal-backdrop {
   padding-inline: 16px;
 }
@@ -592,16 +592,91 @@ img {
   max-width: calc(100vw - 32px);
 }
 
+.lang-tab {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  color: var(--dim);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lang-tab:hover {
+  color: var(--text);
+}
+
+.lang-tab-active {
+  color: var(--text);
+  background: var(--surface-2);
+  border-color: var(--border-2);
+}
+
+.lang-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
 .lang-option {
-  width: 260px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 9px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-align: start;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.lang-option:hover {
+  background: var(--surface);
+  border-color: var(--border-2);
+}
+
+.lang-option-selected,
+.lang-option-selected:hover {
+  border-color: var(--accent);
+  background: linear-gradient(rgba(7, 7, 11, 0.82), rgba(7, 7, 11, 0.32)), var(--grad);
+}
+
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--border-2);
+  border-top-color: var(--accent-2);
+  animation: neopSpin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes neopSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 640px) {
   .lang-modal-backdrop {
     padding-top: 60px !important;
   }
+}
+
+/* Phones keep the 2-column grid (the point is fitting everything without
+   scrolling) with tighter tiles; only truly tiny screens drop to one column. */
+@media (max-width: 480px) {
   .lang-option {
-    width: 100% !important;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 320px) {
+  .lang-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

@@ -6,6 +6,7 @@ import { Instrument_Serif, Schibsted_Grotesk } from 'next/font/google';
 import Script from 'next/script';
 import '../globals.css';
 import { Chrome } from '@/components/Chrome';
+import { CurrencyProvider } from '@/lib/currency';
 import { SITE_URL } from '@/lib/site';
 import { Analytics } from '@vercel/analytics/next';
 import { routing, type Locale } from '@/i18n/routing';
@@ -105,7 +106,9 @@ export default async function LocaleLayout({
       <body>
         <div id="root" style={{ minHeight: '100vh' }}>
           <NextIntlClientProvider messages={messages}>
-            <Chrome>{children}</Chrome>
+            <CurrencyProvider>
+              <Chrome>{children}</Chrome>
+            </CurrencyProvider>
           </NextIntlClientProvider>
         </div>
         <Analytics />

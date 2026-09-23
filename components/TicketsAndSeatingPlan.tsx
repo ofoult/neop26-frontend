@@ -1,14 +1,55 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { fetchListingsInCurrency } from '@/app/actions';
+import { useCurrency } from '@/lib/currency';
 import type { ApiEventSeatingPlan, ApiListingCategory, NeopEvent } from '@/lib/types';
 import { SeatingPlanSvg } from './SeatingPlanSvg';
 import { emptyTicketFilterState, filterCategoryIds, hasActiveTicketFilters, TicketFilters, type TicketFilterState } from './TicketFilters';
 import { TicketPicker, useSeatSelection } from './TicketPicker';
 
+/**
+ * The event's ticket categories in the visitor's chosen display currency.
+ * Gigsberg does the conversion (so prices match its checkout); the SSR
+ * categories stay in place until that lands — and as the fallback if it fails,
+ * in which case <Price> converts them with the indicative rates instead.
+ * Re-fetched every hour (the currency provider's `tick`) so prices stay current.
+ */
+function useCategoriesInCurrency(eventId: string, initial?: ApiListingCategory[]) {
+  const { currency, tick } = useCurrency();
+  const [localized, setLocalized] = useState<{ currency: string; categories: ApiListingCategory[] } | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!currency || !initial || initial.length === 0) {
+      setLocalized(null);
+      return;
+    }
+    let cancelled = false;
+    setLoading(true);
+    fetchListingsInCurrency(eventId, currency)
+      .then((categories) => {
+        if (!cancelled) setLocalized(categories ? { currency, categories } : null);
+      })
+      .catch(() => {
+        if (!cancelled) setLocalized(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+    // `initial` is deliberately not a dependency: it's stable SSR data.
+  }, [eventId, currency, tick]);
+
+  const categories = localized && localized.currency === currency ? localized.categories : initial;
+  return { categories, loading };
+}
+
 export function TicketsAndSeatingPlan({
   ev,
-  categories,
+  categories: ssrCategories,
   seatingPlan,
   svgMarkup,
 }: {
@@ -17,6 +58,7 @@ export function TicketsAndSeatingPlan({
   seatingPlan: ApiEventSeatingPlan | null;
   svgMarkup: string | null;
 }) {
+  const { categories, loading: pricesLoading } = useCategoriesInCurrency(ev.id, ssrCategories);
   // Row -> seatmap: hovering a price row highlights every seat in that category.
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   // Seat -> row: hovering one seat effects only its matching price row, kept
@@ -50,7 +92,11 @@ export function TicketsAndSeatingPlan({
 
   return (
     <div className={`tickets-plan-grid ${hasSeatingPlan ? 'has-plan' : 'no-plan'}`}>
-      <div className="tickets-plan-tickets">
+      <div
+        className="tickets-plan-tickets"
+        aria-busy={pricesLoading}
+        style={{ opacity: pricesLoading ? 0.6 : 1, transition: 'opacity .2s' }}
+      >
         <TicketPicker
           ev={ev}
           categories={categories}
@@ -79,7 +125,7 @@ export function TicketsAndSeatingPlan({
               svgMarkup={svgMarkup as string}
               categories={(seatingPlan as ApiEventSeatingPlan).categories}
               pricingCategories={categories ?? []}
-              fallbackCurrency={ev.currency}
+              fallbackCurrency={ev.currencyCode}
               hoveredCategoryName={hoveredCategory}
               onHoverSeatCategory={setHoveredSeatCategory}
               onSeatClick={handleSeatClick}

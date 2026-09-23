@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { categoryById } from '@/lib/categories';
 import { countryCodeFor } from '@/lib/countryCodes';
+import { useFormatPrice } from '@/lib/currency';
 import { fmtDate } from '@/lib/format';
 import { eventHref, performerHref } from '@/lib/slug';
 import type { NeopEvent } from '@/lib/types';
@@ -20,6 +21,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
   const locale = useLocale();
   const tCat = useTranslations('Categories');
   const t = useTranslations('EventCard');
+  const formatPrice = useFormatPrice();
   const cat = categoryById(ev.category);
   const countryCode = countryCodeFor(ev.country);
   // Cap the entrance stagger so infinitely-scrolled cards (high i) don't sit
@@ -129,7 +131,7 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
                 transition: 'opacity .2s',
               }}
             >
-              {ev.priceFrom != null ? t('fromPrice', { price: `${ev.currency}${ev.priceFrom}` }) : t('viewTickets')}
+              {ev.priceFrom != null ? t('fromPrice', { price: formatPrice(ev.priceFrom, ev.currencyCode) }) : t('viewTickets')}
               <Icon name="arrow" size={15} />
             </div>
           </div>

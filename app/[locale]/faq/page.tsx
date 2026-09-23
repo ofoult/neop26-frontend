@@ -26,6 +26,7 @@ export default async function FaqPage({ params }: { params: { locale: string } }
       tp('faqQ3'),
       tp.rich('faqA3', { email: (chunks) => <a href="mailto:contact@neop.events">{chunks}</a> }),
     ],
+    [tp('faqQ4'), tp('faqA4')],
   ];
 
   return (

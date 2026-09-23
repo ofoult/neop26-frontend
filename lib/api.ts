@@ -1,5 +1,5 @@
 import { categoryFromType } from './categories';
-import { currencyFor } from './format';
+import { currencyFor, isoCurrencyFor } from './format';
 import type {
   ApiEventDetail,
   ApiEventListings,
@@ -85,6 +85,7 @@ export function adaptListItem(item: ApiEventListItem): NeopEvent {
     date: combineDateTime(item.event_date, item.event_time),
     priceFrom,
     currency: currencyFor(country),
+    currencyCode: isoCurrencyFor(country),
     // The feed has no popularity signal; priced inventory is what neop can sell
     // and promote, so we surface those as "trending".
     hot: priceFrom != null,
@@ -217,9 +218,14 @@ export async function fetchVenue(id: string, revalidate = 120): Promise<ApiVenue
  * Live ticket prices grouped by category for an event. Returns [] on any
  * failure so the detail page can gracefully fall back to its other pricing.
  */
-export async function fetchEventListings(id: string, revalidate = 120): Promise<ApiListingCategory[]> {
+export async function fetchEventListings(
+  id: string,
+  revalidate = 120,
+  /** ISO code: Gigsberg returns prices (and checkout URLs) converted to it. */
+  currency?: string,
+): Promise<ApiListingCategory[]> {
   try {
-    const res = await fetch(buildUrl(`/events/${id}/listings`, {}), { next: { revalidate } });
+    const res = await fetch(buildUrl(`/events/${id}/listings`, { currency }), { next: { revalidate } });
     if (!res.ok) return [];
     const data = (await res.json()) as ApiEventListings;
     return data.categories ?? [];

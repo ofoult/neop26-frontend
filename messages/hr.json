@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Postavke jezika i valute",
     "languageAndRegion": "Jezik i regija",
-    "currency": "Valuta"
+    "currency": "Valuta",
+    "tabLanguages": "Jezici",
+    "tabCurrencies": "Valute",
+    "eventCurrency": "Valuta događaja",
+    "eventCurrencyHint": "Prikaži svaku cijenu u izvornoj valuti",
+    "ratesUpdated": "Tečajevi ažurirani u {time}",
+    "ratesError": "Tečajevi nisu dostupni – prikazane su izvorne cijene",
+    "ratesLoading": "Ažuriranje tečajeva…",
+    "closeLabel": "Zatvori",
+    "approxHint": "Iznosi označeni znakom ≈ okvirne su konverzije. Točna cijena i valuta plaćanja prikazuju se pri naplati."
   },
   "Categories": {
     "music": "Glazba",
@@ -249,6 +258,8 @@
     "faqA2": "Ulaznice se dostavljaju u vaš mobilni novčanik ubrzo nakon plaćanja, spremne za skeniranje na ulazu.",
     "faqQ3": "Koga kontaktirati za pomoć?",
     "faqA3": "Pišite nam u bilo kojem trenutku na <email>contact@neop.events</email> — rado ćemo pomoći.",
+    "faqQ4": "U kojoj se valuti naplaćuje moje plaćanje?",
+    "faqA4": "Cijene možete pregledavati u valuti po svom izboru. Iznosi označeni znakom „≈” okvirne su konverzije; točan iznos i valuta plaćanja uvijek se prikazuju na sigurnoj stranici za plaćanje prije nego što platite.",
     "privacyBody": "Prikupljamo samo podatke potrebne za obradu vaših rezervacija, zaštitu vašeg računa i poboljšanje neop-a. Nikada ne prodajemo vaše osobne podatke. Imate pitanje o svojim podacima? Pišite na <email>contact@neop.events</email>.",
     "termsBody": "Korištenjem neop-a pristajete rezervirati događaje u dobroj vjeri i pri plaćanju navesti točne podatke. Prodaja ulaznica je konačna, osim ako je pokrivena našom 100%-tnom garancijom. Imate pitanja? Pišite na <email>contact@neop.events</email>.",
     "cookiesBody": "Kolačiće koristimo kako bismo vas održali prijavljenima, zapamtili vaš jezik i valutu te razumjeli kako se neop koristi. Kolačićima možete upravljati u bilo kojem trenutku putem postavki preglednika.",

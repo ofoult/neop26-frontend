@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Preferências de idioma e moeda",
     "languageAndRegion": "Idioma e região",
-    "currency": "Moeda"
+    "currency": "Moeda",
+    "tabLanguages": "Idiomas",
+    "tabCurrencies": "Moedas",
+    "eventCurrency": "Moeda do evento",
+    "eventCurrencyHint": "Mostrar cada preço na moeda original",
+    "ratesUpdated": "Taxas de câmbio atualizadas às {time}",
+    "ratesError": "Taxas de câmbio indisponíveis — a mostrar os preços originais",
+    "ratesLoading": "A atualizar as taxas de câmbio…",
+    "closeLabel": "Fechar",
+    "approxHint": "Os valores precedidos de ≈ são conversões indicativas. O preço exato e a moeda do pagamento são apresentados no checkout."
   },
   "Categories": {
     "music": "Música",
@@ -249,6 +258,8 @@
     "faqA2": "Os bilhetes são entregues na sua carteira digital pouco depois da compra, prontos a serem digitalizados à entrada.",
     "faqQ3": "Com quem devo contactar para obter ajuda?",
     "faqA3": "Escreva-nos a qualquer momento para <email>contact@neop.events</email> — teremos todo o gosto em ajudar.",
+    "faqQ4": "Em que moeda serei cobrado?",
+    "faqA4": "Pode consultar os preços na moeda da sua escolha. Os valores precedidos de «≈» são conversões indicativas; o valor exato e a moeda do pagamento são sempre apresentados na página de pagamento segura antes de pagar.",
     "privacyBody": "Recolhemos apenas as informações necessárias para processar as suas reservas, proteger a sua conta e melhorar a neop. Nunca vendemos os seus dados pessoais. Tem dúvidas sobre os seus dados? Escreva para <email>contact@neop.events</email>.",
     "termsBody": "Ao utilizar a neop, concorda em reservar eventos de boa-fé e fornecer dados precisos no pagamento. As vendas de bilhetes são finais, exceto quando cobertas pela nossa garantia de 100%. Tem dúvidas? Escreva para <email>contact@neop.events</email>.",
     "cookiesBody": "Utilizamos cookies para o manter com sessão iniciada, memorizar o seu idioma e moeda, e compreender como a neop é utilizada. Pode gerir as cookies a qualquer momento nas definições do seu navegador.",

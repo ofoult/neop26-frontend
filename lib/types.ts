@@ -194,7 +194,10 @@ export interface NeopEvent {
   date: string;
   /** Lowest known price, or null when the backend has none for this event. */
   priceFrom: number | null;
+  /** Display symbol inferred from the event country (e.g. "€", "kr "). */
   currency: string;
+  /** ISO 4217 code matching `currency` (e.g. "EUR"), used as the conversion source. */
+  currencyCode: string;
   hot: boolean;
   image: string | null;
   blurb: string;

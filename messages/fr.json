@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Préférences de langue et de devise",
     "languageAndRegion": "Langue et région",
-    "currency": "Devise"
+    "currency": "Devise",
+    "tabLanguages": "Langues",
+    "tabCurrencies": "Devises",
+    "eventCurrency": "Devise de l'événement",
+    "eventCurrencyHint": "Afficher chaque prix dans sa devise d'origine",
+    "ratesUpdated": "Taux de change mis à jour à {time}",
+    "ratesError": "Taux de change indisponibles — prix d'origine affichés",
+    "ratesLoading": "Mise à jour des taux de change…",
+    "closeLabel": "Fermer",
+    "approxHint": "Les montants précédés de ≈ sont des conversions indicatives. Le prix exact et la devise de votre paiement sont affichés lors du paiement."
   },
   "Categories": {
     "music": "Musique",
@@ -249,6 +258,8 @@
     "faqA2": "Les billets sont livrés dans votre portefeuille mobile peu après le paiement, prêts à être scannés à l'entrée.",
     "faqQ3": "Qui contacter en cas de besoin ?",
     "faqA3": "Écrivez-nous à tout moment à <email>contact@neop.events</email> — nous serons ravis de vous aider.",
+    "faqQ4": "Dans quelle devise suis-je débité ?",
+    "faqA4": "Vous pouvez consulter les prix dans la devise de votre choix. Les montants précédés de « ≈ » sont des conversions indicatives ; le montant exact et la devise de votre paiement sont toujours affichés sur la page de paiement sécurisée avant que vous ne payiez.",
     "privacyBody": "Nous ne collectons que les informations nécessaires au traitement de vos réservations, à la sécurité de votre compte et à l'amélioration de neop. Nous ne vendons jamais vos données personnelles. Une question sur vos données ? Écrivez à <email>contact@neop.events</email>.",
     "termsBody": "En utilisant neop, vous vous engagez à réserver des évènements de bonne foi et à fournir des informations exactes lors du paiement. Les ventes de billets sont définitives, sauf couverture par notre garantie à 100 %. Des questions ? Écrivez à <email>contact@neop.events</email>.",
     "cookiesBody": "Nous utilisons des cookies pour vous garder connecté, mémoriser votre langue et votre devise, et comprendre comment neop est utilisé. Vous pouvez gérer les cookies à tout moment dans les paramètres de votre navigateur.",

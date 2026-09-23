@@ -92,20 +92,22 @@ export const LANGUAGES = [
   },
 ];
 
+// Display currencies the user can pick. Limited to what Gigsberg's listing search
+// can convert to via `currency_code` (backend/src/gigsberg/listings.ts's
+// LISTING_CURRENCIES — keep both lists in sync); every one is also available from
+// the Frankfurter rates used for the prices Gigsberg doesn't convert (event cards).
 export const CURRENCIES = [
-  {
-    code: "USD",
-    name: "US Dollar",
-    symbol: "$",
-  },
-  {
-    code: "EUR",
-    name: "Euro",
-    symbol: "€",
-  },
-  {
-    code: "ILS",
-    name: "Israeli Shekel",
-    symbol: "₪",
-  },
+  { code: "USD", name: "US Dollar", symbol: "$" },
+  { code: "EUR", name: "Euro", symbol: "€" },
+  { code: "GBP", name: "British Pound", symbol: "£" },
+  { code: "ILS", name: "Israeli Shekel", symbol: "₪" },
+  { code: "CHF", name: "Swiss Franc", symbol: "CHF" },
+  { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+  { code: "DKK", name: "Danish Krone", symbol: "kr" },
+  { code: "PLN", name: "Polish Złoty", symbol: "zł" },
+  { code: "CZK", name: "Czech Koruna", symbol: "Kč" },
+  { code: "INR", name: "Indian Rupee", symbol: "₹" },
+  { code: "ARS", name: "Argentine Peso", symbol: "AR$" },
 ];
+
+export const CURRENCY_CODES = CURRENCIES.map((c) => c.code);

@@ -86,8 +86,7 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
   `aria-label`, `components/ui.tsx`'s `Logo` `aria-label="neop home"`, and
   `components/Drawer.tsx`'s close-button `aria-label="Close"` are hardcoded English with no
   translation key; `components/TicketsAndSeatingPlan.tsx`'s seating-plan image `alt` text has a
-  hardcoded "seating plan" suffix; `components/LanguageCurrencySelect.tsx`'s close button has no
-  `aria-label` at all; and `app/[locale]/checkout/page.tsx` has hardcoded example placeholders
+  hardcoded "seating plan" suffix; and `app/[locale]/checkout/page.tsx` has hardcoded example placeholders
   (name/email/phone/card fields) plus `'Apple Pay'`/`'PayPal'` payment-method labels (arguably
   fine to leave as brand names, but not routed through `t()` either way).
 - **Adding a new translated string**: add the English key to `messages/en.json` first, then add
@@ -104,6 +103,41 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
   physical→logical CSS property swaps, e.g. `insetInlineEnd` instead of `right`). The rest of the
   app uses inline styles with physical properties throughout and has not been audited for RTL —
   expect visual bugs in Hebrew outside the translated surface until a later phase's RTL pass.
+
+## Currency switching
+
+The Nav's language/currency popup (`components/LanguageCurrencySelect.tsx`: Languages / Currencies
+tabs, 2-column tile grid) lets the visitor pick a display currency; **every price is then shown in it**,
+and the choice persists across sessions in `localStorage` (`neop.currency`; deliberately not a cookie —
+see `i18n/routing.ts`'s `localeCookie: false`). `null` = no choice = each event's own currency.
+State lives in `lib/currency.tsx` (`CurrencyProvider` in `app/[locale]/layout.tsx`, `useCurrency()`,
+`<Price>` / `useFormatPrice()`). Two sources, so the price seen matches the checkout wherever possible:
+
+- **Prices from our DB** (`EventCard`, `Hero` — `NeopEvent.priceFrom`, in the currency inferred from the
+  country, ISO code in `NeopEvent.currencyCode`) are converted with **Frankfurter v2** rates and shown
+  with a leading "≈". `app/api/exchange-rates/route.ts` proxies
+  `https://api.frankfurter.dev/v2/rates?base=USD` (cached 1 h in Next's fetch cache, so one upstream
+  call/hour for all visitors); the client fetches when the currency changes, then every hour while the
+  session is open, and cross-converts any pair (`amount * rate[to] / rate[from]`). Until rates load — or
+  if the fetch fails — the native price is shown, never a wrong number.
+- **Ticket categories on the event page** (`TicketPicker`, seating-plan tooltip) are re-fetched from
+  Gigsberg *in the chosen currency* (`useCategoriesInCurrency` in `TicketsAndSeatingPlan.tsx` →
+  `fetchListingsInCurrency` server action → backend `GET /events/:id/listings?currency=XX` →
+  Gigsberg `POST /v2/listing/search` with `currency_code`), hourly too. Gigsberg converts with its own
+  rate and returns a matching `checkout_url`, so these prices are exact (no "≈"). If that call fails,
+  the SSR categories stay and `<Price>` falls back to the Frankfurter conversion.
+- **Checkout links** to Gigsberg (`checkoutHref` / `localizeGigsbergUrl` in `TicketPicker.tsx`) get
+  `&currency=XX` when a currency is chosen (Gigsberg's pages, checkout included, honour it); keep
+  `aff`/`affiliate_id` intact when touching those URLs.
+- **Supported currencies** = what Gigsberg can convert to (probed live; any other code silently falls
+  back to the event's own currency): USD, EUR, GBP, ILS, CHF, AUD, DKK, PLN, CZK, INR, ARS. The list is
+  in `lib/languageCurrency.ts`'s `CURRENCIES` and the backend's `LISTING_CURRENCIES`
+  (`backend/src/gigsberg/listings.ts`) — keep them in sync. All are available from Frankfurter too.
+- JSON-LD (`lib/jsonld.ts`) stays in the event's native ISO currency. Sorting by price on /browse still
+  compares raw numbers across events' native currencies.
+- Not verified end-to-end: a real Gigsberg checkout with `currency=` (checkout pages 404 outside a
+  real purchase flow) — confirm which currency the card is actually charged in, and adjust the FAQ
+  entry (`StaticPages.faqQ4/faqA4`) if it differs.
 
 ## External links
 

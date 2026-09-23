@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Sprach- und Währungseinstellungen",
     "languageAndRegion": "Sprache und Region",
-    "currency": "Währung"
+    "currency": "Währung",
+    "tabLanguages": "Sprachen",
+    "tabCurrencies": "Währungen",
+    "eventCurrency": "Währung der Veranstaltung",
+    "eventCurrencyHint": "Jeden Preis in seiner Originalwährung anzeigen",
+    "ratesUpdated": "Wechselkurse aktualisiert um {time}",
+    "ratesError": "Wechselkurse nicht verfügbar – Originalpreise werden angezeigt",
+    "ratesLoading": "Wechselkurse werden aktualisiert…",
+    "closeLabel": "Schließen",
+    "approxHint": "Mit ≈ gekennzeichnete Beträge sind unverbindliche Umrechnungen. Der genaue Preis und die Währung Ihrer Zahlung werden an der Kasse angezeigt."
   },
   "Categories": {
     "music": "Musik",
@@ -249,6 +258,8 @@
     "faqA2": "Tickets werden kurz nach dem Checkout in Ihre mobile Wallet geliefert und können am Einlass gescannt werden.",
     "faqQ3": "An wen wende ich mich bei Fragen?",
     "faqA3": "Schreiben Sie uns jederzeit an <email>contact@neop.events</email> – wir helfen gerne weiter.",
+    "faqQ4": "In welcher Währung werde ich belastet?",
+    "faqA4": "Sie können Preise in der Währung Ihrer Wahl ansehen. Mit „≈“ gekennzeichnete Beträge sind unverbindliche Umrechnungen; der genaue Betrag und die Währung Ihrer Zahlung werden immer auf der sicheren Bezahlseite angezeigt, bevor Sie bezahlen.",
     "privacyBody": "Wir erheben nur die Informationen, die zur Abwicklung Ihrer Buchungen, zum Schutz Ihres Kontos und zur Verbesserung von neop nötig sind. Wir verkaufen Ihre personenbezogenen Daten niemals. Fragen zu Ihren Daten? Schreiben Sie an <email>contact@neop.events</email>.",
     "termsBody": "Mit der Nutzung von neop erklären Sie sich bereit, Events nach Treu und Glauben zu buchen und beim Checkout korrekte Angaben zu machen. Ticketverkäufe sind endgültig, außer soweit unsere 100-%-Garantie greift. Fragen? Schreiben Sie an <email>contact@neop.events</email>.",
     "cookiesBody": "Wir verwenden Cookies, um Sie angemeldet zu halten, Ihre Sprach- und Währungseinstellungen zu merken und zu verstehen, wie neop genutzt wird. Sie können Cookies jederzeit in Ihren Browsereinstellungen verwalten.",

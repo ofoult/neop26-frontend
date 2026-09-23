@@ -1,8 +1,9 @@
 'use server';
 
-import { API_BASE, fetchSubtypes } from '@/lib/api';
+import { API_BASE, fetchEventListings, fetchSubtypes } from '@/lib/api';
 import { toSubcategories, type Subcategory } from '@/lib/subcategories';
-import type { LocationSuggestion, SearchSuggestion } from '@/lib/types';
+import { CURRENCY_CODES } from '@/lib/languageCurrency';
+import type { ApiListingCategory, LocationSuggestion, SearchSuggestion } from '@/lib/types';
 
 /**
  * Location autocomplete for the search bar's "Where" field. Calls the backend
@@ -48,4 +49,19 @@ export async function suggestSearch(q: string): Promise<SearchSuggestion[]> {
  */
 export async function getSubcategories(): Promise<Subcategory[]> {
   return toSubcategories(await fetchSubtypes());
+}
+
+/**
+ * An event's ticket categories priced in the visitor's chosen display currency
+ * (Gigsberg does the conversion, so the price matches its checkout). Returns
+ * null — never [] — on failure or an unsupported currency, so the caller can
+ * tell "no data" apart from "no tickets" and keep the prices it already has.
+ */
+export async function fetchListingsInCurrency(
+  eventId: string,
+  currency: string,
+): Promise<ApiListingCategory[] | null> {
+  if (!CURRENCY_CODES.includes(currency)) return null;
+  const categories = await fetchEventListings(eventId, 60, currency);
+  return categories.length > 0 ? categories : null;
 }

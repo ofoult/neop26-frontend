@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Nyelvi és pénznembeli beállítások",
     "languageAndRegion": "Nyelv és régió",
-    "currency": "Pénznem"
+    "currency": "Pénznem",
+    "tabLanguages": "Nyelvek",
+    "tabCurrencies": "Pénznemek",
+    "eventCurrency": "Az esemény pénzneme",
+    "eventCurrencyHint": "Minden ár megjelenítése az eredeti pénznemben",
+    "ratesUpdated": "Árfolyamok frissítve: {time}",
+    "ratesError": "Az árfolyamok nem érhetők el – az eredeti árak láthatók",
+    "ratesLoading": "Árfolyamok frissítése…",
+    "closeLabel": "Bezárás",
+    "approxHint": "A ≈ jellel jelölt összegek tájékoztató jellegű átváltások. A fizetés pontos összegét és pénznemét a pénztárnál láthatja."
   },
   "Categories": {
     "music": "Zene",
@@ -249,6 +258,8 @@
     "faqA2": "A jegyek röviddel a fizetés után megérkeznek a mobiltárcájába, készen állva a bejáratnál történő beolvasásra.",
     "faqQ3": "Kihez fordulhatok segítségért?",
     "faqA3": "Írjon nekünk bármikor a <email>contact@neop.events</email> címre — szívesen segítünk.",
+    "faqQ4": "Melyik pénznemben terhelnek meg?",
+    "faqA4": "Az árakat a választott pénznemben nézheti meg. A „≈” jellel jelölt összegek tájékoztató jellegű átváltások; a fizetés pontos összege és pénzneme mindig a biztonságos fizetési oldalon jelenik meg, mielőtt fizet.",
     "privacyBody": "Csak a foglalások feldolgozásához, a fiókja biztonságához és a neop fejlesztéséhez szükséges adatokat gyűjtjük. Személyes adatait soha nem adjuk el. Kérdése van az adataival kapcsolatban? Írjon a <email>contact@neop.events</email> címre.",
     "termsBody": "A neop használatával elfogadja, hogy jóhiszeműen foglal eseményeket, és pontos adatokat ad meg fizetéskor. A jegyértékesítés végleges, kivéve, ha a 100%-os garanciánk vonatkozik rá. Kérdése van? Írjon a <email>contact@neop.events</email> címre.",
     "cookiesBody": "Sütiket használunk, hogy bejelentkezve tartsuk Önt, megjegyezzük a nyelvi és pénznembeli beállításait, és megértsük, hogyan használják a neopot. A sütiket bármikor kezelheti a böngésző beállításaiban.",

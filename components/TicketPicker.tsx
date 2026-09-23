@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 import { useState, type CSSProperties, type ReactNode } from 'react';
-import { currencySymbol } from '@/lib/format';
+import { Price, useCurrency } from '@/lib/currency';
 import type { ApiListingCategory, NeopEvent } from '@/lib/types';
 import { Icon } from './Icon';
 import { Btn } from './ui';
@@ -26,7 +26,7 @@ const qtySelect: CSSProperties = {
  * The API hands us URLs ending in `...&quantity=`; setting the param is robust
  * whether or not it already has a value.
  */
-function checkoutHref(url: string, qty: number, locale: string): string {
+function checkoutHref(url: string, qty: number, locale: string, currency: string | null): string {
   const withQty = (() => {
     try {
       const u = new URL(url);
@@ -36,7 +36,7 @@ function checkoutHref(url: string, qty: number, locale: string): string {
       return url.endsWith('quantity=') ? `${url}${qty}` : `${url}${url.includes('?') ? '&' : '?'}quantity=${qty}`;
     }
   })();
-  return localizeGigsbergUrl(withQty, locale);
+  return localizeGigsbergUrl(withQty, locale, currency);
 }
 
 // Gigsberg URLs always carry a leading locale segment (e.g. `/en/checkout/...`).
@@ -45,10 +45,15 @@ function checkoutHref(url: string, qty: number, locale: string): string {
 // string — including `aff`/`affiliate_id` — stripped, breaking attribution.
 const GIGSBERG_LOCALES = ['en', 'fr', 'es', 'de', 'he'];
 
-/** Swaps (or inserts, if absent) the leading locale segment on a Gigsberg URL. */
-function localizeGigsbergUrl(url: string, locale: string): string {
+/**
+ * Swaps (or inserts, if absent) the leading locale segment on a Gigsberg URL,
+ * and — when the visitor picked a display currency — passes it as `currency`,
+ * which Gigsberg's pages (checkout included) use as their currency.
+ */
+function localizeGigsbergUrl(url: string, locale: string, currency: string | null = null): string {
   try {
     const u = new URL(url);
+    if (currency) u.searchParams.set('currency', currency);
     const segments = u.pathname.split('/');
     if (GIGSBERG_LOCALES.includes(segments[1])) segments[1] = locale;
     else segments.splice(1, 0, locale);
@@ -91,6 +96,7 @@ export function TicketPicker({
 }) {
   const t = useTranslations('TicketPicker');
   const locale = useLocale();
+  const { currency } = useCurrency();
   // Real per-category pricing from the Gigsberg listing search.
   if (categories && categories.length > 0) {
     return (
@@ -128,7 +134,7 @@ export function TicketPicker({
         </p>
       </div>
       <div style={{ padding: '20px 22px 22px' }}>
-        <Btn full size="lg" iconR="arrow" href={localizeGigsbergUrl(ev.url, locale)} newTab>
+        <Btn full size="lg" iconR="arrow" href={localizeGigsbergUrl(ev.url, locale, currency)} newTab>
           {t('getTickets')}
         </Btn>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 14, fontSize: 13, color: 'var(--faint)' }}>
@@ -253,6 +259,7 @@ function RealTickets({
 }) {
   const t = useTranslations('TicketPicker');
   const locale = useLocale();
+  const { currency } = useCurrency();
   const { activeId, qty, setQty } = seatSelection;
   // Mirrors `highlightedCategory` (which comes from hovering a seat on the
   // plan) so hovering the row itself picks up the exact same highlight style.
@@ -280,7 +287,8 @@ function RealTickets({
           const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
           // Most seats buyable in one order (the largest valid count for the rule).
           const maxSel = counts.length ? counts[counts.length - 1] : 0;
-          const sym = currencySymbol(cat.currency, ev.currency);
+          // Prices come back in this ISO currency (the chosen one when Gigsberg converted them).
+          const priceCurrency = cat.currency ?? ev.currencyCode;
           // Never advertise more than a single order could actually take.
           const avail = availabilityLabel(Math.min(cat.available, maxSel), t);
           const hasRange = cat.maxPrice > cat.fromPrice;
@@ -288,8 +296,8 @@ function RealTickets({
           const desc = cat.ticketTypes.length > 0 ? cat.ticketTypes.join(' · ') : t('listingsCount', { count: cat.listings });
           const subtotal = Math.round(cat.fromPrice * rowQty * 100) / 100;
           const href = cat.checkoutUrl
-            ? checkoutHref(cat.checkoutUrl, rowQty, locale)
-            : localizeGigsbergUrl(ev.url ?? '/browse', locale);
+            ? checkoutHref(cat.checkoutUrl, rowQty, locale, currency)
+            : localizeGigsbergUrl(ev.url ?? '/browse', locale, currency);
           return (
             <div
               key={cat.id}
@@ -312,13 +320,11 @@ function RealTickets({
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
                 <span style={{ fontSize: 16, fontWeight: 700 }}>{cat.name}</span>
                 <span style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
-                  {sym}
-                  {cat.fromPrice}
+                  <Price amount={cat.fromPrice} from={priceCurrency} />
                   {hasRange && (
                     <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--dim)' }}>
                       {' – '}
-                      {sym}
-                      {cat.maxPrice}
+                      <Price amount={cat.maxPrice} from={priceCurrency} />
                     </span>
                   )}
                 </span>
@@ -355,8 +361,7 @@ function RealTickets({
                   </select>
                   {rowQty > 0 && (
                     <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--accent-2)', whiteSpace: 'nowrap' }}>
-                      {sym}
-                      {subtotal}
+                      <Price amount={subtotal} from={priceCurrency} />
                     </span>
                   )}
                 </div>

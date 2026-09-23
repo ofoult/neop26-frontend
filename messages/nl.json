@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Voorkeuren voor taal en valuta",
     "languageAndRegion": "Taal en regio",
-    "currency": "Valuta"
+    "currency": "Valuta",
+    "tabLanguages": "Talen",
+    "tabCurrencies": "Valuta's",
+    "eventCurrency": "Valuta van het evenement",
+    "eventCurrencyHint": "Toon elke prijs in de oorspronkelijke valuta",
+    "ratesUpdated": "Wisselkoersen bijgewerkt om {time}",
+    "ratesError": "Wisselkoersen niet beschikbaar – oorspronkelijke prijzen worden getoond",
+    "ratesLoading": "Wisselkoersen bijwerken…",
+    "closeLabel": "Sluiten",
+    "approxHint": "Bedragen met ≈ zijn indicatieve omrekeningen. De exacte prijs en valuta van je betaling zie je bij het afrekenen."
   },
   "Categories": {
     "music": "Muziek",
@@ -249,6 +258,8 @@
     "faqA2": "Tickets worden kort na het afrekenen bezorgd in je mobiele wallet, klaar om bij de ingang te scannen.",
     "faqQ3": "Bij wie kan ik terecht voor hulp?",
     "faqA3": "Mail ons op elk moment via <email>contact@neop.events</email> — we helpen je graag.",
+    "faqQ4": "In welke valuta wordt mijn betaling afgeschreven?",
+    "faqA4": "Je kunt prijzen bekijken in de valuta van je keuze. Bedragen met «≈» zijn indicatieve omrekeningen; het exacte bedrag en de valuta van je betaling staan altijd op de beveiligde afrekenpagina voordat je betaalt.",
     "privacyBody": "We verzamelen alleen de gegevens die nodig zijn om je boekingen te verwerken, je account te beveiligen en neop te verbeteren. We verkopen je persoonsgegevens nooit. Vragen over je gegevens? Mail naar <email>contact@neop.events</email>.",
     "termsBody": "Door neop te gebruiken, ga je ermee akkoord evenementen te goeder trouw te boeken en juiste gegevens op te geven bij het afrekenen. Ticketverkoop is definitief, behalve voor zover gedekt door onze 100% garantie. Vragen? Mail naar <email>contact@neop.events</email>.",
     "cookiesBody": "We gebruiken cookies om je ingelogd te houden, je taal- en valutavoorkeur te onthouden en te begrijpen hoe neop wordt gebruikt. Je kunt cookies op elk moment beheren via je browserinstellingen.",

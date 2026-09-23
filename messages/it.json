@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Preferenze di lingua e valuta",
     "languageAndRegion": "Lingua e area geografica",
-    "currency": "Valuta"
+    "currency": "Valuta",
+    "tabLanguages": "Lingue",
+    "tabCurrencies": "Valute",
+    "eventCurrency": "Valuta dell'evento",
+    "eventCurrencyHint": "Mostra ogni prezzo nella sua valuta originale",
+    "ratesUpdated": "Tassi di cambio aggiornati alle {time}",
+    "ratesError": "Tassi di cambio non disponibili: vengono mostrati i prezzi originali",
+    "ratesLoading": "Aggiornamento dei tassi di cambio…",
+    "closeLabel": "Chiudi",
+    "approxHint": "Gli importi preceduti da ≈ sono conversioni indicative. Il prezzo esatto e la valuta del pagamento vengono mostrati al checkout."
   },
   "Categories": {
     "music": "Musica",
@@ -249,6 +258,8 @@
     "faqA2": "I biglietti vengono consegnati nel tuo wallet mobile poco dopo il checkout, pronti per essere scansionati all'ingresso.",
     "faqQ3": "Chi contatto per assistenza?",
     "faqA3": "Scrivici in qualsiasi momento a <email>contact@neop.events</email> — siamo felici di aiutarti.",
+    "faqQ4": "In quale valuta mi verrà addebitato l'importo?",
+    "faqA4": "Puoi consultare i prezzi nella valuta che preferisci. Gli importi preceduti da «≈» sono conversioni indicative; l'importo esatto e la valuta del pagamento sono sempre mostrati nella pagina di pagamento sicura prima di pagare.",
     "privacyBody": "Raccogliamo solo le informazioni necessarie per gestire le tue prenotazioni, proteggere il tuo account e migliorare neop. Non vendiamo mai i tuoi dati personali. Domande sui tuoi dati? Scrivi a <email>contact@neop.events</email>.",
     "termsBody": "Utilizzando neop accetti di prenotare eventi in buona fede e di fornire dati corretti al checkout. Le vendite di biglietti sono definitive, salvo quanto coperto dalla nostra garanzia al 100%. Domande? Scrivi a <email>contact@neop.events</email>.",
     "cookiesBody": "Utilizziamo i cookie per mantenerti connesso, ricordare la tua lingua e valuta e capire come viene utilizzato neop. Puoi gestire i cookie in qualsiasi momento dalle impostazioni del browser.",

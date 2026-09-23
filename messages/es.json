@@ -52,7 +52,16 @@
   "LanguageSelect": {
     "modalTitle": "Preferencias de idioma y moneda",
     "languageAndRegion": "Idioma y región",
-    "currency": "Moneda"
+    "currency": "Moneda",
+    "tabLanguages": "Idiomas",
+    "tabCurrencies": "Monedas",
+    "eventCurrency": "Moneda del evento",
+    "eventCurrencyHint": "Mostrar cada precio en su moneda original",
+    "ratesUpdated": "Tipos de cambio actualizados a las {time}",
+    "ratesError": "Tipos de cambio no disponibles: se muestran los precios originales",
+    "ratesLoading": "Actualizando tipos de cambio…",
+    "closeLabel": "Cerrar",
+    "approxHint": "Los importes precedidos de ≈ son conversiones orientativas. El precio exacto y la moneda de tu pago se muestran al finalizar la compra."
   },
   "Categories": {
     "music": "Música",
@@ -249,6 +258,8 @@
     "faqA2": "Las entradas se entregan en tu monedero móvil poco después de la compra, listas para escanear en la puerta.",
     "faqQ3": "¿A quién contacto si necesito ayuda?",
     "faqA3": "Escríbenos cuando quieras a <email>contact@neop.events</email>; estaremos encantados de ayudarte.",
+    "faqQ4": "¿En qué moneda se me cobra?",
+    "faqA4": "Puedes consultar los precios en la moneda que prefieras. Los importes precedidos de «≈» son conversiones orientativas; el importe exacto y la moneda de tu pago se muestran siempre en la página de pago segura antes de pagar.",
     "privacyBody": "Solo recopilamos la información necesaria para procesar tus reservas, proteger tu cuenta y mejorar neop. Nunca vendemos tus datos personales. ¿Tienes dudas sobre tus datos? Escribe a <email>contact@neop.events</email>.",
     "termsBody": "Al usar neop, aceptas reservar eventos de buena fe y proporcionar datos exactos al pagar. Las ventas de entradas son definitivas, salvo lo cubierto por nuestra garantía del 100 %. ¿Dudas? Escribe a <email>contact@neop.events</email>.",
     "cookiesBody": "Usamos cookies para mantener tu sesión iniciada, recordar tu idioma y moneda, y entender cómo se usa neop. Puedes gestionar las cookies en cualquier momento desde la configuración de tu navegador.",

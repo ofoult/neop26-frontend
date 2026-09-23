@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState, type MouseEvent } from 'react';
-import { currencySymbol } from '@/lib/format';
+import { Price } from '@/lib/currency';
 import type { ApiListingCategory, ApiSeatingPlanCategory } from '@/lib/types';
 
 /** Strips whitespace so "VIP 1" lines up with the SVG's "VIP1" data-name. */
@@ -141,6 +141,7 @@ export function SeatingPlanSvg({
   categories: ApiSeatingPlanCategory[];
   /** Live pricing categories from /listings — a seat only gets a tooltip when its block's category has a name match here. */
   pricingCategories: ApiListingCategory[];
+  /** ISO code used when a category carries none (the event's own currency). */
   fallbackCurrency: string;
   hoveredCategoryName: string | null;
   /** Fired with the hovered seat's category name (or null on leave) — drives the matching price row's effect. */
@@ -242,7 +243,7 @@ export function SeatingPlanSvg({
     if (hasPricing) onSeatClick(resolved.category.name);
   }
 
-  const sym = hover ? currencySymbol(hover.currency, fallbackCurrency) : '';
+  const priceCurrency = hover?.currency ?? fallbackCurrency;
   const hasRange = !!hover && hover.maxPrice > hover.fromPrice;
 
   return (
@@ -291,13 +292,11 @@ export function SeatingPlanSvg({
           <div style={{ fontWeight: 700 }}>{hover.category}</div>
           <div style={{ color: 'var(--dim)' }}>{t('block', { block: hover.block })}</div>
           <div style={{ fontWeight: 700, marginTop: 2 }}>
-            {t('from')} {sym}
-            {hover.fromPrice}
+            {t('from')} <Price amount={hover.fromPrice} from={priceCurrency} />
             {hasRange && (
               <span style={{ fontWeight: 500, color: 'var(--dim)' }}>
                 {' – '}
-                {sym}
-                {hover.maxPrice}
+                <Price amount={hover.maxPrice} from={priceCurrency} />
               </span>
             )}
           </div>
