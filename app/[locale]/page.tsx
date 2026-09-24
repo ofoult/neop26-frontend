@@ -100,7 +100,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
           <SecHead kicker={t('weekendKicker')} title={t('weekendTitle')} action={t('browseDates')} actionHref="/browse" />
           <div className="event-grid">
             {weekend.map((e, i) => (
-              <EventCard key={e.id} ev={e} i={i}  />
+              <EventCard key={e.id} ev={e} i={i} forceEventLink />
             ))}
           </div>
         </section>
