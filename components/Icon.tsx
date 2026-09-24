@@ -2,7 +2,8 @@ import type { CSSProperties, ReactNode } from 'react';
 
 export type IconName =
   | 'search' | 'pin' | 'cal' | 'arrow' | 'arrowL' | 'heart' | 'bolt' | 'check'
-  | 'plus' | 'minus' | 'star' | 'user' | 'lock' | 'ticket' | 'globe' | 'play' | 'clock' | 'chevronDown';
+  | 'plus' | 'minus' | 'star' | 'user' | 'lock' | 'ticket' | 'globe' | 'play' | 'clock' | 'chevronDown'
+  | 'instagram' | 'facebook';
 
 interface IconProps {
   name: IconName;
@@ -43,6 +44,8 @@ export function Icon({ name, size = 18, stroke = 1.7, style }: IconProps) {
     play: (<><path d="M7 4v16l13-8z" fill="currentColor" stroke="none" /></>),
     clock: (<><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>),
     chevronDown: (<path d="m6 9 6 6 6-6" />),
+    instagram: (<><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z" /><path d="M17.5 6.5h.01" /></>),
+    facebook: (<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />),
   };
   return <svg {...p}>{paths[name]}</svg>;
 }

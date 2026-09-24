@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { Icon } from './Icon';
 import { Logo } from './ui';
 import { Link } from '@/i18n/navigation';
+import { SOCIAL_LINKS } from '@/lib/social';
 
 export function Footer() {
   const t = useTranslations('Footer');
@@ -87,6 +88,35 @@ export function Footer() {
             </div>
           </div>
         ))}
+        <div>
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: 'var(--faint)',
+              marginBottom: 16,
+            }}
+          >
+            {t('followUs')}
+          </div>
+          <div style={{ display: 'flex', gap: 10 }}>
+            {SOCIAL_LINKS.map(({ network, icon, href }) => (
+              <a
+                key={network}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-social focus-ring"
+                aria-label={t('followOn', { network })}
+                title={network}
+              >
+                <Icon name={icon} size={20} />
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
       <div
         className="footer-bottom"

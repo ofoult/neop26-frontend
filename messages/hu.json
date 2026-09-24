@@ -17,7 +17,9 @@
     "rights": "© {year} neop. Minden jog fenntartva.",
     "privacy": "Adatvédelem",
     "terms": "Feltételek",
-    "cookies": "Sütik"
+    "cookies": "Sütik",
+    "followUs": "Kövess minket",
+    "followOn": "Kövess minket itt: {network}"
   },
   "Hero": {
     "featured": "Kiemelt",

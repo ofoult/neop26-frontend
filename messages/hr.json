@@ -17,7 +17,9 @@
     "rights": "© {year} neop. Sva prava pridržana.",
     "privacy": "Privatnost",
     "terms": "Uvjeti",
-    "cookies": "Kolačići"
+    "cookies": "Kolačići",
+    "followUs": "Pratite nas",
+    "followOn": "Pratite nas na {network}"
   },
   "Hero": {
     "featured": "Izdvojeno",

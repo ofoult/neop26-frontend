@@ -17,7 +17,9 @@
     "rights": "© {year} neop. Alla rättigheter förbehålls.",
     "privacy": "Sekretess",
     "terms": "Villkor",
-    "cookies": "Cookies"
+    "cookies": "Cookies",
+    "followUs": "Följ oss",
+    "followOn": "Följ oss på {network}"
   },
   "Hero": {
     "featured": "I fokus",

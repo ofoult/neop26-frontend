@@ -17,7 +17,9 @@
     "rights": "© {year} neop. جميع الحقوق محفوظة.",
     "privacy": "الخصوصية",
     "terms": "الشروط",
-    "cookies": "ملفات تعريف الارتباط"
+    "cookies": "ملفات تعريف الارتباط",
+    "followUs": "تابعونا",
+    "followOn": "تابعونا على {network}"
   },
   "Hero": {
     "featured": "مميز",

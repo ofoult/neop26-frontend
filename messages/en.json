@@ -17,7 +17,9 @@
     "rights": "© {year} neop. All rights reserved.",
     "privacy": "Privacy",
     "terms": "Terms",
-    "cookies": "Cookies"
+    "cookies": "Cookies",
+    "followUs": "Follow us",
+    "followOn": "Follow us on {network}"
   },
   "Hero": {
     "featured": "Featured",

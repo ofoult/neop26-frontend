@@ -1,6 +1,7 @@
 import { routing } from '@/i18n/routing';
 import { isoCurrencyFor } from './format';
 import { SITE_URL } from './site';
+import { SOCIAL_LINKS } from './social';
 import type { ApiListingCategory, CategoryId, NeopEvent } from './types';
 
 // Maps neop's editorial categories onto the closest schema.org Event subtype,
@@ -136,8 +137,7 @@ export function organizationJsonLd(description: string): Record<string, unknown>
     url: SITE_URL,
     logo: `${SITE_URL}/neop-logo.png`,
     description,
-    // No official social profiles exist yet — omitted rather than filled
-    // with invented URLs; add a `sameAs` array here once they do.
+    sameAs: SOCIAL_LINKS.map((l) => l.href),
     contactPoint: {
       '@type': 'ContactPoint',
       email: 'contact@neop.events',
