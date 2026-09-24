@@ -5,11 +5,11 @@ import { Link } from '@/i18n/navigation';
 import { Icon, type IconName } from './Icon';
 
 // ---------- wordmark ----------
-// Source asset is app/icon.png (48x48, favicon convention) cropped to its
-// content bounding box (46x20, ~2.3:1) so it reads clearly at logo sizes.
-const LOGO_ASPECT = 46 / 20;
+// Mark is public/neop-logo.svg (ticket + N, ~1.36:1), shown next to the "neop" text.
+const LOGO_ASPECT = 979 / 720;
 
 export function Logo({ size = 24, href = '/' }: { size?: number; href?: string }) {
+  const markHeight = size * 1.4;
   return (
     <Link
       href={href}
@@ -17,19 +17,13 @@ export function Logo({ size = 24, href = '/' }: { size?: number; href?: string }
       style={{ display: 'flex', alignItems: 'center', gap: 9, padding: 0 }}
       aria-label="neop home"
     >
-      <span
-        style={{
-          width: size * 0.78,
-          height: size * 0.78,
-          borderRadius: 7,
-          background: 'var(--grad)',
-          display: 'grid',
-          placeItems: 'center',
-          boxShadow: '0 4px 18px -6px var(--accent)',
-        }}
-      >
-        <span style={{ width: size * 0.3, height: size * 0.3, borderRadius: '50%', background: '#fff' }} />
-      </span>
+      <img
+        src="/neop-logo.svg"
+        alt=""
+        width={Math.round(markHeight * LOGO_ASPECT)}
+        height={Math.round(markHeight)}
+        style={{ display: 'block', width: markHeight * LOGO_ASPECT, height: markHeight }}
+      />
       <span style={{ fontSize: size, fontWeight: 800, letterSpacing: '-0.04em' }}>neop</span>
     </Link>
   );

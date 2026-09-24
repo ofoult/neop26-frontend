@@ -134,7 +134,7 @@ export function organizationJsonLd(description: string): Record<string, unknown>
     '@type': 'Organization',
     name: 'neop',
     url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    logo: `${SITE_URL}/neop-logo.png`,
     description,
     // No official social profiles exist yet — omitted rather than filled
     // with invented URLs; add a `sameAs` array here once they do.
