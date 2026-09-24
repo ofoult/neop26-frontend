@@ -16,7 +16,7 @@ import { Btn } from './ui';
  * The API hands us URLs ending in `...&quantity=`; setting the param is robust
  * whether or not it already has a value.
  */
-function checkoutHref(url: string, qty: number, locale: string, currency: string | null): string {
+function checkoutHref(url: string, qty: number, locale: string, currency: string): string {
   const withQty = (() => {
     try {
       const u = new URL(url);
@@ -37,13 +37,15 @@ const GIGSBERG_LOCALES = ['en', 'fr', 'es', 'de', 'he'];
 
 /**
  * Swaps (or inserts, if absent) the leading locale segment on a Gigsberg URL,
- * and — when the visitor picked a display currency — passes it as `currency`,
- * which Gigsberg's pages (checkout included) use as their currency.
+ * and always passes `currency`, which Gigsberg's pages (checkout included) use
+ * as their currency. Callers pick the visitor's chosen display currency, or —
+ * when none is chosen — the event's own currency, so the language and currency
+ * are never left to Gigsberg's defaults.
  */
-function localizeGigsbergUrl(url: string, locale: string, currency: string | null = null): string {
+function localizeGigsbergUrl(url: string, locale: string, currency: string): string {
   try {
     const u = new URL(url);
-    if (currency) u.searchParams.set('currency', currency);
+    u.searchParams.set('currency', currency);
     const segments = u.pathname.split('/');
     if (GIGSBERG_LOCALES.includes(segments[1])) segments[1] = locale;
     else segments.splice(1, 0, locale);
@@ -132,7 +134,7 @@ export function TicketPicker({
           full
           size="lg"
           iconR="arrow"
-          href={localizeGigsbergUrl(ev.url, locale, currency)}
+          href={localizeGigsbergUrl(ev.url, locale, currency ?? ev.currencyCode)}
           newTab
           onClick={() => trackGigsbergRedirect({ eventName: ev.title, price: ev.priceFrom, currency: ev.currencyCode })}
         >
@@ -301,6 +303,8 @@ function RealTickets({
           const rowQty = isActive ? qty : defaultQuantity != null && counts.includes(defaultQuantity) ? defaultQuantity : (counts[0] ?? 0);
           // Prices come back in this ISO currency (the chosen one when Gigsberg converted them).
           const priceCurrency = cat.currency ?? ev.currencyCode;
+          // What Gigsberg should show: the visitor's chosen currency, else the one the prices are in.
+          const gigsbergCurrency = currency ?? priceCurrency;
           // Never advertise more than a single order could actually take.
           const avail = availabilityLabel(Math.min(cat.available, maxSel), t);
           const hasRange = cat.maxPrice > cat.fromPrice;
@@ -308,8 +312,8 @@ function RealTickets({
           const desc = cat.ticketTypes.length > 0 ? cat.ticketTypes.join(' · ') : t('listingsCount', { count: cat.listings });
           const subtotal = Math.round(cat.fromPrice * rowQty * 100) / 100;
           const href = cat.checkoutUrl
-            ? checkoutHref(cat.checkoutUrl, rowQty, locale, currency)
-            : localizeGigsbergUrl(ev.url ?? '/browse', locale, currency);
+            ? checkoutHref(cat.checkoutUrl, rowQty, locale, gigsbergCurrency)
+            : localizeGigsbergUrl(ev.url ?? '/browse', locale, gigsbergCurrency);
           return (
             <div
               key={cat.id}
