@@ -16,7 +16,17 @@ import { Img } from './Img';
 // Editorial card — image-forward with a serif title. (The reference also ships a
 // "kinetic" ticket-stub variant behind the tweaks panel, which is omitted in
 // production; editorial is the canonical design.)
-export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide?: boolean }) {
+export function EventCard({
+  ev,
+  i = 0,
+  wide,
+  forceEventLink,
+}: {
+  ev: NeopEvent;
+  i?: number;
+  wide?: boolean;
+  forceEventLink?: boolean;
+}) {
   const [h, setH] = useState(false);
   const locale = useLocale();
   const tCat = useTranslations('Categories');
@@ -30,8 +40,10 @@ export function EventCard({ ev, i = 0, wide }: { ev: NeopEvent; i?: number; wide
 
   // Events with a known performer route to that artist's event list; the rare
   // event with neither performer1_id nor performer2_id falls back to going
-  // straight to its own detail page.
-  const href = ev.performerId ? performerHref(ev.performerId, ev.artist) : eventHref(ev);
+  // straight to its own detail page. `forceEventLink` opts a section (e.g.
+  // "this weekend", where the date is the point) out of that and always
+  // routes to the specific event's own detail page.
+  const href = !forceEventLink && ev.performerId ? performerHref(ev.performerId, ev.artist) : eventHref(ev);
 
   return (
     <Link
