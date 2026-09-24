@@ -82,6 +82,13 @@ export function TicketsAndSeatingPlan({
   // Fresh seat clicks start at the quantity filter's value, or 1 if unset.
   const defaultQuantity = filters.quantity ?? 1;
 
+  // A new quantity filter resets any row the visitor already picked a count on,
+  // so every row shows the filtered number again.
+  const { clear: clearSeatSelection } = seatSelection;
+  useEffect(() => {
+    clearSeatSelection();
+  }, [filters.quantity]);
+
   function handleSeatClick(categoryName: string) {
     const cat = categories?.find((c) => c.name.trim().toLowerCase() === categoryName.trim().toLowerCase());
     if (!cat) return;
@@ -104,6 +111,7 @@ export function TicketsAndSeatingPlan({
           highlightedCategory={hoveredSeatCategory}
           seatSelection={seatSelection}
           visibleCategoryIds={visibleCategoryIds}
+          defaultQuantity={filters.quantity}
         />
       </div>
 

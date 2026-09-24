@@ -1,24 +1,13 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { trackGigsbergRedirect } from '@/lib/analytics';
 import { Price, useCurrency } from '@/lib/currency';
 import type { ApiListingCategory, NeopEvent } from '@/lib/types';
+import { FilterDropdown, QuantityOptions } from './FilterDropdown';
 import { Icon } from './Icon';
 import { Btn } from './ui';
-
-const qtySelect: CSSProperties = {
-  height: 38,
-  padding: '0 34px 0 14px',
-  borderRadius: 999,
-  border: '1px solid var(--border-2)',
-  background: 'var(--surface)',
-  color: 'var(--text)',
-  fontSize: 14,
-  fontWeight: 600,
-  cursor: 'pointer',
-};
 
 /**
  * Builds the checkout link, putting the chosen seat count into the listing's
@@ -69,7 +58,7 @@ function localizeGigsbergUrl(url: string, locale: string, currency: string | nul
 export function Panel({ children }: { children: ReactNode }) {
   return (
     <aside style={{ position: 'sticky', top: 104 }}>
-      <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)', overflow: 'hidden' }}>
+      <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)' }}>
         {children}
       </div>
     </aside>
@@ -83,6 +72,7 @@ export function TicketPicker({
   highlightedCategory,
   seatSelection,
   visibleCategoryIds,
+  defaultQuantity,
 }: {
   ev: NeopEvent;
   categories?: ApiListingCategory[];
@@ -94,6 +84,8 @@ export function TicketPicker({
   seatSelection: SeatSelection;
   /** When set, only categories whose id is in this set are shown in the list (the rest of `categories` — active selection, checkout — is unaffected). `null`/`undefined` means show all. */
   visibleCategoryIds?: Set<string> | null;
+  /** The quantity filter's value (if active): rows start at this seat count instead of their smallest valid one. */
+  defaultQuantity?: number | null;
 }) {
   const t = useTranslations('TicketPicker');
   const locale = useLocale();
@@ -108,6 +100,7 @@ export function TicketPicker({
         highlightedCategory={highlightedCategory}
         seatSelection={seatSelection}
         visibleCategoryIds={visibleCategoryIds}
+        defaultQuantity={defaultQuantity}
       />
     );
   }
@@ -208,10 +201,12 @@ export interface SeatSelection {
   /**
    * Sets the seat count for a category. Only one category can hold seats at a
    * time, so choosing a count on a different category drops the previous
-   * selection back to 0; a count of 0 (or one the category doesn't allow)
-   * clears the selection.
+   * selection back to its default; a count the category doesn't allow clears
+   * the selection.
    */
   setQty: (cat: ApiListingCategory, qty: number) => void;
+  /** Drops any selection, returning every row to its default seat count. */
+  clear: () => void;
   /** Starts a category at `startQty` (falling back to its smallest valid count) unless it's already the active one. */
   start: (cat: ApiListingCategory, startQty?: number) => void;
 }
@@ -246,7 +241,12 @@ export function useSeatSelection(): SeatSelection {
     setQtyState(startQty !== undefined && counts.includes(startQty) ? startQty : counts[0]);
   }
 
-  return { activeId, qty, setQty, start };
+  function clear() {
+    setActiveId(null);
+    setQtyState(0);
+  }
+
+  return { activeId, qty, setQty, start, clear };
 }
 
 /** Real ticket categories backed by live Gigsberg listings. */
@@ -257,6 +257,7 @@ function RealTickets({
   highlightedCategory,
   seatSelection,
   visibleCategoryIds,
+  defaultQuantity,
 }: {
   ev: NeopEvent;
   categories: ApiListingCategory[];
@@ -264,8 +265,10 @@ function RealTickets({
   highlightedCategory?: string | null;
   seatSelection: SeatSelection;
   visibleCategoryIds?: Set<string> | null;
+  defaultQuantity?: number | null;
 }) {
   const t = useTranslations('TicketPicker');
+  const tFilters = useTranslations('TicketFilters');
   const locale = useLocale();
   const { currency } = useCurrency();
   const { activeId, qty, setQty } = seatSelection;
@@ -287,7 +290,6 @@ function RealTickets({
         )}
         {rows.map((cat) => {
           const isActive = activeId === cat.id;
-          const rowQty = isActive ? qty : 0;
           const isHighlighted =
             !isActive &&
             ((!!highlightedCategory && cat.name.trim().toLowerCase() === highlightedCategory.trim().toLowerCase()) ||
@@ -295,6 +297,8 @@ function RealTickets({
           const counts = validSeatCounts(cat.splitType, cat.maxQuantity);
           // Most seats buyable in one order (the largest valid count for the rule).
           const maxSel = counts.length ? counts[counts.length - 1] : 0;
+          // Untouched rows show the quantity filter's count (when this category allows it), else their smallest valid count.
+          const rowQty = isActive ? qty : defaultQuantity != null && counts.includes(defaultQuantity) ? defaultQuantity : (counts[0] ?? 0);
           // Prices come back in this ISO currency (the chosen one when Gigsberg converted them).
           const priceCurrency = cat.currency ?? ev.currencyCode;
           // Never advertise more than a single order could actually take.
@@ -353,20 +357,27 @@ function RealTickets({
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, gap: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-                  <select
-                    value={rowQty}
-                    onChange={(e) => setQty(cat, Number(e.target.value))}
-                    className="focus-ring"
-                    aria-label={t('quantityFor', { name: cat.name })}
-                    style={{ ...qtySelect, borderColor: isActive ? 'var(--accent)' : 'var(--border-2)' }}
-                  >
-                    <option value={0}>0</option>
-                    {counts.map((n) => (
-                      <option key={n} value={n}>
-                        {n}
-                      </option>
-                    ))}
-                  </select>
+                  {counts.length > 0 && (
+                    <FilterDropdown
+                      label={tFilters('ticketsCount', { count: rowQty })}
+                      ariaLabel={t('quantityFor', { name: cat.name })}
+                      active={isActive}
+                      className="seat-count-select"
+                      wide
+                    >
+                      {(close) => (
+                        <QuantityOptions
+                          options={counts}
+                          selected={rowQty}
+                          onSelect={(n) => {
+                            setQty(cat, n);
+                            close();
+                          }}
+                          name={`seat-count-${cat.id}`}
+                        />
+                      )}
+                    </FilterDropdown>
+                  )}
                   {rowQty > 0 && (
                     <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--accent-2)', whiteSpace: 'nowrap' }}>
                       <Price amount={subtotal} from={priceCurrency} />
