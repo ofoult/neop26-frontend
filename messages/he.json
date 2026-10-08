@@ -216,7 +216,13 @@
     "maxPerOrder": "מקסימום {count} להזמנה",
     "buy": "קנייה",
     "quantityFor": "כמות עבור {name}",
-    "listingsCount": "{count, plural, one {מודעה אחת} other {# מודעות}}"
+    "listingsCount": "{count, plural, one {מודעה אחת} other {# מודעות}}",
+    "seatBlock": "בלוק {block}",
+    "seatRow": "שורה {row}",
+    "seatRange": "מושבים {start}–{end}",
+    "seatOne": "מושב {seat}",
+    "priceDisclaimer": "המחירים אינם כוללים מיסים, דמי הזמנה ודמי משלוח",
+    "restrictions": "הגבלות: {list}"
   },
   "TicketFilters": {
     "quantity": "כמות",

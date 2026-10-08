@@ -216,7 +216,13 @@
     "maxPerOrder": "الحد الأقصى {count} / طلب",
     "buy": "شراء",
     "quantityFor": "الكمية لـ {name}",
-    "listingsCount": "{count, plural, zero {# عروض} one {عرض واحد} two {عرضان} few {# عروض} many {# عرض} other {# عرض}}"
+    "listingsCount": "{count, plural, zero {# عروض} one {عرض واحد} two {عرضان} few {# عروض} many {# عرض} other {# عرض}}",
+    "seatBlock": "القطاع {block}",
+    "seatRow": "الصف {row}",
+    "seatRange": "المقاعد {start}–{end}",
+    "seatOne": "المقعد {seat}",
+    "priceDisclaimer": "الأسعار لا تشمل الضرائب ورسوم الحجز ورسوم التوصيل",
+    "restrictions": "القيود: {list}"
   },
   "TicketFilters": {
     "quantity": "الكمية",

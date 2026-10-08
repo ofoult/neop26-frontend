@@ -65,6 +65,13 @@ export interface ApiListingCategory {
   listings: number;
   ticketTypes: string[];
   checkoutUrl: string | null;
+  /** Block / row / seat range of the cheapest (checkout) listing, when known. */
+  block: string | null;
+  row: string | null;
+  seatStart: string | null;
+  seatEnd: string | null;
+  /** Restriction codes of that listing (e.g. "XFER"); empty when none. */
+  restrictions: string[];
 }
 
 export interface ApiEventListings {

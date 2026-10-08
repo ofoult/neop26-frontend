@@ -216,7 +216,13 @@
     "maxPerOrder": "max {count} / bestelling",
     "buy": "Kopen",
     "quantityFor": "Aantal voor {name}",
-    "listingsCount": "{count, plural, one {# aanbieding} other {# aanbiedingen}}"
+    "listingsCount": "{count, plural, one {# aanbieding} other {# aanbiedingen}}",
+    "seatBlock": "Blok {block}",
+    "seatRow": "Rij {row}",
+    "seatRange": "Stoelen {start}–{end}",
+    "seatOne": "Stoel {seat}",
+    "priceDisclaimer": "Prijzen zijn exclusief belastingen, reserveringskosten en verzendkosten",
+    "restrictions": "Beperkingen: {list}"
   },
   "TicketFilters": {
     "quantity": "Aantal",

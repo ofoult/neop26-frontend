@@ -216,7 +216,13 @@
     "maxPerOrder": "max {count} / rendelés",
     "buy": "Vásárlás",
     "quantityFor": "Mennyiség: {name}",
-    "listingsCount": "{count, plural, one {# hirdetés} other {# hirdetés}}"
+    "listingsCount": "{count, plural, one {# hirdetés} other {# hirdetés}}",
+    "seatBlock": "{block} blokk",
+    "seatRow": "{row}. sor",
+    "seatRange": "{start}–{end}. hely",
+    "seatOne": "{seat}. hely",
+    "priceDisclaimer": "Az árak nem tartalmazzák az adókat, a foglalási díjakat és a szállítási költségeket",
+    "restrictions": "Korlátozások: {list}"
   },
   "TicketFilters": {
     "quantity": "Mennyiség",

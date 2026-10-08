@@ -216,7 +216,13 @@
     "maxPerOrder": "макс. {count} / заказ",
     "buy": "Купить",
     "quantityFor": "Количество для {name}",
-    "listingsCount": "{count, plural, one {# объявление} few {# объявления} many {# объявлений} other {# объявления}}"
+    "listingsCount": "{count, plural, one {# объявление} few {# объявления} many {# объявлений} other {# объявления}}",
+    "seatBlock": "Блок {block}",
+    "seatRow": "Ряд {row}",
+    "seatRange": "Места {start}–{end}",
+    "seatOne": "Место {seat}",
+    "priceDisclaimer": "В цены не включены налоги, сборы за бронирование и стоимость доставки",
+    "restrictions": "Ограничения: {list}"
   },
   "TicketFilters": {
     "quantity": "Количество",

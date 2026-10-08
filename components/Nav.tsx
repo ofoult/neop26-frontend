@@ -11,8 +11,18 @@ import { subcategoriesByCategory, type Subcategory } from "@/lib/subcategories";
 import type { Category } from "@/lib/types";
 import { BestSalesMarquee } from "./BestSalesMarquee";
 import { LanguageCurrencySelect } from "./LanguageCurrencySelect";
+import { SearchBar } from "./SearchBar";
 
-export function Nav({ hideMarquee = false, scrollAwayOnMobile = false }: { hideMarquee?: boolean; scrollAwayOnMobile?: boolean }) {
+export function Nav({
+  hideMarquee = false,
+  scrollAwayOnMobile = false,
+  showSearch = false,
+}: {
+  hideMarquee?: boolean;
+  scrollAwayOnMobile?: boolean;
+  /** Replaces the category pills with the free-text search field (event/venue/performer pages). */
+  showSearch?: boolean;
+}) {
   // const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const tCat = useTranslations("Categories");
@@ -88,6 +98,11 @@ export function Nav({ hideMarquee = false, scrollAwayOnMobile = false }: { hideM
     >
       <div className="nav-inner">
         <Logo href="/" />
+        {showSearch ? (
+          <div className="nav-search">
+            <SearchBar variant="nav" />
+          </div>
+        ) : (
         <nav className="nav-links">
           {/* prefetch={false}: this bar is sticky and always in the initial
               viewport, so all 5 links would otherwise fire RSC prefetch
@@ -106,6 +121,7 @@ export function Nav({ hideMarquee = false, scrollAwayOnMobile = false }: { hideM
             />
           ))}
         </nav>
+        )}
         {/* <button
           className="nav-lang focus-ring"
           aria-label="Language and currency"

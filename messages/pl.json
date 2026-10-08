@@ -216,7 +216,13 @@
     "maxPerOrder": "maks. {count} / zamówienie",
     "buy": "Kup",
     "quantityFor": "Liczba biletów: {name}",
-    "listingsCount": "{count, plural, one {# ogłoszenie} few {# ogłoszenia} many {# ogłoszeń} other {# ogłoszeń}}"
+    "listingsCount": "{count, plural, one {# ogłoszenie} few {# ogłoszenia} many {# ogłoszeń} other {# ogłoszeń}}",
+    "seatBlock": "Blok {block}",
+    "seatRow": "Rząd {row}",
+    "seatRange": "Miejsca {start}–{end}",
+    "seatOne": "Miejsce {seat}",
+    "priceDisclaimer": "Ceny nie zawierają podatków, opłat rezerwacyjnych ani kosztów dostawy",
+    "restrictions": "Ograniczenia: {list}"
   },
   "TicketFilters": {
     "quantity": "Liczba",

@@ -26,7 +26,10 @@ export function SearchBar({
   defaultFrom = '',
   defaultTo = '',
   autoFocus = false,
+  variant = 'full',
 }: {
+  /** 'nav': just the free-text "What" field + a search button (used in the header). */
+  variant?: 'full' | 'nav';
   compact?: boolean;
   /** The current /browse/{slug} category or subcategory, so search stays
    * scoped to it instead of always searching everything. Null on the bare
@@ -96,6 +99,7 @@ export function SearchBar({
   }
 
   const fieldPad = compact ? '0 16px' : '0 20px';
+  const navVariant = variant === 'nav';
 
   return (
     <form
@@ -103,7 +107,7 @@ export function SearchBar({
         e.preventDefault();
         submit();
       }}
-      className="search-bar"
+      className={navVariant ? 'search-bar-nav' : 'search-bar'}
       style={{
         position: 'relative',
         // Lift the bar (and, via the ul/popover z-indexes below, its dropdowns)
@@ -119,9 +123,9 @@ export function SearchBar({
         backdropFilter: 'blur(20px)',
         border: '1px solid var(--border-2)',
         borderRadius: 999,
-        padding: '8px',
+        padding: navVariant ? '4px 4px 4px 0' : '8px',
         gap: 0,
-        boxShadow: '0 24px 60px -24px rgba(0,0,0,.7)',
+        boxShadow: navVariant ? 'none' : '0 24px 60px -24px rgba(0,0,0,.7)',
       }}
     >
       <SearchField<SearchSuggestion>
@@ -155,9 +159,16 @@ export function SearchBar({
             </span>
           </>
         )}
-        pad={fieldPad}
+        pad={navVariant ? '0 8px 0 16px' : fieldPad}
         flex={1.4}
+        hideLabel={navVariant}
       />
+      {navVariant ? (
+        <Btn type="submit" icon="search" size="sm" style={{ flexShrink: 0 }}>
+          <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>{t('search')}</span>
+        </Btn>
+      ) : (
+        <>
       <Divider />
       <SearchField<LocationSuggestion>
         id="neop-search-where"
@@ -202,6 +213,8 @@ export function SearchBar({
       <Btn type="submit" icon="search" style={{ flexShrink: 0 }}>
         {t('search')}
       </Btn>
+        </>
+      )}
     </form>
   );
 }
@@ -230,6 +243,7 @@ function SearchField<T>({
   inputRef,
   pad,
   flex,
+  hideLabel,
 }: {
   id: string;
   icon: IconName;
@@ -255,6 +269,8 @@ function SearchField<T>({
   inputRef?: RefObject<HTMLInputElement>;
   pad: string;
   flex: number;
+  /** Visually hides the label (kept for screen readers) — compact header variant. */
+  hideLabel?: boolean;
 }) {
   const t = useTranslations('SearchBar');
   const [items, setItems] = useState<T[]>([]);
@@ -341,7 +357,11 @@ function SearchField<T>({
       <div style={{ minWidth: 0, flex: 1 }}>
         <label
           htmlFor={id}
-          style={{ display: 'block', fontSize: 11, color: 'var(--faint)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}
+          style={
+            hideLabel
+              ? { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' }
+              : { display: 'block', fontSize: 11, color: 'var(--faint)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }
+          }
         >
           {label}
         </label>

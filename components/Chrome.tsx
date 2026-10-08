@@ -18,11 +18,13 @@ export function Chrome({ children }: { children: ReactNode }) {
   // end flush with the ticket list, or it gets pushed up at the end of the scroll.
   const isEvent = pathname?.startsWith('/event/') ?? false;
   const hideMarquee = isPurchaseFlow;
+  // Event, venue and performer pages swap the category pills for a search field.
+  const showSearch = (isEvent || pathname?.startsWith('/venue/') || pathname?.startsWith('/performer/')) ?? false;
   const hideFooter = isPurchaseFlow;
 
   return (
     <>
-      {!hideChrome && <Nav hideMarquee={hideMarquee} scrollAwayOnMobile={isEvent} />}
+      {!hideChrome && <Nav hideMarquee={hideMarquee} scrollAwayOnMobile={isEvent} showSearch={showSearch} />}
       <main style={{ minHeight: '60vh' }}>{children}</main>
       {!hideChrome && !hideFooter ? <Footer /> : <div style={{ height: isEvent ? 0 : 80 }} />}
     </>

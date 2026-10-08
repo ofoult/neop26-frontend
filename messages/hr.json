@@ -216,7 +216,13 @@
     "maxPerOrder": "maks. {count} / narudžba",
     "buy": "Kupi",
     "quantityFor": "Količina za {name}",
-    "listingsCount": "{count, plural, one {# oglas} few {# oglasa} other {# oglasa}}"
+    "listingsCount": "{count, plural, one {# oglas} few {# oglasa} other {# oglasa}}",
+    "seatBlock": "Blok {block}",
+    "seatRow": "Red {row}",
+    "seatRange": "Sjedala {start}–{end}",
+    "seatOne": "Sjedalo {seat}",
+    "priceDisclaimer": "Cijene ne uključuju poreze, naknade za rezervaciju i troškove dostave",
+    "restrictions": "Ograničenja: {list}"
   },
   "TicketFilters": {
     "quantity": "Količina",

@@ -216,7 +216,13 @@
     "maxPerOrder": "max {count} / beställning",
     "buy": "Köp",
     "quantityFor": "Antal för {name}",
-    "listingsCount": "{count, plural, one {# annons} other {# annonser}}"
+    "listingsCount": "{count, plural, one {# annons} other {# annonser}}",
+    "seatBlock": "Sektion {block}",
+    "seatRow": "Rad {row}",
+    "seatRange": "Platser {start}–{end}",
+    "seatOne": "Plats {seat}",
+    "priceDisclaimer": "Priserna inkluderar inte skatter, bokningsavgifter och leveransavgifter",
+    "restrictions": "Begränsningar: {list}"
   },
   "TicketFilters": {
     "quantity": "Antal",

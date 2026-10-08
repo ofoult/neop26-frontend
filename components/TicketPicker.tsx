@@ -56,6 +56,27 @@ function localizeGigsbergUrl(url: string, locale: string, currency: string): str
   }
 }
 
+/** Small "i" icon that shows `text` in a tooltip on hover/focus (tap on touch). */
+function InfoTip({ text, warning }: { text: string; warning?: boolean }) {
+  return (
+    <span className={`info-tip${warning ? ' warn' : ''}`} tabIndex={0} role="img" aria-label={text} data-tip={text}>
+      {warning ? (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+          <path d="M12 9.5v4.5" />
+          <circle cx="12" cy="17.2" r="0.6" fill="currentColor" />
+        </svg>
+      ) : (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="9.5" />
+        <path d="M12 11v5.5" />
+        <circle cx="12" cy="7.6" r="0.6" fill="currentColor" />
+      </svg>
+      )}
+    </span>
+  );
+}
+
 /** Shared sticky card chrome. */
 export function Panel({ children }: { children: ReactNode }) {
   return (
@@ -310,6 +331,13 @@ function RealTickets({
           const hasRange = cat.maxPrice > cat.fromPrice;
           const hint = splitHint(cat.splitType, t);
           const desc = cat.ticketTypes.length > 0 ? cat.ticketTypes.join(' · ') : t('listingsCount', { count: cat.listings });
+          const seatInfo = [
+            cat.block && t('seatBlock', { block: cat.block }),
+            cat.row && t('seatRow', { row: cat.row }),
+            cat.seatStart && cat.seatEnd && cat.seatStart !== cat.seatEnd
+              ? t('seatRange', { start: cat.seatStart, end: cat.seatEnd })
+              : (cat.seatStart ?? cat.seatEnd) && t('seatOne', { seat: (cat.seatStart ?? cat.seatEnd) as string }),
+          ].filter(Boolean) as string[];
           const subtotal = Math.round(cat.fromPrice * rowQty * 100) / 100;
           const href = cat.checkoutUrl
             ? checkoutHref(cat.checkoutUrl, rowQty, locale, gigsbergCurrency)
@@ -343,8 +371,15 @@ function RealTickets({
                       <Price amount={cat.maxPrice} from={priceCurrency} />
                     </span>
                   )}
+                  <InfoTip text={t('priceDisclaimer')} />
+                  {cat.restrictions?.length > 0 && (
+                    <InfoTip warning text={t('restrictions', { list: cat.restrictions.join(', ') })} />
+                  )}
                 </span>
               </div>
+              {seatInfo.length > 0 && (
+                <div style={{ fontSize: 13, color: 'var(--dim)', marginTop: 5 }}>{seatInfo.join(' · ')}</div>
+              )}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 5, gap: 12 }}>
                 <span style={{ fontSize: 13, color: 'var(--dim)' }}>
                   {desc}
@@ -353,9 +388,6 @@ function RealTickets({
                 <span style={{ textAlign: 'end', whiteSpace: 'nowrap' }}>
                   <span style={{ fontSize: 12.5, fontWeight: 600, color: avail.hot ? 'var(--accent-2)' : 'var(--faint)' }}>
                     {avail.text}
-                  </span>
-                  <span style={{ display: 'block', fontSize: 11.5, color: 'var(--faint)', marginTop: 2 }}>
-                    {t('maxPerOrder', { count: maxSel })}
                   </span>
                 </span>
               </div>

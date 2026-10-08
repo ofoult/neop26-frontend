@@ -78,24 +78,37 @@ function resolveBlockAtTarget(
   return category && block ? { category, block } : null;
 }
 
-/** Builds the `<style>` block that fills the given category's blocks with `color`. */
-function buildFillCss(categoryName: string, blocks: string[], color: string): string {
+/**
+ * Builds the `<style>` block that fills the given category's blocks with `color`
+ * and draws their labels in `textColor` — otherwise the label (a <text> inside
+ * the block, or a sibling "<name>_text" element) would be filled with the same
+ * `color` as its shape and vanish.
+ */
+function buildFillCss(categoryName: string, blocks: string[], color: string, textColor: string): string {
   const scope = `#${cssEscape(scopeId(categoryName))}`;
-  const selectors = blocks.flatMap((block) =>
-    blockDataNameCandidates(block).flatMap((c) => {
+  const shapeSelectors: string[] = [];
+  const textSelectors: string[] = [];
+  for (const block of blocks) {
+    for (const c of blockDataNameCandidates(block)) {
       // Usually the block's own element is the shape and this alone is enough.
       // But some blocks (e.g. general-admission zones) wrap separately-classed
       // children (a <rect> + <path>, each with their own `fill` declared in the
       // SVG's embedded stylesheet) — a directly-declared fill on a child always
       // wins over one merely inherited from this ancestor, `!important` or not.
       // The extra descendant selector targets those children directly so this
-      // rule wins on specificity instead of relying on inheritance.
+      // rule wins on specificity instead of relying on inheritance. Text is
+      // excluded here and styled separately below.
       const own = `${scope} [data-name="${cssEscape(c)}"]`;
-      return [own, `${own} *`];
-    }),
+      shapeSelectors.push(own, `${own} *:not(text):not(tspan)`);
+      const label = `${scope} [data-name="${cssEscape(c)}_text"]`;
+      textSelectors.push(`${own} text`, `${own} tspan`, label, `${label} *`);
+    }
+  }
+  if (shapeSelectors.length === 0) return '';
+  return (
+    `${shapeSelectors.join(',\n')} { fill: ${color} !important; transition: fill .15s; }\n` +
+    `${textSelectors.join(',\n')} { fill: ${textColor} !important; }`
   );
-  if (selectors.length === 0) return '';
-  return `${selectors.join(',\n')} { fill: ${color} !important; transition: fill .15s; }`;
 }
 
 /**
@@ -115,6 +128,9 @@ const CATEGORY_PALETTE = [
   '#fde047', // light yellow
   '#f9a8d4', // light pink
 ];
+
+/** Dark label colour that stays readable on the light CATEGORY_PALETTE fills. */
+const LABEL_ON_PALETTE = '#1b1730';
 
 interface HoverInfo {
   block: string;
@@ -173,7 +189,7 @@ export function SeatingPlanSvg({
   const baseCategoryCss = useMemo(
     () =>
       sellableCategories
-        .map((c, i) => buildFillCss(c.name, c.blocks, CATEGORY_PALETTE[i % CATEGORY_PALETTE.length]))
+        .map((c, i) => buildFillCss(c.name, c.blocks, CATEGORY_PALETTE[i % CATEGORY_PALETTE.length], LABEL_ON_PALETTE))
         .join('\n'),
     [sellableCategories],
   );
@@ -181,13 +197,13 @@ export function SeatingPlanSvg({
   const categoryHighlightCss = useMemo(() => {
     if (!hoveredCategoryName) return '';
     const match = categories.find((c) => c.name.trim().toLowerCase() === hoveredCategoryName.trim().toLowerCase());
-    return match ? buildFillCss(match.name, match.blocks, 'rgb(2, 45, 95)') : '';
+    return match ? buildFillCss(match.name, match.blocks, 'rgb(2, 45, 95)', '#fff') : '';
   }, [categories, hoveredCategoryName]);
 
   // The single seat currently under the cursor (see handleMouseMove) — filled
   // in addition to, and independently of, the category-wide highlight above.
   const seatHighlightCss = useMemo(() => {
-    return hover ? buildFillCss(hover.category, [hover.block], 'rgba(2, 45, 95, 0.8)') : '';
+    return hover ? buildFillCss(hover.category, [hover.block], 'rgba(2, 45, 95, 0.8)', '#fff') : '';
   }, [hover]);
 
   // Maps each category's top-level SVG group id back to the category, so a

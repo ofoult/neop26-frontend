@@ -2,20 +2,18 @@ import type { Metadata } from 'next';
 import { Link } from '@/i18n/navigation';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Suspense, type CSSProperties } from 'react';
+import { Suspense } from 'react';
 import { CountryFlag } from '@/components/Flag';
 import { Icon } from '@/components/Icon';
-import { Img } from '@/components/Img';
 import { Skeleton } from '@/components/Skeleton';
 import { TicketsAndSeatingPlan } from '@/components/TicketsAndSeatingPlan';
-import { fetchEvent, fetchEventListings, fetchEventSeatingPlan, fetchSeatingPlanSvgMarkup, fetchSubtypes } from '@/lib/api';
+import { fetchEvent, fetchEventListings, fetchEventSeatingPlan, fetchSeatingPlanSvgMarkup } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
 import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime } from '@/lib/format';
 import { breadcrumbJsonLd, eventJsonLd, jsonLdScript } from '@/lib/jsonld';
 import { hreflangAlternates, localePath, ogAlternateLocales, ogLocale } from '@/lib/hreflang';
-import { eventHref, parseIdFromSlugParam, performerHref, slugify } from '@/lib/slug';
-import { findSubcategory, toSubcategories } from '@/lib/subcategories';
+import { eventHref, parseIdFromSlugParam, performerHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
 import type { NeopEvent } from '@/lib/types';
 
@@ -100,19 +98,6 @@ export default async function EventPage({ params }: { params: { locale: string; 
     { name: ev.title },
   ]);
 
-  // Link the "Category · Genre" pill to the genre's subcategory page when it
-  // resolves to one (same slug rules as /browse/[slug]); else the category.
-  const subcat = findSubcategory(toSubcategories(await fetchSubtypes()), slugify(ev.genre));
-  const categoryHref = `/browse/${subcat && subcat.categoryId === ev.category ? subcat.slug : ev.category}`;
-  const pillStyle: CSSProperties = {
-    padding: '6px 12px',
-    borderRadius: 999,
-    background: 'rgba(255,255,255,.12)',
-    backdropFilter: 'blur(10px)',
-    fontSize: 12.5,
-    fontWeight: 600,
-  };
-
   return (
     <div>
       <script
@@ -122,47 +107,15 @@ export default async function EventPage({ params }: { params: { locale: string; 
       />
       {/* hero */}
       <div style={{ position: 'relative', marginTop: '-88px' }}>
-        <div style={{ position: 'absolute', inset: 0 }}>
-          <Img src={ev.image} alt={ev.title} priority style={{ width: '100%', height: '100%' }} />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(to top, var(--bg) 1%, rgba(7,7,11,.45) 45%, rgba(7,7,11,.6))',
-            }}
-          />
-        </div>
         <div style={{ position: 'relative', maxWidth: 'var(--maxw)', margin: '0 auto', padding: '104px 28px 4px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
-            {ev.hot && (
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 5,
-                  padding: '6px 12px',
-                  borderRadius: 999,
-                  background: 'var(--grad)',
-                  fontSize: 12.5,
-                  fontWeight: 700,
-                }}
-              >
-                <Icon name="bolt" size={13} /> Trending
-              </span>
-            )}
-            <Link href={categoryHref} className="focus-ring" style={pillStyle}>
-              {cat && tCat(cat.id)} · {ev.genre}
-            </Link>
-            <Link
-              href={ev.performerId ? performerHref(ev.performerId, ev.artist) : `/browse/${ev.category}`}
-              className="focus-ring"
-              style={pillStyle}
-            >
-              {ev.artist}
-            </Link>
-          </div>
           <h1 className="serif" style={{ fontSize: 'clamp(26px,3.6vw,44px)', margin: 0, lineHeight: 1.05, letterSpacing: '-0.01em' }}>
-            {ev.title}
+            {ev.performerId ? (
+              <Link href={performerHref(ev.performerId, ev.artist)} className="focus-ring event-title-link">
+                {ev.title}
+              </Link>
+            ) : (
+              ev.title
+            )}
           </h1>
           <div
             style={{
@@ -191,13 +144,6 @@ export default async function EventPage({ params }: { params: { locale: string; 
               </span>
             )}
           </div>
-          {/* Same copy as the meta description (page.tsx generateMetadata) —
-              having it appear verbatim on the page, not just in <meta>,
-              gives Google real on-page text to match against so it doesn't
-              fall back to unrelated content further down the page. */}
-          <p style={{ margin: '8px 0 0', maxWidth: 640, color: 'rgba(255,255,255,.8)', fontSize: 13, lineHeight: 1.45 }}>
-            {ev.blurb}
-          </p>
         </div>
       </div>
 

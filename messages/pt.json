@@ -216,7 +216,13 @@
     "maxPerOrder": "máx. {count} / encomenda",
     "buy": "Comprar",
     "quantityFor": "Quantidade para {name}",
-    "listingsCount": "{count, plural, one {# anúncio} other {# anúncios}}"
+    "listingsCount": "{count, plural, one {# anúncio} other {# anúncios}}",
+    "seatBlock": "Bloco {block}",
+    "seatRow": "Fila {row}",
+    "seatRange": "Lugares {start}–{end}",
+    "seatOne": "Lugar {seat}",
+    "priceDisclaimer": "Os preços não incluem impostos, taxas de reserva e custos de entrega",
+    "restrictions": "Restrições: {list}"
   },
   "TicketFilters": {
     "quantity": "Quantidade",

@@ -205,6 +205,13 @@ img {
   margin-inline-start: 8px;
 }
 
+.nav-search {
+  flex: 1;
+  max-width: 520px;
+  min-width: 0;
+  margin-inline-start: 8px;
+}
+
 .nav-lang {
   display: flex;
   align-items: center;
@@ -237,6 +244,13 @@ img {
   }
   .nav-links::-webkit-scrollbar {
     display: none;
+  }
+  .nav-search {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+    margin-inline-start: 0;
+    padding-bottom: 12px;
   }
 }
 
@@ -305,6 +319,7 @@ img {
    block / the filters row up to the top even when the list is short. */
 @media (min-width: 901px) {
   .tickets-plan-grid.has-plan {
+    grid-template-columns: 540px minmax(0, 1fr);
     min-height: calc(100vh - var(--plan-top));
   }
   .tickets-plan-seatmap {
@@ -736,4 +751,64 @@ img {
     order: 1;
     flex-basis: 100%;
   }
+}
+
+/* Info "i" icon with a hover/focus tooltip (see InfoTip in TicketPicker.tsx). */
+.info-tip {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  margin-inline-start: 6px;
+  color: var(--faint);
+  cursor: help;
+  outline: none;
+}
+.info-tip:hover,
+.info-tip:focus {
+  color: var(--text, inherit);
+}
+.info-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  inset-inline-end: -8px;
+  width: max-content;
+  max-width: 240px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #1a1a24;
+  border: 1px solid var(--border);
+  color: var(--text, inherit);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  white-space: normal;
+  text-align: start;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 20;
+}
+.info-tip:hover::after,
+.info-tip:focus::after {
+  opacity: 1;
+}
+.info-tip.warn {
+  color: #f5b544;
+}
+
+/* Event page title linking to the artist page: underline + accent colour on hover/focus. */
+.event-title-link {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+.event-title-link:hover,
+.event-title-link:focus-visible {
+  color: var(--accent-2);
+  text-decoration-color: currentColor;
 }
