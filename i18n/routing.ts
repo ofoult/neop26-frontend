@@ -4,18 +4,14 @@ export const routing = defineRouting({
   locales: ['en', 'fr', 'es', 'de', 'he', 'it', 'nl', 'sv', 'ru', 'ar', 'hu', 'pl', 'hr', 'pt'],
   defaultLocale: 'en',
   localePrefix: 'as-needed',
-  // The middleware still auto-detects locale from Accept-Language on each
-  // request (localeDetection stays on), but without a cookie remembering
-  // that choice: next-intl's middleware writes a `Set-Cookie: NEXT_LOCALE=…`
-  // on every response by default, and any response carrying Set-Cookie is
-  // treated as non-cacheable by Vercel's CDN — silently defeating every
-  // page's `export const revalidate` (ISR never gets a cache HIT, so every
-  // visit pays a full serverless render). Trade-off: a visitor who manually
-  // switches language now gets re-detected from their browser's language on
-  // their next fresh visit to an unprefixed URL, instead of it being
-  // "sticky" via cookie — acceptable given the caching win, since navigation
-  // within a chosen locale stays on that locale's prefixed URLs regardless.
-  localeCookie: false,
+  // A NEXT_LOCALE cookie remembers the visitor's language. Without it, picking
+  // English (the unprefixed default) just requests `/`, which the middleware
+  // re-detects from Accept-Language and redirects straight back to e.g. `/fr`.
+  // next-intl only sets the cookie when its value changes (and the language
+  // switcher writes it client-side), so it isn't re-sent on every response.
+  // (It used to be disabled because Vercel's CDN won't cache responses with
+  // Set-Cookie; the site has since moved to Coolify.)
+  localeCookie: { maxAge: 60 * 60 * 24 * 365 },
 });
 
 export type Locale = (typeof routing.locales)[number];

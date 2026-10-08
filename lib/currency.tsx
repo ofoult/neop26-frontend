@@ -1,8 +1,8 @@
 'use client';
 
 // Display-currency preference for the whole app. The visitor's choice lives in
-// localStorage (so it survives sessions — not a cookie, see i18n/routing.ts's
-// `localeCookie: false`) and drives two mechanisms:
+// localStorage (so it survives sessions — deliberately not a cookie, unlike
+// the language, see i18n/routing.ts's `localeCookie`) and drives two mechanisms:
 //   1. Prices Gigsberg can convert itself (an event's ticket categories) are
 //      re-fetched in that currency — see components/TicketsAndSeatingPlan.tsx —
 //      so they match its checkout exactly.

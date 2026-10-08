@@ -108,8 +108,8 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
 
 The Nav's language/currency popup (`components/LanguageCurrencySelect.tsx`: Languages / Currencies
 tabs, 2-column tile grid) lets the visitor pick a display currency; **every price is then shown in it**,
-and the choice persists across sessions in `localStorage` (`neop.currency`; deliberately not a cookie —
-see `i18n/routing.ts`'s `localeCookie: false`). `null` = no choice = each event's own currency.
+and the choice persists across sessions in `localStorage` (`neop.currency`; deliberately not a cookie). `null` = no choice = each event's own currency.
+(The chosen *language*, by contrast, is remembered in a `NEXT_LOCALE` cookie — `i18n/routing.ts`'s `localeCookie`.)
 State lives in `lib/currency.tsx` (`CurrencyProvider` in `app/[locale]/layout.tsx`, `useCurrency()`,
 `<Price>` / `useFormatPrice()`). Two sources, so the price seen matches the checkout wherever possible:
 
