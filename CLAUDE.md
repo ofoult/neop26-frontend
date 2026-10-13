@@ -17,7 +17,9 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
 
 ### Layout (`app/` — App Router)
 
-- `app/[locale]/page.tsx` — home
+- `app/[locale]/page.tsx` — home. The "Trending right now" grid shows the daily ranking from the backend's
+  `GET /trending` (`fetchTrendingEvents` in `lib/api.ts`, ISR 120 s), topped up to 12 with the previous
+  priced-events selection; an unreachable/empty ranking just falls back to that selection.
 - `app/[locale]/browse/` — event browsing (`page.tsx`, `actions.ts`)
 - `app/[locale]/event/[id]/` — event detail
 - `app/[locale]/checkout/` — checkout flow

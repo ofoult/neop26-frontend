@@ -4,12 +4,14 @@ import { EventCard } from '@/components/EventCard';
 import { Hero } from '@/components/Hero';
 import { Icon, type IconName } from '@/components/Icon';
 import { SecHead } from '@/components/SecHead';
-import { fetchEvents, orFallbackAtBuild } from '@/lib/api';
+import { fetchEvents, fetchTrendingEvents, orFallbackAtBuild } from '@/lib/api';
 import { hreflangAlternates, localePath } from '@/lib/hreflang';
 import { jsonLdScript, organizationJsonLd } from '@/lib/jsonld';
 import type { NeopEvent } from '@/lib/types';
 
 export const revalidate = 120;
+
+const TRENDING_COUNT = 12;
 
 // Only the canonical/hreflang alternates for "/" — title/description/OG stay
 // inherited from the root layout's generateMetadata (see its comment for why
@@ -46,10 +48,12 @@ export default async function HomePage({ params }: { params: { locale: string } 
     ['ticket', t('instantTitle'), t('instantBody')],
   ];
 
-  // Pull a pool of upcoming events plus a festival-specific set, in parallel.
-  const [pool, festPool] = await Promise.all([
+  // Pull a pool of upcoming events, a festival-specific set and the daily
+  // trending ranking, in parallel.
+  const [pool, festPool, curated] = await Promise.all([
     orFallbackAtBuild(fetchEvents({ perPage: 80, revalidate }), null),
     orFallbackAtBuild(fetchEvents({ typeId: 4, perPage: 12, revalidate }), null),
+    fetchTrendingEvents(TRENDING_COUNT, revalidate),
   ]);
 
   const events: NeopEvent[] = pool?.events ?? [];
@@ -73,7 +77,15 @@ export default async function HomePage({ params }: { params: { locale: string } 
   const priced = events.filter((e) => e.hot);
   const rest = events.filter((e) => !e.hot);
   const heroEvents = [...priced, ...rest].slice(0, 5);
-  const trending = [...priced, ...rest].slice(0, 4);
+  // The trending section is the daily ranking (events trending on the big ticket
+  // marketplaces that we sell); when fewer than TRENDING_COUNT are available it
+  // is topped up with the previous selection, skipping performers already shown.
+  const shownPerformers = new Set(curated.map((e) => e.performerId).filter((id) => id != null));
+  const shownIds = new Set(curated.map((e) => e.id));
+  const filler = [...priced, ...rest].filter(
+    (e) => !shownIds.has(e.id) && !(e.performerId != null && shownPerformers.has(e.performerId)),
+  );
+  const trending = [...curated, ...filler].slice(0, TRENDING_COUNT);
   // Weekend strip: events not already shown in the trending grid.
   const trendingIds = new Set(trending.map((e) => e.id));
   const weekend = events.filter((e) => !trendingIds.has(e.id)).slice(0, 4);

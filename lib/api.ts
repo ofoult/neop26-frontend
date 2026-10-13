@@ -181,6 +181,23 @@ export async function fetchEvents(q: EventQuery = {}): Promise<EventsResult> {
   };
 }
 
+/**
+ * The daily "trending" ranking (backend /trending, fed by the Claude routine).
+ * Never throws: an unreachable API or an empty ranking just returns [] so the
+ * home falls back to its default selection instead of breaking or caching an
+ * error page.
+ */
+export async function fetchTrendingEvents(limit = 12, revalidate = 120): Promise<NeopEvent[]> {
+  try {
+    const res = await fetch(buildUrl('/trending', { limit }), { next: { revalidate } });
+    if (!res.ok) return [];
+    const data = (await res.json()) as ApiEventsResponse;
+    return (data.items ?? []).map(adaptListItem);
+  } catch {
+    return [];
+  }
+}
+
 // used inside the BestSaleMarquee but currently not working because of client issue ,uncomment if we end up fixing the client issue and still need this function or delete it if we don't need it anymore .
 // export async function fetchTrendingEvents(revalidate = 120): Promise<NeopEvent[]> {
 //   const res = await fetchEvents({ perPage: 50, revalidate });
