@@ -78,10 +78,10 @@ function InfoTip({ text, warning }: { text: string; warning?: boolean }) {
 }
 
 /** Shared sticky card chrome. */
-export function Panel({ children }: { children: ReactNode }) {
+export function Panel({ children, borderless }: { children: ReactNode; borderless?: boolean }) {
   return (
     <aside style={{ position: 'sticky', top: 104 }}>
-      <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: '1px solid var(--border)' }}>
+      <div style={{ borderRadius: 22, background: 'var(--bg-2)', border: borderless ? 'none' : '1px solid var(--border)' }}>
         {children}
       </div>
     </aside>
@@ -304,7 +304,7 @@ function RealTickets({
   const rows = visibleCategoryIds ? categories.filter((c) => visibleCategoryIds.has(c.id)) : categories;
 
   return (
-    <Panel>
+    <Panel borderless>
       <div style={{ padding: '10px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {rows.length === 0 && (
           <p style={{ fontSize: 14.5, color: 'var(--dim)', lineHeight: 1.6, margin: '4px 6px 8px' }}>
@@ -328,7 +328,6 @@ function RealTickets({
           const gigsbergCurrency = currency ?? priceCurrency;
           // Never advertise more than a single order could actually take.
           const avail = availabilityLabel(Math.min(cat.available, maxSel), t);
-          const hasRange = cat.maxPrice > cat.fromPrice;
           const hint = splitHint(cat.splitType, t);
           const desc = cat.ticketTypes.length > 0 ? cat.ticketTypes.join(' · ') : t('listingsCount', { count: cat.listings });
           const seatInfo = [
@@ -365,12 +364,6 @@ function RealTickets({
                 <span style={{ fontSize: 16, fontWeight: 700 }}>{cat.name}</span>
                 <span style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
                   <Price amount={cat.fromPrice} from={priceCurrency} />
-                  {hasRange && (
-                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--dim)' }}>
-                      {' – '}
-                      <Price amount={cat.maxPrice} from={priceCurrency} />
-                    </span>
-                  )}
                   <InfoTip text={t('priceDisclaimer')} />
                   {cat.restrictions?.length > 0 && (
                     <InfoTip warning text={t('restrictions', { list: cat.restrictions.join(', ') })} />

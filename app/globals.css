@@ -480,13 +480,13 @@ img {
   }
 }
 
-/* Event card grids (home sections + browse results). 4 columns down to 2 on
+/* Event card grids (home sections + browse results). 5 columns down to 2 on
    tablets and 1 on phones, instead of squeezing 4 fixed columns into a
    viewport too narrow for them. */
 .event-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 38px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
 }
 
 @media (max-width: 1100px) {
@@ -695,7 +695,7 @@ img {
   }
 }
 
-/* Footer column grid — collapses from 4 columns down to 2, then 1. */
+/* Footer column grid — collapses from 5 columns down to 2, then 1. */
 .footer-grid {
   display: grid;
   grid-template-columns: 1.6fr 1fr 1fr 1fr;

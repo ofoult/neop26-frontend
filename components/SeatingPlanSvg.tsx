@@ -136,7 +136,6 @@ interface HoverInfo {
   block: string;
   category: string;
   fromPrice: number;
-  maxPrice: number;
   currency: string | null;
   x: number;
   y: number;
@@ -241,7 +240,6 @@ export function SeatingPlanSvg({
       block: resolved.block,
       category: resolved.category.name,
       fromPrice: pricing.fromPrice,
-      maxPrice: pricing.maxPrice,
       currency: pricing.currency,
       x: e.clientX,
       y: e.clientY,
@@ -260,7 +258,6 @@ export function SeatingPlanSvg({
   }
 
   const priceCurrency = hover?.currency ?? fallbackCurrency;
-  const hasRange = !!hover && hover.maxPrice > hover.fromPrice;
 
   return (
     <div
@@ -309,12 +306,6 @@ export function SeatingPlanSvg({
           <div style={{ color: 'var(--dim)' }}>{t('block', { block: hover.block })}</div>
           <div style={{ fontWeight: 700, marginTop: 2 }}>
             {t('from')} <Price amount={hover.fromPrice} from={priceCurrency} />
-            {hasRange && (
-              <span style={{ fontWeight: 500, color: 'var(--dim)' }}>
-                {' – '}
-                <Price amount={hover.maxPrice} from={priceCurrency} />
-              </span>
-            )}
           </div>
         </div>
       )}

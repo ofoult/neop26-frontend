@@ -43,7 +43,8 @@ export function EventCard({
   // straight to its own detail page. `forceEventLink` opts a section (e.g.
   // "this weekend", where the date is the point) out of that and always
   // routes to the specific event's own detail page.
-  const href = !forceEventLink && ev.performerId ? performerHref(ev.performerId, ev.artist) : eventHref(ev);
+  const linksToPerformer = !forceEventLink && !!ev.performerId;
+  const href = linksToPerformer ? performerHref(ev.performerId!, ev.artist) : eventHref(ev);
 
   return (
     <Link
@@ -128,8 +129,9 @@ export function EventCard({
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, gap: 12 }}>
             <div style={{ fontSize: 13.5, color: 'rgba(255,255,255,.82)', display: 'flex', alignItems: 'center', gap: 6 }}>
               <Icon name="pin" size={14} /> {countryCode && <CountryFlag code={countryCode} width={14} />}{' '}
-              {[ev.city, ev.country].filter(Boolean).join(', ')} · {fmtDate(ev.date, locale)}
-              {ev.performerEventCount > 1 && ` · ${t('eventsForArtist', { count: ev.performerEventCount })}`}
+              {[ev.city, ev.country].filter(Boolean).join(', ')}
+              {!linksToPerformer && ` · ${fmtDate(ev.date, locale)}`}
+              {!forceEventLink && ev.performerEventCount > 1 && ` · ${t('eventsForArtist', { count: ev.performerEventCount })}`}
             </div>
             <div
               style={{

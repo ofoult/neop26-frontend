@@ -11,7 +11,7 @@ import type { NeopEvent } from '@/lib/types';
 
 export const revalidate = 120;
 
-const TRENDING_COUNT = 12;
+const TRENDING_COUNT = 10;
 
 // Only the canonical/hreflang alternates for "/" — title/description/OG stay
 // inherited from the root layout's generateMetadata (see its comment for why
@@ -88,8 +88,8 @@ export default async function HomePage({ params }: { params: { locale: string } 
   const trending = [...curated, ...filler].slice(0, TRENDING_COUNT);
   // Weekend strip: events not already shown in the trending grid.
   const trendingIds = new Set(trending.map((e) => e.id));
-  const weekend = events.filter((e) => !trendingIds.has(e.id)).slice(0, 4);
-  const fests = (festPool?.events ?? []).slice(0, 4);
+  const weekend = events.filter((e) => !trendingIds.has(e.id)).slice(0, 5);
+  const fests = (festPool?.events ?? []).slice(0, 5);
 
   return (
     <div>

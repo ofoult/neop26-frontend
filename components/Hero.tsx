@@ -140,9 +140,6 @@ export function Hero({ events }: { events: NeopEvent[] }) {
             <Btn size="lg" iconR="arrow" href={eventHref(feat)}>
               {t('getTickets')}{feat.priceFrom != null ? ` · ${t('from')} ${formatPrice(feat.priceFrom, feat.currencyCode)}` : ''}
             </Btn>
-            <Btn size="lg" variant="ghost" icon="play">
-              {t('watchTrailer')}
-            </Btn>
             <div style={{ display: 'flex', alignItems: 'center', gap: 18, color: 'rgba(255,255,255,.85)', fontSize: 14.5, marginInlineStart: 6 }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                 <Icon name="cal" size={16} /> {fmtDate(feat.date, locale)}

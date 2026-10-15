@@ -95,6 +95,12 @@ export function TicketsAndSeatingPlan({
     // Selects this category (starting at the quantity filter's seat count)
     // unless it's already the active one, so its row's select reflects the click.
     seatSelection.start(cat, defaultQuantity);
+    // Also filters the list down to that category; clicking it again lifts the filter.
+    setFilters((f) =>
+      f.categoryNames.size === 1 && f.categoryNames.has(cat.name)
+        ? { ...f, categoryNames: new Set() }
+        : { ...f, categoryNames: new Set([cat.name]) },
+    );
   }
 
   return (
@@ -126,7 +132,7 @@ export function TicketsAndSeatingPlan({
               borderRadius: 18,
               border: '1px solid var(--border)',
               background: 'var(--surface)',
-              padding: 12,
+              padding: '28px 12px',
             }}
           >
             <SeatingPlanSvg
