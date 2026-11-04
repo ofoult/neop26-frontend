@@ -19,7 +19,8 @@
     "terms": "Terms",
     "cookies": "Cookies",
     "followUs": "Follow us",
-    "followOn": "Follow us on {network}"
+    "followOn": "Follow us on {network}",
+    "map": "Map"
   },
   "Hero": {
     "featured": "Featured",
@@ -301,5 +302,34 @@
     "contactBody": "Have a question, an issue with an order, or a suggestion? Write to us at <email>contact@neop.events</email> — we reply to every message.",
     "legalTitle": "Legal information",
     "legalBody": "The neop.events website is published under the name neop. For any question about the site or your rights, contact us at <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "Live events map: concerts, sports & shows worldwide",
+    "metaDescription": "Explore every upcoming concert, match, comedy show and festival on an interactive 3D globe. Zoom into any city to find events and buy verified tickets.",
+    "h1": "Live events map",
+    "navLabel": "Map",
+    "mapLabel": "Interactive globe of upcoming events",
+    "searchPlaceholder": "Search a city or venue",
+    "allCategories": "All",
+    "periodLabel": "Dates",
+    "periodAll": "All dates",
+    "periodWeek": "Next 7 days",
+    "periodMonth": "Next 30 days",
+    "periodQuarter": "Next 3 months",
+    "stats": "{eventsFmt} {events, plural, one {event} other {events}} · {venuesFmt} {venues, plural, one {venue} other {venues}}",
+    "eventsCount": "{count, plural, one {# event} other {# events}}",
+    "loading": "Loading events…",
+    "error": "Couldn't load the map data.",
+    "retry": "Retry",
+    "empty": "No events match these filters.",
+    "noResults": "No match",
+    "fromPrice": "from {price}",
+    "viewVenue": "Venue page",
+    "close": "Close",
+    "showMore": "Show {count} more",
+    "approxLocation": "Approximate location (city centre)",
+    "resetView": "Back to globe",
+    "venuesHere": "{count, plural, one {# venue here} other {# venues here}}",
+    "back": "Back"
   }
 }

@@ -36,6 +36,7 @@ export async function GET() {
   const fixedPaths: FixedPath[] = [
     { path: '/', changefreq: 'hourly', priority: 1 },
     { path: '/browse', changefreq: 'hourly', priority: 0.9 },
+    { path: '/map', changefreq: 'daily', priority: 0.7 },
     ...CATEGORIES.map((c) => ({ path: `/browse/${c.id}`, changefreq: 'hourly', priority: 0.8 })),
     ...subcategories.map((s) => ({ path: `/browse/${s.slug}`, changefreq: 'hourly', priority: 0.7 })),
   ];

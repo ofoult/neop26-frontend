@@ -102,6 +102,16 @@ export default async function LocaleLayout({
             gtag('config', 'G-2QQYVYSB98');
           `}
         </Script>
+        {/* Microsoft Clarity (session recordings / heatmaps), set up from Bing Webmaster Tools. */}
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "z8kdhq64hi");
+          `}
+        </Script>
       </head>
       <body>
         <div id="root" style={{ minHeight: '100vh' }}>

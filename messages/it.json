@@ -19,7 +19,8 @@
     "terms": "Termini",
     "cookies": "Cookie",
     "followUs": "Seguici",
-    "followOn": "Seguici su {network}"
+    "followOn": "Seguici su {network}",
+    "map": "Mappa"
   },
   "Hero": {
     "featured": "In evidenza",
@@ -301,5 +302,34 @@
     "contactBody": "Hai una domanda, un problema con un ordine o un suggerimento? Scrivici a <email>contact@neop.events</email>, rispondiamo a ogni messaggio.",
     "legalTitle": "Informazioni legali",
     "legalBody": "Il sito neop.events è pubblicato con il nome neop. Per qualsiasi domanda relativa alla gestione del sito o ai tuoi diritti, scrivici a <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "Mappa degli eventi: concerti, sport e spettacoli nel mondo",
+    "metaDescription": "Esplora tutti i prossimi concerti, partite, spettacoli comici e festival su un globo 3D interattivo. Ingrandisci qualsiasi città per trovare eventi e acquistare biglietti verificati.",
+    "h1": "Mappa degli eventi",
+    "navLabel": "Mappa",
+    "mapLabel": "Globo interattivo dei prossimi eventi",
+    "searchPlaceholder": "Cerca una città o una location",
+    "allCategories": "Tutti",
+    "periodLabel": "Date",
+    "periodAll": "Tutte le date",
+    "periodWeek": "Prossimi 7 giorni",
+    "periodMonth": "Prossimi 30 giorni",
+    "periodQuarter": "Prossimi 3 mesi",
+    "stats": "{eventsFmt} {events, plural, one {evento} other {eventi}} · {venuesFmt} {venues, plural, one {location} other {location}}",
+    "eventsCount": "{count, plural, one {# evento} other {# eventi}}",
+    "loading": "Caricamento eventi…",
+    "error": "Impossibile caricare i dati della mappa.",
+    "retry": "Riprova",
+    "empty": "Nessun evento corrisponde a questi filtri.",
+    "noResults": "Nessun risultato",
+    "fromPrice": "da {price}",
+    "viewVenue": "Pagina della location",
+    "close": "Chiudi",
+    "showMore": "Mostra altri {count}",
+    "approxLocation": "Posizione approssimativa (centro città)",
+    "resetView": "Torna al globo",
+    "venuesHere": "{count, plural, one {# location qui} other {# location qui}}",
+    "back": "Indietro"
   }
 }

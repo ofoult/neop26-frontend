@@ -19,7 +19,8 @@
     "terms": "Feltételek",
     "cookies": "Sütik",
     "followUs": "Kövess minket",
-    "followOn": "Kövess minket itt: {network}"
+    "followOn": "Kövess minket itt: {network}",
+    "map": "Térkép"
   },
   "Hero": {
     "featured": "Kiemelt",
@@ -301,5 +302,34 @@
     "contactBody": "Kérdése van, problémája akadt egy rendeléssel, vagy javaslata lenne? Írjon nekünk a <email>contact@neop.events</email> címre, minden üzenetre válaszolunk.",
     "legalTitle": "Jogi információk",
     "legalBody": "A neop.events weboldalt a neop név alatt üzemeltetjük. A weboldal működésével vagy az Ön jogaival kapcsolatos bármely kérdés esetén írjon nekünk a <email>contact@neop.events</email> címre."
+  },
+  "Map": {
+    "metaTitle": "Eseménytérkép: koncertek, sport és show-k világszerte",
+    "metaDescription": "Fedezd fel az összes közelgő koncertet, meccset, stand-up estet és fesztivált egy interaktív 3D-s földgömbön. Nagyíts rá bármelyik városra, és vásárolj ellenőrzött jegyeket.",
+    "h1": "Eseménytérkép",
+    "navLabel": "Térkép",
+    "mapLabel": "A közelgő események interaktív földgömbje",
+    "searchPlaceholder": "Város vagy helyszín keresése",
+    "allCategories": "Összes",
+    "periodLabel": "Dátumok",
+    "periodAll": "Minden dátum",
+    "periodWeek": "Következő 7 nap",
+    "periodMonth": "Következő 30 nap",
+    "periodQuarter": "Következő 3 hónap",
+    "stats": "{eventsFmt} {events, plural, one {esemény} other {esemény}} · {venuesFmt} {venues, plural, one {helyszín} other {helyszín}}",
+    "eventsCount": "{count, plural, one {# esemény} other {# esemény}}",
+    "loading": "Események betöltése…",
+    "error": "Nem sikerült betölteni a térkép adatait.",
+    "retry": "Újra",
+    "empty": "Nincs a szűrőknek megfelelő esemény.",
+    "noResults": "Nincs találat",
+    "fromPrice": "{price}-tól",
+    "viewVenue": "Helyszín oldala",
+    "close": "Bezárás",
+    "showMore": "További {count} mutatása",
+    "approxLocation": "Hozzávetőleges hely (városközpont)",
+    "resetView": "Vissza a földgömbhöz",
+    "venuesHere": "{count, plural, one {# helyszín itt} other {# helyszín itt}}",
+    "back": "Vissza"
   }
 }

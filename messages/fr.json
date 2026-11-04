@@ -19,7 +19,8 @@
     "terms": "Conditions",
     "cookies": "Cookies",
     "followUs": "Suivez-nous",
-    "followOn": "Suivez-nous sur {network}"
+    "followOn": "Suivez-nous sur {network}",
+    "map": "Carte"
   },
   "Hero": {
     "featured": "À la une",
@@ -301,5 +302,34 @@
     "contactBody": "Une question, un problème avec une commande, une suggestion ? Écrivez-nous à <email>contact@neop.events</email>, nous répondons à chaque message.",
     "legalTitle": "Informations légales",
     "legalBody": "Le site neop.events est édité sous le nom neop. Pour toute question relative à l'exploitation du site ou à vos droits, contactez-nous à <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "Carte des événements : concerts, sport et spectacles dans le monde",
+    "metaDescription": "Explorez tous les concerts, matchs, spectacles d'humour et festivals à venir sur un globe 3D interactif. Zoomez sur une ville pour trouver des événements et acheter des billets vérifiés.",
+    "h1": "Carte des événements",
+    "navLabel": "Carte",
+    "mapLabel": "Globe interactif des événements à venir",
+    "searchPlaceholder": "Rechercher une ville ou une salle",
+    "allCategories": "Tous",
+    "periodLabel": "Dates",
+    "periodAll": "Toutes les dates",
+    "periodWeek": "7 prochains jours",
+    "periodMonth": "30 prochains jours",
+    "periodQuarter": "3 prochains mois",
+    "stats": "{eventsFmt} {events, plural, one {événement} other {événements}} · {venuesFmt} {venues, plural, one {salle} other {salles}}",
+    "eventsCount": "{count, plural, one {# événement} other {# événements}}",
+    "loading": "Chargement des événements…",
+    "error": "Impossible de charger les données de la carte.",
+    "retry": "Réessayer",
+    "empty": "Aucun événement ne correspond à ces filtres.",
+    "noResults": "Aucun résultat",
+    "fromPrice": "dès {price}",
+    "viewVenue": "Page de la salle",
+    "close": "Fermer",
+    "showMore": "Afficher {count} de plus",
+    "approxLocation": "Position approximative (centre-ville)",
+    "resetView": "Retour au globe",
+    "venuesHere": "{count, plural, one {# salle ici} other {# salles ici}}",
+    "back": "Retour"
   }
 }

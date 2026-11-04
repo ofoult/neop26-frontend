@@ -19,7 +19,8 @@
     "terms": "Uvjeti",
     "cookies": "Kolačići",
     "followUs": "Pratite nas",
-    "followOn": "Pratite nas na {network}"
+    "followOn": "Pratite nas na {network}",
+    "map": "Karta"
   },
   "Hero": {
     "featured": "Izdvojeno",
@@ -301,5 +302,34 @@
     "contactBody": "Imate pitanje, problem s narudžbom ili prijedlog? Pišite nam na <email>contact@neop.events</email>, odgovaramo na svaku poruku.",
     "legalTitle": "Pravne informacije",
     "legalBody": "Web-mjesto neop.events objavljuje se pod nazivom neop. Za sva pitanja vezana uz rad stranice ili vaša prava, pišite nam na <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "Karta događanja: koncerti, sport i predstave diljem svijeta",
+    "metaDescription": "Istražite sve nadolazeće koncerte, utakmice, stand-up nastupe i festivale na interaktivnom 3D globusu. Približite bilo koji grad kako biste pronašli događanja i kupili provjerene ulaznice.",
+    "h1": "Karta događanja",
+    "navLabel": "Karta",
+    "mapLabel": "Interaktivni globus nadolazećih događanja",
+    "searchPlaceholder": "Traži grad ili dvoranu",
+    "allCategories": "Sve",
+    "periodLabel": "Datumi",
+    "periodAll": "Svi datumi",
+    "periodWeek": "Sljedećih 7 dana",
+    "periodMonth": "Sljedećih 30 dana",
+    "periodQuarter": "Sljedeća 3 mjeseca",
+    "stats": "{eventsFmt} {events, plural, one {događanje} few {događanja} other {događanja}} · {venuesFmt} {venues, plural, one {dvorana} few {dvorane} other {dvorana}}",
+    "eventsCount": "{count, plural, one {# događanje} few {# događanja} other {# događanja}}",
+    "loading": "Učitavanje događanja…",
+    "error": "Nije moguće učitati podatke karte.",
+    "retry": "Pokušaj ponovno",
+    "empty": "Nema događanja za ove filtre.",
+    "noResults": "Nema rezultata",
+    "fromPrice": "od {price}",
+    "viewVenue": "Stranica dvorane",
+    "close": "Zatvori",
+    "showMore": "Prikaži još {count}",
+    "approxLocation": "Približna lokacija (centar grada)",
+    "resetView": "Natrag na globus",
+    "venuesHere": "{count, plural, one {# dvorana ovdje} few {# dvorane ovdje} other {# dvorana ovdje}}",
+    "back": "Natrag"
   }
 }

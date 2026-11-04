@@ -20,13 +20,15 @@ export function Chrome({ children }: { children: ReactNode }) {
   const hideMarquee = isPurchaseFlow;
   // Event, venue and performer pages swap the category pills for a search field.
   const showSearch = (isEvent || pathname?.startsWith('/venue/') || pathname?.startsWith('/performer/')) ?? false;
-  const hideFooter = isPurchaseFlow;
+  // The /map globe fills the viewport and captures scroll/drag: no footer below it.
+  const isMap = pathname === '/map';
+  const hideFooter = isPurchaseFlow || isMap;
 
   return (
     <>
       {!hideChrome && <Nav hideMarquee={hideMarquee} scrollAwayOnMobile={isEvent} showSearch={showSearch} />}
-      <main style={{ minHeight: '60vh' }}>{children}</main>
-      {!hideChrome && !hideFooter ? <Footer /> : <div style={{ height: isEvent ? 0 : 80 }} />}
+      <main style={{ minHeight: isMap ? undefined : '60vh' }}>{children}</main>
+      {!hideChrome && !hideFooter ? <Footer /> : <div style={{ height: isEvent || isMap ? 0 : 80 }} />}
     </>
   );
 }

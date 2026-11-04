@@ -19,7 +19,8 @@
     "terms": "Villkor",
     "cookies": "Cookies",
     "followUs": "Följ oss",
-    "followOn": "Följ oss på {network}"
+    "followOn": "Följ oss på {network}",
+    "map": "Karta"
   },
   "Hero": {
     "featured": "I fokus",
@@ -301,5 +302,34 @@
     "contactBody": "Har du en fråga, ett problem med en beställning eller ett förslag? Skriv till oss på <email>contact@neop.events</email>, vi svarar på alla meddelanden.",
     "legalTitle": "Juridisk information",
     "legalBody": "Webbplatsen neop.events publiceras under namnet neop. För frågor om webbplatsens drift eller dina rättigheter, kontakta oss på <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "Evenemangskarta: konserter, sport och shower världen över",
+    "metaDescription": "Utforska alla kommande konserter, matcher, komikershower och festivaler på en interaktiv 3D-glob. Zooma in på valfri stad för att hitta evenemang och köpa verifierade biljetter.",
+    "h1": "Evenemangskarta",
+    "navLabel": "Karta",
+    "mapLabel": "Interaktiv glob med kommande evenemang",
+    "searchPlaceholder": "Sök en stad eller arena",
+    "allCategories": "Alla",
+    "periodLabel": "Datum",
+    "periodAll": "Alla datum",
+    "periodWeek": "Kommande 7 dagar",
+    "periodMonth": "Kommande 30 dagar",
+    "periodQuarter": "Kommande 3 månader",
+    "stats": "{eventsFmt} {events, plural, one {evenemang} other {evenemang}} · {venuesFmt} {venues, plural, one {arena} other {arenor}}",
+    "eventsCount": "{count, plural, one {# evenemang} other {# evenemang}}",
+    "loading": "Laddar evenemang…",
+    "error": "Det gick inte att ladda kartdata.",
+    "retry": "Försök igen",
+    "empty": "Inga evenemang matchar filtren.",
+    "noResults": "Inga träffar",
+    "fromPrice": "från {price}",
+    "viewVenue": "Arenans sida",
+    "close": "Stäng",
+    "showMore": "Visa {count} till",
+    "approxLocation": "Ungefärlig plats (stadens centrum)",
+    "resetView": "Tillbaka till globen",
+    "venuesHere": "{count, plural, one {# arena här} other {# arenor här}}",
+    "back": "Tillbaka"
   }
 }

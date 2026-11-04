@@ -19,7 +19,8 @@
     "terms": "الشروط",
     "cookies": "ملفات تعريف الارتباط",
     "followUs": "تابعونا",
-    "followOn": "تابعونا على {network}"
+    "followOn": "تابعونا على {network}",
+    "map": "الخريطة"
   },
   "Hero": {
     "featured": "مميز",
@@ -301,5 +302,34 @@
     "contactBody": "لديك سؤال أو مشكلة في طلب أو اقتراح؟ راسلنا على <email>contact@neop.events</email>، ونحن نرد على كل رسالة.",
     "legalTitle": "معلومات قانونية",
     "legalBody": "يُنشر موقع neop.events تحت اسم neop. لأي سؤال يتعلق بتشغيل الموقع أو بحقوقك، راسلنا على <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "خريطة الفعاليات: حفلات ورياضة وعروض حول العالم",
+    "metaDescription": "استكشف جميع الحفلات والمباريات وعروض الكوميديا والمهرجانات القادمة على كرة أرضية تفاعلية ثلاثية الأبعاد. قرّب أي مدينة للعثور على الفعاليات وشراء تذاكر موثّقة.",
+    "h1": "خريطة الفعاليات",
+    "navLabel": "الخريطة",
+    "mapLabel": "كرة أرضية تفاعلية للفعاليات القادمة",
+    "searchPlaceholder": "ابحث عن مدينة أو مكان",
+    "allCategories": "الكل",
+    "periodLabel": "التواريخ",
+    "periodAll": "كل التواريخ",
+    "periodWeek": "الأيام السبعة القادمة",
+    "periodMonth": "الأيام الثلاثون القادمة",
+    "periodQuarter": "الأشهر الثلاثة القادمة",
+    "stats": "{eventsFmt} {events, plural, zero {فعالية} one {فعالية} two {فعاليتان} few {فعاليات} many {فعالية} other {فعالية}} · {venuesFmt} {venues, plural, zero {مكان} one {مكان} two {مكانان} few {أماكن} many {مكانًا} other {مكان}}",
+    "eventsCount": "{count, plural, zero {لا فعاليات} one {فعالية واحدة} two {فعاليتان} few {# فعاليات} many {# فعالية} other {# فعالية}}",
+    "loading": "جارٍ تحميل الفعاليات…",
+    "error": "تعذّر تحميل بيانات الخريطة.",
+    "retry": "إعادة المحاولة",
+    "empty": "لا توجد فعاليات تطابق هذه المرشحات.",
+    "noResults": "لا نتائج",
+    "fromPrice": "ابتداءً من {price}",
+    "viewVenue": "صفحة المكان",
+    "close": "إغلاق",
+    "showMore": "عرض {count} إضافية",
+    "approxLocation": "موقع تقريبي (وسط المدينة)",
+    "resetView": "العودة إلى الكرة الأرضية",
+    "venuesHere": "{count, plural, zero {لا أماكن هنا} one {مكان واحد هنا} two {مكانان هنا} few {# أماكن هنا} many {# مكانًا هنا} other {# مكان هنا}}",
+    "back": "رجوع"
   }
 }

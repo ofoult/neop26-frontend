@@ -23,6 +23,7 @@ Frontend for browsing/booking Gigsberg events (browse, event detail, checkout, c
 - `app/[locale]/browse/` — event browsing (`page.tsx`, `actions.ts`)
 - `app/[locale]/event/[id]/` — event detail
 - `app/[locale]/checkout/` — checkout flow
+- `app/[locale]/map/` — interactive 3D globe of every upcoming event (see "Events globe" below)
 - `app/[locale]/confirmation/` — post-checkout confirmation
 - `app/[locale]/not-found.tsx` — 404
 - `app/[locale]/layout.tsx` — root layout (fonts, `<html lang dir>`, `NextIntlClientProvider`)
@@ -202,6 +203,33 @@ Unlike the old `generateSitemaps()`-based design (which 404d under `next dev` re
 code change, a framework limitation), these are plain Route Handlers and work fine under
 `next dev` too — confirmed by actually curling `/sitemap.xml` and a `/sitemap-performer-{lang}-1.xml`
 chunk against a dev server, not just `pnpm build && pnpm start`.
+
+## Events globe (`/map`)
+
+`components/EventsGlobe.tsx` (client-only) renders every upcoming sellable event on a 3D globe:
+MapLibre GL v6 in `globe` projection over **OpenFreeMap**'s free vector tiles (`styles/dark`, no API
+key, no quota), re-skinned at load in neop's indigo palette (`BASEMAP_RESKIN`). Venues are clustered
+client-side (cluster bubbles sum *events*, not venues); clicking a cluster zooms in (≥ 2 levels), a
+cluster that can't split (venues sharing one spot — e.g. several placed at their city centre) lists
+its venues instead, and clicking a venue opens a side panel (bottom sheet on phones) with its events,
+linking to the event and venue pages. Category chips + a date window filter everything client-side;
+the search box flies to any city/venue in the loaded data; `#zoom/lat/lng` in the URL makes views
+shareable; the globe spins slowly until the first interaction (not with `prefers-reduced-motion`).
+Map controls sit at the inline end (bottom-left in `he`/`ar`). Nav (pin icon; hidden at 701–1279px,
+where the category pills already fill the bar), Footer, the HTML
+sitemap and `sitemap-static.xml` link to `/map`; Chrome hides the footer there (the map fills the
+viewport). Strings: `Map` namespace (+ `Footer.map`) in all 14 locales.
+
+- **Data**: `lib/geo.ts` fetches `/api/geo` from the browser; `app/api/geo/route.ts` proxies the
+  backend's `GET /geo/events` (coordinates come from its `pnpm enrich:geo` Nominatim job — see backend
+  `CLAUDE.md`). ~1.5 MB of JSON is too big for Next's fetch cache, so the route keeps it in a
+  module-level memory cache (10 min TTL, stale copy served up to 24 h while refreshing) and gzips it
+  itself (`next start` doesn't compress route handlers).
+- **MapLibre worker**: v6 parses tiles in an ES-module worker that must be its own file. Bundling it
+  through webpack breaks `next build` (Terser minifies it as a classic script), so `next.config.mjs`
+  copies `maplibre-gl/dist/maplibre-gl-worker.mjs` to `public/vendor/maplibre-gl-worker-<version>.js`
+  (git-ignored) on every config load, and exposes the path as `NEXT_PUBLIC_MAPLIBRE_WORKER_URL`.
+- Map attribution (OpenFreeMap / OpenMapTiles / OpenStreetMap) is required by their licences — keep it.
 
 ## Environment variables
 

@@ -27,6 +27,7 @@ export function Nav({
   const [scrolled, setScrolled] = useState(false);
   const tCat = useTranslations("Categories");
   const tNav = useTranslations("Nav");
+  const tFooter = useTranslations("Footer");
 
   // Subcategories are fetched lazily on first hover of any category pill —
   // not on mount — so this never adds a request (or bytes) to a page load
@@ -129,6 +130,16 @@ export function Nav({
           <Icon name="globe" size={18} />
           <span className="nav-lang-label">EN · USD</span>
         </button> */}
+        <Link
+          href="/map"
+          prefetch={false}
+          className="nav-lang nav-map-link focus-ring"
+          aria-label={tFooter("map")}
+          title={tFooter("map")}
+        >
+          <Icon name="pin" size={18} />
+          <span className="nav-lang-label">{tFooter("map")}</span>
+        </Link>
         <LanguageCurrencySelect />
       </div>
       {!hideMarquee && <BestSalesMarquee />}

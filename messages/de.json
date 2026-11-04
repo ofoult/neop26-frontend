@@ -19,7 +19,8 @@
     "terms": "AGB",
     "cookies": "Cookies",
     "followUs": "Folge uns",
-    "followOn": "Folge uns auf {network}"
+    "followOn": "Folge uns auf {network}",
+    "map": "Karte"
   },
   "Hero": {
     "featured": "Empfohlen",
@@ -301,5 +302,34 @@
     "contactBody": "Haben Sie eine Frage, ein Problem mit einer Bestellung oder einen Vorschlag? Schreiben Sie uns an <email>contact@neop.events</email> — wir beantworten jede Nachricht.",
     "legalTitle": "Rechtliche Hinweise",
     "legalBody": "Die Website neop.events wird unter dem Namen neop betrieben. Bei Fragen zum Betrieb der Website oder zu Ihren Rechten kontaktieren Sie uns unter <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "Eventkarte: Konzerte, Sport und Shows weltweit",
+    "metaDescription": "Entdecke alle kommenden Konzerte, Spiele, Comedy-Shows und Festivals auf einem interaktiven 3D-Globus. Zoome in jede Stadt, finde Events und kaufe verifizierte Tickets.",
+    "h1": "Eventkarte",
+    "navLabel": "Karte",
+    "mapLabel": "Interaktiver Globus der kommenden Events",
+    "searchPlaceholder": "Stadt oder Veranstaltungsort suchen",
+    "allCategories": "Alle",
+    "periodLabel": "Termine",
+    "periodAll": "Alle Termine",
+    "periodWeek": "Nächste 7 Tage",
+    "periodMonth": "Nächste 30 Tage",
+    "periodQuarter": "Nächste 3 Monate",
+    "stats": "{eventsFmt} {events, plural, one {Event} other {Events}} · {venuesFmt} {venues, plural, one {Veranstaltungsort} other {Veranstaltungsorte}}",
+    "eventsCount": "{count, plural, one {# Event} other {# Events}}",
+    "loading": "Events werden geladen…",
+    "error": "Die Kartendaten konnten nicht geladen werden.",
+    "retry": "Erneut versuchen",
+    "empty": "Keine Events entsprechen diesen Filtern.",
+    "noResults": "Kein Treffer",
+    "fromPrice": "ab {price}",
+    "viewVenue": "Zur Location",
+    "close": "Schließen",
+    "showMore": "{count} weitere anzeigen",
+    "approxLocation": "Ungefährer Standort (Stadtzentrum)",
+    "resetView": "Zurück zum Globus",
+    "venuesHere": "{count, plural, one {# Veranstaltungsort hier} other {# Veranstaltungsorte hier}}",
+    "back": "Zurück"
   }
 }

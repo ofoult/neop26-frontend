@@ -19,7 +19,8 @@
     "terms": "Voorwaarden",
     "cookies": "Cookies",
     "followUs": "Volg ons",
-    "followOn": "Volg ons op {network}"
+    "followOn": "Volg ons op {network}",
+    "map": "Kaart"
   },
   "Hero": {
     "featured": "Uitgelicht",
@@ -301,5 +302,34 @@
     "contactBody": "Heb je een vraag, een probleem met een bestelling of een suggestie? Mail ons op <email>contact@neop.events</email>, we beantwoorden elk bericht.",
     "legalTitle": "Juridische informatie",
     "legalBody": "De website neop.events wordt uitgegeven onder de naam neop. Voor vragen over de werking van de site of je rechten, neem contact met ons op via <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "Evenementenkaart: concerten, sport en shows wereldwijd",
+    "metaDescription": "Ontdek alle komende concerten, wedstrijden, comedyshows en festivals op een interactieve 3D-wereldbol. Zoom in op elke stad om evenementen te vinden en geverifieerde tickets te kopen.",
+    "h1": "Evenementenkaart",
+    "navLabel": "Kaart",
+    "mapLabel": "Interactieve wereldbol met komende evenementen",
+    "searchPlaceholder": "Zoek een stad of locatie",
+    "allCategories": "Alle",
+    "periodLabel": "Data",
+    "periodAll": "Alle data",
+    "periodWeek": "Komende 7 dagen",
+    "periodMonth": "Komende 30 dagen",
+    "periodQuarter": "Komende 3 maanden",
+    "stats": "{eventsFmt} {events, plural, one {evenement} other {evenementen}} · {venuesFmt} {venues, plural, one {locatie} other {locaties}}",
+    "eventsCount": "{count, plural, one {# evenement} other {# evenementen}}",
+    "loading": "Evenementen laden…",
+    "error": "De kaartgegevens konden niet worden geladen.",
+    "retry": "Opnieuw proberen",
+    "empty": "Geen evenementen voor deze filters.",
+    "noResults": "Geen resultaat",
+    "fromPrice": "vanaf {price}",
+    "viewVenue": "Locatiepagina",
+    "close": "Sluiten",
+    "showMore": "Nog {count} tonen",
+    "approxLocation": "Geschatte locatie (stadscentrum)",
+    "resetView": "Terug naar de wereldbol",
+    "venuesHere": "{count, plural, one {# locatie hier} other {# locaties hier}}",
+    "back": "Terug"
   }
 }

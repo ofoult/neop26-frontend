@@ -19,7 +19,8 @@
     "terms": "Warunki",
     "cookies": "Cookies",
     "followUs": "Obserwuj nas",
-    "followOn": "Obserwuj nas na {network}"
+    "followOn": "Obserwuj nas na {network}",
+    "map": "Mapa"
   },
   "Hero": {
     "featured": "Wyróżnione",
@@ -301,5 +302,34 @@
     "contactBody": "Masz pytanie, problem z zamówieniem lub sugestię? Napisz do nas na adres <email>contact@neop.events</email>, odpowiadamy na każdą wiadomość.",
     "legalTitle": "Informacje prawne",
     "legalBody": "Strona neop.events jest publikowana pod nazwą neop. W przypadku jakichkolwiek pytań dotyczących funkcjonowania strony lub Twoich praw, napisz do nas na adres <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "Mapa wydarzeń: koncerty, sport i widowiska na całym świecie",
+    "metaDescription": "Odkryj wszystkie nadchodzące koncerty, mecze, występy stand-up i festiwale na interaktywnym globusie 3D. Przybliż dowolne miasto, aby znaleźć wydarzenia i kupić zweryfikowane bilety.",
+    "h1": "Mapa wydarzeń",
+    "navLabel": "Mapa",
+    "mapLabel": "Interaktywny globus nadchodzących wydarzeń",
+    "searchPlaceholder": "Szukaj miasta lub obiektu",
+    "allCategories": "Wszystkie",
+    "periodLabel": "Daty",
+    "periodAll": "Wszystkie daty",
+    "periodWeek": "Najbliższe 7 dni",
+    "periodMonth": "Najbliższe 30 dni",
+    "periodQuarter": "Najbliższe 3 miesiące",
+    "stats": "{eventsFmt} {events, plural, one {wydarzenie} few {wydarzenia} many {wydarzeń} other {wydarzenia}} · {venuesFmt} {venues, plural, one {obiekt} few {obiekty} many {obiektów} other {obiektu}}",
+    "eventsCount": "{count, plural, one {# wydarzenie} few {# wydarzenia} many {# wydarzeń} other {# wydarzenia}}",
+    "loading": "Ładowanie wydarzeń…",
+    "error": "Nie udało się wczytać danych mapy.",
+    "retry": "Spróbuj ponownie",
+    "empty": "Brak wydarzeń dla tych filtrów.",
+    "noResults": "Brak wyników",
+    "fromPrice": "od {price}",
+    "viewVenue": "Strona obiektu",
+    "close": "Zamknij",
+    "showMore": "Pokaż jeszcze {count}",
+    "approxLocation": "Przybliżona lokalizacja (centrum miasta)",
+    "resetView": "Wróć do globusa",
+    "venuesHere": "{count, plural, one {# obiekt tutaj} few {# obiekty tutaj} many {# obiektów tutaj} other {# obiektu tutaj}}",
+    "back": "Wstecz"
   }
 }

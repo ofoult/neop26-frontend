@@ -11,6 +11,9 @@ next-env.d.ts
 # production
 /build
 
+# copied from node_modules by next.config.mjs (MapLibre worker)
+/public/vendor/
+
 # misc
 .DS_Store
 *.pem

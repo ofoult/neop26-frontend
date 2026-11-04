@@ -11,6 +11,7 @@ export function Footer() {
     [
       t('learnMore'),
       [
+        [t('map'), '/map'],
         [t('aboutUs'), '/about'],
         [t('sitemap'), '/sitemap'],
         [t('partners'), '/partners'],

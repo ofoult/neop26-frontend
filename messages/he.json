@@ -19,7 +19,8 @@
     "terms": "תנאים",
     "cookies": "עוגיות",
     "followUs": "עקבו אחרינו",
-    "followOn": "עקבו אחרינו ב-{network}"
+    "followOn": "עקבו אחרינו ב-{network}",
+    "map": "מפה"
   },
   "Hero": {
     "featured": "מומלץ",
@@ -301,5 +302,34 @@
     "contactBody": "יש לכם שאלה, בעיה בהזמנה או הצעה? כתבו לנו לכתובת <email>contact@neop.events</email>, אנו עונים לכל פנייה.",
     "legalTitle": "מידע משפטי",
     "legalBody": "האתר neop.events מופעל תחת השם neop. לכל שאלה בנוגע לתפעול האתר או לזכויותיכם, צרו איתנו קשר בכתובת <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "מפת אירועים: הופעות, ספורט ומופעים בכל העולם",
+    "metaDescription": "גלו את כל ההופעות, המשחקים, מופעי הסטנדאפ והפסטיבלים הקרובים על גלובוס תלת־ממדי אינטראקטיבי. התקרבו לכל עיר כדי למצוא אירועים ולקנות כרטיסים מאומתים.",
+    "h1": "מפת אירועים",
+    "navLabel": "מפה",
+    "mapLabel": "גלובוס אינטראקטיבי של אירועים קרובים",
+    "searchPlaceholder": "חיפוש עיר או אולם",
+    "allCategories": "הכול",
+    "periodLabel": "תאריכים",
+    "periodAll": "כל התאריכים",
+    "periodWeek": "7 הימים הקרובים",
+    "periodMonth": "30 הימים הקרובים",
+    "periodQuarter": "3 החודשים הקרובים",
+    "stats": "{eventsFmt} {events, plural, one {אירוע} other {אירועים}} · {venuesFmt} {venues, plural, one {מקום} other {מקומות}}",
+    "eventsCount": "{count, plural, one {# אירוע} other {# אירועים}}",
+    "loading": "טוען אירועים…",
+    "error": "לא ניתן לטעון את נתוני המפה.",
+    "retry": "נסו שוב",
+    "empty": "אין אירועים התואמים למסננים אלה.",
+    "noResults": "אין תוצאות",
+    "fromPrice": "החל מ־{price}",
+    "viewVenue": "דף המקום",
+    "close": "סגירה",
+    "showMore": "הצג עוד {count}",
+    "approxLocation": "מיקום משוער (מרכז העיר)",
+    "resetView": "חזרה לגלובוס",
+    "venuesHere": "{count, plural, one {מקום אחד כאן} other {# מקומות כאן}}",
+    "back": "חזרה"
   }
 }

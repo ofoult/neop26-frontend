@@ -65,6 +65,7 @@ export default async function SitemapPage({ params }: { params: { locale: string
           links={[
             [tBrowse('home'), '/'],
             [tBrowse('discoverEvents'), '/browse'],
+            [t('map'), '/map'],
             ...CATEGORIES.map((cat): [string, string] => [tCat(cat.id), `/browse/${cat.id}`]),
           ]}
         />

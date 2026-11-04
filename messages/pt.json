@@ -19,7 +19,8 @@
     "terms": "Termos",
     "cookies": "Cookies",
     "followUs": "Siga-nos",
-    "followOn": "Siga-nos no {network}"
+    "followOn": "Siga-nos no {network}",
+    "map": "Mapa"
   },
   "Hero": {
     "featured": "Em destaque",
@@ -301,5 +302,34 @@
     "contactBody": "Tem uma pergunta, um problema com um pedido ou uma sugestão? Escreva-nos para <email>contact@neop.events</email>, respondemos a todas as mensagens.",
     "legalTitle": "Informações legais",
     "legalBody": "O site neop.events é publicado sob o nome neop. Para qualquer questão relacionada com o funcionamento do site ou os seus direitos, contacte-nos através de <email>contact@neop.events</email>."
+  },
+  "Map": {
+    "metaTitle": "Mapa de eventos: concertos, desporto e espetáculos no mundo",
+    "metaDescription": "Explore todos os próximos concertos, jogos, espetáculos de comédia e festivais num globo 3D interativo. Aproxime-se de qualquer cidade para encontrar eventos e comprar bilhetes verificados.",
+    "h1": "Mapa de eventos",
+    "navLabel": "Mapa",
+    "mapLabel": "Globo interativo dos próximos eventos",
+    "searchPlaceholder": "Pesquisar uma cidade ou recinto",
+    "allCategories": "Todos",
+    "periodLabel": "Datas",
+    "periodAll": "Todas as datas",
+    "periodWeek": "Próximos 7 dias",
+    "periodMonth": "Próximos 30 dias",
+    "periodQuarter": "Próximos 3 meses",
+    "stats": "{eventsFmt} {events, plural, one {evento} other {eventos}} · {venuesFmt} {venues, plural, one {recinto} other {recintos}}",
+    "eventsCount": "{count, plural, one {# evento} other {# eventos}}",
+    "loading": "A carregar eventos…",
+    "error": "Não foi possível carregar os dados do mapa.",
+    "retry": "Tentar novamente",
+    "empty": "Nenhum evento corresponde a estes filtros.",
+    "noResults": "Sem resultados",
+    "fromPrice": "desde {price}",
+    "viewVenue": "Página do recinto",
+    "close": "Fechar",
+    "showMore": "Mostrar mais {count}",
+    "approxLocation": "Localização aproximada (centro da cidade)",
+    "resetView": "Voltar ao globo",
+    "venuesHere": "{count, plural, one {# recinto aqui} other {# recintos aqui}}",
+    "back": "Voltar"
   }
 }
