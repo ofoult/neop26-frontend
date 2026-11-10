@@ -43,6 +43,7 @@ export function Hero({ events }: { events: NeopEvent[] }) {
 
   return (
     <section
+      data-track-section="home_hero"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}

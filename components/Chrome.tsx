@@ -3,6 +3,7 @@
 import { usePathname } from '@/i18n/navigation';
 import type { ReactNode } from 'react';
 import { Footer } from './Footer';
+import { JourneyTracker } from './JourneyTracker';
 import { Nav } from './Nav';
 
 // Nav + Footer are hidden on the confirmation screen so it reads as a focused,
@@ -26,6 +27,7 @@ export function Chrome({ children }: { children: ReactNode }) {
 
   return (
     <>
+      <JourneyTracker />
       {!hideChrome && <Nav hideMarquee={hideMarquee} scrollAwayOnMobile={isEvent} showSearch={showSearch} />}
       <main style={{ minHeight: isMap ? undefined : '60vh' }}>{children}</main>
       {!hideChrome && !hideFooter ? <Footer /> : <div style={{ height: isEvent || isMap ? 0 : 80 }} />}

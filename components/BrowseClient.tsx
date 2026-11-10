@@ -7,6 +7,7 @@ import { loadMoreEvents } from '@/app/[locale]/browse/actions';
 import { EventCard } from '@/components/EventCard';
 import { Icon } from '@/components/Icon';
 import { SearchBar } from '@/components/SearchBar';
+import { track } from '@/lib/analytics';
 import { BROWSE_PER_PAGE } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
 import { parseDate } from '@/lib/format';
@@ -108,6 +109,18 @@ export function BrowseClient({
     setErrored(false);
   }, [events, initialPage]);
 
+  // One report per distinct result set: what was asked for and how much came back
+  // (`results_count: 0` is the dead-end case).
+  useEffect(() => {
+    track('view_search_results', {
+      search_term: query || undefined,
+      search_where: where || undefined,
+      search_dates: dateFrom || dateTo ? `${dateFrom ?? ''}..${dateTo ?? ''}` : undefined,
+      search_scope: activeSlug ?? 'all',
+      results_count: total,
+    });
+  }, [query, where, dateFrom, dateTo, activeSlug, total]);
+
   // `items` only holds pages loaded forward from `initialPage` (which may be
   // > 1 on a direct/crawled ?page=N hit), so compare against total *pages*
   // rather than total item count.
@@ -127,6 +140,7 @@ export function BrowseClient({
         return [...prev, ...res.events.filter((e) => !seen.has(e.id))];
       });
       setPage(next);
+      track('browse_load_more', { results_page: next });
     } catch {
       // Allow the user to retry after a failed request.
       setErrored(true);
@@ -288,7 +302,10 @@ export function BrowseClient({
             {SORT_KEYS.map((k) => (
               <button
                 key={k}
-                onClick={() => setSort(k)}
+                onClick={() => {
+                  setSort(k);
+                  track('browse_sort', { sort_key: k });
+                }}
                 className="focus-ring"
                 style={{
                   padding: "7px 14px",
@@ -319,7 +336,7 @@ export function BrowseClient({
         </div>
       ) : (
         <>
-          <div className="event-grid">
+          <div className="event-grid" data-track-section="browse_results">
             {sorted.map((e, i) => (
               <EventCard key={e.id} ev={e} i={i} wide />
             ))}

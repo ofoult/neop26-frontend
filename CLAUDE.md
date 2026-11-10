@@ -142,6 +142,14 @@ State lives in `lib/currency.tsx` (`CurrencyProvider` in `app/[locale]/layout.ts
   real purchase flow) — confirm which currency the card is actually charged in, and adjust the FAQ
   entry (`StaticPages.faqQ4/faqA4`) if it differs.
 
+## Analytics
+
+GA4 journey tracking: every custom event goes through `track()` in `lib/analytics.ts` (never call
+`gtag` directly), site-wide clicks/scroll come from `components/JourneyTracker.tsx`, the event-page
+ticket funnel from `useEventFunnel` in `components/TicketsAndSeatingPlan.tsx`. The event/parameter
+catalogue and the GA-admin setup it relies on are in `docs/analytics.md` — update it when adding or
+renaming an event or parameter. Tag new page blocks with `data-track-section` so clicks are attributed.
+
 ## External links
 
 - `Btn`'s `newTab` prop (`components/ui.tsx`) is used for links that leave the site — currently

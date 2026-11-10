@@ -96,10 +96,13 @@ export function TicketFilters({
   categories,
   filters,
   onChange,
+  onUse,
 }: {
   categories: ApiListingCategory[];
   filters: TicketFilterState;
   onChange: (next: TicketFilterState) => void;
+  /** Analytics hook: fired with which filter the visitor touched. */
+  onUse?: (filterType: 'quantity' | 'category' | 'ticket_type' | 'clear', value?: string | number) => void;
 }) {
   const t = useTranslations('TicketFilters');
   const maxQuantity = categories.reduce((m, c) => Math.max(m, c.maxQuantity), 0);
@@ -115,15 +118,18 @@ export function TicketFilters({
   // Radio-like: picking a number selects it exclusively; picking the
   // already-selected number clears it back to "any".
   function selectQuantity(n: number) {
+    onUse?.('quantity', n);
     onChange({ ...filters, quantity: filters.quantity === n ? null : n });
   }
   function toggleCategory(name: string) {
+    onUse?.('category', name);
     const next = new Set(filters.categoryNames);
     if (next.has(name)) next.delete(name);
     else next.add(name);
     onChange({ ...filters, categoryNames: next });
   }
   function toggleType(t: string) {
+    onUse?.('ticket_type', t);
     const next = new Set(filters.ticketTypes);
     if (next.has(t)) next.delete(t);
     else next.add(t);
@@ -161,7 +167,10 @@ export function TicketFilters({
 
       {hasActiveTicketFilters(filters) && (
         <button
-          onClick={() => onChange(emptyTicketFilterState())}
+          onClick={() => {
+            onUse?.('clear');
+            onChange(emptyTicketFilterState());
+          }}
           className="focus-ring"
           style={{
             background: 'none',

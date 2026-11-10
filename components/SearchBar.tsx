@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { suggestLocations, suggestSearch } from '@/app/actions';
+import { track } from '@/lib/analytics';
 import { eventHref, performerHref, venueHref } from '@/lib/slug';
 import type { LocationSuggestion, SearchSuggestion } from '@/lib/types';
 import { Icon, type IconName } from './Icon';
@@ -74,6 +75,12 @@ export function SearchBar({
     if (from) params.set('from', from);
     if (to) params.set('to', to);
     const qs = params.toString();
+    track('search', {
+      search_term: q.trim() || undefined,
+      search_where: nextWhere.trim() || undefined,
+      search_dates: from || to ? `${from || ''}..${to || ''}` : undefined,
+      search_scope: activeSlug ?? 'all',
+    });
     // Stays within the current category/subcategory (if any) rather than
     // always searching everything — see the `activeSlug` prop doc above.
     const base = activeSlug ? `/browse/${activeSlug}` : '/browse';
@@ -85,6 +92,7 @@ export function SearchBar({
   // bare-id path that'd bounce through the destination page's self-healing
   // redirect (see parseIdFromSlugParam in lib/slug.ts).
   function navigateToSuggestion(s: SearchSuggestion) {
+    track('search_suggestion_click', { search_term: q.trim() || undefined, suggestion_type: s.type, suggestion_label: s.label });
     if (s.type === 'event') {
       router.push(
         s.performerId

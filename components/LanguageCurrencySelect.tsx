@@ -6,6 +6,7 @@ import { Icon } from "@/components/Icon";
 import { createPortal } from "react-dom";
 import { LANGUAGES, CURRENCIES } from "@/lib/languageCurrency";
 import { CountryFlag } from "@/components/Flag";
+import { track } from "@/lib/analytics";
 import { useCurrency } from "@/lib/currency";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -90,11 +91,13 @@ export function LanguageCurrencySelect() {
   function selectLanguage(code: string) {
     setOpen(false);
     if (code !== locale) {
+      track('language_change', { language_from: locale, language_to: code });
       router.replace(pathname, { locale: code as Locale });
     }
   }
 
   function selectCurrency(code: string | null) {
+    if (code !== currency) track('currency_change', { currency_from: currency ?? 'event_default', currency_to: code ?? 'event_default' });
     setCurrency(code);
     setOpen(false);
   }

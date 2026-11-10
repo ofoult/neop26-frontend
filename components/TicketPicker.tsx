@@ -2,7 +2,6 @@
 
 import { useLocale, useTranslations } from 'next-intl';
 import { useState, type ReactNode } from 'react';
-import { trackGigsbergRedirect } from '@/lib/analytics';
 import { Price, useCurrency } from '@/lib/currency';
 import type { ApiListingCategory, NeopEvent } from '@/lib/types';
 import { FilterDropdown, QuantityOptions } from './FilterDropdown';
@@ -77,6 +76,9 @@ function InfoTip({ text, warning }: { text: string; warning?: boolean }) {
   );
 }
 
+export type PickerCheckout = (c: { category?: string; price: number | null; quantity?: number; currency: string; position?: number }) => void;
+export type PickerSelect = (s: { category: string; price: number; quantity: number; currency: string }) => void;
+
 /** Shared sticky card chrome. */
 export function Panel({ children, borderless }: { children: ReactNode; borderless?: boolean }) {
   return (
@@ -96,6 +98,8 @@ export function TicketPicker({
   seatSelection,
   visibleCategoryIds,
   defaultQuantity,
+  onCheckout,
+  onSelect,
 }: {
   ev: NeopEvent;
   categories?: ApiListingCategory[];
@@ -109,6 +113,9 @@ export function TicketPicker({
   visibleCategoryIds?: Set<string> | null;
   /** The quantity filter's value (if active): rows start at this seat count instead of their smallest valid one. */
   defaultQuantity?: number | null;
+  /** Analytics hooks: the visitor is leaving for Gigsberg / picked a seat count on a row. */
+  onCheckout?: PickerCheckout;
+  onSelect?: PickerSelect;
 }) {
   const t = useTranslations('TicketPicker');
   const locale = useLocale();
@@ -124,6 +131,8 @@ export function TicketPicker({
         seatSelection={seatSelection}
         visibleCategoryIds={visibleCategoryIds}
         defaultQuantity={defaultQuantity}
+        onCheckout={onCheckout}
+        onSelect={onSelect}
       />
     );
   }
@@ -157,7 +166,7 @@ export function TicketPicker({
           iconR="arrow"
           href={localizeGigsbergUrl(ev.url, locale, currency ?? ev.currencyCode)}
           newTab
-          onClick={() => trackGigsbergRedirect({ eventName: ev.title, price: ev.priceFrom, currency: ev.currencyCode })}
+          onClick={() => onCheckout?.({ price: ev.priceFrom, currency: ev.currencyCode })}
         >
           {t('getTickets')}
         </Btn>
@@ -281,6 +290,8 @@ function RealTickets({
   seatSelection,
   visibleCategoryIds,
   defaultQuantity,
+  onCheckout,
+  onSelect,
 }: {
   ev: NeopEvent;
   categories: ApiListingCategory[];
@@ -289,6 +300,8 @@ function RealTickets({
   seatSelection: SeatSelection;
   visibleCategoryIds?: Set<string> | null;
   defaultQuantity?: number | null;
+  onCheckout?: PickerCheckout;
+  onSelect?: PickerSelect;
 }) {
   const t = useTranslations('TicketPicker');
   const tFilters = useTranslations('TicketFilters');
@@ -311,7 +324,7 @@ function RealTickets({
             {t('noMatchFilters')}
           </p>
         )}
-        {rows.map((cat) => {
+        {rows.map((cat, index) => {
           const isActive = activeId === cat.id;
           const isHighlighted =
             !isActive &&
@@ -400,6 +413,7 @@ function RealTickets({
                           selected={rowQty}
                           onSelect={(n) => {
                             setQty(cat, n);
+                            onSelect?.({ category: cat.name, price: cat.fromPrice, quantity: n, currency: priceCurrency });
                             close();
                           }}
                           name={`seat-count-${cat.id}`}
@@ -419,12 +433,12 @@ function RealTickets({
                   disabled={rowQty === 0}
                   newTab
                   onClick={() =>
-                    trackGigsbergRedirect({
-                      eventName: ev.title,
+                    onCheckout?.({
                       category: cat.name,
                       price: cat.fromPrice,
                       quantity: rowQty,
                       currency: priceCurrency,
+                      position: index + 1,
                     })
                   }
                 >

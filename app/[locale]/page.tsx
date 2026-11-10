@@ -97,7 +97,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
       <Hero events={heroEvents} />
 
       {/* trending */}
-      <section className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
+      <section data-track-section="home_trending" className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
         <SecHead kicker={t('trendingKicker')} title={t('trendingTitle')} action={t('seeAll')} actionHref="/browse" />
         <div className="event-grid">
           {trending.map((e, i) => (
@@ -108,7 +108,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
 
       {/* this weekend */}
       {weekend.length > 0 && (
-        <section className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
+        <section data-track-section="home_weekend" className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
           <SecHead kicker={t('weekendKicker')} title={t('weekendTitle')} action={t('browseDates')} actionHref="/browse" />
           <div className="event-grid">
             {weekend.map((e, i) => (
@@ -120,7 +120,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
 
       {/* festivals spotlight */}
       {fests.length > 0 && (
-        <section className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
+        <section data-track-section="home_festivals" className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
           <SecHead kicker={t('festivalsKicker')} title={t('festivalsTitle')} action={t('allFestivals')} actionHref="/browse/festivals" />
           <div className="event-grid">
             {fests.map((e, i) => (
@@ -131,7 +131,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
       )}
 
       {/* guarantee band */}
-      <section className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
+      <section data-track-section="home_guarantee" className="page-section" style={{ maxWidth: 'var(--maxw)', margin: '0 auto' }}>
         <div style={{ borderRadius: 24, overflow: 'hidden', position: 'relative', border: '1px solid var(--border)' }}>
           <div style={{ position: 'absolute', inset: 0, background:"linear-gradient(rgba(7,7,11,0.82), rgba(7,7,11,0.32)), var(--grad)" }} />
           <div
