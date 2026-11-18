@@ -186,6 +186,25 @@ export function performerItemListJsonLd(
 }
 
 /**
+ * Builds schema.org FAQPage JSON-LD for a list of question/answer pairs.
+ * Enables rich FAQ snippets in search results and helps AI assistants discover answers.
+ */
+export function faqJsonLd(faqs: Array<{ question: string; answer: string }>): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+/**
  * Serializes JSON-LD for a <script> tag, escaping "<" so a field value can
  * never break out of the script element (e.g. a title containing "</script>").
  */

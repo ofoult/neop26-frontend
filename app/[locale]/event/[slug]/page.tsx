@@ -11,7 +11,7 @@ import { fetchEvent, fetchEventListings, fetchEventSeatingPlan, fetchSeatingPlan
 import { categoryById } from '@/lib/categories';
 import { countryCodeFor } from '@/lib/countryCodes';
 import { fmtDateLong, fmtTime } from '@/lib/format';
-import { breadcrumbJsonLd, eventJsonLd, jsonLdScript } from '@/lib/jsonld';
+import { breadcrumbJsonLd, eventJsonLd, faqJsonLd, jsonLdScript } from '@/lib/jsonld';
 import { hreflangAlternates, localePath, ogAlternateLocales, ogLocale } from '@/lib/hreflang';
 import { eventHref, parseIdFromSlugParam, performerHref } from '@/lib/slug';
 import { SITE_URL } from '@/lib/site';
@@ -75,7 +75,7 @@ export async function generateMetadata({ params }: { params: { locale: string; s
       card: 'summary_large_image',
       title: `${title} | neop`,
       description,
-      images: ev.image ? [ev.image] : undefined,
+      images: ev.image ? [{ url: ev.image, width: 1200, height: 630 }] : undefined,
     },
   };
 }
@@ -89,6 +89,7 @@ export default async function EventPage({ params }: { params: { locale: string; 
   const ev = await loadEvent(params.slug);
 
   const tCat = await getTranslations({ locale: params.locale, namespace: 'Categories' });
+  const tEvent = await getTranslations({ locale: params.locale, namespace: 'Event' });
   const cat = categoryById(ev.category);
   const countryCode = countryCodeFor(ev.country);
   const canonicalUrl = `${SITE_URL}${eventHref(ev)}`;
@@ -98,12 +99,26 @@ export default async function EventPage({ params }: { params: { locale: string; 
     { name: ev.title },
   ]);
 
+  // FAQ for structured data and display
+  const faqs = [
+    { question: tEvent('faqQ1'), answer: tEvent('faqA1') },
+    { question: tEvent('faqQ2'), answer: tEvent('faqA2') },
+    { question: tEvent('faqQ3'), answer: tEvent('faqA3') },
+    { question: tEvent('faqQ4'), answer: tEvent('faqA4') },
+    { question: tEvent('faqQ5'), answer: tEvent('faqA5') },
+  ];
+
   return (
     <div>
       <script
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }}
+      />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd(faqs)) }}
       />
       {/* hero */}
       <div style={{ position: 'relative', marginTop: '-88px' }}>
@@ -153,6 +168,48 @@ export default async function EventPage({ params }: { params: { locale: string; 
         <Suspense fallback={<TicketsAndSeatingPlanSkeleton />}>
           <TicketsAndSeatingPlanData ev={ev} eventId={ev.id} canonicalUrl={canonicalUrl} locale={params.locale} />
         </Suspense>
+
+        {/* FAQ section */}
+        <section className="page-section" style={{ marginTop: 48 }}>
+          <h2 className="serif" style={{ fontSize: 32, marginBottom: 24, letterSpacing: '-0.01em' }}>
+            {tEvent('faqHeading')}
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {faqs.map((faq, i) => (
+              <details
+                key={i}
+                style={{
+                  border: '1px solid var(--border)',
+                  borderRadius: 12,
+                  padding: 16,
+                  background: 'var(--bg-2)',
+                }}
+              >
+                <summary
+                  style={{
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    fontSize: 16,
+                    lineHeight: 1.5,
+                    userSelect: 'none',
+                  }}
+                >
+                  {faq.question}
+                </summary>
+                <div
+                  style={{
+                    marginTop: 12,
+                    color: 'var(--dim)',
+                    lineHeight: 1.6,
+                    fontSize: 15,
+                  }}
+                >
+                  {faq.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );

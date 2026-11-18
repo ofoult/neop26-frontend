@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { BrowseClient } from '@/components/BrowseClient';
 import { BROWSE_PER_PAGE, fetchEvents, fetchSubtypes, orFallbackAtBuild } from '@/lib/api';
 import { categoryById } from '@/lib/categories';
@@ -53,7 +53,32 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const resolved = await resolveSlug(params.slug);
   if (!resolved) return {};
+
   const path = canonicalSlugPath(params.slug, searchParams);
+  const { activeCat, activeSubcat } = resolved;
+
+  // Only add unique meta tags for top-level categories, not subcategories
+  if (!activeSubcat) {
+    const t = await getTranslations({ locale: params.locale, namespace: 'BrowseMeta' });
+    const tCat = await getTranslations({ locale: params.locale, namespace: 'Categories' });
+
+    // Get localized category name
+    const categoryName = tCat(activeCat);
+
+    // Category-specific titles and descriptions
+    const title = t(`${activeCat}Title`, { category: categoryName });
+    const description = t(`${activeCat}Description`, { category: categoryName });
+
+    return {
+      title,
+      description,
+      alternates: {
+        canonical: localePath(path, params.locale),
+        languages: hreflangAlternates(path),
+      },
+    };
+  }
+
   return {
     alternates: {
       canonical: localePath(path, params.locale),

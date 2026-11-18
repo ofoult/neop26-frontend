@@ -107,6 +107,18 @@
     "reachedEnd": "You've reached the end.",
     "inWhere": "in {where}"
   },
+  "BrowseMeta": {
+    "musicTitle": "Music Events & Concert Tickets - Live Shows Worldwide",
+    "musicDescription": "Discover concert tickets and music events worldwide. Rock, Pop, Jazz, and more. Verified sellers, guaranteed seats.",
+    "sportsTitle": "Sports Event Tickets - Football, Basketball, Tennis & More",
+    "sportsDescription": "Find sports event tickets including football, basketball, tennis matches. Official resellers, secure booking.",
+    "festivalsTitle": "Music Festival Tickets & Passes - Major Festivals Worldwide",
+    "festivalsDescription": "Music festival tickets and passes worldwide. Major festivals, verified sellers, every seat guaranteed.",
+    "comedyTitle": "Comedy Show Tickets - Standup & Live Comedy Events",
+    "comedyDescription": "Comedy show tickets - standup and live comedy events. Verified sellers, secure booking.",
+    "artsTitle": "Theater Tickets & Arts Events - Broadway, Musicals & Plays",
+    "artsDescription": "Theater tickets and arts events - Broadway, musicals, plays, and performances."
+  },
   "DateLabels": {
     "today": "Today",
     "tomorrow": "Tomorrow",
@@ -255,7 +267,19 @@
   "Event": {
     "keepExploring": "Keep exploring",
     "moreLikeThis": "More like this",
-    "metaTitle": "{title} tickets — {venue}, {city}"
+    "metaTitle": "{title} tickets — {venue}, {city}",
+    "ticketInfo": "Ticket Information",
+    "faqHeading": "Frequently Asked Questions",
+    "faqQ1": "How do I get my tickets?",
+    "faqA1": "Tickets are delivered digitally to your email and mobile wallet shortly after purchase. You'll receive a confirmation email with your tickets ready to scan at the venue.",
+    "faqQ2": "Are my tickets guaranteed?",
+    "faqA2": "Yes. Every ticket purchased through neop is covered by our 100% guarantee. If your event is cancelled or tickets don't arrive, you'll receive a full refund.",
+    "faqQ3": "Can I choose my exact seats?",
+    "faqA3": "Seat selection depends on the ticket category and venue. Some tickets allow you to choose specific seats, while others are general admission or assigned by the venue.",
+    "faqQ4": "What if the event is cancelled?",
+    "faqA4": "If an event is cancelled, you'll automatically receive a full refund to your original payment method within 14 days. If the event is postponed, your tickets remain valid for the new date.",
+    "faqQ5": "How secure is my payment?",
+    "faqA5": "All payments are processed through our verified ticketing partners using encrypted, secure payment systems. We never store your payment information."
   },
   "StaticPages": {
     "aboutBody": "neop is a marketplace for tickets to the world's best live events — concerts, festivals, sports, and theatre. We work only with verified sellers, and every order is covered by our 100% guarantee.",
